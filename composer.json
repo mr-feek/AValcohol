@@ -1,0 +1,6 @@
+{
+    "require": {
+        "slim/slim": "^2.6",
+        "j4mie/paris": "^1.5"
+    }
+}

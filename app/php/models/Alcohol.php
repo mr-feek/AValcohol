@@ -1,0 +1,4 @@
+<?
+
+class Alcohol extends Model {
+}
