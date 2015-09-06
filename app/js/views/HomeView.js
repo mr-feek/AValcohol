@@ -12,10 +12,18 @@ define([
 		},
 
 		ui: {
+			'carousel' : '.carousel'
 		},
 
 		initialize: function(options) {
 		},
+
+		onShow: function() {
+			this.ui.carousel.slick({
+				autoplay: true,
+				dots: true
+			});
+		}
 	});
 
 	return HomeView;
