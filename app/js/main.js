@@ -1,11 +1,12 @@
 require.config({
     paths: {
-        'jquery': '../../vendor/jquery/dist/jquery',
-        'underscore': '../../vendor/underscore/underscore',
-        'backbone': '../../vendor/backbone/backbone',
+        'jquery':       '../../vendor/jquery/dist/jquery',
+        'underscore':   '../../vendor/underscore/underscore',
+        'backbone':     '../../vendor/backbone/backbone',
         'marionette':   '../../vendor/marionette/lib/backbone.marionette',
-        'text': '../../vendor/requirejs-text/text',
-        'tpl': '../../vendor/requirejs-tpl/tpl',
+        'slick':        '../../vendor/slick-carousel/slick/slick',
+        'text':         '../../vendor/requirejs-text/text',
+        'tpl':          '../../vendor/requirejs-tpl/tpl',
     },
     shim: {
         underscore: {
@@ -20,7 +21,7 @@ require.config({
 			exports: 'Marionette'
 		},
     },
-    deps: ['jquery', 'underscore']
+    deps: ['jquery', 'underscore', 'slick']
 });
 
 // boot up our app
