@@ -1,10 +1,12 @@
 define([
 	'marionette',
 	'views/HeaderView',
+	'views/HomeView',
 	'tpl!templates/root.html'
 ], function(
 	Mn,
 	HeaderView,
+	HomeView,
 	tpl
 ) {
 	var RootView = Mn.LayoutView.extend({
@@ -27,6 +29,7 @@ define([
 
 		onRender: function() {
 			this.getRegion('header').show(new HeaderView());
+			this.getRegion('main').show(new HomeView());
 		}
 	});
 
