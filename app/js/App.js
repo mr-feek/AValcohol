@@ -1,13 +1,17 @@
 define([
-	'marionette'
+	'marionette',
+	'views/RootView'
 ], function(
-	Mn
+	Mn,
+	RootView
 ) {
 	var App = Mn.Application.extend({
 		initialize: function(options) {
+			this.rootView = new RootView();
 		},
 
 		onStart: function() {
+			this.rootView.render();
 		}
 	});
 
