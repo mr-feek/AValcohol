@@ -22,5 +22,8 @@
     "requirejs-tpl": "*",
     "slick-carousel": "~1.5.8",
     "text": "requirejs-text#~2.0.14"
+  },
+  "resolutions": {
+    "backbone": "~1.2.2"
   }
 }
