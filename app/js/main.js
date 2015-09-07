@@ -25,7 +25,7 @@ require.config({
 });
 
 // boot up our app
-require(['app'], function(App) {
+require(['App'], function(App) {
 	window.app = new App().start(); // storing globally yolo
     Backbone.history.start();
 });
