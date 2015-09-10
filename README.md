@@ -8,4 +8,3 @@
 6. ssh onto server
 7. cd www/dev/AValcohol-dev/
 8. git pull
-9. drink a beer cause that was way too hard to set up
