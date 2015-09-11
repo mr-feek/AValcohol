@@ -21,7 +21,7 @@ define([
 		onShow: function() {
 			this.ui.carousel.slick({
 				autoplay: true,
-				dots: true
+				arrows: false
 			});
 		}
 	});

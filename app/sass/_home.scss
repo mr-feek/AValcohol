@@ -1,0 +1,54 @@
+// utils: should be moved out of here.
+.fullWidth {
+	width: 100%;
+	margin: auto;
+	max-width: initial;
+}
+
+// should be moved to header.scss to be component based
+.top-bar {
+	background: transparent;
+	z-index: 100;
+	position: fixed;
+
+	.logo {
+		height: 60px;
+		margin: 20px;
+	}
+}
+
+.slide {
+	position: relative;
+
+	.roww {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: white;
+		text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.5); // to do: cross platform and isshh
+		border-radius: 20px;
+		padding: 20px;
+		border-radius: 20px;
+		background-color: rgba(30, 30, 30, 0.3);
+
+		h1 {
+			color: white;
+			font-size: 62px;
+    		letter-spacing: -5px;
+
+			span {
+				font-size: 74px;
+				text-transform: uppercase;
+				color: $red;
+				font-weight: 900;
+			}
+		}
+
+		p {
+			background-color: rgba(205, 0, 0, 0.7);
+			border-radius: 20px;
+			text-shadow: none;
+		}
+	}
+}
