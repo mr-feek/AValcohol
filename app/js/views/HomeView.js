@@ -21,7 +21,8 @@ define([
 		onShow: function() {
 			this.ui.carousel.slick({
 				autoplay: true,
-				arrows: false
+				arrows: false,
+				pauseOnHover: false
 			});
 		}
 	});
