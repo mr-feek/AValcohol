@@ -2,11 +2,13 @@ define([
 	'marionette',
 	'views/HeaderView',
 	'views/HomeView',
+	'Vent',
 	'tpl!templates/root.html'
 ], function(
 	Mn,
 	HeaderView,
 	HomeView,
+	Vent,
 	tpl
 ) {
 	var RootView = Mn.LayoutView.extend({
@@ -25,6 +27,7 @@ define([
 		},
 
 		initialize: function(options) {
+			
 		},
 
 		onRender: function() {

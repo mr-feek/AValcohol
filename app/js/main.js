@@ -3,6 +3,7 @@ require.config({
         'jquery':       '../../vendor/jquery/dist/jquery',
         'underscore':   '../../vendor/underscore/underscore',
         'backbone':     '../../vendor/backbone/backbone',
+        'backbone.wreqr': '../../vendor/backbone.wreqr/lib/backbone.wreqr.min',
         'marionette':   '../../vendor/marionette/lib/backbone.marionette',
         'slick':        '../../vendor/slick-carousel/slick/slick',
         'text':         '../../vendor/requirejs-text/text',
@@ -26,6 +27,6 @@ require.config({
 
 // boot up our app
 require(['App'], function(App) {
-	window.app = new App().start(); // storing globally yolo
+    new App().start();
     Backbone.history.start();
 });
