@@ -12,7 +12,7 @@ define([
 
 		onStart: function() {
 			this.rootView.render();
-		}
+		},
 	});
 
 	return App;

@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'views/HeaderView',
 	'views/HomeView',
-	'Vent',
+	'util/Vent',
 	'tpl!templates/root.html'
 ], function(
 	Mn,
@@ -27,12 +27,18 @@ define([
 		},
 
 		initialize: function(options) {
-			
+			var view = this;
+			Vent.on('root:scrollTo', view.scrollTo);
 		},
 
 		onRender: function() {
 			this.getRegion('header').show(new HeaderView());
 			this.getRegion('main').show(new HomeView());
+		},
+
+		scrollTo: function(selector) {
+			$('html, body').animate({
+				scrollTop: $(selector).offset().top}, 500);
 		}
 	});
 
