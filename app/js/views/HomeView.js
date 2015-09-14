@@ -20,7 +20,7 @@ define([
 
 		onShow: function() {
 			this.ui.carousel.slick({
-				autoplay: true,
+				autoplay: false,
 				arrows: false,
 				pauseOnHover: false
 			});

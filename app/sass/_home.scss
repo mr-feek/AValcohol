@@ -1,5 +1,6 @@
 .slide {
 	position: relative;
+	height: 80%;
 
 	.roww {
 		position: absolute;
@@ -26,5 +27,10 @@
 			border-radius: 20px;
 			font-size: 14px;
 		}
+	}
+
+	img {
+		height: 100%;
+		width: 100%;
 	}
 }
