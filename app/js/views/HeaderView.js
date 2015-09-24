@@ -27,14 +27,16 @@ define([
 				case 'customer':
 					selector = '.customers';
 					break;
+					/*
 				case 'restaurant':
 					selector = '.restaurants';
 					break;
+					*/
 				case 'retailer':
 					selector = '.retailers';
 					break;
 			}
-			
+
 			Vent.trigger('root:scrollTo', selector);
 		}
 	});
