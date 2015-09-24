@@ -16,6 +16,7 @@
   "dependencies": {
     "backbone": "~1.2.2",
     "foundation": "~5.5.2",
+    "foundation-icon-fonts": "*",
     "marionette": "~2.4.2",
     "require": "*",
     "requirejs": "~2.1.20",
