@@ -15,7 +15,7 @@ define([
 		},
 
 		ui: {
-			link : '.top-bar-section .right li'
+			link : '.top-bar-section .right *' // either li or anchor
 		},
 
 		initialize: function(options) {
@@ -34,6 +34,9 @@ define([
 					*/
 				case 'retailer':
 					selector = '.retailers';
+					break;
+				case 'button round contact':
+					selector = ".contact-us";
 					break;
 			}
 

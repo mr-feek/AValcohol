@@ -13,12 +13,17 @@
 
 			li {
 				background: transparent;
-				margin-right: 25px;
 				cursor: pointer;
 				font-size: 13px;
 				text-transform: uppercase;
 				font-weight: bolder;
+				margin-right: 1rem;
 			}
+		}
+
+		a {
+			margin-top: .5rem;
+			margin-right: 1rem;
 		}
 	}
 }
