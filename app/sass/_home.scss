@@ -103,9 +103,23 @@
 		.triangle {
 			border-bottom-color: white;
 		}
+
 		background-image: url("../img/square_bg.png");
 		background-repeat: repeat;
 	}
 
+	.contact-us {
+		background-color: $light-text-color;
+		h2 {
+			padding-top: 1rem;
+		}
 
+		form {
+			margin: auto;
+
+			textarea {
+				min-height: 200px;
+			}
+		}
+	}
 }
