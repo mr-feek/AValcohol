@@ -32,6 +32,7 @@ define([
 
 		sendEmail: function(e) {
 			e.preventDefault();
+			var view = this;
 
 			if (this.validateEmail()) {
 				console.log('send');
@@ -40,7 +41,8 @@ define([
 			        type: 'POST',
 			        contentType: 'application/json; charset=utf-8',
 					data: {
-						message : 'hello'
+						from: view.ui.address.val(),
+						message : view.ui.message.val()
 					},
 			        success: function (result) {
 			            console.log(result);

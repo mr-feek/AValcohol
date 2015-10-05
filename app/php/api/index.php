@@ -30,11 +30,13 @@ $app->get('/alcohols', function() use($app) {
 });
 
 $app->post('/email/send', function() use($app) {
+	$from = $app->request->post('from');
+	$message = $app->request->post('message');
+	//$to      = 'angela@avalcohol.com';
 	$to      = 'feekcheeks@gmail.com';
-	$subject = 'the subject';
-	$message = 'hello';
-	$headers = 'From: fpm5022@gmail.com' . '\r\n' .
-	    'Reply-To: fpm5022@gmail.com' . '\r\n' .
+	$subject = 'Hello!';
+	$headers = 'From: ' . $from . '\r\n' .
+	    'Reply-To: ' . $from . '\r\n' .
 	    'X-Mailer: PHP/' . phpversion();
 
 	$sent = mail($to, $subject, $message, $headers);
