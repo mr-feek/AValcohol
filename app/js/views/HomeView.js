@@ -9,12 +9,16 @@ define([
 		template: tpl,
 
 		events: {
-			'click @ui.sendEmail' : 'sendEmail'
+			'click @ui.sendEmail' : 'sendEmail',
+			'click @ui.closeAlert' : 'closeAlert'
 		},
 
 		ui: {
 			'carousel' : '.carousel',
 			'sendEmail' : '.send-email',
+			'successAlert' : '.success', // sucess message
+			'errorAlert' : '.error', // error message
+			'closeAlert' : '.close', // close button in success message
 			'address' : '.address', // email address
 			'message' : '.message' // email message
 		},
@@ -46,14 +50,14 @@ define([
 					data: {
 						from: fromAddress,
 						message : message
-					},
-			        success: function (result) {
-			            view.ui.address.val('');
-						view.ui.message.val('');
-
-						// TO DO: append success message
-			        }
-			    });
+					}
+				}).done(function (result) {
+		            view.ui.address.val('');
+					view.ui.message.val('');
+					view.ui.successAlert.fadeIn();
+		        }).fail(function (result) {
+					view.ui.errorAlert.fadeIn();
+				});
 			}
 		},
 
@@ -82,6 +86,11 @@ define([
 		// remove previous errors, if any
 		clearErrors: function() {
 			$('.error').remove();
+		},
+
+		closeAlert: function(evt) {
+			evt.preventDefault();
+			this.ui.successAlert.fadeOut();
 		}
 	});
 

@@ -120,6 +120,11 @@
 			textarea {
 				min-height: 200px;
 			}
+
+			// success and error message
+			.alert-box {
+				display: none;
+			}
 		}
 	}
 }
