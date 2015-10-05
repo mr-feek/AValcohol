@@ -34,18 +34,24 @@ define([
 			e.preventDefault();
 			var view = this;
 
+			var fromAddress = view.ui.address.val();
+			var message = view.ui.message.val();
+
 			if (this.validateEmail()) {
 				console.log('send');
 				$.ajax({
 			        url: 'php/api/email/send',
 			        type: 'POST',
-			        contentType: 'application/json; charset=utf-8',
+			        dataType: 'json',
 					data: {
-						from: view.ui.address.val(),
-						message : view.ui.message.val()
+						from: fromAddress,
+						message : message
 					},
 			        success: function (result) {
-			            console.log(result);
+			            view.ui.address.val('');
+						view.ui.message.val('');
+
+						// TO DO: append success message
 			        }
 			    });
 			}
