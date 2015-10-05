@@ -35,8 +35,8 @@ $app->post('/email/send', function() use($app) {
 	//$to      = 'angela@avalcohol.com';
 	$to      = 'feekcheeks@gmail.com';
 	$subject = 'Hello!';
-	$headers = 'From: ' . $from . '\r\n' .
-	    'Reply-To: ' . $from . '\r\n' .
+	$headers = 'From: ' . $from . "\r\n" .
+	    'Reply-To: ' . $from . "\r\n" .
 	    'X-Mailer: PHP/' . phpversion();
 
 	$sent = mail($to, $subject, $message, $headers);
