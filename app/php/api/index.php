@@ -32,8 +32,7 @@ $app->get('/alcohols', function() use($app) {
 $app->post('/email/send', function() use($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
-	//$to      = 'angela@avalcohol.com';
-	$to      = 'feekcheeks@gmail.com';
+	$to      = 'angela@avalcohol.com';
 	$subject = 'Hello!';
 	$headers = 'From: ' . $from . "\r\n" .
 	    'Reply-To: ' . $from . "\r\n" .
