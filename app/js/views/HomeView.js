@@ -35,6 +35,17 @@ define([
 
 			if (this.validateEmail()) {
 				console.log('send');
+				$.ajax({
+			        url: 'php/api/email/send',
+			        type: 'POST',
+			        contentType: 'application/json; charset=utf-8',
+					data: {
+						message : 'hello'
+					},
+			        success: function (result) {
+			            console.log(result);
+			        }
+			    });
 			}
 		},
 

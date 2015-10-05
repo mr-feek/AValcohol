@@ -4,6 +4,10 @@ require '../../../vendor/autoload.php';
 require '../../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
 
+error_reporting(-1);
+ini_set('display_errors', 'On');
+set_error_handler("var_dump");
+
 $app = new \Slim\Slim();
 
 ORM::configure('mysql:host=localhost;dbname=AValcohol');
@@ -21,6 +25,23 @@ $app->get('/alcohols', function() use($app) {
 	foreach ($alcohols as $alcohol) {
 		$data[] = $alcohol->as_array();
 	}
+
+	respond($data);
+});
+
+$app->post('/email/send', function() use($app) {
+	$to      = 'feekcheeks@gmail.com';
+	$subject = 'the subject';
+	$message = 'hello';
+	$headers = 'From: fpm5022@gmail.com' . '\r\n' .
+	    'Reply-To: fpm5022@gmail.com' . '\r\n' .
+	    'X-Mailer: PHP/' . phpversion();
+
+	$sent = mail($to, $subject, $message, $headers);
+
+	$data = array(
+		'success' => $sent
+	);
 
 	respond($data);
 });
