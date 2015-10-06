@@ -5,3 +5,4 @@ passwords.secret
 app/css/
 config.codekit
 app/sass/.sass-cache/
+.idea/
