@@ -1,22 +1,19 @@
 define([
 	'marionette',
 	'tpl!templates/'
-], function(
-	Mn,
-	tpl
-) {
-	var  = Mn.ItemView.extend({
+], function (Mn,
+			 tpl) {
+	var =
+	Mn.ItemView.extend({
 		template: tpl,
 
-		events: {
-		},
+		events: {},
 
-		ui: {
-		},
+		ui: {},
 
-		initialize: function(options) {
+		initialize: function (options) {
 		},
 	});
 
-	return ;
+	return;
 });

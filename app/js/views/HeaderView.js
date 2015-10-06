@@ -2,36 +2,34 @@ define([
 	'marionette',
 	'util/Vent',
 	'tpl!templates/header.html'
-], function(
-	Mn,
-	Vent,
-	tpl
-) {
+], function (Mn,
+			 Vent,
+			 tpl) {
 	var HeaderView = Mn.ItemView.extend({
 		template: tpl,
 
 		events: {
-			'click @ui.link' : 'linkClicked'
+			'click @ui.link': 'linkClicked'
 		},
 
 		ui: {
-			link : '.top-bar-section .right *' // either li or anchor
+			link: '.top-bar-section .right *' // either li or anchor
 		},
 
-		initialize: function(options) {
+		initialize: function (options) {
 		},
 
-		linkClicked: function(evt) {
+		linkClicked: function (evt) {
 			var selector = '';
-			switch(evt.target.className) {
+			switch (evt.target.className) {
 				case 'customer':
 					selector = '.customers';
 					break;
-					/*
-				case 'restaurant':
-					selector = '.restaurants';
-					break;
-					*/
+				/*
+				 case 'restaurant':
+				 selector = '.restaurants';
+				 break;
+				 */
 				case 'retailer':
 					selector = '.retailers';
 					break;
