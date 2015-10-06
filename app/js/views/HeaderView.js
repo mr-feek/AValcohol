@@ -11,17 +11,19 @@ define([
 		template: tpl,
 
 		events: {
-			'click @ui.link' : 'linkClicked'
+			'click @ui.scrollLink' : 'scrollLinkClicked',
+            'click @ui.join' : 'joinClicked'
 		},
 
 		ui: {
-			link : '.top-bar-section .right *' // either li or anchor
+			scrollLink : '.top-bar-section .right li', // links that should initiate scrolls
+            join : '.join'
 		},
 
 		initialize: function(options) {
 		},
 
-		linkClicked: function(evt) {
+		scrollLinkClicked: function(evt) {
 			var selector = '';
 			switch(evt.target.className) {
 				case 'customer':
@@ -41,7 +43,11 @@ define([
 			}
 
 			Vent.trigger('root:scrollTo', selector);
-		}
+		},
+
+        joinClicked: function(evt) {
+            Vent.trigger('root:user:add');
+        }
 	});
 
 	return HeaderView;
