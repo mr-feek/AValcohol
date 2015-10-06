@@ -1,30 +1,32 @@
 define([
 	'marionette',
 	'tpl!templates/home.html'
-], function (Mn,
-			 tpl) {
+], function(
+	Mn,
+	tpl
+) {
 	var HomeView = Mn.ItemView.extend({
 		template: tpl,
 
 		events: {
-			'click @ui.sendEmail': 'sendEmail',
-			'click @ui.closeAlert': 'closeAlert'
+			'click @ui.sendEmail' : 'sendEmail',
+			'click @ui.closeAlert' : 'closeAlert'
 		},
 
 		ui: {
-			'carousel': '.carousel',
-			'sendEmail': '.send-email',
-			'successAlert': '.success', // sucess message
-			'errorAlert': '.error', // error message
-			'closeAlert': '.close', // close button in success message
-			'address': '.address', // email address
-			'message': '.message' // email message
+			'carousel' : '.carousel',
+			'sendEmail' : '.send-email',
+			'successAlert' : '.success', // sucess message
+			'errorAlert' : '.error', // error message
+			'closeAlert' : '.close', // close button in success message
+			'address' : '.address', // email address
+			'message' : '.message' // email message
 		},
 
-		initialize: function (options) {
+		initialize: function(options) {
 		},
 
-		onShow: function () {
+		onShow: function() {
 			this.ui.carousel.slick({
 				autoplay: true,
 				arrows: false,
@@ -32,7 +34,7 @@ define([
 			});
 		},
 
-		sendEmail: function (e) {
+		sendEmail: function(e) {
 			e.preventDefault();
 			var view = this;
 
@@ -42,24 +44,24 @@ define([
 			if (this.validateEmail()) {
 				console.log('send');
 				$.ajax({
-					url: 'php/api/email/send',
-					type: 'POST',
-					dataType: 'json',
+			        url: 'php/api/email/send',
+			        type: 'POST',
+			        dataType: 'json',
 					data: {
 						from: fromAddress,
-						message: message
+						message : message
 					}
 				}).done(function (result) {
-					view.ui.address.val('');
+		            view.ui.address.val('');
 					view.ui.message.val('');
 					view.ui.successAlert.fadeIn();
-				}).fail(function (result) {
+		        }).fail(function (result) {
 					view.ui.errorAlert.fadeIn();
 				});
 			}
 		},
 
-		validateEmail: function () {
+		validateEmail: function() {
 			this.clearErrors();
 
 			var addressRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"); // good enough
@@ -73,7 +75,7 @@ define([
 					// add error message
 					$('<small class="error">Please enter a message</small>').insertAfter(this.ui.message);
 				}
-			} else {
+			} else  {
 				// add error message
 				$('<small class="error">Please enter a valid email</small>').insertAfter(this.ui.address);
 			}
@@ -82,11 +84,11 @@ define([
 		},
 
 		// remove previous errors, if any
-		clearErrors: function () {
+		clearErrors: function() {
 			$('.error').remove();
 		},
 
-		closeAlert: function (evt) {
+		closeAlert: function(evt) {
 			evt.preventDefault();
 			this.ui.successAlert.fadeOut();
 		}

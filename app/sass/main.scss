@@ -1,15 +1,15 @@
-@import 'variables';
-// for use in _settings.scss
+@import 'variables'; // for use in _settings.scss
 // FOUNDATION
 @import '_settings.scss';
 @import '../../vendor/foundation/scss/foundation';
 @import '../../vendor/foundation-icon-fonts/foundation-icons';
 //
 @import 'utils';
+
 @import 'header';
 @import 'home';
 @import 'footer';
 
 p {
-  color: $dark-text-color;
+	color: $dark-text-color;
 }

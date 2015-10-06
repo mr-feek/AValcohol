@@ -2,36 +2,38 @@ define([
 	'marionette',
 	'util/Vent',
 	'tpl!templates/header.html'
-], function (Mn,
-			 Vent,
-			 tpl) {
+], function(
+	Mn,
+	Vent,
+	tpl
+) {
 	var HeaderView = Mn.ItemView.extend({
 		template: tpl,
 
 		events: {
-			'click @ui.scrollLink': 'scrollLinkClicked',
-			'click @ui.join': 'joinClicked'
+			'click @ui.scrollLink' : 'scrollLinkClicked',
+            'click @ui.join' : 'joinClicked'
 		},
 
 		ui: {
-			scrollLink: '.top-bar-section .right li', // links that should initiate scrolls
-			join: '.join'
+			scrollLink : '.top-bar-section .right li', // links that should initiate scrolls
+            join : '.join'
 		},
 
-		initialize: function (options) {
+		initialize: function(options) {
 		},
 
-		scrollLinkClicked: function (evt) {
+		scrollLinkClicked: function(evt) {
 			var selector = '';
-			switch (evt.target.className) {
+			switch(evt.target.className) {
 				case 'customer':
 					selector = '.customers';
 					break;
-				/*
-				 case 'restaurant':
-				 selector = '.restaurants';
-				 break;
-				 */
+					/*
+				case 'restaurant':
+					selector = '.restaurants';
+					break;
+					*/
 				case 'retailer':
 					selector = '.retailers';
 					break;
@@ -43,9 +45,9 @@ define([
 			Vent.trigger('root:scrollTo', selector);
 		},
 
-		joinClicked: function (evt) {
-			Vent.trigger('root:user:add');
-		}
+        joinClicked: function(evt) {
+            Vent.trigger('root:user:add');
+        }
 	});
 
 	return HeaderView;

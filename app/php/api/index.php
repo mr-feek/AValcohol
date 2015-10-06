@@ -15,41 +15,41 @@ ORM::configure('mysql:host=localhost;dbname=AValcohol');
 ORM::configure('username', 'root');
 ORM::configure('password', 'feeksql');
 
-$app->get('/', function () use ($app) {
+$app->get('/', function() use($app) {
 	echo 'yo pluto';
 });
 
-$app->get('/user/all', function () use ($app) {
-	$users = Model::factory('User')->where('deleted', '0')->find_many();
-	$data = array();
-	foreach ($users as $user) {
-		$data[] = $user->as_array();
-	}
-	respond($data);
+$app->get('/user/all', function() use($app) {
+    $users = Model::factory('User')->where('deleted', '0')->find_many();
+    $data = array();
+    foreach ($users as $user) {
+        $data[] = $user->as_array();
+    }
+    respond($data);
 });
 
-$app->post('/user/add', function () use ($app) {
-	$unhashedPassword = $app->request->post('password');
-	$email = $app->request->post('email');
+$app->post('/user/add', function() use($app) {
+    $unhashedPassword = $app->request->post('password');
+    $email = $app->request->post('email');
 
-	$hash = password_hash($unhashedPassword, PASSWORD_BCRYPT);
+    $hash = password_hash($unhashedPassword, PASSWORD_BCRYPT);
 
-	$user = Model::factory('User')->create();
-	$user->email = $email;
-	$user->password = $hash;
-	$user->save();
-	respond($user);
+    $user = Model::factory('User')->create();
+    $user->email = $email;
+    $user->password = $hash;
+    $user->save();
+    respond($user);
 });
 
 $app->post('/email/send
-}', function () use ($app) {
+}', function() use($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
-	$to = 'angela@avalcohol.com';
+	$to      = 'angela@avalcohol.com';
 	$subject = 'Hello!';
 	$headers = 'From: ' . $from . "\r\n" .
-		'Reply-To: ' . $from . "\r\n" .
-		'X-Mailer: PHP/' . phpversion();
+	    'Reply-To: ' . $from . "\r\n" .
+	    'X-Mailer: PHP/' . phpversion();
 
 	$sent = mail($to, $subject, $message, $headers);
 
@@ -60,8 +60,7 @@ $app->post('/email/send
 	respond($data);
 });
 
-function respond($data)
-{
+function respond($data) {
 	$data = json_encode($data);
 
 	$app = \Slim\Slim::getInstance();
@@ -72,8 +71,7 @@ function respond($data)
 /**
  * soft deletes the model
  */
-function softDelete($model)
-{
+function softDelete($model) {
 	$model->deleted = 1;
 	$model->save();
 }
