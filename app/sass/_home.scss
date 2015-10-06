@@ -49,8 +49,8 @@
 			border-left: $arrowSize solid transparent;
 			border-right: $arrowSize solid transparent;
 			border-bottom: $arrowSize solid $red;
-			position: absolute;
-			margin-top: -1 * $arrowSize;
+			position: relative;
+			top: -2 * $arrowSize;
 		}
 	}
 
