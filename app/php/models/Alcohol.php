@@ -1,4 +1,5 @@
 <?
 
-class Alcohol extends Model {
+class Alcohol extends Model
+{
 }
