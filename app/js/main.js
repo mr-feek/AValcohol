@@ -8,6 +8,7 @@ require.config({
         'slick':        '../../vendor/slick-carousel/slick/slick',
         'text':         '../../vendor/requirejs-text/text',
         'tpl':          '../../vendor/requirejs-tpl/tpl',
+        'foundation':   '../../vendor/foundation/js/foundation'
     },
     shim: {
         underscore: {
@@ -22,7 +23,7 @@ require.config({
 			exports: 'Marionette'
 		},
     },
-    deps: ['jquery', 'underscore', 'slick']
+    deps: ['jquery', 'underscore', 'slick', 'foundation']
 });
 
 // boot up our app
