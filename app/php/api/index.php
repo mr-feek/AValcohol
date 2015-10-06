@@ -3,6 +3,7 @@
 require '../../../vendor/autoload.php';
 require '../../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
+require '../models/User.php';
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -18,18 +19,17 @@ $app->get('/', function() use($app) {
 	echo 'yo pluto';
 });
 
-$app->get('/alcohols', function() use($app) {
-	$alcohols = Model::factory('Alcohol')->where('deleted', '0')->find_many();
-	$data = array();
-
-	foreach ($alcohols as $alcohol) {
-		$data[] = $alcohol->as_array();
-	}
-
-	respond($data);
+$app->get('/user/all', function() use($app) {
+    $users = Model::factory('User')->where('deleted', '0')->find_many();
+    $data = array();
+    foreach ($users as $user) {
+        $data[] = $user->as_array();
+    }
+    respond($data);
 });
 
-$app->post('/email/send', function() use($app) {
+$app->post('/email/send
+}', function() use($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
 	$to      = 'angela@avalcohol.com';
