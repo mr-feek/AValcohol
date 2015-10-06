@@ -3,6 +3,7 @@
 require '../../../vendor/autoload.php';
 require '../../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
+require '../models/User.php';
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -14,29 +15,41 @@ ORM::configure('mysql:host=localhost;dbname=AValcohol');
 ORM::configure('username', 'root');
 ORM::configure('password', 'feeksql');
 
-$app->get('/', function() use($app) {
+$app->get('/', function () use ($app) {
 	echo 'yo pluto';
 });
 
-$app->get('/alcohols', function() use($app) {
-	$alcohols = Model::factory('Alcohol')->where('deleted', '0')->find_many();
+$app->get('/user/all', function () use ($app) {
+	$users = Model::factory('User')->where('deleted', '0')->find_many();
 	$data = array();
-
-	foreach ($alcohols as $alcohol) {
-		$data[] = $alcohol->as_array();
+	foreach ($users as $user) {
+		$data[] = $user->as_array();
 	}
-
 	respond($data);
 });
 
-$app->post('/email/send', function() use($app) {
+$app->post('/user/add', function () use ($app) {
+	$unhashedPassword = $app->request->post('password');
+	$email = $app->request->post('email');
+
+	$hash = password_hash($unhashedPassword, PASSWORD_BCRYPT);
+
+	$user = Model::factory('User')->create();
+	$user->email = $email;
+	$user->password = $hash;
+	$user->save();
+	respond($user);
+});
+
+$app->post('/email/send
+}', function () use ($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
-	$to      = 'angela@avalcohol.com';
+	$to = 'angela@avalcohol.com';
 	$subject = 'Hello!';
 	$headers = 'From: ' . $from . "\r\n" .
-	    'Reply-To: ' . $from . "\r\n" .
-	    'X-Mailer: PHP/' . phpversion();
+		'Reply-To: ' . $from . "\r\n" .
+		'X-Mailer: PHP/' . phpversion();
 
 	$sent = mail($to, $subject, $message, $headers);
 
@@ -47,7 +60,8 @@ $app->post('/email/send', function() use($app) {
 	respond($data);
 });
 
-function respond($data) {
+function respond($data)
+{
 	$data = json_encode($data);
 
 	$app = \Slim\Slim::getInstance();
@@ -58,7 +72,8 @@ function respond($data) {
 /**
  * soft deletes the model
  */
-function softDelete($model) {
+function softDelete($model)
+{
 	$model->deleted = 1;
 	$model->save();
 }
