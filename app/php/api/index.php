@@ -28,6 +28,19 @@ $app->get('/user/all', function() use($app) {
     respond($data);
 });
 
+$app->post('/user/add', function() use($app) {
+    $unhashedPassword = $app->request->post('password');
+    $email = $app->request->post('email');
+
+    $hash = password_hash($unhashedPassword, PASSWORD_BCRYPT);
+
+    $user = Model::factory('User')->create();
+    $user->email = $email;
+    $user->password = $hash;
+    $user->save();
+    respond($user);
+});
+
 $app->post('/email/send
 }', function() use($app) {
 	$from = $app->request->post('from');
