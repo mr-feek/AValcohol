@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Model;
+use Models\BaseModel;
 
-class Alcohol extends Model
+class Alcohol extends BaseModel
 {
-	public static $_table_use_short_name = true;
+
 }
