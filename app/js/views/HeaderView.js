@@ -2,11 +2,9 @@ define([
 	'marionette',
 	'util/Vent',
 	'tpl!templates/header.html'
-], function(
-	Mn,
-	Vent,
-	tpl
-) {
+], function (Mn,
+			 Vent,
+			 tpl) {
 	var HeaderView = Mn.ItemView.extend({
 		template: tpl,
 
@@ -20,20 +18,20 @@ define([
             join : '.join'
 		},
 
-		initialize: function(options) {
+		initialize: function (options) {
 		},
 
 		scrollLinkClicked: function(evt) {
 			var selector = '';
-			switch(evt.target.className) {
+			switch (evt.target.className) {
 				case 'customer':
 					selector = '.customers';
 					break;
-					/*
-				case 'restaurant':
-					selector = '.restaurants';
-					break;
-					*/
+				/*
+				 case 'restaurant':
+				 selector = '.restaurants';
+				 break;
+				 */
 				case 'retailer':
 					selector = '.retailers';
 					break;

@@ -21,13 +21,13 @@ require.config({
 		marionette: {
 			deps: ['backbone'],
 			exports: 'Marionette'
-		},
+		}
     },
     deps: ['jquery', 'underscore', 'slick', 'foundation']
 });
 
 // boot up our app
-require(['App'], function(App) {
-    new App().start();
-    Backbone.history.start();
+require(['App'], function (App) {
+	new App().start();
+	Backbone.history.start();
 });

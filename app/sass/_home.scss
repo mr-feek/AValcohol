@@ -17,7 +17,7 @@
 		h1 {
 			color: white;
 			font-size: 62px;
-    		letter-spacing: -4px;
+			letter-spacing: -4px;
 
 			span {
 				font-size: 74px;
@@ -49,8 +49,8 @@
 			border-left: $arrowSize solid transparent;
 			border-right: $arrowSize solid transparent;
 			border-bottom: $arrowSize solid $red;
-			position: absolute;
-			margin-top: -1 * $arrowSize;
+			position: relative;
+			top: -2 * $arrowSize;
 		}
 	}
 
@@ -59,7 +59,7 @@
 	}
 
 	.subheader {
-		 padding-bottom: 4rem;
+		padding-bottom: 4rem;
 	}
 
 	// column title
