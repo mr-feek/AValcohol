@@ -18,6 +18,9 @@ ORM::configure('mysql:host=localhost;dbname=AValcohol');
 ORM::configure('username', 'root');
 ORM::configure('password', 'feeksql');
 
+// this namespaces the models correctly for using the factory method
+Model::$auto_prefix_models = 'Models\\';
+
 // this requires all of the files within the routes directory to make the endpoints available
 /*
 $routeFiles = (array) glob('routes/*.php');

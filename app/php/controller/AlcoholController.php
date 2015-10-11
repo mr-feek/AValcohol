@@ -13,7 +13,7 @@ use Model;
 class AlcoholController extends BaseController
 {
 	public static function getAll() {
-		$alcohols = Model::factory('Models\\Alcohol')->where('deleted', '0')->find_many();
+		$alcohols = Model::factory('Alcohol')->where('deleted', '0')->find_many();
 		$data = array();
 
 		foreach ($alcohols as $alcohol) {
