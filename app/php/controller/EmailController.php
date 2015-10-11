@@ -9,7 +9,7 @@
 namespace Controller;
 
 
-class EmailController
+class EmailController extends BaseController
 {
 	public static function sendEmail($to, $subject, $message, $headers) {
 		$sent = mail($to, $subject, $message, $headers);

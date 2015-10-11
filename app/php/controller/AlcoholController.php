@@ -10,7 +10,7 @@ namespace Controller;
 
 use Model;
 
-class AlcoholController
+class AlcoholController extends BaseController
 {
 	public static function getAll() {
 		$alcohols = Model::factory('Models\\Alcohol')->where('deleted', '0')->find_many();

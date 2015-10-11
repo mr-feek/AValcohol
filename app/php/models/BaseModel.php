@@ -10,7 +10,7 @@ namespace Models;
 
 use Model;
 
-class BaseModel extends Model
+abstract class BaseModel extends Model
 {
 	public static $_table_use_short_name = true;
 }

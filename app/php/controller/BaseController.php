@@ -8,8 +8,7 @@
 
 namespace Controller;
 
-
-class BaseController
+abstract class BaseController
 {
 
 }
