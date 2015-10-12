@@ -6,10 +6,18 @@
  * Time: 6:30 PM
  */
 
-namespace models;
+namespace Models;
 
+use Faker\Generator;
 
-class User
+class User extends BaseModel
 {
+	public static function create_fake(\ORMWrapper $orm, Generator $faker) {
+		$orm->create(array(
+			'email' => $faker->email,
+			'password' => $faker->password
+		));
 
+		return $orm;
+	}
 }

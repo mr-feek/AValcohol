@@ -7,15 +7,30 @@
  */
 
 namespace Controller;
-use Models\User;
+use Model;
 
 abstract class BaseController
 {
-	/*
-	 * creates a fake model and saves it to the database. does not return anything
-	 * right now. I HAVE CHANGED A LINE INSIDE Seeder.php to make this work
+	/**
+	 * gets all associated models that are not marked as deleted
+	 * @return array
 	 */
-	public static function seed_one() {
+	public static function getAll() {
+		$modelName = self::getModelName();
+		$models = Model::factory($modelName)->where('deleted', '0')->find_many();
+		$data = array();
+		foreach ($models as $model) {
+			$data[] = $model->as_array();
+		}
+		return $data;
+	}
+
+	/**
+	 * finds the associating model name for the calling controller.
+	 * IE if Model\UserController is the calling class, it will return 'User'
+	 * @return string
+	 */
+	private static function getModelName() {
 		// will be something like "Controller\\UserController"
 		$fullClassName = get_called_class();
 
@@ -25,6 +40,14 @@ abstract class BaseController
 		// remove the last ten characters (Controller). will be something like User
 		$modelName = substr($shortClassName, 0, -10);
 
-		return \Seeder::seed($modelName);
+		return $modelName;
+	}
+
+	/*
+	 * creates a fake model and saves it to the database. does not return anything
+	 * right now. I HAVE CHANGED A LINE INSIDE Seeder.php to make this work
+	 */
+	public static function seed_one() {
+		return \Seeder::seed(self::getModelName());
 	}
 }

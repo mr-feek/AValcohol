@@ -6,10 +6,20 @@
  * Time: 6:31 PM
  */
 
-namespace models;
+namespace Models;
+
+use Faker\Generator;
 
 
-class Product
+class Product extends BaseModel
 {
+	public static function create_fake(\ORMWrapper $orm, Generator $faker) {
+		$orm->create(array(
+			'upc' => $faker->randomNumber(9),
+			'name' => $faker->name,
+			'price' => $faker->randomNumber(3)
+		));
 
+		return $orm;
+	}
 }

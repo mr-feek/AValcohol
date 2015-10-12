@@ -4,7 +4,6 @@ require '../../../vendor/autoload.php';
 
 use Slim\Slim;
 Slim::registerAutoloader();
-use Controller\AlcoholController;
 use Controller\EmailController;
 use Util\Utils;
 
@@ -33,9 +32,21 @@ $app->get('/', function () use ($app) {
 	echo 'yo pluto';
 });
 
-$app->group('/alcohol', function () use ($app) {
-	$app->get('/all', function () {
-		Utils::respond(AlcoholController::getAll());
+$app->group('/user', function() use ($app) {
+	$app->get('/all', function() {
+		Utils::respond(\Controller\UserController::getAll());
+	});
+});
+
+$app->group('/product', function() use ($app) {
+	$app->get('/all', function() {
+		Utils::respond(\Controller\ProductController::getAll());
+	});
+});
+
+$app->group('/purchase', function() use ($app) {
+	$app->get('/all', function() {
+		Utils::respond(\Controller\PurchaseController::getAll());
 	});
 });
 
@@ -51,6 +62,12 @@ $app->post('/email/send', function () use ($app) {
 	$data = EmailController::sendEmail($to, $subject, $message, $headers);
 
 	Utils::respond($data);
+});
+
+$app->get('/seed', function() {
+	\Controller\UserController::seed_one();
+	\Controller\ProductController::seed_one();
+	\Controller\PurchaseController::seed_one();
 });
 
 /**
