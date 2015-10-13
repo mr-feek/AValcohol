@@ -1,12 +1,12 @@
 define([
 	'marionette',
 	'views/HeaderView',
-	'views/HomeView',
+	'views/MVPHomeView',
 	'util/Vent',
 	'tpl!templates/root.html'
 ], function (Mn,
 			 HeaderView,
-			 HomeView,
+			 MVPHomeView,
 			 Vent,
 			 tpl) {
 	var RootView = Mn.LayoutView.extend({
@@ -29,7 +29,7 @@ define([
 
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
-			this.getRegion('main').show(new HomeView());
+			this.getRegion('main').show(new MVPHomeView());
 		},
 
 		scrollTo: function (selector) {
