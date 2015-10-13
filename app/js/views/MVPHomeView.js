@@ -16,8 +16,8 @@ define([
 			'successAlert': '.success', // sucess message
 			'errorAlert': '.error', // error message
 			'closeAlert': '.close', // close button in success message
-			'address': '.address', // email address
-			'message': '.message' // email message
+			'emailAddress': '.email-address',
+			'message': '.email-message'
 		},
 
 		initialize: function (options) {
@@ -31,7 +31,7 @@ define([
 			e.preventDefault();
 			var view = this;
 
-			var fromAddress = view.ui.address.val();
+			var fromAddress = view.ui.emailAddress.val();
 			var message = view.ui.message.val();
 
 			if (this.validateEmail()) {
@@ -58,7 +58,7 @@ define([
 			this.clearErrors();
 
 			var addressRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"); // good enough
-			var address = this.ui.address.val();
+			var address = this.ui.emailAddress.val();
 			var message = this.ui.message.val();
 
 			if (addressRegex.test(address)) {
