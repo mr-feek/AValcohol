@@ -3,7 +3,7 @@ define([
 ], function (Backbone,) {
 	var =
 	Backbone.Collection.extend({
-		url: '',
+		url: 'php/api/',
 		model:
 	});
 

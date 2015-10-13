@@ -8,6 +8,7 @@ define([
 	var Controller = Marionette.Object.extend({
 		showUserHome: function() {
 			console.log('show user home');
+			$('body').html('user home ayyy');
 		}
 	});
 
