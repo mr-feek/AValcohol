@@ -1,6 +1,8 @@
 <?php
 
-require '../../../vendor/autoload.php';
+$root = $_SERVER["DOCUMENT_ROOT"];
+
+require $root . '/vendor/autoload.php';
 
 use Slim\Slim;
 Slim::registerAutoloader();

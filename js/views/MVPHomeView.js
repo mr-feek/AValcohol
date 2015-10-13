@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'util/Router',
+	'../util/Router',
 	'tpl!templates/mvp-home.html'
 ], function (Mn,
 			 Router,

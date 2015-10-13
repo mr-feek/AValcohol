@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'controllers/Controller'
+	'../controllers/Controller'
 ], function (Marionette, Controller) {
 	var controller = new Controller();
 
