@@ -1,13 +1,13 @@
 require.config({
 	paths: {
-		'jquery': '../../vendor/jquery/dist/jquery',
-		'underscore': '../../vendor/underscore/underscore',
-		'backbone': '../../vendor/backbone/backbone',
-		'backbone.wreqr': '../../vendor/backbone.wreqr/lib/backbone.wreqr.min',
-		'marionette': '../../vendor/marionette/lib/backbone.marionette',
-		'slick': '../../vendor/slick-carousel/slick/slick',
-		'text': '../../vendor/requirejs-text/text',
-		'tpl': '../../vendor/requirejs-tpl/tpl',
+		'jquery': '../vendor/jquery/dist/jquery',
+		'underscore': '../vendor/underscore/underscore',
+		'backbone': '../vendor/backbone/backbone',
+		'backbone.wreqr': '../vendor/backbone.wreqr/lib/backbone.wreqr.min',
+		'marionette': '../vendor/marionette/lib/backbone.marionette',
+		'slick': '../vendor/slick-carousel/slick/slick',
+		'text': '../vendor/requirejs-text/text',
+		'tpl': '../vendor/requirejs-tpl/tpl',
 	},
 	shim: {
 		underscore: {
