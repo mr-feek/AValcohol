@@ -28,5 +28,7 @@ require.config({
 // boot up our app
 require(['App'], function (App) {
 	new App().start();
-	Backbone.history.start();
+	Backbone.history.start({
+		pushState: true
+	});
 });

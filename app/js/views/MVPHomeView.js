@@ -1,7 +1,9 @@
 define([
 	'marionette',
+	'util/Router',
 	'tpl!templates/mvp-home.html'
 ], function (Mn,
+			 Router,
 			 tpl) {
 	var MVPHomeView = Mn.ItemView.extend({
 		template: tpl,
@@ -9,7 +11,7 @@ define([
 		events: {
 			'click @ui.sendEmail' : 'sendEmail',
 			'click @ui.closeAlert' : 'closeAlert',
-			'click @ui.submitAddress' : 'addressSubmitted',
+			'click @ui.submitAddress' : 'addressSubmitted'
 		},
 
 		ui: {
@@ -46,7 +48,7 @@ define([
 		 * redirects page to show the user home (products)
 		 */
 		showUserHome: function() {
-			
+			Router.navigate('#home', {trigger: true});
 		},
 
 		/**
