@@ -7,11 +7,15 @@ define([
 		template: tpl,
 
 		events: {
-			'click @ui.sendEmail': 'sendEmail',
-			'click @ui.closeAlert': 'closeAlert'
+			'click @ui.sendEmail' : 'sendEmail',
+			'click @ui.closeAlert' : 'closeAlert',
+			'click @ui.submitAddress' : 'addressSubmitted',
 		},
 
 		ui: {
+			'streetAddress' : '.street-address',
+			'zip' : '.zipcode',
+			'submitAddress' : '.submit-address',
 			'sendEmail': '.send-email',
 			'successAlert': '.success', // sucess message
 			'errorAlert': '.error', // error message
@@ -25,6 +29,38 @@ define([
 
 		onShow: function () {
 
+		},
+
+		addressSubmitted: function(e) {
+			e.preventDefault();
+			var view = this;
+
+			if(view.validateAddress()) {
+				view.showUserHome();
+			} else {
+				console.log('invalid');
+			}
+		},
+
+		/**
+		 * redirects page to show the user home (products)
+		 */
+		showUserHome: function() {
+			
+		},
+
+		/**
+		 * This should submit a post request to check if address is within delivery area
+		 * @returns {boolean}
+		 */
+		validateAddress: function() {
+			var view = this;
+
+			if (!view.ui.streetAddress.val() || !view.ui.zip.val()) {
+				return false;
+			}
+
+			return true;
 		},
 
 		sendEmail: function (e) {
