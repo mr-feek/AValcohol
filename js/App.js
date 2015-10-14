@@ -5,6 +5,7 @@ define([
 			 RootView) {
 	var App = Mn.Application.extend({
 		initialize: function (options) {
+			window.app = this; // storing globally yolo
 			this.rootView = new RootView();
 		},
 
