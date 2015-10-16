@@ -13,6 +13,10 @@ use Faker\Generator;
 
 class Product extends BaseModel
 {
+	public static function featured(\ORMWrapper $orm) {
+		return $orm->where('featured', 1);
+	}
+
 	public static function create_fake(\ORMWrapper $orm, Generator $faker) {
 		$orm->create(array(
 			'upc' => $faker->randomNumber(9),

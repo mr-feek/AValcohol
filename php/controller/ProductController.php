@@ -8,8 +8,20 @@
 
 namespace Controller;
 
+use Model;
 
 class ProductController extends BaseController
 {
+	public static function getAllFeatured() {
+		$models = Model::factory('Product')
+			->filter('featured')
+			->where('deleted', '0')
+			->find_many();
 
+		$data = array();
+		foreach ($models as $model) {
+			$data[] = $model->as_array();
+		}
+		return $data;
+	}
 }
