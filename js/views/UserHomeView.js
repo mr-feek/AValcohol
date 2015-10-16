@@ -1,21 +1,26 @@
 define([
 	'marionette',
+	'views/ProductCategoriesView',
 	'tpl!templates/user-home.html'
 ], function (Mn,
+			 ProductCategoriesView,
 			 tpl) {
-	var UserHomeView = Mn.ItemView.extend({
+	var UserHomeView = Mn.LayoutView.extend({
 		template: tpl,
 
 		events: {},
 
 		ui: {},
 
+		regions: {
+			sidebar : '#sidebar'
+		},
+
 		initialize: function (options) {
-			console.log('user home view init');
 		},
 
 		onShow: function() {
-			console.log(this.$el);
+			this.getRegion('sidebar').show(new ProductCategoriesView());
 		}
 	});
 
