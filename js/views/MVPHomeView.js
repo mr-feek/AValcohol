@@ -27,6 +27,7 @@ define([
 		},
 
 		initialize: function (options) {
+			this.router = app.router;
 		},
 
 		onShow: function () {
@@ -48,7 +49,7 @@ define([
 		 * redirects page to show the user home (products)
 		 */
 		showUserHome: function() {
-			Router.navigate('#home', {trigger: true});
+			this.router.navigate('#home', {trigger: true});
 		},
 
 		/**

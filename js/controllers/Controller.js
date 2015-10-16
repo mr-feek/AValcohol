@@ -3,9 +3,11 @@
  */
 
 define([
-	'marionette'
+	'marionette',
+	'views/UserHomeView'
 ], function (
-	Marionette
+	Marionette,
+	UserHomeView
 ) {
 	var Controller = Marionette.Object.extend({
 		rootView: null,
@@ -15,8 +17,8 @@ define([
 		},
 
 		showUserHome: function() {
-			//rootView.getRegion('main').show(new HeaderView());
 			console.log('show user home');
+			this.rootView.getRegion('main').show(new UserHomeView());
 		}
 	});
 
