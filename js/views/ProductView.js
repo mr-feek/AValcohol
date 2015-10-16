@@ -5,13 +5,15 @@ define([
 			 tpl) {
 	var ProductView = Mn.ItemView.extend({
 		template: tpl,
+		tagName: 'li',
+		className: '',
 
 		events: {},
 
 		ui: {},
 
 		initialize: function (options) {
-			console.log('product view');
+			console.log(this.model);
 		},
 	});
 
