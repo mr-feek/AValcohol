@@ -1,14 +1,10 @@
 define([
-	'marionette',
-	'../controllers/Controller'
-], function (Marionette, Controller) {
-	var controller = new Controller();
+	'marionette'
+], function (Marionette) {
 
-	var Router = new Marionette.AppRouter({
-		controller: controller,
-
-		appRoutes: {
-			'home' : 'showUserHome'
+	var Router = Marionette.AppRouter.extend({
+		initialize: function(options) {
+			this.controller = options.controller;
 		}
 	});
 

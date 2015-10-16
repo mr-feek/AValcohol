@@ -1,9 +1,9 @@
 define([
 	'marionette',
-	'../util/Router',
+	'../App',
 	'tpl!templates/mvp-home.html'
 ], function (Mn,
-			 Router,
+			 app,
 			 tpl) {
 	var MVPHomeView = Mn.ItemView.extend({
 		template: tpl,

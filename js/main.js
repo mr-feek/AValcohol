@@ -20,14 +20,26 @@ require.config({
 		marionette: {
 			deps: ['backbone'],
 			exports: 'Marionette'
-		},
+		}
 	},
 	deps: ['jquery', 'underscore', 'slick']
 });
 
-// boot up our app
-require(['App'], function (App) {
-	new App().start();
+require(['App', 'views/RootView', 'controllers/Controller', 'util/Router'], function (app, RootView, Controller, Router) {
+	app.on('start', function() {
+		app.rootView = new RootView();
+
+		var controller = new Controller({
+			rootView: app.rootView
+		});
+
+		app.router = new Router({ controller: controller });
+
+		app.rootView.render();
+	});
+
+	app.start();
+
 	Backbone.history.start({
 		pushState: true
 	});

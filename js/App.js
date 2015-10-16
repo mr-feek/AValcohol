@@ -1,18 +1,14 @@
 define([
-	'marionette',
-	'views/RootView'
-], function (Mn,
-			 RootView) {
+	'marionette'
+], function (Mn) {
 	var App = Mn.Application.extend({
 		initialize: function (options) {
-			window.app = this; // storing globally yolo
-			this.rootView = new RootView();
 		},
 
 		onStart: function () {
-			this.rootView.render();
-		},
+			//this.rootView.render();
+		}
 	});
 
-	return App;
+	return new App();
 });
