@@ -8,6 +8,7 @@ define([
 		},
 
 		appRoutes: {
+			'' : 'showHome',
 			'home' : 'showUserHome'
 		}
 	});

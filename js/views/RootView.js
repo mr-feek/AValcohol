@@ -29,7 +29,7 @@ define([
 
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
-			this.getRegion('main').show(new MVPHomeView());
+			// main region is populated by the router
 		},
 
 		scrollTo: function (selector) {
