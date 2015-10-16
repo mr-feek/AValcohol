@@ -44,6 +44,10 @@ $app->group('/product', function() use ($app) {
 	$app->get('/all', function() {
 		Utils::respond(\Controller\ProductController::getAll());
 	});
+	$app->get('/featured', function() {
+		// temp
+		Utils::respond(\Controller\ProductController::getAll());
+	});
 });
 
 $app->group('/purchase', function() use ($app) {

@@ -25,7 +25,6 @@ define([
 		},
 
 		showUserHome: function() {
-			console.log('show user home');
 			this.rootView.getRegion('main').show(new UserHomeView());
 		}
 	});
