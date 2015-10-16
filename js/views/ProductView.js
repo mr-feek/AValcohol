@@ -13,7 +13,6 @@ define([
 		ui: {},
 
 		initialize: function (options) {
-			console.log(this.model);
 		},
 	});
 
