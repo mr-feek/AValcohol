@@ -76,13 +76,8 @@ $app->get('/seed', function() {
 	\Controller\PurchaseController::seed_one();
 });
 
-/**
- * soft deletes the model
- */
-function softDelete(Model $model)
-{
-	$model->deleted = 1;
-	$model->save();
-}
+$app->get('/test', function() {
+
+});
 
 $app->run();
