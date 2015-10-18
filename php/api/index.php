@@ -45,7 +45,6 @@ $app->group('/product', function() use ($app) {
 		Utils::respond(\Controller\ProductController::getAll());
 	});
 	$app->get('/featured', function() {
-		// temp
 		Utils::respond(\Controller\ProductController::getAllFeatured());
 	});
 });

@@ -18,10 +18,6 @@ class ProductController extends BaseController
 			->where('deleted', '0')
 			->find_many();
 
-		$data = array();
-		foreach ($models as $model) {
-			$data[] = $model->as_array();
-		}
-		return $data;
+		return self::prepareData($models);
 	}
 }

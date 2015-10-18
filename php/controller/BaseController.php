@@ -18,11 +18,7 @@ abstract class BaseController
 	public static function getAll() {
 		$modelName = self::getModelName();
 		$models = Model::factory($modelName)->where('deleted', '0')->find_many();
-		$data = array();
-		foreach ($models as $model) {
-			$data[] = $model->as_array();
-		}
-		return $data;
+		return self::prepareData($models);
 	}
 
 	/**
@@ -30,7 +26,7 @@ abstract class BaseController
 	 * IE if Model\UserController is the calling class, it will return 'User'
 	 * @return string
 	 */
-	private static function getModelName() {
+	protected static function getModelName() {
 		// will be something like "Controller\\UserController"
 		$fullClassName = get_called_class();
 
@@ -50,4 +46,18 @@ abstract class BaseController
 	public static function seed_one() {
 		return \Seeder::seed(self::getModelName());
 	}
+
+	/**
+	 * converts ORMWrapper instance(s) into an array of models and their data
+	 * @param $models
+	 * @return array
+	 */
+	protected static function prepareData($models) {
+		$data = array();
+		foreach ($models as $model) {
+			$data[] = $model->as_array();
+		}
+		return $data;
+	}
+
 }
