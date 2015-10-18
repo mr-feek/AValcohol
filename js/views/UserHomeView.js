@@ -21,8 +21,17 @@ define([
 			products : '#products'
 		},
 
+		/**
+		 *
+		 * @param options
+		 * 	- endpoint (optional)
+		 */
 		initialize: function (options) {
-			this.endpoint = 'featured';
+			if (options.endpoint) {
+				this.endpoint = options.endpoint;
+			} else {
+				this.endpoint = 'featured';
+			}
 		},
 
 		onShow: function() {

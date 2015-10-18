@@ -24,8 +24,9 @@ define([
 			this.rootView.getRegion('main').show(new MVPHomeView());
 		},
 
-		showUserHome: function() {
-			this.rootView.getRegion('main').show(new UserHomeView());
+		showUserHome: function(endpoint) {
+			console.log(endpoint);
+			this.rootView.getRegion('main').show(new UserHomeView({ endpoint: endpoint }));
 		}
 	});
 

@@ -9,7 +9,8 @@ define([
 
 		appRoutes: {
 			'' : 'showHome',
-			'home' : 'showUserHome'
+			'home' : 'showUserHome',
+			'home/:endpoint' : 'showUserHome'
 		}
 	});
 
