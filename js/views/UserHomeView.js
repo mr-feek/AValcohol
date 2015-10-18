@@ -1,14 +1,12 @@
 define([
 	'marionette',
 	'views/ProductCategoriesView',
-	'views/FeaturedProductsView',
-	'views/AllProductsView',
+	'views/ProductsView',
 	'tpl!templates/user-home.html'
 ], function (
 	Mn,
 	ProductCategoriesView,
-	FeaturedProductsView,
-	AllProductsView,
+	ProductsView,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
@@ -20,17 +18,16 @@ define([
 
 		regions: {
 			sidebar : '#sidebar',
-			featured : '#featured',
 			products : '#products'
 		},
 
 		initialize: function (options) {
+			this.endpoint = 'featured';
 		},
 
 		onShow: function() {
 			this.getRegion('sidebar').show(new ProductCategoriesView());
-			this.getRegion('featured').show(new FeaturedProductsView());
-			this.getRegion('products').show(new AllProductsView());
+			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
 		}
 	});
 
