@@ -21,6 +21,14 @@ define([
 			products : '#products'
 		},
 
+		templateHelpers: function() {
+			var view = this;
+
+			return {
+				page: view.endpoint
+			}
+		},
+
 		/**
 		 *
 		 * @param options

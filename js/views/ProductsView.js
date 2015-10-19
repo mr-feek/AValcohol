@@ -24,8 +24,8 @@ define([
 		 * 		- endpoint (optional)
 		 */
 		initialize: function (options) {
-			var view = this;
-			this.collection = new Products([], { endpoint: options.endpoint});
+			this.endpoint = options.endpoint;
+			this.collection = new Products([], { endpoint: this.endpoint});
 			this.collection.fetch();
 		}
 	});
