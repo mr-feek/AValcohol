@@ -25,7 +25,7 @@ require.config({
 	deps: ['jquery', 'underscore', 'slick']
 });
 
-require(['App', 'views/RootView', 'controllers/Controller', 'util/Router'], function (app, RootView, Controller, Router) {
+require(['App', 'views/RootView', 'controllers/Controller', 'util/Router', 'models/Cart'], function (app, RootView, Controller, Router, Cart) {
 	app.on('start', function() {
 		app.rootView = new RootView();
 
@@ -34,7 +34,7 @@ require(['App', 'views/RootView', 'controllers/Controller', 'util/Router'], func
 		});
 
 		app.router = new Router({ controller: controller });
-
+		app.cart = new Cart();
 		app.rootView.render();
 	});
 

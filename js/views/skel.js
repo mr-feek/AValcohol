@@ -5,7 +5,7 @@ define([
 	Mn,
 	tpl
 ) {
-	var = Mn.ItemView.extend({
+	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: '',
 		className: '',
@@ -26,5 +26,5 @@ define([
 		}
 	});
 
-	return ;
+	return view;
 });

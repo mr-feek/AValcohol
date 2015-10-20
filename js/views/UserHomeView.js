@@ -1,12 +1,16 @@
 define([
 	'marionette',
+	'views/UserHomeHeaderView',
 	'views/ProductCategoriesView',
 	'views/ProductsView',
+	'App',
 	'tpl!templates/user-home.html'
 ], function (
 	Mn,
+	UserHomeHeaderView,
 	ProductCategoriesView,
 	ProductsView,
+	App,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
@@ -43,6 +47,7 @@ define([
 		},
 
 		onShow: function() {
+			App.rootView.getRegion('header').show(new UserHomeHeaderView({ model: App.cart}));
 			this.getRegion('sidebar').show(new ProductCategoriesView());
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
 		}
