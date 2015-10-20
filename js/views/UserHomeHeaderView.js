@@ -19,12 +19,14 @@ define([
 		},
 
 		modelEvents: {
-			'change:products' : 'changed'
+			'change:products' : 'productsChanged'
 		},
 
 		events: {},
 
-		ui: {},
+		ui: {
+			numProducts : '.num-products'
+		},
 
 		/**
 		 * expects cart model
@@ -32,12 +34,11 @@ define([
 		 */
 		initialize: function (options) {
 			this.model = options.model;
-			console.log(this.model);
 		},
 
-		changed: function() {
-			console.log('lol');
-			this.render();
+		productsChanged: function() {
+			var number = this.model.get('products').length;
+			this.ui.numProducts.html(number);
 		}
 	});
 
