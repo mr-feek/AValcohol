@@ -11,7 +11,7 @@ define([
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
 		tagName: 'ul',
-		className: 'small-block-grid-1 medium-block-grid-3 large-block-grid-5',
+		className: 'small-block-grid-1 medium-block-grid-3 large-block-grid-5 equalizer',
 		emptyView: EmptyView,
 
 		events: {},

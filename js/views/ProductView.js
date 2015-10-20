@@ -22,6 +22,13 @@ define([
 			addToCart: '.button'
 		},
 
+		templateHelpers: function() {
+			var view = this;
+			return {
+				img_url: '/img/products/' + view.model.get('image_url')
+			}
+		},
+
 		initialize: function (options) {
 			this.cart = App.cart;
 		},
