@@ -7,7 +7,8 @@ require.config({
 		'marionette': '../vendor/marionette/lib/backbone.marionette',
 		'slick': '../vendor/slick-carousel/slick/slick',
 		'text': '../vendor/requirejs-text/text',
-		'tpl': '../vendor/requirejs-tpl/tpl'
+		'tpl': '../vendor/requirejs-tpl/tpl',
+		'async': '../vendor/requirejs-plugins/src/async'
 	},
 	shim: {
 		underscore: {

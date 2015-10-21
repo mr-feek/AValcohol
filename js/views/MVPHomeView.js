@@ -1,10 +1,13 @@
 define([
 	'marionette',
 	'../App',
-	'tpl!templates/mvp-home.html'
-], function (Mn,
-			 app,
-			 tpl) {
+	'tpl!templates/mvp-home.html',
+	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
+], function (
+	Mn,
+	app,
+	tpl
+) {
 	var MVPHomeView = Mn.ItemView.extend({
 		template: tpl,
 
@@ -31,7 +34,11 @@ define([
 		},
 
 		onShow: function () {
-
+			var input = this.ui.streetAddress[0];
+			var options = {
+				types: ['address'], // only precise locations, no businesses or landmarks
+			};
+			var autocomplete = new google.maps.places.Autocomplete(input, options);
 		},
 
 		addressSubmitted: function(e) {
