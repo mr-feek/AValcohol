@@ -14,6 +14,10 @@ define([
 		tagName: 'li',
 		className: '',
 
+		attributes: {
+			'data-equalizer-watch' : ''
+		},
+
 		events: {
 			'click @ui.addToCart' : 'addToCart'
 		},
