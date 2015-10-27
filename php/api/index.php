@@ -3,6 +3,7 @@
 $root = $_SERVER["DOCUMENT_ROOT"];
 
 require $root . '/vendor/autoload.php';
+require '../util/config.php';
 
 use Slim\Slim;
 Slim::registerAutoloader();
@@ -15,9 +16,9 @@ $app = new Slim(array(
 	'cookies.secret_key' => 'hXbm%i&'
 ));
 
-ORM::configure('mysql:host=localhost;dbname=AValcohol');
-ORM::configure('username', 'root');
-ORM::configure('password', 'feeksql');
+ORM::configure(DB_URL);
+ORM::configure('username', DB_USER);
+ORM::configure('password', DB_PASSWORD);
 
 // this namespaces the models correctly for using the factory method
 Model::$auto_prefix_models = 'Models\\';
