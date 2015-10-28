@@ -39,6 +39,11 @@ define([
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
 			var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+			// load in last used address
+			this.ui.streetAddress.val(localStorage.getItem('address'));
+			this.ui.zip.val(localStorage.getItem('zip'));
+
 		},
 
 		addressSubmitted: function(e) {
@@ -46,6 +51,8 @@ define([
 			var view = this;
 
 			if(view.validateAddress()) {
+				localStorage.setItem('address', view.ui.streetAddress.val());
+				localStorage.setItem('zip', view.ui.zip.val());
 				view.showUserHome();
 			} else {
 				console.log('invalid');
