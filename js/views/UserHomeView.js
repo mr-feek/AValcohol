@@ -3,6 +3,7 @@ define([
 	'views/UserHomeHeaderView',
 	'views/ProductCategoriesView',
 	'views/ProductsView',
+	'views/CartView',
 	'App',
 	'tpl!templates/user-home.html'
 ], function (
@@ -10,13 +11,16 @@ define([
 	UserHomeHeaderView,
 	ProductCategoriesView,
 	ProductsView,
+	CartView,
 	App,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
 		template: tpl,
 
-		events: {},
+		events: {
+			'click @ui.cart' : 'toggleCart'
+		},
 
 		ui: {
 			'cart' : '#cart'
@@ -52,7 +56,11 @@ define([
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('sidebar').show(new ProductCategoriesView());
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
-			//App.rootView.getRegion('rightOffCanvas').show(new CartView());
+			App.rootView.getRegion('rightOffCanvas').show(new CartView({ model: App.cart }));
+		},
+
+		toggleCart: function() {
+			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
 		}
 	});
 

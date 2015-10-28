@@ -18,6 +18,7 @@ define([
 			this.get('products').push(product);
 			this.trigger('change');
 			this.trigger('change:products');
+			console.log('change products triggered');
 		}
 	});
 

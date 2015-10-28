@@ -1,0 +1,6 @@
+<p>Num Products: <span class="num-products"><%= number %></span> </p>
+
+<% _.each(products, function (product) {
+var product = product.attributes %>
+<p>Product Name: <%= product.name %> </p>
+<% }); %>
