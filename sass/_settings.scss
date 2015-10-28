@@ -93,12 +93,12 @@ $include-html-global-classes: $include-html-classes;
 
 // $white       : #FFFFFF;
 // $ghost       : #FAFAFA;
-// $snow        : #F9F9F9;
+ $snow        : #F9F9F9;
 // $vapor       : #F6F6F6;
 // $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
+ $silver      : #EFEFEF;
 // $smoke       : #EEEEEE;
-// $gainsboro   : #DDDDDD;
+ $gainsboro   : #DDDDDD;
 // $iron        : #CCCCCC;
 // $base        : #AAAAAA;
 // $aluminum    : #999999;
@@ -110,6 +110,8 @@ $include-html-global-classes: $include-html-classes;
 // $oil         : #333333;
 $jet         : #222222;
 $black       : #000000;
+
+$beige		: #F1F1E1;
 
 // We use these as default colors throughout
 $primary-color: $red;
@@ -847,8 +849,8 @@ $primary-color: $red;
 // $tabbar-header-margin: 0;
 
 // Off Canvas Menu Variables
-// $off-canvas-width: rem-calc(250);
-// $off-canvas-bg: $oil;
+$off-canvas-width: rem-calc(350);
+$off-canvas-bg: $snow;
 // $off-canvas-bg-hover: scale-color($tabbar-bg, $lightness: -30%);
 // $off-canvas-bg-active: scale-color($tabbar-bg, $lightness: -30%);
 

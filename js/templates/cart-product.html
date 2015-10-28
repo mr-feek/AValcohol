@@ -1,7 +1,13 @@
-<div class="cart-product">
-	<img src="<%= img_url %>" />
-	<p><%= name %></p>
-	<p>$<%= price %></p>
-	<p>Quantity: <%= quantity %></p>
-	<a class="button tiny remove">Remove From Cart</a>
+<div class="cart-product row collapse">
+	<div class="small-6 columns">
+		<img src="<%= img_url %>" />
+	</div>
+	<div class="small-6 columns">
+		<p><strong><%= name %></strong></p>
+		<p>PPU $<%= price %></p>
+		<p>Quantity: <%= quantity %></p>
+		<p>Total: $<%= total() %></p>
+		<a class="remove">Remove From Cart</a>
+	</div>
+
 </div>

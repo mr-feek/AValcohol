@@ -12,7 +12,7 @@ define([
 	var CartView = Mn.CompositeView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'cart-sidebar',
 
 		childView: CartProductView,
 
