@@ -1,11 +1,11 @@
 define([
 	'marionette',
-	'tpl!templates/.html'
+	'tpl!templates/cart-product.html'
 ], function (
 	Mn,
 	tpl
 ) {
-	var view = Mn.ItemView.extend({
+	var CartProductView = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
 		className: '',
@@ -26,5 +26,5 @@ define([
 		}
 	});
 
-	return view;
+	return CartProductView;
 });

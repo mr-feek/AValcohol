@@ -5,7 +5,6 @@ define([
 	'views/ProductsView',
 	'views/CartView',
 	'App',
-	'util/Vent',
 	'tpl!templates/user-home.html'
 ], function (
 	Mn,
@@ -14,7 +13,6 @@ define([
 	ProductsView,
 	CartView,
 	App,
-	Vent,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
@@ -40,7 +38,7 @@ define([
 				page: view.endpoint,
 
 				numProducts: function() {
-					return App.cart.get('products').length;
+					return App.cart.length;
 				}
 			}
 		},
@@ -59,14 +57,14 @@ define([
 				this.endpoint = 'featured';
 			}
 
-			Vent.on('home:updateNumProducts', view.updateNumProducts, view);
+			App.cart.on('update', view.updateNumProducts, view);
 		},
 
 		onShow: function() {
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('sidebar').show(new ProductCategoriesView());
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
-			App.rootView.getRegion('rightOffCanvas').show(new CartView({ model: App.cart }));
+			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},
 
 		toggleCart: function() {
@@ -74,8 +72,7 @@ define([
 		},
 
 		updateNumProducts: function() {
-			var products = App.cart.get('products').length;
-			this.ui.cart.find('i').html(products);
+			this.ui.cart.find('i').html(App.cart.length);
 		}
 	});
 

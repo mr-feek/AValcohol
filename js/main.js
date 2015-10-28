@@ -43,7 +43,7 @@ require([
 	'views/RootView',
 	'controllers/Controller',
 	'util/Router',
-	'models/Cart',
+	'collections/Cart',
 	'foundation',
 	'foundationOffCanvas'
 ], function (

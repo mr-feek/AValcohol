@@ -1,6 +1,8 @@
 define([
-	'backbone'
-], function (Backbone) {
+	'backbone',
+], function (
+	Backbone
+) {
 	var Product = Backbone.Model.extend({
 		urlRoot: '/php/api/'
 	});

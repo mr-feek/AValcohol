@@ -1,31 +1,40 @@
 define([
 	'marionette',
+	'views/CartProductView',
+	'App',
 	'tpl!templates/cart.html'
 ], function (
 	Mn,
+	CartProductView,
+	App,
 	tpl
 ) {
-	var CartView = Mn.ItemView.extend({
+	var CartView = Mn.CompositeView.extend({
 		template: tpl,
 		tagName: 'div',
 		className: '',
+
+		childView: CartProductView,
 
 		templateHelpers: function() {
 			var view = this;
 
 			return {
-				number: view.model.get('products').length
+				number: App.cart.length
 			}
 		},
 
-		events: {},
-
-		ui: {
-			numProducts : '.num-products'
+		events: {
+			'click @ui.removeFromCart' : 'removeProduct'
 		},
 
-		modelEvents: {
-			'change:products' : 'productsChanged'
+		ui: {
+			numProducts : '.num-products',
+			removeFromCart : '.remove'
+		},
+
+		collectionEvents: {
+			'update' : 'productsChanged'
 		},
 
 		/**
@@ -33,15 +42,18 @@ define([
 		 * @param options
 		 */
 		initialize: function (options) {
-			this.model = options.model;
+			this.collection = options.collection;
 		},
 
 		productsChanged: function() {
-			var number = this.model.get('products').length;
+			var number = this.collection.length;
 			//this.ui.numProducts.html(number);
 			this.render();
+		},
 
-			console.log(this.model.get('products'));
+		removeProduct: function(e) {
+			console.log(e);
+			console.log('asdf');
 		}
 	});
 
