@@ -14,15 +14,17 @@ define([
 		events: {
 			'click @ui.sendEmail' : 'sendEmail',
 			'click @ui.closeAlert' : 'closeAlert',
-			'click @ui.submitAddress' : 'addressSubmitted'
+			'click @ui.submitAddress' : 'addressSubmitted',
+			'click @ui.skipEntry' : 'showUserHome'
 		},
 
 		ui: {
 			'streetAddress' : '.street-address',
 			'zip' : '.zipcode',
 			'submitAddress' : '.submit-address',
+			'skipEntry' : '.skip-entry',
 			'sendEmail': '.send-email',
-			'successAlert': '.success', // sucess message
+			'successAlert': '.success', // success message
 			'errorAlert': '.error', // error message
 			'closeAlert': '.close', // close button in success message
 			'emailAddress': '.email-address',
