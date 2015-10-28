@@ -1,8 +1,10 @@
 define([
 	'marionette',
+	'App',
 	'tpl!templates/user-home-header.html'
 ], function (
 	Mn,
+	App,
 	tpl
 ) {
 	var UserHomeHeaderView = Mn.ItemView.extend({
@@ -10,11 +12,17 @@ define([
 		tagName: 'div',
 		className: '',
 
-		events: {},
+		events: {
+			'click @ui.logo' : 'goHome'
+		},
 
 		ui: {
-
+			'logo' : '.logo'
 		},
+
+		goHome: function() {
+			App.router.navigate('', {trigger: true});
+		}
 	});
 
 	return UserHomeHeaderView;
