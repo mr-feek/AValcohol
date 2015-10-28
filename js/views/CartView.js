@@ -29,7 +29,8 @@ define([
 		},
 
 		collectionEvents: {
-			'update' : 'productsChanged'
+			'update' : 'productsChanged',
+			'change:quantity' : 'productsChanged' // maybe this could be more efficient
 		},
 
 		/**
