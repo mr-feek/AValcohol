@@ -24,13 +24,8 @@ define([
 			}
 		},
 
-		events: {
-			'click @ui.removeFromCart' : 'removeProduct'
-		},
-
 		ui: {
 			numProducts : '.num-products',
-			removeFromCart : '.remove'
 		},
 
 		collectionEvents: {
@@ -46,14 +41,7 @@ define([
 		},
 
 		productsChanged: function() {
-			var number = this.collection.length;
-			//this.ui.numProducts.html(number);
 			this.render();
-		},
-
-		removeProduct: function(e) {
-			console.log(e);
-			console.log('asdf');
 		}
 	});
 
