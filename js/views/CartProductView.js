@@ -30,8 +30,10 @@ define([
 
 		initialize: function (options) { },
 
-		removeFromCart: function() {
+		removeFromCart: function(e) {
+			e.preventDefault();
 			var view = this;
+
 			this.$el.fadeOut('fast', function() {
 				App.cart.remove(view.model);
 			});

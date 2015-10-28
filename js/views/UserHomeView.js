@@ -67,7 +67,8 @@ define([
 			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},
 
-		toggleCart: function() {
+		toggleCart: function(e) {
+			e.preventDefault();
 			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
 		},
 
