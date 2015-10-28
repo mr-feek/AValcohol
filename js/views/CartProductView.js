@@ -16,7 +16,7 @@ define([
 			var view = this;
 
 			return {
-
+				img_url: '/img/products/' + view.model.get('image_url')
 			}
 		},
 
@@ -28,7 +28,9 @@ define([
 			'remove' : '.remove'
 		},
 
-		initialize: function (options) { },
+		initialize: function (options) {
+			console.log(this.model);
+		},
 
 		/**
 		 * If there is more than one quantity, it will subtract one quantity instead of fully removing
