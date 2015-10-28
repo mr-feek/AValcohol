@@ -38,7 +38,6 @@ define([
 		},
 
 		onShow: function() {
-			console.log('on show');
 			$(document).foundation({
 				equalizer: {
 					equalize_on_stack: true,

@@ -4,11 +4,13 @@ define([
 	'views/MVPHomeView',
 	'util/Vent',
 	'tpl!templates/root.html'
-], function (Mn,
-			 HeaderView,
-			 MVPHomeView,
-			 Vent,
-			 tpl) {
+], function (
+	Mn,
+	HeaderView,
+	MVPHomeView,
+	Vent,
+	tpl
+) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: 'body',
@@ -17,9 +19,19 @@ define([
 
 		ui: {},
 
+		childEvents: {
+			// every time a view is shown inside a region we need to make sure foundation listeners are applied
+			// currently only reflowing for offcanvas (cart)
+			show: function() {
+				$(document).foundation();
+				$(document).foundation('offcanvas', 'reflow');
+			}
+		},
+
 		regions: {
 			header: 'header',
-			main: '#main'
+			main: '#main',
+			rightOffCanvas: '.right-off-canvas-menu'
 		},
 
 		initialize: function (options) {

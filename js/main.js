@@ -7,6 +7,7 @@ require.config({
 		'marionette': 			'../vendor/marionette/lib/backbone.marionette',
 		'foundation' : 			'../vendor/foundation/js/foundation',
 		'foundationEqualizer' : '../vendor/foundation/js/foundation/foundation.equalizer',
+		'foundationOffCanvas': 	'../vendor/foundation/js/foundation/foundation.offcanvas',
 		'slick': 				'../vendor/slick-carousel/slick/slick',
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
@@ -29,6 +30,9 @@ require.config({
 		},
 		foundationEqualizer: {
 			deps: ['foundation']
+		},
+		foundationOffCanvas: {
+			deps: ['foundation']
 		}
 	},
 	deps: ['jquery', 'underscore', 'slick']
@@ -40,7 +44,8 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'models/Cart',
-	'foundation'
+	'foundation',
+	'foundationOffCanvas'
 ], function (
 	app,
 	RootView,

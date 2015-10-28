@@ -22,7 +22,8 @@ define([
 
 		regions: {
 			sidebar : '#sidebar',
-			products : '#products'
+			products : '#products',
+			cart : '#cart'
 		},
 
 		templateHelpers: function() {

@@ -2,9 +2,11 @@ define([
 	'marionette',
 	'util/Vent',
 	'tpl!templates/header.html'
-], function (Mn,
-			 Vent,
-			 tpl) {
+], function (
+	Mn,
+	Vent,
+	tpl
+) {
 	var HeaderView = Mn.ItemView.extend({
 		template: tpl,
 
