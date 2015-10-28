@@ -7586,5 +7586,11 @@ footer {
   color: #ddd;
   padding: 1rem; }
 
+#cart {
+  position: absolute;
+  right: 0; }
+  #cart i {
+    font-size: 36px; }
+
 p {
   color: #334857; }

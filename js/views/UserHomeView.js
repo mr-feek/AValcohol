@@ -18,12 +18,13 @@ define([
 
 		events: {},
 
-		ui: {},
+		ui: {
+			'cart' : '#cart'
+		},
 
 		regions: {
 			sidebar : '#sidebar',
-			products : '#products',
-			cart : '#cart'
+			products : '#products'
 		},
 
 		templateHelpers: function() {
@@ -48,9 +49,10 @@ define([
 		},
 
 		onShow: function() {
-			App.rootView.getRegion('header').show(new UserHomeHeaderView({ model: App.cart}));
+			App.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('sidebar').show(new ProductCategoriesView());
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
+			//App.rootView.getRegion('rightOffCanvas').show(new CartView());
 		}
 	});
 
