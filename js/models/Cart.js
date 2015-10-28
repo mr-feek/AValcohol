@@ -1,7 +1,9 @@
 define([
-	'backbone'
+	'backbone',
+	'util/Vent'
 ], function (
-	Backbone
+	Backbone,
+	Vent
 ) {
 	var Cart = Backbone.Model.extend({
 		urlRoot: 'php/api/',
@@ -18,7 +20,7 @@ define([
 			this.get('products').push(product);
 			this.trigger('change');
 			this.trigger('change:products');
-			console.log('change products triggered');
+			Vent.trigger('home:updateNumProducts');
 		}
 	});
 

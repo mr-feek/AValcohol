@@ -5,6 +5,7 @@ define([
 	'views/ProductsView',
 	'views/CartView',
 	'App',
+	'util/Vent',
 	'tpl!templates/user-home.html'
 ], function (
 	Mn,
@@ -13,6 +14,7 @@ define([
 	ProductsView,
 	CartView,
 	App,
+	Vent,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
@@ -35,7 +37,11 @@ define([
 			var view = this;
 
 			return {
-				page: view.endpoint
+				page: view.endpoint,
+
+				numProducts: function() {
+					return App.cart.get('products').length;
+				}
 			}
 		},
 
@@ -45,11 +51,15 @@ define([
 		 * 	- endpoint (optional)
 		 */
 		initialize: function (options) {
+			var view = this;
+
 			if (options.endpoint) {
 				this.endpoint = options.endpoint;
 			} else {
 				this.endpoint = 'featured';
 			}
+
+			Vent.on('home:updateNumProducts', view.updateNumProducts, view);
 		},
 
 		onShow: function() {
@@ -61,6 +71,11 @@ define([
 
 		toggleCart: function() {
 			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
+		},
+
+		updateNumProducts: function() {
+			var products = App.cart.get('products').length;
+			this.ui.cart.find('i').html(products);
 		}
 	});
 
