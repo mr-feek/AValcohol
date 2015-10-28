@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'../App',
+	'App',
 	'tpl!templates/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (

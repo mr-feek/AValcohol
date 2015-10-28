@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'models/Cart',
+	'../collections/Cart',
 	'App',
 	'tpl!templates/product.html'
 ], function (
@@ -13,6 +13,10 @@ define([
 		template: tpl,
 		tagName: 'li',
 		className: '',
+
+		attributes: {
+			'data-equalizer-watch' : ''
+		},
 
 		events: {
 			'click @ui.addToCart' : 'addToCart'
@@ -30,11 +34,10 @@ define([
 		},
 
 		initialize: function (options) {
-			this.cart = App.cart;
 		},
 
 		addToCart: function() {
-			this.cart.addProductToCart(this.model);
+			App.cart.push(this.model);
 		}
 	});
 

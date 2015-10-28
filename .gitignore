@@ -2,7 +2,7 @@ vendor/
 composer.lock
 composer.phar
 passwords.secret
-app/css/
+css/
 config.codekit
-app/sass/.sass-cache/
+sass/.sass-cache/
 .idea/
