@@ -11,6 +11,21 @@
 @import 'footer';
 @import 'user-home';
 
+html, body, #main-wrapper {
+	min-height: 100%;
+
+	#main-wrapper {
+		margin-bottom: -1 * $footerHeight;
+	}
+	#main-wrapper:after {
+		content: "";
+		display: block;
+		height: $footerHeight;
+	}
+}
+
+
+
 p {
 	color: $dark-text-color;
 }
