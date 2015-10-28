@@ -73,7 +73,8 @@ define([
 		},
 
 		updateNumProducts: function() {
-			this.ui.cart.find('i').html(App.cart.length);
+			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
+			$(this.ui.cart).find('i').html(App.cart.length);
 		}
 	});
 
