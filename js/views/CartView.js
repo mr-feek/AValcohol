@@ -13,14 +13,25 @@ define([
 		template: tpl,
 		tagName: 'div',
 		className: 'cart-sidebar',
-
 		childView: CartProductView,
+		childViewContainer: '.products',
 
 		templateHelpers: function() {
 			var view = this;
 
 			return {
-				number: App.cart.length
+				number: App.cart.length,
+
+				subtotal: function() {
+					// loop through products and multiply price * quantity for combined total
+					var total = 0;
+
+					_.each(view.collection.models, function(model) {
+						total += model.get('price') * model.get('quantity');
+					});
+
+					return Number(total).toFixed(2);
+				}
 			}
 		},
 
