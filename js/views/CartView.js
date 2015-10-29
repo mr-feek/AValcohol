@@ -61,7 +61,8 @@ define([
 			this.render();
 		},
 
-		showCheckout: function() {
+		showCheckout: function(e) {
+			e.preventDefault();
 			App.rootView.closeOffCanvas(true); // clean up this view
 			App.router.navigate('checkout', {trigger: true});
 		}

@@ -38,6 +38,7 @@ define([
 
 		addToCart: function() {
 			App.cart.push(this.model);
+			App.rootView.openOffCanvas(); // show the cart
 		}
 	});
 
