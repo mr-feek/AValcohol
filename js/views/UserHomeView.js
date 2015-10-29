@@ -60,7 +60,7 @@ define([
 			App.cart.on('update', view.updateNumProducts, view);
 		},
 
-		onShow: function() {
+		onBeforeShow: function() {
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('sidebar').show(new ProductCategoriesView());
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
