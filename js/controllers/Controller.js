@@ -6,12 +6,14 @@ define([
 	'marionette',
 	'views/HeaderView',
 	'views/MVPHomeView',
-	'views/UserHomeView'
+	'views/UserHomeView',
+	'views/CheckoutView'
 ], function (
 	Marionette,
 	HeaderView,
 	MVPHomeView,
-	UserHomeView
+	UserHomeView,
+	CheckoutView
 ) {
 	var Controller = Marionette.Object.extend({
 		rootView: null,
@@ -26,6 +28,10 @@ define([
 
 		showUserHome: function(endpoint) {
 			this.rootView.getRegion('main').show(new UserHomeView({ endpoint: endpoint }));
+		},
+
+		showCheckout: function() {
+			this.rootView.getRegion('main').show(new CheckoutView());
 		}
 	});
 

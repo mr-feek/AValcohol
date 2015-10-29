@@ -10,7 +10,8 @@ define([
 		appRoutes: {
 			'' : 'showHome',
 			'home' : 'showUserHome',
-			'home/:endpoint' : 'showUserHome'
+			'home/:endpoint' : 'showUserHome',
+			'checkout' : 'showCheckout'
 		}
 	});
 

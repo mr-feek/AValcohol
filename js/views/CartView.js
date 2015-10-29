@@ -37,6 +37,11 @@ define([
 
 		ui: {
 			numProducts : '.num-products',
+			checkout : '.checkout'
+		},
+
+		events: {
+			'click @ui.checkout' : 'showCheckout'
 		},
 
 		collectionEvents: {
@@ -54,6 +59,11 @@ define([
 
 		productsChanged: function() {
 			this.render();
+		},
+
+		showCheckout: function() {
+			App.rootView.closeOffCanvas(true); // clean up this view
+			App.router.navigate('checkout', {trigger: true});
 		}
 	});
 

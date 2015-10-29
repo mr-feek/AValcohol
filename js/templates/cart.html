@@ -1,7 +1,13 @@
 <div class="row text-center top">
 	<h3>Cart</h3>
 	<h5 class="num-products subheader"><%= number %> Items</h5>
-	<a href="#" class="button">Checkout</a>
-	<div class="products"></div>
-	<p>Subtotal: $<%= subtotal() %></p>
+	<% if (number > 0 ) { %>
+		<a href="#" class="button checkout">Checkout</a>
+	<% } %>
 </div>
+
+<div class="products"></div>
+<p>Subtotal: $<%= subtotal() %></p>
+<% if (number > 0 ) { %>
+	<a href="#" class="button checkout">Checkout</a>
+<% } %>

@@ -43,11 +43,11 @@ define([
 					equalize_on_stack: true,
 					before_height_change: function(){
 						// do something before the height changes
-						console.log('before');
+						//console.log('before');
 					},
 					after_height_change: function(){
 						// do something after the height changes
-						console.log('after');
+						//console.log('after');
 					}
 				}
 			});

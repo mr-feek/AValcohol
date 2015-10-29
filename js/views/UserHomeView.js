@@ -19,7 +19,7 @@ define([
 		template: tpl,
 
 		events: {
-			'click @ui.cart' : 'toggleCart'
+			'click @ui.cart' : 'openCart'
 		},
 
 		ui: {
@@ -67,9 +67,9 @@ define([
 			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},
 
-		toggleCart: function(e) {
+		openCart: function(e) {
 			e.preventDefault();
-			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
+			App.rootView.openOffCanvas();
 		},
 
 		updateNumProducts: function() {

@@ -45,7 +45,6 @@ define([
 			// load in last used address
 			this.ui.streetAddress.val(localStorage.getItem('address'));
 			this.ui.zip.val(localStorage.getItem('zip'));
-
 		},
 
 		addressSubmitted: function(e) {
