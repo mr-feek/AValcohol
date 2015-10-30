@@ -33,6 +33,7 @@ define([
 
 		initialize: function (options) {
 			this.router = app.router;
+			this.user = app.user;
 		},
 
 		onShow: function () {
@@ -52,8 +53,15 @@ define([
 			var view = this;
 
 			if(view.validateAddress()) {
-				localStorage.setItem('address', view.ui.streetAddress.val());
-				localStorage.setItem('zip', view.ui.zip.val());
+				var address = view.ui.streetAddress.val();
+				var zip = view.ui.zip.val()
+
+				localStorage.setItem('address', address);
+				localStorage.setItem('zip', zip);
+
+				//this.user.set('address', address);
+				//this.user.set('zip', zip);
+
 				view.showUserHome();
 			} else {
 				console.log('invalid');

@@ -45,6 +45,7 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'collections/Cart',
+	'models/User',
 	'foundation',
 	'foundationOffCanvas'
 ], function (
@@ -52,7 +53,8 @@ require([
 	RootView,
 	Controller,
 	Router,
-	Cart
+	Cart,
+	User
 ) {
 	$(document).foundation();
 
@@ -65,6 +67,7 @@ require([
 
 		app.router = new Router({ controller: controller });
 		app.cart = new Cart();
+		app.user = new User();
 		app.rootView.render();
 	});
 
