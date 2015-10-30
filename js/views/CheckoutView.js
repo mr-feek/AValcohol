@@ -1,11 +1,13 @@
 define([
 	'marionette',
+	'App',
 	'tpl!templates/checkout.html'
 ], function (
 	Mn,
+	App,
 	tpl
 ) {
-	var CheckoutView = Mn.ItemView.extend({
+	var CheckoutView = Mn.LayoutView.extend({
 		template: tpl,
 		tagName: 'div',
 		className: '',
@@ -14,7 +16,7 @@ define([
 			var view = this;
 
 			return {
-
+				cart: App.cart
 			}
 		},
 
