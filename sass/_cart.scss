@@ -1,0 +1,13 @@
+.cart-sidebar {
+	.top {
+		border-bottom: dashed rem-calc(3) $primary-color;
+	}
+
+	.cart-product {
+		border-bottom: solid rem-calc(1) $primary-color;
+
+		p {
+			line-height: 1;
+		}
+	}
+}

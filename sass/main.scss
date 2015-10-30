@@ -1,0 +1,30 @@
+@import 'variables';
+// for use in _settings.scss
+// FOUNDATION
+@import '_settings.scss';
+@import '../vendor/foundation/scss/foundation';
+@import '../vendor/foundation-icon-fonts/foundation-icons';
+//
+@import 'utils';
+@import 'header';
+@import 'home';
+@import 'footer';
+@import 'user-home';
+@import 'cart';
+
+#main-wrapper {
+	min-height: 100%;
+
+	#main-wrapper {
+		margin-bottom: -1 * $footerHeight;
+	}
+	#main-wrapper:after {
+		content: "";
+		display: block;
+		height: $footerHeight;
+	}
+}
+
+p {
+	color: $dark-text-color;
+}
