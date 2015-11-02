@@ -1,11 +1,13 @@
 define([
 	'marionette',
 	'App',
+	'models/UserAddress',
 	'tpl!templates/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (
 	Mn,
 	app,
+	UserAddress,
 	tpl
 ) {
 	var MVPHomeView = Mn.ItemView.extend({
@@ -20,7 +22,6 @@ define([
 
 		ui: {
 			'streetAddress' : '.street-address',
-			'zip' : '.zipcode',
 			'submitAddress' : '.submit-address',
 			'skipEntry' : '.skip-entry',
 			'sendEmail': '.send-email',
@@ -41,31 +42,80 @@ define([
 			var options = {
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
-			var autocomplete = new google.maps.places.Autocomplete(input, options);
+			this.autocomplete = new google.maps.places.Autocomplete(input, options);
 
 			// load in last used address
-			this.ui.streetAddress.val(localStorage.getItem('address'));
-			this.ui.zip.val(localStorage.getItem('zip'));
+			this.place_id = localStorage.getItem('place_id');
+			this.street = localStorage.getItem('street');
+			this.city = localStorage.getItem('city');
+			this.state = localStorage.getItem('state');
+			this.zip = localStorage.getItem('zip');
+			//this.unit = localStorage.getItem('unit');
+
+			this.ui.streetAddress.val(this.street + ', ' + this.city + ', ' + this.state + ', ' + this.zip);
 		},
 
 		addressSubmitted: function(e) {
 			e.preventDefault();
-			var view = this;
 
-			if(view.validateAddress()) {
-				var address = view.ui.streetAddress.val();
-				var zip = view.ui.zip.val()
-
-				localStorage.setItem('address', address);
-				localStorage.setItem('zip', zip);
-
-				//this.user.set('address', address);
-				//this.user.set('zip', zip);
-
-				view.showUserHome();
+			if(this.validateAddress()) {
+				this.updateUserAddress();
+				this.showUserHome();
 			} else {
 				console.log('invalid');
 			}
+		},
+
+		updateUserAddress: function() {
+			var address = new UserAddress();
+
+			if (this.place_id) {
+				// lets assume the rest was cached locally too...
+				var place_id = this.place_id
+				var street = this.street;
+				var city = this.city;
+				var state = this.state;
+				var zip = this.zip;
+				//var unit = this.unit;
+			} else {
+				var place = this.autocomplete.getPlace();
+				var place_id = place.place_id;
+				var street = place.name;
+				var city = place.vicinity;
+				var state;
+				var zip;
+
+				// bruteforce to find which element of the array is tha state / zip
+				// this could be more efficient
+				_.each(place.address_components, function(component) {
+					_.each(component.types, function(type) {
+						if (type == 'administrative_area_level_1') {
+							state = component.short_name;
+						}
+						else if(type == 'postal_code') {
+							zip = component.short_name;
+						}
+					});
+				});
+
+			}
+
+			localStorage.setItem('place_id', place_id);
+			localStorage.setItem('street', street);
+			localStorage.setItem('city', city);
+			localStorage.setItem('state', state);
+			localStorage.setItem('zip', zip);
+			//localStorage.setItem('unit', unit);
+
+			address.set('street', street);
+			address.set('city', city);
+			address.set('state', state);
+			address.set('zip', zip);
+			address.set('primary', 1); // make this primary address
+			//address.set('unit', unit);
+
+			// this may cause a problem down the line
+			app.user.set('addresses',  address);
 		},
 
 		/**
@@ -80,9 +130,7 @@ define([
 		 * @returns {boolean}
 		 */
 		validateAddress: function() {
-			var view = this;
-
-			if (!view.ui.streetAddress.val() || !view.ui.zip.val()) {
+			if (!this.ui.streetAddress.val()) {
 				return false;
 			}
 
