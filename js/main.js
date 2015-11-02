@@ -92,8 +92,8 @@ require([
 		})
 		.on('close.fndtn.offcanvas', '[data-offcanvas]', function() {
 			$('#all-wrapper').css({
-				'overflow' : 'auto',
-				'height' : '100%'
+				'overflow' : 'initial',
+				'height' : 'initial'
 			});
 		})
 });
