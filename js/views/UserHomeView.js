@@ -17,6 +17,7 @@ define([
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
 		template: tpl,
+		className: 'small-12 columns',
 
 		events: {
 			'click @ui.cart' : 'openCart'
