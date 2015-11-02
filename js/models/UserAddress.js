@@ -1,9 +1,10 @@
 define([
-	'backbone'
+	'backbone',
+	'backboneRelational'
 ], function (
 	Backbone
 ) {
-	var UserAddress = Backbone.Model.extend({
+	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: 'php/api/user/address'
 	});
 

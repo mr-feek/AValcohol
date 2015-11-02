@@ -4,6 +4,7 @@ require.config({
 		'underscore': 			'../vendor/underscore/underscore',
 		'backbone': 			'../vendor/backbone/backbone',
 		'backbone.wreqr': 		'../vendor/backbone.wreqr/lib/backbone.wreqr.min',
+		'backboneRelational':	'../vendor/backbone-relational/backbone-relational',
 		'marionette': 			'../vendor/marionette/lib/backbone.marionette',
 		'foundation' : 			'../vendor/foundation/js/foundation',
 		'foundationEqualizer' : '../vendor/foundation/js/foundation/foundation.equalizer',
@@ -20,6 +21,10 @@ require.config({
 		backbone: {
 			exports: 'Backbone',
 			deps: ['jquery', 'underscore']
+		},
+		backboneRelational: {
+			exports: 'BackboneRelational',
+			deps: ['backbone'],
 		},
 		marionette: {
 			deps: ['backbone'],
