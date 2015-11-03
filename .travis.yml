@@ -8,3 +8,6 @@ php:
 install:
   - bower install
   - composer install
+before_script:
+  - npm install -g bower
+  - bower install
