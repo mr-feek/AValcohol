@@ -1,0 +1,10 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+    <testsuites>
+        <testsuite name="Slim PHP Unit testing">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

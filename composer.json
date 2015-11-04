@@ -3,11 +3,12 @@
         "slim/slim": "^2.6",
         "j4mie/paris": "^1.5",
         "j4mie/idiorm": "^1.5",
-        "brad-denver/paris-seeder": "^0.0.1"
+        "brad-denver/paris-seeder": "^0.0.1",
+        "phpunit/phpunit": "4.*"
     },
 	"autoload": {
 	  	"classmap": [
-			"php"
+			"php", "tests"
 	  	]
 	}
 }
