@@ -6,3 +6,4 @@ css/
 config.codekit
 sass/.sass-cache/
 .idea/
+.env
