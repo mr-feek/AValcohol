@@ -14,3 +14,8 @@
 $app->get('/', function () use ($app) {
     return $app->welcome();
 });
+
+$app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('all', 'ProductController@getAll');
+	$app->get('featured', 'ProductController@getAllFeatured');
+});

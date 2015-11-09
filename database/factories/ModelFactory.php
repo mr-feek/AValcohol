@@ -11,11 +11,12 @@
 |
 */
 
-$factory->define(App\User::class, function ($faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => str_random(10),
-        'remember_token' => str_random(10),
-    ];
+$factory->define(App\Http\Models\Product::class, function(Faker\Generator $faker) {
+	return [
+		'upc' => $faker->randomNumber(9),
+		'name' => $faker->name(),
+		'price' => $faker->randomNumber(2),
+		'featured' => $faker->boolean(10), // will be true 10 percent of the time
+		'image_url' => 'genesee-cream-ale.jpg'
+	];
 });
