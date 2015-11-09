@@ -6,7 +6,7 @@ define([
 	Product
 ) {
 	var Products = Backbone.Collection.extend({
-		url: '/php/api/product/',
+		url: '/api/product/',
 		model: Product,
 
 		/**

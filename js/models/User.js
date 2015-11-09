@@ -3,7 +3,7 @@ define([
 	'backboneRelational'
 ], function (Backbone) {
 	var User = Backbone.RelationalModel.extend({
-		urlRoot: 'php/api/user/',
+		urlRoot: '/api/user/',
 
 		relations: [{
 			type: Backbone.HasMany,

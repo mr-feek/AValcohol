@@ -5,7 +5,7 @@ define([
 	Backbone
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
-		urlRoot: 'php/api/user/address'
+		urlRoot: '/api/user/address'
 	});
 
 	return UserAddress;

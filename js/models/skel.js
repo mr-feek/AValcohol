@@ -4,7 +4,7 @@ define([
 	Backbone
 ) {
 	var skel = Backbone.Model.extend({
-		urlRoot: 'php/api/'
+		urlRoot: '/api/'
 	});
 
 	return skel;
