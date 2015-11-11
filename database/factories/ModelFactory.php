@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Http\Models\Product::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Product::class, function(Faker\Generator $faker) {
 	return [
 		'upc' => $faker->randomNumber(9),
 		'name' => $faker->name(),
