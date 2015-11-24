@@ -12,7 +12,7 @@ define([
 	var ProductView = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'li',
-		className: '',
+		className: 'product-wrapper',
 
 		attributes: {
 			'data-equalizer-watch' : ''

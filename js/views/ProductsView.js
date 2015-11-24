@@ -24,6 +24,11 @@ define([
 
 		events: {},
 
+		hi: function() {
+			console.log('hi');
+			debugger;
+		},
+
 		ui: {},
 
 		/**
@@ -51,7 +56,21 @@ define([
 					}
 				}
 			});
+		},
+
+		reflowEqualizer: function() {
 			$(document).foundation('equalizer', 'reflow');
+		},
+
+		/**
+		 * override onAddChild so that once all of the products are rendered
+		 * we can reflow the equalizer
+		 */
+		onAddChild : function() {
+			// Check all the models in the collection have their child views rendered
+			if (this.children.length == this.collection.length ) {
+				this.reflowEqualizer();
+			}
 		}
 	});
 
