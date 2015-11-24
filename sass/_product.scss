@@ -1,3 +1,29 @@
-.product-wrapper {
-	border: 1px solid black;
+.product {
+	border: 1px solid $silver;
+	position: relative; // so that the button can be absolutely positioned to the bottom of the container
+
+	.container {
+		padding: $productPadding;
+
+		img {
+			margin-bottom: 2rem;
+		}
+
+		.details {
+			margin-bottom: 2rem;
+
+			.name, .price {
+				line-height: 1rem;
+				margin-bottom: 0.5rem;
+			}
+		}
+
+		.button {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: $productPadding;
+		}
+	}
 }
