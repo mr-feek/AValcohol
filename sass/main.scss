@@ -6,12 +6,12 @@
 @import '../vendor/foundation-icon-fonts/foundation-icons';
 //
 @import 'utils';
-@import 'header';
-@import 'home';
-@import 'footer';
-@import 'user-home';
-@import 'cart';
-@import 'product';
+@import 'components/header';
+@import 'pages/home';
+@import 'components/footer';
+@import 'pages/user-home';
+@import 'components/cart';
+@import 'components/product';
 
 #main-wrapper {
 	min-height: 100%;
