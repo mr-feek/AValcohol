@@ -27,7 +27,13 @@ define([
 		},
 
 		showUserHome: function(endpoint) {
-			this.rootView.getRegion('main').show(new UserHomeView({ endpoint: endpoint }));
+			var region = this.rootView.getRegion('main');
+			// if we already have a userhomeview rendered, just swap out the products view
+			if (!region.currentView || !(region.currentView instanceof UserHomeView)) {
+				region.show(new UserHomeView({ endpoint: endpoint }));
+			} else {
+				region.currentView.showDifferentProductView(endpoint);
+			}
 		},
 
 		showCheckout: function() {

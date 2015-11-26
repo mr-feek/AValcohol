@@ -68,6 +68,17 @@ define([
 			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},
 
+		/**
+		 * called from controller as a fast way to swap product views
+		 * @param endpoint
+		 */
+		showDifferentProductView: function(endpoint) {
+			this.endpoint = endpoint;
+			this.getRegion('sidebar').currentView.endpoint = endpoint;
+			this.getRegion('products').show(new ProductsView({ endpoint: endpoint }));
+			this.getRegion('sidebar').currentView.updateActiveLink();
+		},
+
 		openCart: function(e) {
 			e.preventDefault();
 			App.rootView.openOffCanvas();
