@@ -41,11 +41,11 @@ define([
 		 */
 		updateActiveLink: function() {
 			var view = this;
-			this.$el.find('a').each(function(i, element) {
+			this.ui.link.each(function(i, element) {
 				$link = $(element);
 				var text = $link.text().toLowerCase();
 				if (text === view.endpoint) {
-					$link.parent().addClass('active'); // add active link to parent li
+					$link.parent().addClass('active');
 				} else {
 					$link.parent().removeClass('active');
 				}
