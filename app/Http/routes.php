@@ -19,3 +19,7 @@ $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], func
 	$app->get('all', 'ProductController@getAll');
 	$app->get('featured', 'ProductController@getAllFeatured');
 });
+
+$app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('validate', 'AddressController@validateAddress');
+});

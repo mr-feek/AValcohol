@@ -57,49 +57,53 @@ define([
 
 		addressSubmitted: function(e) {
 			e.preventDefault();
-
-			if(this.validateAddress()) {
+			// ensure address was entered
+			if (this.validateAddress()) {
 				this.updateUserAddress();
-				this.showUserHome();
+				// check if they are in a location we can deliver to
+				if (this.checkAddressLocation()) {
+					this.showUserHome();
+				}
+				else {
+					console.log('bad location');
+				}
 			} else {
 				console.log('invalid');
 			}
 		},
 
+		/**
+		 * Parses the autocomplete info and stores it in a UserAddressModel as well as persists
+		 * in local storage for the next time the user visits. Will need to be modified soon!
+		 *
+		 * Will *not* support a user having multiple addresses
+		 *
+		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used
+		 */
 		updateUserAddress: function() {
 			var address = new UserAddress();
 
-			if (this.place_id) {
-				// lets assume the rest was cached locally too...
-				var place_id = this.place_id
-				var street = this.street;
-				var city = this.city;
-				var state = this.state;
-				var zip = this.zip;
-				//var unit = this.unit;
-			} else {
-				var place = this.autocomplete.getPlace();
-				var place_id = place.place_id;
-				var street = place.name;
-				var city = place.vicinity;
-				var state;
-				var zip;
+			var place = this.autocomplete.getPlace() || localStorage.getItem('place');
+			var place_id = place.place_id;
+			var street = place.name;
+			var city = place.vicinity;
+			var state;
+			var zip;
 
-				// bruteforce to find which element of the array is tha state / zip
-				// this could be more efficient
-				_.each(place.address_components, function(component) {
-					_.each(component.types, function(type) {
-						if (type == 'administrative_area_level_1') {
-							state = component.short_name;
-						}
-						else if(type == 'postal_code') {
-							zip = component.short_name;
-						}
-					});
+			// bruteforce to find which element of the array is tha state / zip
+			// this could be more efficient
+			_.each(place.address_components, function(component) {
+				_.each(component.types, function(type) {
+					if (type == 'administrative_area_level_1') {
+						state = component.short_name;
+					}
+					else if(type == 'postal_code') {
+						zip = component.short_name;
+					}
 				});
+			});
 
-			}
-
+			localStorage.setItem('place', place);
 			localStorage.setItem('place_id', place_id);
 			localStorage.setItem('street', street);
 			localStorage.setItem('city', city);
@@ -137,6 +141,28 @@ define([
 			return true;
 		},
 
+		/**
+		 * check if we can deliver to this person
+		 */
+		checkAddressLocation: function() {
+			$.ajax({
+				url: '/api/address/validate',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					address: this.user.get('addresses').toJSON()
+				}
+			}).done(function (result) {
+				debugger;
+				if (result.canDeliver) {
+					console.log('can deliver');
+				} else {
+					console.log('cant deliver');
+				}
+			}).fail(function (result) {
+			});
+		},
+
 		sendEmail: function (e) {
 			e.preventDefault();
 			var view = this;
@@ -147,7 +173,7 @@ define([
 			if (this.validateEmail()) {
 				console.log('send');
 				$.ajax({
-					url: 'php/api/email/send',
+					url: '/api/email/send',
 					type: 'POST',
 					dataType: 'json',
 					data: {
