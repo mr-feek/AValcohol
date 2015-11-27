@@ -14,8 +14,6 @@ define([
 		template: tpl,
 
 		events: {
-			'click @ui.sendEmail' : 'sendEmail',
-			'click @ui.closeAlert' : 'closeAlert',
 			'click @ui.submitAddress' : 'addressSubmitted',
 			'click @ui.skipEntry' : 'showUserHome'
 		},
@@ -24,12 +22,8 @@ define([
 			'streetAddress' : '.street-address',
 			'submitAddress' : '.submit-address',
 			'skipEntry' : '.skip-entry',
-			'sendEmail': '.send-email',
-			'successAlert': '.success', // success message
-			'errorAlert': '.error', // error message
-			'closeAlert': '.close', // close button in success message
-			'emailAddress': '.email-address',
-			'message': '.email-message'
+			'errorAlert' : '.alert-box',
+			'errorMessage' : '.alert-box .message'
 		},
 
 		initialize: function (options) {
@@ -63,8 +57,8 @@ define([
 				// check if they are in a location we can deliver to
 				this.checkAddressLocation();
 			} else {
-				// to do: show alert
-				console.log('invalid');
+				// they didn't enter anything into the box
+				this.showError('Please enter a valid address.');
 			}
 		},
 
@@ -163,71 +157,38 @@ define([
 				if (result.canDeliver) {
 					view.showUserHome();
 				} else {
-					// to do: show alert
-					console.log('cant deliver');
+					view.showError('Sorry, we are currently only delivering to State College, PA 16801.');
 				}
 			}).fail(function (result) {
-				// to do: show alert
+				view.showError('Sorry, something went wrong on our end. Our support team has been notified of the issue.');
 			});
 		},
 
-		sendEmail: function (e) {
-			e.preventDefault();
+		/**
+		 * Displays an error alert banner at the top of the page with the specified message.
+		 * Does not support multiple alerts at one time currently.
+		 * @param message
+		 */
+		showError: function(message) {
 			var view = this;
 
-			var fromAddress = view.ui.emailAddress.val();
-			var message = view.ui.message.val();
+			this.ui.errorAlert.fadeTo(100, 100);
+			this.ui.errorMessage.text(message);
 
-			if (this.validateEmail()) {
-				console.log('send');
-				$.ajax({
-					url: '/api/email/send',
-					type: 'POST',
-					dataType: 'json',
-					data: {
-						from: fromAddress,
-						message: message
-					}
-				}).done(function (result) {
-					view.ui.address.val('');
-					view.ui.message.val('');
-					view.ui.successAlert.fadeIn();
-				}).fail(function (result) {
-					view.ui.errorAlert.fadeIn();
-				});
-			}
+			// fade out the error after 7 seconds
+			setTimeout(function () {
+				view.hideError();
+			}, 7000);
 		},
 
-		validateEmail: function () {
-			this.clearErrors();
-
-			var addressRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"); // good enough
-			var address = this.ui.emailAddress.val();
-			var message = this.ui.message.val();
-
-			if (addressRegex.test(address)) {
-				if (message && message.length > 1) {
-					return true;
-				} else {
-					// add error message
-					$('<small class="error">Please enter a message</small>').insertAfter(this.ui.message);
-				}
-			} else {
-				// add error message
-				$('<small class="error">Please enter a valid email</small>').insertAfter(this.ui.address);
-			}
-
-			return false;
-		},
-
-		// remove previous errors, if any
-		clearErrors: function () {
-			$('.error').remove();
-		},
-
-		closeAlert: function (evt) {
-			evt.preventDefault();
-			this.ui.successAlert.fadeOut();
+		/**
+		 * Clears the error message and removes it from the screen
+		 */
+		hideError: function() {
+			var view = this;
+			this.ui.errorAlert.fadeTo(100, 0, function() {
+				view.ui.errorMessage.text('');
+			});
 		}
 	});
 

@@ -1,47 +1,6 @@
-.skip-entry {
-	font-size: 1rem;
-}
-
-.slick-slider {
-	margin-bottom: 0;
-}
-
-.slide {
-	position: relative;
-	height: 80%;
-
-	.roww {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		color: white;
-		text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.5); // to do: cross platform and isshh
-
-		h1 {
-			color: white;
-			font-size: 62px;
-			letter-spacing: -4px;
-
-			span {
-				font-size: 74px;
-				text-transform: uppercase;
-				color: $red;
-				font-weight: 900;
-			}
-		}
-
-		p {
-			border-radius: 20px;
-			font-size: 14px;
-			color: white;
-		}
-	}
-
-	img {
-		height: 100%;
-		width: 100%;
-	}
+.alert-box {
+	opacity: 0;
+	text-align: center;
 }
 
 .sections {
