@@ -22,8 +22,7 @@ define([
 			'streetAddress' : '.street-address',
 			'submitAddress' : '.submit-address',
 			'skipEntry' : '.skip-entry',
-			'errorAlert' : '.alert-box',
-			'errorMessage' : '.alert-box .message'
+			'alertArea' : '.alert-area'
 		},
 
 		initialize: function (options) {
@@ -172,8 +171,10 @@ define([
 		showError: function(message) {
 			var view = this;
 
-			this.ui.errorAlert.fadeTo(100, 100);
-			this.ui.errorMessage.text(message);
+			this.ui.alertArea.html('<div data-alert class="alert-box alert round text-center"> \
+				<div class="message">' + message + '</div> \
+				<a href="#" class="close">&times;</a> \
+			</div>');
 
 			// fade out the error after 7 seconds
 			setTimeout(function () {
@@ -185,10 +186,7 @@ define([
 		 * Clears the error message and removes it from the screen
 		 */
 		hideError: function() {
-			var view = this;
-			this.ui.errorAlert.fadeTo(100, 0, function() {
-				view.ui.errorMessage.text('');
-			});
+			this.ui.alertArea.find('.alert-box').fadeOut();
 		}
 	});
 

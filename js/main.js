@@ -9,6 +9,7 @@ require.config({
 		'foundation' : 			'../vendor/foundation/js/foundation',
 		'foundationEqualizer' : '../vendor/foundation/js/foundation/foundation.equalizer',
 		'foundationOffCanvas': 	'../vendor/foundation/js/foundation/foundation.offcanvas',
+		'modernizr' : 			'../vendor/modernizr/modernizr',
 		'slick': 				'../vendor/slick-carousel/slick/slick',
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
@@ -31,7 +32,7 @@ require.config({
 			exports: 'Marionette'
 		},
 		foundation: {
-			deps: ['jquery'],
+			deps: ['jquery', 'modernizr'],
 			exports: 'Foundation'
 		},
 		foundationEqualizer: {
@@ -39,7 +40,7 @@ require.config({
 		},
 		foundationOffCanvas: {
 			deps: ['foundation']
-		}
+		},
 	},
 	deps: ['jquery', 'underscore', 'slick']
 });

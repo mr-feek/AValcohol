@@ -19,10 +19,10 @@ define([
 
 		childEvents: {
 			// every time a view is shown inside a region we need to make sure foundation listeners are applied
-			// currently only reflowing for offcanvas (cart)
 			show: function() {
 				$(document).foundation();
 				$(document).foundation('offcanvas', 'reflow');
+				$(document).foundation('alert', 'reflow');
 			}
 		},
 
