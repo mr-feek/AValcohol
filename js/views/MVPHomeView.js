@@ -61,13 +61,9 @@ define([
 			if (this.validateAddress()) {
 				this.updateUserAddress();
 				// check if they are in a location we can deliver to
-				if (this.checkAddressLocation()) {
-					this.showUserHome();
-				}
-				else {
-					console.log('bad location');
-				}
+				this.checkAddressLocation();
 			} else {
+				// to do: show alert
 				console.log('invalid');
 			}
 		},
@@ -78,30 +74,39 @@ define([
 		 *
 		 * Will *not* support a user having multiple addresses
 		 *
-		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used
+		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used. Will need to provide support for that
 		 */
 		updateUserAddress: function() {
 			var address = new UserAddress();
 
-			var place = this.autocomplete.getPlace() || localStorage.getItem('place');
-			var place_id = place.place_id;
-			var street = place.name;
-			var city = place.vicinity;
-			var state;
-			var zip;
+			var place = this.autocomplete.getPlace();
 
-			// bruteforce to find which element of the array is tha state / zip
-			// this could be more efficient
-			_.each(place.address_components, function(component) {
-				_.each(component.types, function(type) {
-					if (type == 'administrative_area_level_1') {
-						state = component.short_name;
-					}
-					else if(type == 'postal_code') {
-						zip = component.short_name;
-					}
+			if (!place) {
+				// this means that the place was cached via local storage (no keystrokes in the textbox)
+				var street = this.street;
+				var city = this.city;
+				var state = this.state;
+				var zip = this.zip;
+			} else {
+				var place_id = place.place_id;
+				var street = place.name;
+				var city = place.vicinity;
+				var state;
+				var zip;
+
+				// bruteforce to find which element of the array is tha state / zip
+				// this could be more efficient
+				_.each(place.address_components, function(component) {
+					_.each(component.types, function(type) {
+						if (type == 'administrative_area_level_1') {
+							state = component.short_name;
+						}
+						else if(type == 'postal_code') {
+							zip = component.short_name;
+						}
+					});
 				});
-			});
+			}
 
 			localStorage.setItem('place', place);
 			localStorage.setItem('place_id', place_id);
@@ -145,6 +150,8 @@ define([
 		 * check if we can deliver to this person
 		 */
 		checkAddressLocation: function() {
+			var view = this;
+
 			$.ajax({
 				url: '/api/address/validate',
 				type: 'POST',
@@ -153,13 +160,14 @@ define([
 					address: this.user.get('addresses').toJSON()
 				}
 			}).done(function (result) {
-				debugger;
 				if (result.canDeliver) {
-					console.log('can deliver');
+					view.showUserHome();
 				} else {
+					// to do: show alert
 					console.log('cant deliver');
 				}
 			}).fail(function (result) {
+				// to do: show alert
 			});
 		},
 
