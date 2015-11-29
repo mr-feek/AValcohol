@@ -26,11 +26,15 @@ define([
 		},
 
 		events: {
-			'click @ui.remove' : 'removeFromCart'
+			'click @ui.remove' : 'removeFromCart',
+			'click @ui.decreaseQuantity' : 'decreaseQuantity',
+			'click @ui.increaseQuantity' : 'increaseQuantity'
 		},
 
 		ui: {
-			'remove' : '.remove'
+			'remove' : '.remove',
+			'decreaseQuantity' : '.subtract',
+			'increaseQuantity' : '.add'
 		},
 
 		initialize: function (options) {
@@ -41,6 +45,7 @@ define([
 		 * from cart
 		 * @param e
 		 */
+		/*
 		removeFromCart: function(e) {
 			e.preventDefault();
 			var view = this;
@@ -53,6 +58,35 @@ define([
 					App.cart.remove(view.model);
 				});
 			}
+		}
+		*/
+
+		removeFromCart: function(e) {
+			// may have been called internally
+			if (e) {
+				e.preventDefault();
+			}
+
+			var view = this;
+
+			this.$el.fadeOut('fast', function() {
+				App.cart.remove(view.model);
+			});
+		},
+
+		decreaseQuantity: function() {
+			var quantity = this.model.get('quantity');
+			if (quantity > 1) {
+				this.model.set('quantity', quantity - 1);
+			} else {
+				// 0 quantity, remove from cart
+				this.removeFromCart();
+			}
+		},
+
+		increaseQuantity: function() {
+			var quantity = this.model.get('quantity');
+			this.model.set('quantity', quantity + 1);
 		}
 	});
 

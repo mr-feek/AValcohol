@@ -1,13 +1,16 @@
 <div class="cart-product row collapse">
-	<div class="small-6 columns">
+	<div class="small-4 columns">
 		<img src="<%= img_url %>" />
 	</div>
-	<div class="small-6 columns">
-		<p><strong><%= name %></strong></p>
-		<p>PPU $<%= price %></p>
-		<p>Quantity: <%= quantity %></p>
-		<p>Total: $<%= total() %></p>
-		<a class="remove">Remove From Cart</a>
-	</div>
 
+	<div class="small-8 columns">
+		<div class="details">
+			<a class="remove">&times;</a>
+			<p class="name"><strong><%= name %></strong> <span class="contains">(<%= contains %>-pack)</span></p>
+			<p>$<%= price %></p>
+			<p><a class="subtract">-</a> QTY <%= quantity %> <a class="add">+</a></p>
+		</div>
+	</div>
 </div>
+
+<div class="divider"></div>

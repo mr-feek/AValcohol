@@ -10,10 +10,39 @@
 	}
 
 	.cart-product {
-		border-bottom: solid rem-calc(1) $primary-color;
+		padding: 0.5rem;
 
-		p {
-			line-height: 1;
+		img {
+			padding: 1rem;
+			width: 80px;
 		}
+
+		.details {
+			padding: 0 1rem;
+
+			.name, .contains {
+				text-transform: uppercase;
+			}
+
+			.contains {
+				font-size: rem-calc(12px);
+			}
+
+			p {
+				margin-bottom: .1rem;
+			}
+		}
+
+		.remove {
+			position: absolute;
+			top: 0;
+			right: 0.5rem;
+		}
+	}
+
+	.divider {
+		margin: auto;
+		border-bottom: 1px solid $gainsboro;
+		width: 75%;
 	}
 }
