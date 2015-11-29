@@ -1,3 +1,4 @@
+// global styles
 .fullWidth {
 	width: 100%;
 	margin: auto;
@@ -10,4 +11,21 @@
 
 .section.fullWidth {
 	padding: 3rem;
+}
+
+// dark button
+.secondary-dark {
+	background-color: $secondary-dark-button-color;
+
+	&:hover {
+		background-color: scale_color($secondary-dark-button-color, $lightness: 10%);
+	}
+}
+
+.fi-arrow-right {
+	margin-left: 0.5rem;
+}
+
+.fi-arrow-left {
+	margin-right: 0.5rem;
 }

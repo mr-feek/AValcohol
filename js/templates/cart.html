@@ -1,9 +1,13 @@
-<div class="row text-center top">
-	<h3>Cart</h3>
+<div class="text-center actions">
+	<a href="#" class="button secondary-dark back-to-shopping">
+		<i class="fi-arrow-left"></i>
+		Continue Shopping</a>
+	<a href="#" class="button checkout">
+		Checkout
+		<i class="fi-arrow-right"></i>
+	</a>
 	<h5 class="num-products subheader"><%= number %> Items</h5>
-	<% if (number > 0 ) { %>
-		<a href="#" class="button checkout">Checkout</a>
-	<% } %>
+
 </div>
 
 <div class="products"></div>
