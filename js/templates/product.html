@@ -3,7 +3,10 @@
 	<img src="<%= img_url %>" />
 	<div class="details">
 		<p class="name"><%= name %></p>
-		<p class="price">$<%= price %></p>
+		<p class="price">
+			$<%= price %> 
+			<span class="contains">(<%= contains %>-pack <%= ounces %>oz <%= container %>s)</span>
+		</p>
 	</div>
 	<a class="button tiny floor">Add To Cart</a>
 </div>

@@ -12,9 +12,13 @@
 		.details {
 			margin-bottom: 2rem;
 
-			.name, .price {
-				line-height: 1rem;
-				margin-bottom: 0.5rem;
+			.name {
+				text-transform: uppercase;
+				font-weight: bolder;
+			}
+
+			.contains {
+				font-size: 12px;
 			}
 		}
 
