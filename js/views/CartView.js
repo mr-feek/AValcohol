@@ -37,11 +37,13 @@ define([
 
 		ui: {
 			numProducts : '.num-products',
-			checkout : '.checkout'
+			checkout : '.checkout',
+			continueShopping : '.back-to-shopping'
 		},
 
 		events: {
-			'click @ui.checkout' : 'showCheckout'
+			'click @ui.checkout' : 'showCheckout',
+			'click @ui.continueShopping' : 'hideCart'
 		},
 
 		collectionEvents: {
@@ -65,6 +67,14 @@ define([
 			e.preventDefault();
 			App.rootView.closeOffCanvas(true); // clean up this view
 			App.router.navigate('checkout', {trigger: true});
+		},
+
+		/**
+		 * close the cart view
+		 * @param e
+		 */
+		hideCart: function(e) {
+			App.rootView.closeOffCanvas(false); // don't clean up this view, just hide it
 		}
 	});
 

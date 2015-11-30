@@ -49,7 +49,7 @@ define([
 		},
 
 		/**
-		 *
+		 * closes the off canvas
 		 * @param bool cleanup, whether or not to empty the off canvas region
 		 */
 		closeOffCanvas: function(cleanup) {
