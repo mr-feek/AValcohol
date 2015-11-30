@@ -68,6 +68,7 @@ define([
 			}
 
 			var view = this;
+			this.model.set('inCart', false);
 
 			this.$el.fadeOut('fast', function() {
 				App.cart.remove(view.model);

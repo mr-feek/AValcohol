@@ -35,6 +35,10 @@ define([
 			this.endpoint = options.endpoint;
 			this.collection = new Products([], { endpoint: this.endpoint});
 			this.collection.fetch();
+
+			// when an item is added / removed from the cart, we want to show it differently on the page
+			// rendering logic handled in productview
+			this.listenTo(this.collection, 'change:inCart', this.render); // THIS CAN BE WAY MORE EFFICIENT
 		},
 
 		onShow: function() {

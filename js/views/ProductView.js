@@ -37,8 +37,20 @@ define([
 		},
 
 		addToCart: function() {
+			this.model.set('inCart', true);
 			App.cart.push(this.model);
 			App.rootView.openOffCanvas(); // show the cart
+		},
+
+		/**
+		 * add/remove in-cart clsss to show whether or not an item is currently in the cart
+		 */
+		onRender: function() {
+			if (this.model.get('inCart')) {
+				this.$el.addClass('in-cart');
+			} else {
+				this.$el.removeClass('in-cart');
+			}
 		}
 	});
 
