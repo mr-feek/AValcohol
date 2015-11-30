@@ -14,7 +14,7 @@ define([
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
 		tagName: 'ul',
-		className: 'row small-block-grid-1 medium-block-grid-3 large-block-grid-5',
+		className: 'row small-block-grid-1 medium-block-grid-3 large-block-grid-4',
 		emptyView: EmptyView,
 
 		attributes: {
@@ -23,11 +23,6 @@ define([
 		},
 
 		events: {},
-
-		hi: function() {
-			console.log('hi');
-			debugger;
-		},
 
 		ui: {},
 
