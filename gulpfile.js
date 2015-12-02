@@ -47,7 +47,8 @@ gulp.task('deploy', function() {
 
 				// upload EVERYTHING newer
 				globs = [
-					'*/**'
+					'*/**',
+					'!.env'
 				]
 
 				return gulp.src( globs, { base: '.', buffer: false, dot: true } )
