@@ -25,8 +25,8 @@ gulp.task('deploy', function() {
 		'resources/**',
 		'storage/**',
 		'vendor/**',
+		'*.htaccess',
 		'index.html',
-		'.htaccess'
 	];
 
 	/**
