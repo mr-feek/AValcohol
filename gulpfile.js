@@ -48,7 +48,7 @@ gulp.task('deploy', function() {
 				// upload EVERYTHING newer
 				globs = [
 					'*/**',
-					'!node_modules',
+					'!node_modules/**',
 					'!.env'
 				]
 
