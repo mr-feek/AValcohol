@@ -10,6 +10,8 @@ install:
 before_script:
   - npm install -g bower
   - bower install
+  - npm install;
+  - gem install sass;
   - cp .env.travis .env
   - mysql -e 'create database AValcohol;'
   - php artisan migrate:install --env=testing --no-interaction -vvv
