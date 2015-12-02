@@ -13,6 +13,7 @@ gulp.task('deploy', function() {
 		log: gutil.log
 	});
 
+	// globs to remove on remote server
 	var globs = [
 		'api/**',
 		'app/**',
@@ -24,38 +25,32 @@ gulp.task('deploy', function() {
 		'js/**',
 		'resources/**',
 		'storage/**',
-		'vendor/**',
-		'index.html',
-		'.htaccess'
 	];
 
 	/**
 	 * This will clean the out the remote server!
-	 * skips vendor and index.html and .htaccess
 	 */
 	var index;
-	for (index = 0; index < globs.length - 3; index++) {
+	var i = 0;
+
+	for (index = 0; index < globs.length; index++) {
 		var glob = globs[index];
 		glob = glob.slice(0, -3); // remove /**
 
-		var i = 3;
 		conn.rmdir('/public_html/dev/' + glob, function () {
 			i++;
 			if (i == globs.length) {
 				// by now, all the directories we want to remove have been removed. time to upload!
-				// done this way because of concurrency issues
 
-				// upload EVERYTHING newer
+				// upload EVERYTHING newer except stupid stuff
 				globs = [
 					'*/**',
 					'!node_modules/**',
 					'!.env',
+					'!.sass-cache/**',
 					'!vendor/symfony/finder/Tests/**' // causing problems..
 				]
 
-				// ok so travis installs all the vendor files, so they will be newer than the ones on the server
-				// and therefore uploaded. It's a waste, but I don't feel like figuring out a work around
-				// right now
 				return gulp.src( globs, { base: '.', buffer: false, dot: true } )
 					.pipe( conn.newer( '/public_html/dev' ) ) // only upload newer files
 					.pipe( conn.dest( '/public_html/dev' ) );
