@@ -48,9 +48,13 @@ gulp.task('deploy', function() {
 				// upload EVERYTHING newer
 				globs = [
 					'*/**',
+					'!node_modules',
 					'!.env'
 				]
 
+				// ok so travis installs all the vendor files, so they will be newer than the ones on the server
+				// and therefore uploaded. It's a waste, but I don't feel like figuring out a work around
+				// right now
 				return gulp.src( globs, { base: '.', buffer: false, dot: true } )
 					.pipe( conn.newer( '/public_html/dev' ) ) // only upload newer files
 					.pipe( conn.dest( '/public_html/dev' ) );
