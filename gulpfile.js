@@ -14,25 +14,31 @@ gulp.task('deploy', function() {
 	});
 
 	var globs = [
+		'api/**',
 		'app/**',
+		'bootstrap/**',
 		'css/**',
+		'database/**',
+		'fonts/**',
 		'img/**',
 		'js/**',
-		'php/**',
+		'resources/**',
+		'storage/**',
 		'vendor/**',
 		'index.html',
+		'.htaccess'
 	];
 
 	/**
 	 * This will clean the out the remote server!
-	 * skips vendor and index.html
+	 * skips vendor and index.html and .htaccess
 	 */
 	var index;
-	for (index = 0; index < globs.length - 2; index++) {
+	for (index = 0; index < globs.length - 3; index++) {
 		var glob = globs[index];
 		glob = glob.slice(0, -3); // remove /**
 
-		var i = 2;
+		var i = 3;
 		conn.rmdir('/public_html/dev/' + glob, function () {
 			i++;
 			if (i == globs.length) {
