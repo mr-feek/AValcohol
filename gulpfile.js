@@ -43,7 +43,7 @@ gulp.task('deploy', function() {
 			if (i == globs.length) {
 				// by now, all the directories we want to remove have been removed. time to upload!
 				// done this way because of concurrency issues
-				return gulp.src( globs, { base: '.', buffer: false } )
+				return gulp.src( globs, { base: '.', buffer: false, dot: true } )
 					.pipe( conn.newer( '/public_html/dev' ) ) // only upload newer files
 					.pipe( conn.dest( '/public_html/dev' ) );
 			}
