@@ -50,7 +50,7 @@ gulp.task('deploy', function() {
 					'*/**',
 					'!node_modules/**',
 					'!.env',
-					'!vendor/symfony/finder/Tests/' // causing problems..
+					'!vendor/symfony/finder/Tests/**' // causing problems..
 				]
 
 				// ok so travis installs all the vendor files, so they will be newer than the ones on the server
