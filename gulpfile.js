@@ -25,7 +25,6 @@ gulp.task('deploy', function() {
 		'resources/**',
 		'storage/**',
 		'vendor/**',
-		'*.htaccess',
 		'index.html',
 	];
 
@@ -34,11 +33,11 @@ gulp.task('deploy', function() {
 	 * skips vendor and index.html and .htaccess
 	 */
 	var index;
-	for (index = 0; index < globs.length - 3; index++) {
+	for (index = 0; index < globs.length - 2; index++) {
 		var glob = globs[index];
 		glob = glob.slice(0, -3); // remove /**
 
-		var i = 3;
+		var i = 2;
 		conn.rmdir('/public_html/dev/' + glob, function () {
 			i++;
 			if (i == globs.length) {
