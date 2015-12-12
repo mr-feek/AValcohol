@@ -20,3 +20,13 @@ $factory->define(App\Models\Product::class, function(Faker\Generator $faker) {
 		'image_url' => 'genesee-cream-ale.jpg'
 	];
 });
+
+$factory->define(App\Models\User::class, function(Faker\Generator $faker) {
+	return [
+		'email' => $faker->email(),
+		'password' => $faker->password(),
+		'first_name' => $faker->firstName(),
+		'last_name' => $faker->lastName(),
+		'phone_number' => $faker->phoneNumber(),
+	];
+});
