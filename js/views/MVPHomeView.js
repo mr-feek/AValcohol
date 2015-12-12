@@ -45,7 +45,11 @@ define([
 			this.zip = localStorage.getItem('zip');
 			//this.unit = localStorage.getItem('unit');
 
-			this.ui.streetAddress.val(this.street + ', ' + this.city + ', ' + this.state + ', ' + this.zip);
+			// if there was a saved address, populate it into the textfield
+			if (this.street && this.city && this.state && this.zip) {
+				this.ui.streetAddress.val(this.street + ', ' + this.city + ', ' + this.state + ', ' + this.zip);
+			}
+
 		},
 
 		addressSubmitted: function(e) {
