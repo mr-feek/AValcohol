@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Feek
- * Date: 11/26/15
- * Time: 5:22 PM
+ * Date: 12/13/15
+ * Time: 7:43 PM
  */
 
 namespace App\Models;
@@ -11,7 +11,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class UserAddress extends Model
 {
-
+	protected $table = "user_addresses";
 }

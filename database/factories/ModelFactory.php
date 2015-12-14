@@ -30,3 +30,12 @@ $factory->define(App\Models\User::class, function(Faker\Generator $faker) {
 		'phone_number' => $faker->phoneNumber(),
 	];
 });
+
+$factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker) {
+	return [
+		'street' => $faker->streetName(),
+		'city' => $faker->city(),
+		'state' => $faker->citySuffix(),
+		'zipcode' => $faker->randomNumber(5)
+	];
+});

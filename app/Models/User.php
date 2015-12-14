@@ -8,9 +8,13 @@
 
 namespace App\Models;
 
+use App\Models\UserAddress;
+
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-
+	public function addresses() {
+		return $this->hasMany('App\Models\UserAddress');
+	}
 }
