@@ -6,8 +6,6 @@
  * Time: 11:49 PM
  */
 
-<?php
-
 return [
 
 	/*
