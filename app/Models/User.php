@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
+
+	protected $hidden = ['password'];
+
 	public function addresses() {
 		return $this->hasMany('App\Models\UserAddress');
 	}

@@ -3,4 +3,32 @@
 	<script src="//fb.me/react-0.13.3.js"></script>
 	<script src="//fb.me/JSXTransformer-0.13.3.js"></script>
 	<script src="//js.pusher.com/3.0/pusher.min.js"></script>
+	<script src="/vendor/jquery/dist/jquery.min.js"></script>
+
+	<script type="text/jsx" src="js/MainView.js"></script>
+	<script type="text/jsx" src="js/Page.js"></script>
+	<script type="text/jsx" src="js/OrderList.js"></script>
 </head>
+<body>
+	<h1>Orders</h1>
+	<p>This page will show all orders that are either pending or out for delivery.<br>
+		It will update in real time. <br>
+		Pending means order has been placed but not yet picked up by the driver</p>
+	<div id="mount-point"></div>
+
+	<script type="text/jsx">
+		// Enable pusher logging - don't include this in production
+		/*
+		Pusher.log = function(message) {
+			if (window.console && window.console.log) {
+				window.console.log(message);
+			}
+		};
+		*/
+
+		React.render(
+				<Page />,
+				document.getElementById('mount-point')
+		);
+	</script>
+</body>

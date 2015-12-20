@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderWasSubmitted;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserAddress;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
@@ -41,6 +43,12 @@ class OrderController extends Controller
 			$order->user_address_id = $addressId;
 
 			$success = $order->save();
+
+			if ($success) {
+				// notify pusher etc
+				Event::fire(new OrderWasSubmitted($order));
+			}
+
 		}
 
 		return response()->json([
@@ -48,4 +56,50 @@ class OrderController extends Controller
 			'order' => $order
 		]);
 	}
+
+	public function getAllPendingAndOutForDelivery() {
+		/*
+		$orders = DB::table('orders')
+			->where('status', 'pending')
+			->orWhere('status', 'out-for-delivery')
+			->join('products', 'orders.product_id', '=', 'products.id')
+			->join('users', 'orders.user_id', '=', 'users.id')
+			->join('user_addresses', 'orders.user_address_id', '=', 'user_addresses.id')
+			->get();
+*/
+		$orders = Order::
+			where('status', 'pending')
+			->orWhere('status', 'out-for-delivery')
+			->with(['product', 'user', 'address'])
+			->get();
+
+		return response()->json([
+			'orders' => $orders
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @param int id
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 *
+	 * fetches info regarding order, user, and address to be delivered to
+	 */
+	public function getFullOrderInfo(Request $request, $id) {
+		/*
+		$order = Order::
+			where('orders.id', '=', $id)
+			->join('products', 'orders.product_id', '=', 'products.id')
+			->join('users', 'orders.user_id', '=', 'users.id')
+			->join('user_addresses', 'orders.user_address_id', '=', 'user_addresses.id')
+			->get();
+*/
+
+		$order = Order::where('id', $id)->with(['user', 'product', 'address'])->get();
+
+		return response()->json([
+			'order' => $order
+		]);
+	}
+
 }
