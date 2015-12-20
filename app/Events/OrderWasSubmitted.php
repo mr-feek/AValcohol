@@ -32,13 +32,17 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 		return ['orders'];
 	}
 
-	public function broadcastsWith()
+	/**
+	 * The data to send to the consumer
+	 * @return array
+	 */
+	public function broadcastWith()
 	{
+		// fetch the relations
+		$this->order->load('user', 'product', 'address');
+
 		return [
-			'order' => $this->order,
-			'user' => $this->order->user(),
-			'product' => $this->order->product(),
-			'address' => $this->order->address()
+			'order' => $this->order
 		];
 	}
 }
