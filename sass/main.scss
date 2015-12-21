@@ -31,3 +31,21 @@
 p {
 	color: $dark-text-color;
 }
+
+// code container stuff in styleguide
+
+pre code {
+	display: block;
+	padding: 0.5em;
+	background: #FAFAFA;
+	color: #333;
+}
+
+
+.code-container {
+	margin: 10px 0px;
+	padding: 5px;
+	overflow-x: auto;
+	line-height: 1.3rem;
+	font-weight: normal;
+}
