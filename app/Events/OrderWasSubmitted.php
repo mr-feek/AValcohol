@@ -8,7 +8,6 @@
 
 namespace App\Events;
 
-
 use App\Models\Order;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
@@ -18,10 +17,12 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 	use SerializesModels;
 
 	public $order;
+	protected $env;
 
 	public function __construct(Order $order)
 	{
 		$this->order = $order;
+		$this->env =  $_ENV['APP_ENV']; // should probably figure out how to load this directly from $app->environment()....
 	}
 
 	/**
@@ -29,6 +30,11 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 	 */
 	public function broadcastOn()
 	{
+		// change channel name if not production so we don't bloat actual orders
+		if ($this->env != 'production') {
+			return ['dev.orders'];
+		}
+
 		return ['orders'];
 	}
 
