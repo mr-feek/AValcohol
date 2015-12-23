@@ -30,4 +30,5 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 	// To Do: ADMIN AUTH
 	$app->get('pending-and-out-for-delivery', 'OrderController@getAllPendingAndOutForDelivery');
 	$app->get('{id}', 'OrderController@getfullOrderInfo');
+	$app->post('status', 'OrderController@updateStatus');
 });

@@ -80,6 +80,7 @@ class OrderController extends Controller
 
 	/**
 	 * @param Request $request
+	 * 		- id (order id)
 	 * @param int id
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 *
@@ -99,6 +100,33 @@ class OrderController extends Controller
 
 		return response()->json([
 			'order' => $order
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * 		- order_id
+	 * 		- status
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function updateStatus(Request $request) {
+		$statuses = Order::getStatusKeys();
+
+		$this->validate($request, [
+			'order_id' => 'required',
+			'status' => 'required|in:' . implode(',', $statuses)
+		]);
+
+		$order_id = $request->input('order_id');
+		$status = $request->input('status');
+
+		$order = Order::find($order_id);
+		$order->status = $status;
+		$order->save();
+
+		return response()->json([
+			'order_id' => $order_id,
+			'status' => $order->status
 		]);
 	}
 

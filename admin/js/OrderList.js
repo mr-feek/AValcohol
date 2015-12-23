@@ -1,6 +1,9 @@
 var OrderList = React.createClass({
 	render: function() {
+		var _this= this;
+
 		var list = this.props.orders.map(function(order){
+
 			return  [
 				<li>Order ID: {order.id}</li>,
 				<ul>
@@ -31,7 +34,7 @@ var OrderList = React.createClass({
 
 					Actions
 					<ul>
-						<li><a href="#">Mark as out for delivery</a></li>
+						<li><a onClick={_this.markAsOutForDelivery.bind(this, order)} href="#">Mark as out for delivery</a></li>
 						<li><a href="#">Mark as delivered</a></li>
 					</ul>
 				</ul>
@@ -42,6 +45,20 @@ var OrderList = React.createClass({
 			<ul>
 				{list}
 			</ul>
+		);
+	},
+
+	markAsOutForDelivery: function(order) {
+		debugger;
+		$.post(
+			'/api/order/status',
+			{
+				order_id: order.id,
+				status: 'out-for-delivery'
+			},
+			function(result) {
+				debugger;
+			}
 		);
 	}
 });
