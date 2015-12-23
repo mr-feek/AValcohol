@@ -40,7 +40,28 @@ var MainView = React.createClass({
 
 	render: function() {
 		return (
-			<OrderList orders={this.state.orders} />
+			<OrderList orders={this.state.orders} updateStatus={this.updateOrderStatus} />
 		);
+	},
+
+	updateOrderStatus: function(order, status) {
+		var _this = this;
+
+		$.post(
+			'/api/order/status',
+			{
+				order_id: order.id,
+				status: status
+			},
+			function(result) {
+				// just an extra precaution...
+				if (status != result.status) {
+					alert('something went horribly wrong with updating that status...');
+					return;
+				}
+			}
+		).fail(function(result) {
+			console.log(result);
+		});
 	}
 });

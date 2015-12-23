@@ -3,7 +3,6 @@ var OrderList = React.createClass({
 		var _this= this;
 
 		var list = this.props.orders.map(function(order){
-
 			return  [
 				<li>Order ID: {order.id}</li>,
 				<ul>
@@ -34,8 +33,8 @@ var OrderList = React.createClass({
 
 					Actions
 					<ul>
-						<li><a onClick={_this.updateStatus.bind(this, order, 'out-for-delivery')} href="#">Mark as out for delivery</a></li>
-						<li><a href="#">Mark as delivered</a></li>
+						<li><a onClick={_this.props.updateStatus.bind(null, order, 'out-for-delivery')} href="#">Mark as out for delivery</a></li>
+						<li><a onClick={_this.props.updateStatus.bind(null, order, 'delivered')} href="#">Mark as delivered</a></li>
 					</ul>
 				</ul>
 			]
@@ -45,19 +44,6 @@ var OrderList = React.createClass({
 			<ul>
 				{list}
 			</ul>
-		);
-	},
-
-	updateStatus: function(order, status) {
-		$.post(
-			'/api/order/status',
-			{
-				order_id: order.id,
-				status: status
-			},
-			function(result) {
-				debugger;
-			}
 		);
 	}
 });
