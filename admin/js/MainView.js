@@ -44,6 +44,15 @@ var MainView = React.createClass({
 	updateOrderStatus: function(order, status, evt) {
 		evt.preventDefault();
 
+		if (status === 'delivered') {
+			var message = 'PLEASE DOUBLE CHECK THIS, THERE IS NO GOING BACK! | ID: ' + order.id + ' | Product: ' + order.product.name + ' | Name: ' + order.user.last_name + ' | Address: ' + order.address.street;
+			result = confirm(message);
+
+			if (!result) {
+				return; // gtfo
+			}
+		}
+
 		$.post(
 			'/api/order/status',
 			{
