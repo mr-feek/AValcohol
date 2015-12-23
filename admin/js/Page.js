@@ -8,6 +8,7 @@ var Page = React.createClass({
 	render: function() {
 		return (
 			<div>
+				<SearchView />
 				<MainView />
 			</div>
 		);
