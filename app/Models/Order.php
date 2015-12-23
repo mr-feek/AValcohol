@@ -23,4 +23,14 @@ class Order extends Model
 	public function address() {
 		return $this->belongsTo('App\Models\UserAddress', 'user_address_id');
 	}
+
+	/**
+	 * gets possible enum values for the status column
+	 *
+	 * TO DO: pull this directly from the DB values and make it universal on all models
+	 * @return array
+	 */
+	public static function getStatusKeys() {
+		return ['pending', 'out-for-delivery', 'delivered', 'pending-refund', 'refunded'];
+	}
 }
