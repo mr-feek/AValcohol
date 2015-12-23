@@ -32,3 +32,8 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 	$app->get('{id}', 'OrderController@getfullOrderInfo');
 	$app->post('status', 'OrderController@updateStatus');
 });
+
+// To Do: ADMIN AUTH
+$app->get('/environment', function() use ($app) {
+	return $app->environment();
+});
