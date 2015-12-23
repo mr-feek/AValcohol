@@ -45,8 +45,6 @@ var MainView = React.createClass({
 	},
 
 	updateOrderStatus: function(order, status) {
-		var _this = this;
-
 		$.post(
 			'/api/order/status',
 			{
@@ -59,7 +57,32 @@ var MainView = React.createClass({
 					alert('something went horribly wrong with updating that status...');
 					return;
 				}
-			}
+
+				// update the order status locally
+				order.status = status;
+
+				var orders = this.state.orders;
+
+				// if delivered, remove it from the list of orders
+				if (order.status === 'delivered') {
+					for (var i = 0; i < orders.length; i++) {
+						if(orders[i].id === order.id) {
+							orders.splice(i, 1); // removes 1 element from position i
+							break;
+						}
+					}
+
+					this.setState({
+						orders: orders
+					});
+
+					return;
+				}
+
+				this.setState({
+					orders: orders.concat(order)
+				});
+			}.bind(this)
 		).fail(function(result) {
 			console.log(result);
 		});
