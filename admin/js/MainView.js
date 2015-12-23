@@ -10,22 +10,19 @@ var MainView = React.createClass({
 	},
 
 	componentWillMount: function() {
-		/**
-		this.pusher = new Pusher('c644fb6bfa1ca7b73b06', {
+		this.pusher = new Pusher('a09bccbd7b4fc81960d2', {
 			encrypted: true
 		});
 
-		this.channel = this.pusher.subscribe('orders');
-		 */
+		this.channel = this.pusher.subscribe('dev.orders'); // CHANGE THIS FOR PRODUCTION
 	},
 
 	componentDidMount: function() {
 		// subscribe to new orders being sent via pusher
-		/*
-		this.channel.bind('new_order', function(order) {
-			this.setState({	orders: this.state.orders.concat(order)	});
+		this.channel.bind('App\\Events\\OrderWasSubmitted', function(object) {
+			alert('new order!');
+			this.setState({	orders: this.state.orders.concat(object.order)	});
 		}, this);
-		*/
 
 		// fetch all pending orders and orders out for delivery from the server
 		$.get('/api/order/pending-and-out-for-delivery', function(result) {
@@ -46,7 +43,7 @@ var MainView = React.createClass({
 
 	updateOrderStatus: function(order, status, evt) {
 		evt.preventDefault();
-		
+
 		$.post(
 			'/api/order/status',
 			{
