@@ -13,10 +13,17 @@ var MainView = React.createClass({
 		this.pusher = new Pusher('a09bccbd7b4fc81960d2', {
 			encrypted: true
 		});
-		
+
 		if (this.props.environment === 'production') {
 			this.channel = this.pusher.subscribe('orders');
 		} else {
+			// lets enable pusher log
+			Pusher.log = function(message) {
+				if (window.console && window.console.log) {
+					window.console.log(message);
+				}
+			};
+			
 			this.channel = this.pusher.subscribe('dev.orders');
 		}
 	},
