@@ -44,7 +44,9 @@ var MainView = React.createClass({
 		);
 	},
 
-	updateOrderStatus: function(order, status) {
+	updateOrderStatus: function(order, status, evt) {
+		evt.preventDefault();
+		
 		$.post(
 			'/api/order/status',
 			{
