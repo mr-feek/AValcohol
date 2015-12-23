@@ -13,7 +13,7 @@ var MainView = React.createClass({
 		this.pusher = new Pusher('a09bccbd7b4fc81960d2', {
 			encrypted: true
 		});
-		debugger;
+		
 		if (this.props.environment === 'production') {
 			this.channel = this.pusher.subscribe('orders');
 		} else {
