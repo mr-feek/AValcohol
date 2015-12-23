@@ -34,7 +34,7 @@ var OrderList = React.createClass({
 
 					Actions
 					<ul>
-						<li><a onClick={_this.markAsOutForDelivery.bind(this, order)} href="#">Mark as out for delivery</a></li>
+						<li><a onClick={_this.updateStatus.bind(this, order, 'out-for-delivery')} href="#">Mark as out for delivery</a></li>
 						<li><a href="#">Mark as delivered</a></li>
 					</ul>
 				</ul>
@@ -48,13 +48,12 @@ var OrderList = React.createClass({
 		);
 	},
 
-	markAsOutForDelivery: function(order) {
-		debugger;
+	updateStatus: function(order, status) {
 		$.post(
 			'/api/order/status',
 			{
 				order_id: order.id,
-				status: 'out-for-delivery'
+				status: status
 			},
 			function(result) {
 				debugger;
