@@ -11,9 +11,12 @@ namespace App\Models;
 use App\Models\UserAddress;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Cashier\Billable;
 
 class User extends Model
 {
+
+	use Billable;
 
 	protected $hidden = ['password'];
 
