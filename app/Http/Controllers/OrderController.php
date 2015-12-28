@@ -14,22 +14,34 @@ class OrderController extends Controller
 {
 
 	/**
+	 * TO D0: support for creating a new address
+	 * support for ordering multiple products
+	 * send token to stripe
+	 * create charge
 	 * @param Request $request
 	 * 		- user_id
 	 * 		- address_id
 	 * 		- product_id
+	 * 		- stripe_token
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function createOrder(Request $request) {
+		$this->validate($request, [
+			'products.id' => 'required',
+			'user.id' => 'required',
+			'address.id' => 'required',
+			'stripe_token' => 'required'
+		]);
+
 		$success = false;
 
-		$productId = $request->input('product_id');
+		$productId = $request->input('products.id'); // temp. only supports 1 product for now
 		$product = Product::find($productId);
 
-		$userId = $request->input('user_id');
+		$userId = $request->input('user.id');
 		$user = User::find($userId);
 
-		$addressId = $request->input('address_id');
+		$addressId = $request->input('address.id');
 		$address = UserAddress::find($addressId);
 
 		if ($product && $user && $address) {
