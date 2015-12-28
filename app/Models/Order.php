@@ -10,6 +10,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Order
+ *
+ * @property integer $id
+ * @property float $amount
+ * @property string $status
+ * @property integer $product_id
+ * @property integer $user_id
+ * @property integer $user_address_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Order extends Model
 {
 	public function product() {
