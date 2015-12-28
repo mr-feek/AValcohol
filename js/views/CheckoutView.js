@@ -78,7 +78,7 @@ define([
 
 			var userAddress = new UserAddress({
 				id: 1 // test
-			})
+			});
 
 			$.ajax({
 				url: '/api/order/create',
