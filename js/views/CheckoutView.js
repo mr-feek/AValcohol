@@ -40,7 +40,8 @@ define([
 
 		ui: {
 			'order' : '.order',
-			'billingForm' : '.billing-info'
+			'billingForm' : '.billing-info',
+			'payButton' : '.button.order'
 		},
 
 		regions: {
@@ -50,7 +51,10 @@ define([
 		},
 
 		initialize: function (options) {
-			Stripe.setPublishableKey('pk_test_tMGKSXUztufdvadDjyIgyYrb'); // to do: fetch from server
+			$.get('/api/stripe/key', function(response) {
+				Stripe.setPublishableKey(response.key);
+				this.enablePayButton();
+			}.bind(this));
 		},
 
 		onBeforeShow: function() {
@@ -61,6 +65,14 @@ define([
 				this.getRegion('deliveryInfo').show(new AddressEntryView());
 				this.getRegion('billingInfo').show(new BillingInfoEntryView());
 			//}
+		},
+
+		disablePayButton() {
+			this.ui.payButton.addClass('disabled');
+		},
+
+		enablePayButton() {
+			this.ui.payButton.removeClass('disabled');
 		},
 
 		/**
@@ -87,8 +99,6 @@ define([
 				stripe_token: token
 			});
 
-			console.log('savign order');
-
 			order.save().done(function (result) {
 				console.log('pass');
 			}).fail(function (result) {
@@ -103,13 +113,16 @@ define([
 		 * @param evt
 		 */
 		getStripeToken: function(evt) {
-			console.log('get stripe token');
 			evt.preventDefault();
+
+			if (this.ui.payButton.hasClass('disabled')) {
+				return;
+			}
+
 			var $form = this.ui.billingForm;
 
 			// Disable the submit button to prevent repeated clicks
-			var $button = $form.find('button');
-			$button.prop('disabled', true);
+			this.disablePayButton();
 
 			Stripe.card.createToken($form.context, this.stripeResponseHandler.bind(this));
 		},
