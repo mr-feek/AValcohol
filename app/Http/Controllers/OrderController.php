@@ -44,6 +44,8 @@ class OrderController extends Controller
 		$addressId = $request->input('address.id');
 		$address = UserAddress::find($addressId);
 
+		$stripe_token = $request->input('stripe_token');
+
 		if ($product && $user && $address) {
 			$amount = $product->price;
 			$order = new Order();
@@ -57,10 +59,12 @@ class OrderController extends Controller
 			$success = $order->save();
 
 			if ($success) {
+				// lets charge em
+				$success = UserController::charge($user->id, $order->id, $stripe_token);
+
 				// notify pusher etc
 				Event::fire(new OrderWasSubmitted($order));
 			}
-
 		}
 
 		return response()->json([

@@ -9,25 +9,31 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Order;
 use App\Models\User;
 
 class UserController extends Controller
 {
 	/**
-	 * Charges the user the set amount
-	 *
+	 * Fulfills a charge to the given user id based on the value of order_id
 	 * @param $user_id
-	 * @param $token
-	 * @param $amount (pennies)
+	 * @param $order_id
+	 * @param $stripe_token
 	 * @return mixed
 	 */
-	public static function charge($user_id, $token, $amount) {
+	public static function charge($user_id, $order_id, $stripe_token) {
 		$user = User::find($user_id);
+		$order = Order::find($order_id);
+		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
 
 		$options = [
 			'currency' => 'usd',
 			'description' => 'test charge',
-			'source' => $token
+			'source' => $stripe_token,
+			'metadata' => array(
+				'user_id' => $user_id,
+				'order_id' => $order_id
+			)
 		];
 
 		return $user->charge($amount, $options);
