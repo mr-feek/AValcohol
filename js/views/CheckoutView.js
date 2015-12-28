@@ -49,6 +49,7 @@ define([
 		},
 
 		initialize: function (options) {
+			Stripe.setPublishableKey('pk_test_tMGKSXUztufdvadDjyIgyYrb'); // to do: fetch from server
 		},
 
 		onBeforeShow: function() {
@@ -59,7 +60,6 @@ define([
 				this.getRegion('deliveryInfo').show(new AddressEntryView());
 				this.getRegion('billingInfo').show(new BillingInfoEntryView());
 			}
-
 		},
 
 		/**
