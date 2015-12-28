@@ -1,42 +1,26 @@
-<fieldset>
-	<legend>Billing Information</legend>
+<span class="payment-errors"></span>
 
-	<div class="row">
-		<div class="columns small-6">
-			<label>First Name
-				<input type="text" placeholder="First Name" />
-			</label>
-		</div>
-		<div class="columns small-6">
-			<label>Last Name
-				<input type="text" placeholder="Last Name" />
-			</label>
-		</div>
-	</div>
+<div class="form-row">
+	<label>
+		<span>Card Number</span>
+		<input type="text" size="20" data-stripe="number" value="4242424242424242"/>
+	</label>
+</div>
 
-	<div class="row">
-		<div class="columns small-6">
-			<label>Credit Card Number
-				<input type="text" placeholder="Credit Card Number" />
-			</label>
-		</div>
-		<div class="columns small-6">
-			<label>Expiration Date
-				<input type="text" placeholder="Expiration Date" />
-			</label>
-		</div>
-	</div>
+<div class="form-row">
+	<label>
+		<span>CVC</span>
+		<input type="text" size="4" data-stripe="cvc" value="123"/>
+	</label>
+</div>
 
-	<div class="row">
-		<div class="columns small-6">
-			<label>CCV
-				<input type="text" placeholder="CCV" />
-			</label>
-		</div>
-		<div class="columns small-6">
-			<label>Billing Zipcode
-				<input type="text" placeholder="Billing Zipcode" />
-			</label>
-		</div>
-	</div>
-</fieldset>
+<div class="form-row">
+	<label>
+		<span>Expiration (MM/YYYY)</span>
+		<input type="text" size="2" data-stripe="exp-month" value="12"/>
+	</label>
+	<span> / </span>
+	<input type="text" size="4" data-stripe="exp-year" value="2017"/>
+</div>
+
+<button type="submit">Submit Payment</button>
