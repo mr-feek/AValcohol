@@ -80,21 +80,14 @@ define([
 		 * @param token verified stripe token
 		 */
 		submitOrder: function(token) {
-			var product = new Product({
-				id: 1 // test
-			});
-
-			var user = new User({
-				id: 1 // test
-			});
 
 			var userAddress = new UserAddress({
 				id: 1 // test
 			});
 
 			var order = Order.findOrCreate({
-				products: product,
-				user: user,
+				products: App.cart,
+				user: App.user,
 				address: userAddress,
 				stripe_token: token
 			});
