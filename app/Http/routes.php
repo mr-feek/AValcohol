@@ -37,3 +37,7 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 $app->get('/environment', function() use ($app) {
 	return $app->environment();
 });
+
+$app->get('/stripe/key', function() use ($app) {
+	return Dotenv::findEnvironmentVariable('STRIPE_KEY'); // should i do this via config() helper?
+});
