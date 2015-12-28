@@ -39,5 +39,7 @@ $app->get('/environment', function() use ($app) {
 });
 
 $app->get('/stripe/key', function() use ($app) {
-	return Dotenv::findEnvironmentVariable('STRIPE_KEY'); // should i do this via config() helper?
+	return response()->json([
+		'key' => Dotenv::findEnvironmentVariable('STRIPE_KEY')
+	]); // should i do this via config() helper?
 });
