@@ -8,3 +8,5 @@ config.codekit
 sass/.sass-cache/
 .idea/
 .env
+_ide_helper.php
+_ide_helper_models.php
