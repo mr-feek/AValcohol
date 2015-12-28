@@ -11,7 +11,7 @@ define([
 	Product
 ) {
 	var Order = Backbone.RelationalModel.extend({
-		urlRoot: '/api/order/',
+		urlRoot: '/api/order',
 
 		relations: [
 			{
@@ -32,8 +32,10 @@ define([
 		],
 
 		defaults: {
-			product: undefined,
-			user: undefined
+			products: undefined,
+			user: undefined,
+			address: undefined,
+			stripe_token: undefined
 		}
 	});
 

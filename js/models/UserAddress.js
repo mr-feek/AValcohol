@@ -4,7 +4,7 @@ define([
 ], function (
 	Backbone
 ) {
-	var UserAddress = Backbone.Model.extend({
+	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user/address'
 	});
 

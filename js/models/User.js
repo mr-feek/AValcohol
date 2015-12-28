@@ -1,10 +1,8 @@
 define([
 	'backbone',
-	'models/Order',
 	'backboneRelational'
 ], function (
-	Backbone,
-	Order
+	Backbone
 ) {
 	var User = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user/',
