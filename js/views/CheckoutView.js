@@ -1,6 +1,7 @@
 define([
 	'marionette',
 	'App',
+	'stripe',
 	'views/CheckoutProductsView',
 	'views/AddressEntryView',
 	'views/BillingInfoEntryView',
@@ -11,6 +12,7 @@ define([
 ], function (
 	Mn,
 	App,
+	Stripe,
 	CheckoutProductsView,
 	AddressEntryView,
 	BillingInfoEntryView,

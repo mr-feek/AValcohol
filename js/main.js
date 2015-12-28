@@ -13,7 +13,8 @@ require.config({
 		'slick': 				'../vendor/slick-carousel/slick/slick',
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
-		'async': 				'../vendor/requirejs-plugins/src/async'
+		'async': 				'../vendor/requirejs-plugins/src/async',
+		'stripe':				'https://js.stripe.com/v2/?noext'
 	},
 	shim: {
 		underscore: {
