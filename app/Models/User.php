@@ -13,6 +13,21 @@ use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
 
+/**
+ * App\Models\User
+ *
+ * @property integer $id
+ * @property string $email
+ * @property string $password
+ * @property string $first_name
+ * @property string $last_name
+ * @property integer $phone_number
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $stripe_id
+ * @property string $card_brand
+ * @property string $card_last_four
+ */
 class User extends Model
 {
 

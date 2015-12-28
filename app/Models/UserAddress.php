@@ -11,6 +11,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\UserAddress
+ *
+ * @property integer $id
+ * @property string $street
+ * @property string $city
+ * @property string $state
+ * @property integer $zipcode
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property integer $user_id
+ */
 class UserAddress extends Model
 {
 	protected $table = "user_addresses";
