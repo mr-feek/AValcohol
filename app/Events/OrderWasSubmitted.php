@@ -22,7 +22,7 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 	public function __construct(Order $order)
 	{
 		$this->order = $order;
-		$this->env =  $_ENV['APP_ENV']; // should probably figure out how to load this directly from $app->environment()....
+		$this->env =  \Dotenv::findEnvironmentVariable('APP_ENV');
 	}
 
 	/**
