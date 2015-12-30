@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property float $amount
  * @property string $status
- * @property integer $product_id
  * @property integer $user_id
  * @property integer $user_address_id
  * @property \Carbon\Carbon $created_at
@@ -24,8 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
-	public function product() {
-		return $this->belongsTo('App\Models\Product');
+	public function products() {
+		return $this->belongsToMany('App\Models\Product')->withPivot('product_price');
 	}
 
 	public function user() {
