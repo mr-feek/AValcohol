@@ -39,3 +39,12 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 		'zipcode' => $faker->randomNumber(5)
 	];
 });
+
+$factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
+	return [
+		'amount' => $faker->randomNumber(2),
+		'status' => 'pending',
+		'user_id' => 1,
+		'user_address_id' => 1
+	];
+});
