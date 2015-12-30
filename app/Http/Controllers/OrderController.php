@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderWasSubmitted;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\UserAddress;
 use App\Models\User;
@@ -14,10 +15,7 @@ class OrderController extends Controller
 {
 
 	/**
-	 * TO D0: support for creating a new address
-	 * support for ordering multiple products
-	 * send token to stripe
-	 * create charge
+	 * TO D0: support for creating a new address and user
 	 * @param Request $request
 	 * 		- user_id
 	 * 		- address_id
@@ -26,45 +24,62 @@ class OrderController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function createOrder(Request $request) {
+		$success = false;
+
 		$this->validate($request, [
-			'products.id' => 'required',
-			'user.id' => 'required',
-			'address.id' => 'required',
+			'products' => 'required',
+			'user' => 'required',
+			'address' => 'required',
 			'stripe_token' => 'required'
 		]);
 
-		$success = false;
+		$user_id = $request->input('user.id');
+		$user = User::find($user_id);
 
-		$productId = $request->input('products.id'); // temp. only supports 1 product for now
-		$product = Product::find($productId);
-
-		$userId = $request->input('user.id');
-		$user = User::find($userId);
-
-		$addressId = $request->input('address.id');
-		$address = UserAddress::find($addressId);
+		$address_id = $request->input('address.id');
+		$address = UserAddress::find($address_id);
 
 		$stripe_token = $request->input('stripe_token');
 
-		if ($product && $user && $address) {
-			$amount = $product->price;
+		$products = $request->input('products');
+
+		if ($user && $address) {
+			// to do: TRANSACTION for all this!!
 			$order = new Order();
-
-			$order->amount = $amount;
+			$order->amount = 0;
 			$order->status = 'pending'; // TO DO: make this the default db side
-			$order->product_id = $productId;
-			$order->user_id = $userId;
-			$order->user_address_id = $addressId;
+			$order->user_id = $user_id;
+			$order->user_address_id = $address_id;
+			$order->save();
 
-			$success = $order->save();
+			$amount = 0;
+			foreach ($products as $p) {
+				$product = Product::find($p->id);
 
-			if ($success) {
-				// lets charge em
-				$success = UserController::charge($user->id, $order->id, $stripe_token);
+				if (!$product) {
+					// not an actual product id...
+					dd('something went wrong, not an actual product. to do: rollback transaction so order isnt saved');
+				}
 
-				// notify pusher etc
-				Event::fire(new OrderWasSubmitted($order));
+				$amount += $product->price;
+
+				// create order_product record
+				$order->products()->attach($product->id, ['product_price' => $product->price]);
 			}
+
+			// update the order record with the proper price
+			$order->amount = $amount;
+			$order->save();
+
+			// lets charge em
+			$charge = UserController::charge($user->id, $order->id, $stripe_token);
+
+			$success = true; // temp
+
+			// notify pusher etc
+			Event::fire(new OrderWasSubmitted($order));
+		} else {
+			dd('user or address not found...');
 		}
 
 		return response()->json([
@@ -112,7 +127,7 @@ class OrderController extends Controller
 			->get();
 */
 
-		$order = Order::where('id', $id)->with(['user', 'product', 'address'])->get();
+		$order = Order::where('id', $id)->with(['user', 'products', 'address'])->get();
 
 		return response()->json([
 			'order' => $order
