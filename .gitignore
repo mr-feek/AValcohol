@@ -1,12 +1,13 @@
 vendor/
 node_modules/
+css/
+sass/.sass-cache/
+.idea/
+local/
 composer.lock
 composer.phar
 passwords.secret
-css/
 config.codekit
-sass/.sass-cache/
-.idea/
 .env
 _ide_helper.php
 _ide_helper_models.php
