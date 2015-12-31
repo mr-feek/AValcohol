@@ -10,24 +10,44 @@ class OrderControllerTest extends TestCase
 {
 	public function testCreateOrderWithExistingUser() {
 		//$this->expectsEvents('App\Events\OrderWasSubmitted');
-
-		$product1 = \App\Models\Product::find(1);
-		$product2 = \App\Models\Product::find(2);
-		$product3 = \App\Models\Product::find(3);
-
-		$products = [
-			$product1,
-			$product2,
-			$product3
-		];
-
+		$products = $this->getProductsToBuy();
 		$address = \App\Models\UserAddress::find(1);
-
 		$user = \App\Models\User::find(1);
+		$token = $this->createFakeToken();
 
+		$response = $this->createOrder($products, $address, $user, $token);
+		$this->verifyFullOrderInDatabase($response, $products);
+	}
+
+	public function testCreateOrderWithoutExistingUser() {
+		//$this->expectsEvents('App\Events\OrderWasSubmitted');
+		$products = $this->getProductsToBuy();
+		$address = \App\Models\UserAddress::find(1);
+		$user = new \App\Models\User();
+		$user->mvp_user = true;
+		// don't save user, we'll let endpoint do that
+		$token = $this->createFakeToken();
+
+		$response = $this->createOrder($products, $address, $user, $token);
+
+		$this->verifyFullOrderInDatabase($response, $products);
+	}
+
+	protected function getProductsToBuy() {
+		return [
+			\App\Models\Product::find(1),
+			\App\Models\Product::find(2),
+			\App\Models\Product::find(3)
+		];
+	}
+
+	/**
+	 * @return \Stripe\Token token guaranteed to authenticate
+	 */
+	protected function createFakeToken() {
 		\Stripe\Stripe::setApiKey(Dotenv::findEnvironmentVariable('STRIPE_KEY'));
 
-		$token = \Stripe\Token::create(array(
+		return \Stripe\Token::create(array(
 			"card" => array(
 				"number" => "4242424242424242",
 				"exp_month" => 12,
@@ -35,7 +55,48 @@ class OrderControllerTest extends TestCase
 				"cvc" => "314"
 			)
 		));
+	}
 
+	/**
+	 * Verifys order entry is in database with correct amount and ensures all order products were created
+	 * @param $response response's content
+	 * @param $products array of models
+	 */
+	protected function verifyFullOrderInDatabase($response, $products) {
+		$amount = 0;
+		foreach ($products as $product) {
+			$amount += $product->price;
+		}
+
+		$this->seeInDatabase('orders', [
+			'id' => $response->order->id,
+			'amount' => $amount,
+			'status' => 'pending',
+			'user_id' => $response->order->user_id,
+			'user_address_id' => $response->order->user_address_id
+		]);
+
+		$this->verifyOrderProductsInDatabase($response->order->id, $products);
+	}
+
+	/**
+	 * @param $order_id
+	 * @param $products array of models
+	 */
+	protected function verifyOrderProductsInDatabase($order_id, $products) {
+		foreach ($products as $product) {
+			$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => $product->id, 'product_price' => $product->price]);
+		}
+	}
+
+	/**
+	 * @param $products array
+	 * @param $address model
+	 * @param $user model
+	 * @param $token stripe token
+	 * @return mixed response content
+	 */
+	protected function createOrder($products, $address, $user, $token) {
 		$data = [
 			'products' => $products,
 			'address' => $address->toArray(),
@@ -44,19 +105,10 @@ class OrderControllerTest extends TestCase
 		];
 
 		$this->post('/order', $data)
-				->seeJson([
-					'success' => true
-				]);
+			->seeJson([
+				'success' => true
+			]);
 
-		$response = json_decode($this->response->getContent());
-
-		$order_id = $response->order->id;
-
-		$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => 1, 'product_price' => $product1->price]);
-		$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => 2, 'product_price' => $product2->price]);
-		$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => 3, 'product_price' => $product3->price]);
-
-		$amount = $product1->price + $product2->price + $product3->price;
-		$this->seeInDatabase('orders', ['id' => $order_id, 'amount' => $amount]);
+		return json_decode($this->response->getContent());
 	}
 }
