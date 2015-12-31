@@ -36,6 +36,9 @@ class User extends Model
 
 	protected $hidden = ['password'];
 
+	// black list for mass assignable
+	protected $guarded = [];
+
 	public function addresses() {
 		return $this->hasMany('App\Models\UserAddress');
 	}
