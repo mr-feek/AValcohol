@@ -8,7 +8,7 @@
  */
 class OrderControllerTest extends TestCase
 {
-	public function testCreateOrder() {
+	public function testCreateOrderWithExistingUser() {
 		//$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$product1 = \App\Models\Product::find(1);
