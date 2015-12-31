@@ -27,6 +27,7 @@ use Laravel\Cashier\Billable;
  * @property string $stripe_id
  * @property string $card_brand
  * @property string $card_last_four
+ * @property boolean $mvp_user
  */
 class User extends Model
 {
