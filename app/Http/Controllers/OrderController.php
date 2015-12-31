@@ -33,8 +33,17 @@ class OrderController extends Controller
 			'stripe_token' => 'required'
 		]);
 
-		$user_id = $request->input('user.id');
-		$user = User::find($user_id);
+		// TO DO: authenticate
+		$user = User::find($request->input('user.id'));
+
+		if (!$user) {
+			$user = User::create($request->input('user'));
+			// ensure this property is set..
+			$user->mvp_user = true;
+			$user->save();
+		}
+
+		$user_id = $user->id;
 
 		$address_id = $request->input('address.id');
 		$address = UserAddress::find($address_id);
