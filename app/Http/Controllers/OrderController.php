@@ -35,6 +35,7 @@ class OrderController extends Controller
 
 		// TO DO: authenticate
 		$user = User::find($request->input('user.id'));
+		$address = UserAddress::find($request->input('address.id'));
 
 		if (!$user) {
 			$user = User::create($request->input('user'));
@@ -43,13 +44,16 @@ class OrderController extends Controller
 			$user->save();
 		}
 
+		if (!$address) {
+			$input = $request->input('address');
+			$input['user_id'] = $user->id;
+			$address = UserAddress::create($input);
+			$address->save();
+		}
+
+		$address_id = $address->id;
 		$user_id = $user->id;
-
-		$address_id = $request->input('address.id');
-		$address = UserAddress::find($address_id);
-
 		$stripe_token = $request->input('stripe_token');
-
 		$products = $request->input('products');
 
 		if ($user && $address) {
