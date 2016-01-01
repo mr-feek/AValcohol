@@ -33,6 +33,18 @@ class OrderControllerTest extends TestCase
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
 
+	public function testCreateOrderWithoutExistingAddress() {
+		//$this->expectsEvents('App\Events\OrderWasSubmitted');
+		$products = $this->getProductsToBuy();
+		$user = \App\Models\User::find(1);
+		// create a fake address (dont attach it to the user, let back end do that. Also don't persist to db)
+		$address = factory(\App\Models\UserAddress::class)->make();
+		$token = $this->createFakeToken();
+
+		$response = $this->createOrder($products, $address, $user, $token);
+		$this->verifyFullOrderInDatabase($response, $products);
+	}
+
 	protected function getProductsToBuy() {
 		return [
 			\App\Models\Product::find(1),
