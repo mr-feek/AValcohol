@@ -9,9 +9,10 @@
 class OrderControllerTest extends TestCase
 {
 	use \Illuminate\Foundation\Testing\DatabaseTransactions;
-	
+
 	public function testCreateOrderWithExistingUser() {
-		//$this->expectsEvents('App\Events\OrderWasSubmitted');
+		$this->expectsEvents('App\Events\OrderWasSubmitted');
+
 		$products = $this->getProductsToBuy();
 		$address = \App\Models\UserAddress::find(1);
 		$user = \App\Models\User::find(1);
@@ -22,7 +23,8 @@ class OrderControllerTest extends TestCase
 	}
 
 	public function testCreateOrderWithoutExistingUser() {
-		//$this->expectsEvents('App\Events\OrderWasSubmitted');
+		$this->expectsEvents('App\Events\OrderWasSubmitted');
+
 		$products = $this->getProductsToBuy();
 		$address = \App\Models\UserAddress::find(1);
 		$user = new \App\Models\User();
@@ -36,7 +38,8 @@ class OrderControllerTest extends TestCase
 	}
 
 	public function testCreateOrderWithoutExistingAddress() {
-		//$this->expectsEvents('App\Events\OrderWasSubmitted');
+		$this->expectsEvents('App\Events\OrderWasSubmitted');
+
 		$products = $this->getProductsToBuy();
 		$user = \App\Models\User::find(1);
 		// create a fake address (dont attach it to the user, let back end do that. Also don't persist to db)
