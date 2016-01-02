@@ -8,6 +8,8 @@
  */
 class OrderControllerTest extends TestCase
 {
+	use \Illuminate\Foundation\Testing\DatabaseTransactions;
+	
 	public function testCreateOrderWithExistingUser() {
 		//$this->expectsEvents('App\Events\OrderWasSubmitted');
 		$products = $this->getProductsToBuy();
