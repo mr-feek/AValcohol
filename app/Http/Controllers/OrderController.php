@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Events\OrderWasSubmitted;
+use App\Exceptions\APIException;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\UserAddress;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
@@ -51,40 +53,40 @@ class OrderController extends Controller
 		$stripe_token = $request->input('stripe_token');
 		$products = $request->input('products');
 
-		// to do: TRANSACTION for all this!!
 		$order = new Order();
-		$order->amount = 0;
-		$order->status = 'pending'; // TO DO: make this the default db side
-		$order->user_id = $user_id;
-		$order->user_address_id = $address_id;
-		$order->save();
+		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {
+			$order->amount = 0;
+			$order->status = 'pending'; // TO DO: make this the default db side
+			$order->user_id = $user_id;
+			$order->user_address_id = $address_id;
+			$order->save();
 
-		$amount = 0;
-		foreach ($products as $p) {
-			$product = Product::find($p->id);
+			$amount = 0;
+			foreach ($products as $p) {
+				$product = Product::find($p->id);
 
-			if (!$product) {
-				// not an actual product id...
-				dd('something went wrong, not an actual product. to do: rollback transaction so order isnt saved');
+				if (!$product) {
+					throw new APIException("Invalid Product ID: $p->id");
+				}
+
+				$amount += $product->price;
+
+				// create order_product record
+				$order->products()->attach($product->id, ['product_price' => $product->price]);
 			}
 
-			$amount += $product->price;
+			// update the order record with the proper price
+			$order->amount = $amount;
+			$order->save();
 
-			// create order_product record
-			$order->products()->attach($product->id, ['product_price' => $product->price]);
-		}
+			// lets charge em
+			UserController::charge($user_id, $order->id, $stripe_token);
 
-		// update the order record with the proper price
-		$order->amount = $amount;
-		$order->save();
+			// notify pusher etc
+			Event::fire(new OrderWasSubmitted($order));
 
-		// lets charge em
-		$charge = UserController::charge($user->id, $order->id, $stripe_token);
-
-		$success = true; // temp
-
-		// notify pusher etc
-		Event::fire(new OrderWasSubmitted($order));
+			$success = true;
+		});
 
 		return response()->json([
 			'success' => $success,
