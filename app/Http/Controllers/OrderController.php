@@ -15,12 +15,7 @@ class OrderController extends Controller
 {
 
 	/**
-	 * TO D0: support for creating a new address and user
 	 * @param Request $request
-	 * 		- user_id
-	 * 		- address_id
-	 * 		- product_id
-	 * 		- stripe_token
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function createOrder(Request $request) {
@@ -56,44 +51,40 @@ class OrderController extends Controller
 		$stripe_token = $request->input('stripe_token');
 		$products = $request->input('products');
 
-		if ($user && $address) {
-			// to do: TRANSACTION for all this!!
-			$order = new Order();
-			$order->amount = 0;
-			$order->status = 'pending'; // TO DO: make this the default db side
-			$order->user_id = $user_id;
-			$order->user_address_id = $address_id;
-			$order->save();
+		// to do: TRANSACTION for all this!!
+		$order = new Order();
+		$order->amount = 0;
+		$order->status = 'pending'; // TO DO: make this the default db side
+		$order->user_id = $user_id;
+		$order->user_address_id = $address_id;
+		$order->save();
 
-			$amount = 0;
-			foreach ($products as $p) {
-				$product = Product::find($p->id);
+		$amount = 0;
+		foreach ($products as $p) {
+			$product = Product::find($p->id);
 
-				if (!$product) {
-					// not an actual product id...
-					dd('something went wrong, not an actual product. to do: rollback transaction so order isnt saved');
-				}
-
-				$amount += $product->price;
-
-				// create order_product record
-				$order->products()->attach($product->id, ['product_price' => $product->price]);
+			if (!$product) {
+				// not an actual product id...
+				dd('something went wrong, not an actual product. to do: rollback transaction so order isnt saved');
 			}
 
-			// update the order record with the proper price
-			$order->amount = $amount;
-			$order->save();
+			$amount += $product->price;
 
-			// lets charge em
-			$charge = UserController::charge($user->id, $order->id, $stripe_token);
-
-			$success = true; // temp
-
-			// notify pusher etc
-			Event::fire(new OrderWasSubmitted($order));
-		} else {
-			dd('user or address not found...');
+			// create order_product record
+			$order->products()->attach($product->id, ['product_price' => $product->price]);
 		}
+
+		// update the order record with the proper price
+		$order->amount = $amount;
+		$order->save();
+
+		// lets charge em
+		$charge = UserController::charge($user->id, $order->id, $stripe_token);
+
+		$success = true; // temp
+
+		// notify pusher etc
+		Event::fire(new OrderWasSubmitted($order));
 
 		return response()->json([
 			'success' => $success,
