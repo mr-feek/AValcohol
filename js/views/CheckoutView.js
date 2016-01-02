@@ -81,7 +81,7 @@ define([
 		 */
 		submitOrder: function(token) {
 
-			var userAddress = new UserAddress({
+			var userAddress = UserAddress.findOrCreate({
 				id: 1 // test
 			});
 

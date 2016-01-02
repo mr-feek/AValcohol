@@ -74,7 +74,7 @@ require([
 
 		app.router = new Router({ controller: controller });
 		app.cart = new Cart();
-		app.user = new User();
+		app.user = User.findOrCreate({});
 		app.rootView.render();
 	});
 

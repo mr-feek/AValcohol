@@ -1,6 +1,7 @@
 define([
 	'backbone',
-	'backboneRelational'
+	'backboneRelational',
+	'models/UserAddress'
 ], function (
 	Backbone
 ) {
@@ -16,6 +17,15 @@ define([
 			}
 		],
 		*/
+
+		relations: [
+			{
+				type: Backbone.HasMany,
+				key: 'addresses',
+				relatedModel: 'UserAddress',
+				includeInJSON: false
+			}
+		],
 
 		defaults: {
 			mvp_user: 1 // this account does NOT need a password, email, etc

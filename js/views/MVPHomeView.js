@@ -74,7 +74,7 @@ define([
 		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used. Will need to provide support for that
 		 */
 		updateUserAddress: function() {
-			var address = new UserAddress();
+			var address = UserAddress.findOrCreate({});
 
 			var place = this.autocomplete.getPlace();
 
