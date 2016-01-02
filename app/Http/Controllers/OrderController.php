@@ -114,7 +114,7 @@ class OrderController extends Controller
 		$orders = Order::
 			where('status', 'pending')
 			->orWhere('status', 'out-for-delivery')
-			->with(['product', 'user', 'address'])
+			->with(['products', 'user', 'address'])
 			->get();
 
 		return response()->json([
