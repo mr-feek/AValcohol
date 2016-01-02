@@ -73,9 +73,9 @@ class OrderControllerTest extends TestCase
 
 	protected function getProductsToBuy() {
 		return [
-			\App\Models\Product::find(1),
-			\App\Models\Product::find(2),
-			\App\Models\Product::find(3)
+			\App\Models\Product::find(1)->toArray(),
+			\App\Models\Product::find(2)->toArray(),
+			\App\Models\Product::find(3)->toArray()
 		];
 	}
 
@@ -106,8 +106,9 @@ class OrderControllerTest extends TestCase
 		]);
 
 		$amount = 0;
+
 		foreach ($products as $product) {
-			$amount += $product->price;
+			$amount += $product['price'];
 		}
 
 		$this->seeInDatabase('orders', [
@@ -127,7 +128,7 @@ class OrderControllerTest extends TestCase
 	 */
 	protected function verifyOrderProductsInDatabase($order_id, $products) {
 		foreach ($products as $product) {
-			$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => $product->id, 'product_price' => $product->price]);
+			$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => $product['id'], 'product_price' => $product['price']]);
 		}
 	}
 

@@ -63,7 +63,7 @@ class OrderController extends Controller
 
 			$amount = 0;
 			foreach ($products as $p) {
-				$product = Product::find($p->id);
+				$product = Product::find($p['id']);
 
 				if (!$product) {
 					throw new APIException("Invalid Product ID: $p->id");
