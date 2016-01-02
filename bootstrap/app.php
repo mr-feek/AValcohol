@@ -83,6 +83,10 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Laravel\Cashier\CashierServiceProvider::class);
 $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
+if ($app->environment() !== 'production') {
+	$app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
