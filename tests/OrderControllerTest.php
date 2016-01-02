@@ -50,6 +50,27 @@ class OrderControllerTest extends TestCase
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
 
+	public function testCreateOrderFailsWithInvalidProductID() {
+		//$this->expectsEvents('connection.rollingBack');
+		// TO DO: figure out how to listen for rolling back event so we actually know no orders were created...
+
+		$products = $this->getProductsToBuy();
+		$fake_product = new \App\Models\Product();
+		$fake_product->id = 0;
+		$products[] = $fake_product;
+		$user = \App\Models\User::find(1);
+		$token = $this->createFakeToken();
+		$address = \App\Models\UserAddress::find(1);
+
+		$this->createOrder($products, $address, $user, $token);
+		$this->verifyOrderNotCreated();
+		$this->seeJson(['message' => "Invalid Product ID: 0"]);
+	}
+
+	protected function verifyOrderNotCreated() {
+		$this->seeJson(['success' => false]);
+	}
+
 	protected function getProductsToBuy() {
 		return [
 			\App\Models\Product::find(1),
@@ -80,6 +101,10 @@ class OrderControllerTest extends TestCase
 	 * @param $products array of models
 	 */
 	protected function verifyFullOrderInDatabase($response, $products) {
+		$this->seeJson([
+			'success' => true
+		]);
+
 		$amount = 0;
 		foreach ($products as $product) {
 			$amount += $product->price;
@@ -121,10 +146,7 @@ class OrderControllerTest extends TestCase
 			'stripe_token' => $token
 		];
 
-		$this->post('/order', $data)
-			->seeJson([
-				'success' => true
-			]);
+		$this->post('/order', $data);
 
 		return json_decode($this->response->getContent());
 	}
