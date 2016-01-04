@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+	use AddressTrait;
+
 	/**
 	 * This function will determine whether or not we can deliver to the address entered.
 	 * For now, it just checks if the address is equal to 16801
@@ -15,12 +17,11 @@ class AddressController extends Controller
 	public function validateAddress(Request $request) {
 		$address = $request->input('address');
 		$zip = $address['zip'];
-		$canDeliver = true;
+		$canDeliver = $this->canDeliverToAddress($zip);
 
-		if ($zip !== '16801') {
-			$canDeliver = false;
-		}
-
-		return response()->json(['canDeliver' => $canDeliver ]);
+		return response()->json([
+			'canDeliver' => $canDeliver,
+			'message' => $this->cannot_deliver_message
+		]);
 	}
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderWasSubmitted;
 use App\Exceptions\APIException;
+use App\Http\Traits\AddressTrait;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -15,10 +16,12 @@ use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
+	use AddressTrait;
 
 	/**
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws APIException
 	 */
 	public function createOrder(Request $request) {
 		$success = false;
