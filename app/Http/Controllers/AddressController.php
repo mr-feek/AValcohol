@@ -17,11 +17,11 @@ class AddressController extends Controller
 	 */
 	public function validateAddress(Request $request) {
 		$this->validate($request, [
-			'address.zip' => 'required'
+			'address.zipcode' => 'required'
 		]);
 
 		$address = $request->input('address');
-		$zip = $address['zip'];
+		$zip = $address['zipcode'];
 		$canDeliver = $this->canDeliverToAddress($zip);
 
 		return response()->json([

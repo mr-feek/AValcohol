@@ -18,6 +18,13 @@ define([
 				includeInJSON: false
 			}
 		],
+
+		defaults: {
+			city: undefined,
+			street: undefined,
+			state: undefined,
+			zipcode: undefined
+		}
 	});
 
 	return UserAddress;

@@ -116,8 +116,7 @@ define([
 			address.set('street', street);
 			address.set('city', city);
 			address.set('state', state);
-			address.set('zip', zip);
-			address.set('primary', 1); // make this primary address
+			address.set('zipcode', zip);
 			//address.set('unit', unit);
 
 			// this may cause a problem down the line
