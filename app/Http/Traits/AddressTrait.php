@@ -19,11 +19,11 @@ trait AddressTrait
 	 * @return bool
 	 */
 	protected function canDeliverToAddress($zip) {
-		if ($zip !== 16801) {
-			return false;
+		if ($zip === 16801 || $zip === '16801') {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	protected $cannot_deliver_message = "We're sorry, but at this time we can only deliver to the 16801 area";
