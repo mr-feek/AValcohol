@@ -3,7 +3,9 @@ define([
 	'backboneRelational',
 	'models/User'
 ], function (
-	Backbone
+	Backbone,
+	BackboneRelational,
+	User
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user/address',
@@ -12,7 +14,7 @@ define([
 			{
 				type: Backbone.HasOne,
 				key: 'user',
-				relatedModel: 'User',
+				relatedModel: User,
 				includeInJSON: false
 			}
 		],

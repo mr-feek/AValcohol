@@ -17,17 +17,17 @@ define([
 			{
 				type: Backbone.HasOne,
 				key: 'user',
-				relatedModel: 'User'
+				relatedModel: User
 			},
 			{
 				type: Backbone.HasMany,
 				key: 'products',
-				relatedModel: 'Product'
+				relatedModel: Product
 			},
 			{
 				type: Backbone.HasOne,
 				key: 'address',
-				relatedModel: 'UserAddress'
+				relatedModel: UserAddress
 			}
 		],
 
