@@ -154,7 +154,7 @@ define([
 				type: 'POST',
 				dataType: 'json',
 				data: {
-					address: this.user.get('addresses').toJSON()
+					address: this.user.get('addresses').at(0).toJSON() // TO DO: get the right address, not just the first
 				}
 			}).done(function (result) {
 				if (result.canDeliver) {
