@@ -16,6 +16,10 @@ class AddressController extends Controller
 	 * @return boolean
 	 */
 	public function validateAddress(Request $request) {
+		$this->validate($request, [
+			'address.zip' => 'required'
+		]);
+
 		$address = $request->input('address');
 		$zip = $address['zip'];
 		$canDeliver = $this->canDeliverToAddress($zip);
