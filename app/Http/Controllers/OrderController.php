@@ -47,6 +47,15 @@ class OrderController extends Controller
 		if (!$address) {
 			$input = $request->input('address');
 			$input['user_id'] = $user->id;
+			// don't proceed in creating the address if we can't deliver there..
+			$canDeliver = $this->canDeliverToAddress($input['zipcode']);
+			if (!$canDeliver) {
+				return response()->json([
+					'success' => false,
+					'message' => $this->cannot_deliver_message
+				]);
+			}
+
 			$address = UserAddress::create($input);
 			$address->save();
 		}
@@ -55,6 +64,11 @@ class OrderController extends Controller
 		$user_id = $user->id;
 		$stripe_token = $request->input('stripe_token');
 		$products = $request->input('products');
+
+		$canDeliver = $this->canDeliverToAddress($address->zipcode);
+		if (!$canDeliver) {
+			throw new APIException($this->cannot_deliver_message);
+		}
 
 		$order = new Order();
 		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {

@@ -14,7 +14,7 @@ class OrderControllerTest extends TestCase
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
-		$address = \App\Models\UserAddress::find(1);
+		$address = $this->getAddress();
 		$user = \App\Models\User::find(1);
 		$token = $this->createFakeToken();
 
@@ -26,7 +26,7 @@ class OrderControllerTest extends TestCase
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
-		$address = \App\Models\UserAddress::find(1);
+		$address = $this->getAddress();
 		$user = new \App\Models\User();
 		$user->mvp_user = true;
 		// don't save user, we'll let endpoint do that
@@ -43,7 +43,7 @@ class OrderControllerTest extends TestCase
 		$products = $this->getProductsToBuy();
 		$user = \App\Models\User::find(1);
 		// create a fake address (dont attach it to the user, let back end do that. Also don't persist to db)
-		$address = factory(\App\Models\UserAddress::class)->make();
+		$address = factory(\App\Models\UserAddress::class)->make(['zipcode' => 16801]);
 		$token = $this->createFakeToken();
 
 		$response = $this->createOrder($products, $address, $user, $token);
@@ -60,11 +60,23 @@ class OrderControllerTest extends TestCase
 		$products[] = $fake_product;
 		$user = \App\Models\User::find(1);
 		$token = $this->createFakeToken();
-		$address = \App\Models\UserAddress::find(1);
+		$address = $this->getAddress();
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
 		$this->seeJson(['message' => "Invalid Product ID: 0"]);
+	}
+
+	public function testCannotCreateOrderIfCannotDeliverToAddress() {
+		$products = $this->getProductsToBuy();
+		$user = \App\Models\User::find(1);
+		$token = $this->createFakeToken();
+		$zip = 11111;
+		$address = factory(\App\Models\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
+
+		$this->createOrder($products, $address, $user, $token);
+		$this->verifyOrderNotCreated();
+		$this->seeJson(['message' => "We're sorry, but at this time we can only deliver to the 16801 area"]);
 	}
 
 	protected function verifyOrderNotCreated() {
@@ -77,6 +89,13 @@ class OrderControllerTest extends TestCase
 			\App\Models\Product::find(2)->toArray(),
 			\App\Models\Product::find(3)->toArray()
 		];
+	}
+
+	/**
+	 * @return UserAddress model
+	 */
+	protected function getAddress() {
+		return factory(\App\Models\UserAddress::class)->create(['zipcode' => 16801, 'user_id' => 1]);
 	}
 
 	/**
