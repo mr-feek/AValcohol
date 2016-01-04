@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderWasSubmitted;
 use App\Exceptions\APIException;
 use App\Http\Traits\AddressTrait;
+use App\Http\Traits\UserTrait;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
-	use AddressTrait;
+	use AddressTrait, UserTrait;
 
 	/**
 	 * @param Request $request
@@ -97,7 +98,7 @@ class OrderController extends Controller
 			$order->save();
 
 			// lets charge em
-			UserController::charge($user_id, $order->id, $stripe_token);
+			$this->chargeUserForOrder($user_id, $order->id, $stripe_token);
 
 			// notify pusher etc
 			Event::fire(new OrderWasSubmitted($order));
