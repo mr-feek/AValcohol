@@ -131,7 +131,6 @@ define([
 		},
 
 		/**
-		 * This should submit a post request to check if address is within delivery area
 		 * @returns {boolean}
 		 */
 		validateAddress: function() {
@@ -159,7 +158,7 @@ define([
 				if (result.canDeliver) {
 					view.showUserHome();
 				} else {
-					view.showError('Sorry, we are currently only delivering to State College, PA 16801.');
+					view.showError(result.message);
 				}
 			}).fail(function (result) {
 				view.showError('Sorry, something went wrong on our end. Our support team has been notified of the issue.');
