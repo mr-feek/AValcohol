@@ -27,7 +27,7 @@ define([
 		},
 
 		validate: function(attrs, options) {
-			if (attrs.zipcode !== 16801) {
+			if (attrs.zipcode !== 16801 && attrs.zipcode !== "16801") {
 				return "We're sorry, but at this time we can only deliver to the 16801 area";
 			}
 		}
