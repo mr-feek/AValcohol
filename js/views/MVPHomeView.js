@@ -2,16 +2,19 @@ define([
 	'marionette',
 	'App',
 	'models/UserAddress',
+	'behaviors/ModelValidation',
 	'tpl!templates/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (
 	Mn,
 	app,
 	UserAddress,
+	ModelValidation,
 	tpl
 ) {
 	var MVPHomeView = Mn.ItemView.extend({
 		template: tpl,
+		modelsToValidate: [],
 
 		events: {
 			'click @ui.submitAddress' : 'addressSubmitted',
@@ -25,9 +28,17 @@ define([
 			'alertArea' : '.alert-area'
 		},
 
-		initialize: function (options) {
+		behaviors: {
+			ModelValidation: {
+				behaviorClass: ModelValidation
+			}
+		},
+
+		initialize: function () {
 			this.router = app.router;
 			this.user = app.user;
+			this.address = UserAddress.findOrCreate({});
+			this.modelsToValidate.push(this.user, this.address); // dont think we need to listen to user, but why not..
 		},
 
 		onShow: function () {
@@ -54,15 +65,7 @@ define([
 
 		addressSubmitted: function(e) {
 			e.preventDefault();
-			// ensure address was entered
-			if (this.validateAddress()) {
-				this.updateUserAddress();
-				// check if they are in a location we can deliver to
-				this.checkAddressLocation();
-			} else {
-				// they didn't enter anything into the box
-				this.showError('Please enter a valid address.');
-			}
+			this.updateUserAddress();
 		},
 
 		/**
@@ -74,8 +77,6 @@ define([
 		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used. Will need to provide support for that
 		 */
 		updateUserAddress: function() {
-			var address = UserAddress.findOrCreate({});
-
 			var place = this.autocomplete.getPlace();
 
 			if (!place) {
@@ -113,14 +114,17 @@ define([
 			localStorage.setItem('zip', zip);
 			//localStorage.setItem('unit', unit);
 
-			address.set('street', street);
-			address.set('city', city);
-			address.set('state', state);
-			address.set('zipcode', zip);
+			this.address.set('street', street);
+			this.address.set('city', city);
+			this.address.set('state', state);
+			this.address.set('zipcode', zip);
 			//address.set('unit', unit);
 
-			// this may cause a problem down the line
-			app.user.set('addresses',  address);
+			if (this.address.isValid()) {
+				// set up the relation
+				this.user.set('address',  this.address, {validate: true});
+				this.showUserHome();
+			}
 		},
 
 		/**
@@ -128,67 +132,6 @@ define([
 		 */
 		showUserHome: function() {
 			this.router.navigate('#home', {trigger: true});
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
-		validateAddress: function() {
-			if (!this.ui.streetAddress.val()) {
-				return false;
-			}
-
-			return true;
-		},
-
-		/**
-		 * check if we can deliver to this person
-		 */
-		checkAddressLocation: function() {
-			var view = this;
-
-			$.ajax({
-				url: '/api/address/validate',
-				type: 'POST',
-				dataType: 'json',
-				data: {
-					address: this.user.get('addresses').at(0).toJSON() // TO DO: get the right address, not just the first
-				}
-			}).done(function (result) {
-				if (result.canDeliver) {
-					view.showUserHome();
-				} else {
-					view.showError(result.message);
-				}
-			}).fail(function (result) {
-				view.showError('Sorry, something went wrong on our end. Our support team has been notified of the issue.');
-			});
-		},
-
-		/**
-		 * Displays an error alert banner at the top of the page with the specified message.
-		 * Does not support multiple alerts at one time currently.
-		 * @param message
-		 */
-		showError: function(message) {
-			var view = this;
-
-			this.ui.alertArea.html('<div data-alert class="alert-box alert round text-center"> \
-				<div class="message">' + message + '</div> \
-				<a href="#" class="close">&times;</a> \
-			</div>');
-
-			// fade out the error after 7 seconds
-			setTimeout(function () {
-				view.hideError();
-			}, 7000);
-		},
-
-		/**
-		 * Clears the error message and removes it from the screen
-		 */
-		hideError: function() {
-			this.ui.alertArea.find('.alert-box').fadeOut();
 		}
 	});
 
