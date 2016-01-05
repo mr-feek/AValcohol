@@ -78,28 +78,26 @@ define([
 		 */
 		updateUserAddress: function() {
 			var place = this.autocomplete.getPlace();
-
+			var street, city, state, zip, place_id;
 			if (!place) {
 				// this means that the place was cached via local storage (no keystrokes in the textbox)
-				var street = this.street;
-				var city = this.city;
-				var state = this.state;
-				var zip = this.zip;
+				street = this.street;
+				city = this.city;
+				state = this.state;
+				zip = this.zip;
 			} else {
-				var place_id = place.place_id;
-				var street = place.name;
-				var city = place.vicinity;
-				var state;
-				var zip;
+				place_id = place.place_id;
+				street = place.name;
+				city = place.vicinity;
 
 				// bruteforce to find which element of the array is tha state / zip
 				// this could be more efficient
 				_.each(place.address_components, function(component) {
 					_.each(component.types, function(type) {
-						if (type == 'administrative_area_level_1') {
+						if (type === 'administrative_area_level_1') {
 							state = component.short_name;
 						}
-						else if(type == 'postal_code') {
+						else if(type === 'postal_code') {
 							zip = component.short_name;
 						}
 					});
