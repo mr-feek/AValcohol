@@ -22,8 +22,8 @@ define([
 
 		relations: [
 			{
-				type: Backbone.HasMany,
-				key: 'addresses',
+				type: Backbone.HasOne,
+				key: 'address',
 				relatedModel: UserAddress,
 				includeInJSON: false
 			}
