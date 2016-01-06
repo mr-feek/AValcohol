@@ -5,6 +5,7 @@ define([
 	'views/checkout/CheckoutProductsView',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
+	'views/checkout/UserInfoEntryView',
 	'models/Product',
 	'models/User',
 	'models/UserAddress',
@@ -17,6 +18,7 @@ define([
 	CheckoutProductsView,
 	AddressEntryView,
 	BillingInfoEntryView,
+	UserInfoEntryView,
 	Product,
 	User,
 	UserAddress,
@@ -46,6 +48,7 @@ define([
 
 		regions: {
 			items: '.items',
+			userInfo: '.user-info',
 			deliveryInfo: '.delivery-info',
 			billingInfo: '.billing-info'
 		},
@@ -62,6 +65,7 @@ define([
 
 			// if cart is empty, don't show anything else. Let checkoutproductsview emptyview handle it
 			//if (App.cart.length > 0) {
+				this.getRegion('userInfo').show(new UserInfoEntryView());
 				this.getRegion('deliveryInfo').show(new AddressEntryView());
 				this.getRegion('billingInfo').show(new BillingInfoEntryView());
 			//}

@@ -1,45 +1,44 @@
 define([
 	'marionette',
 	'App',
-	'models/UserAddress',
-	'tpl!templates/checkout/address-entry.html'
+	'tpl!templates/checkout/user-info-entry.html'
 ], function (
 	Mn,
 	App,
-	UserAddress,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
-		tagName: 'form',
+		tagName: 'div',
 		className: '',
 
 		templateHelpers: function() {
 			var view = this;
+
 			return {
-				street: function() {
+				first: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('street');
+					var val = view.model.get('first');
 					return val ? val : '';
 				},
 
-				city: function() {
+				last: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('city');
+					var val = view.model.get('last');
 					return val ? val : '';
 				},
 
-				state: function() {
+				phone: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('state');
+					var val = view.model.get('phone_number');
 					return val ? val : '';
 				},
 
-				zipcode: function() {
+				email: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('zipcode');
+					var val = view.model.get('email');
 					return val ? val : '';
-				}
+				},
 			}
 		},
 
@@ -47,8 +46,8 @@ define([
 
 		ui: {},
 
-		initialize: function () {
-			this.model = App.user.get('address');
+		initialize: function (options) {
+			this.model = App.user;
 		}
 	});
 
