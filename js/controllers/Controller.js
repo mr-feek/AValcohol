@@ -7,7 +7,7 @@ define([
 	'views/HeaderView',
 	'views/MVPHomeView',
 	'views/UserHomeView',
-	'views/CheckoutView'
+	'views/checkout/CheckoutView'
 ], function (
 	Marionette,
 	HeaderView,
