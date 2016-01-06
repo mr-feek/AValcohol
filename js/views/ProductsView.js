@@ -3,13 +3,15 @@ define([
 	'foundationEqualizer',
 	'views/ProductView',
 	'views/NoFeaturedProductsView',
-	'../collections/Products'
+	'collections/Products',
+	'behaviors/CollectionLoadingIndicator'
 ], function (
 	Mn,
 	FoundationEqualizer,
 	ProductView,
 	EmptyView,
-	Products
+	Products,
+	CollectionLoadingIndicator
 ) {
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
@@ -26,6 +28,12 @@ define([
 
 		ui: {},
 
+		behaviors: {
+			CollectionLoadingIndicator: {
+				behaviorClass: CollectionLoadingIndicator
+			}
+		},
+
 		/**
 		 *
 		 * @param options
@@ -34,6 +42,8 @@ define([
 		initialize: function (options) {
 			this.endpoint = options.endpoint;
 			this.collection = new Products([], { endpoint: this.endpoint});
+			// pass the collection to the loading indicator
+			this.triggerMethod("setCollection", this.collection);
 			this.collection.fetch();
 
 			// when an item is added / removed from the cart, we want to show it differently on the page
@@ -46,15 +56,7 @@ define([
 		onShow: function() {
 			$(document).foundation({
 				equalizer: {
-					equalize_on_stack: true,
-					before_height_change: function(){
-						// do something before the height changes
-						//console.log('before');
-					},
-					after_height_change: function(){
-						// do something after the height changes
-						//console.log('after');
-					}
+					equalize_on_stack: true
 				}
 			});
 		},
