@@ -83,7 +83,7 @@ define([
 			var order = Order.findOrCreate({
 				products: App.cart,
 				user: App.user,
-				address: App.user.get('addresses').at(0),
+				address: App.user.get('address'),
 				stripe_token: token
 			});
 
