@@ -121,7 +121,6 @@ define([
 		 * @param response
 		 */
 		stripeResponseHandler: function(status, response) {
-			console.log('stripe response handler');
 			var $form = this.ui.billingForm;
 
 			if (response.error) {
