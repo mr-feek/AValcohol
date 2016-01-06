@@ -12,4 +12,8 @@ class ProductController extends Controller
 	public function getAllFeatured() {
 		return Product::where('featured', 1)->get();
 	}
+
+	public function getAllBeer() {
+		return;
+	}
 }
