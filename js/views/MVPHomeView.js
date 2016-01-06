@@ -120,7 +120,7 @@ define([
 
 			if (this.address.isValid()) {
 				// set up the relation
-				this.user.set('address',  this.address, {validate: true});
+				this.user.set('address',  this.address);
 				this.showUserHome();
 			}
 		},
