@@ -1,7 +1,7 @@
 define([
 	'marionette',
-	'views/HeaderView',
-	'views/MVPHomeView',
+	'views/landing/HeaderView',
+	'views/landing/MVPHomeView',
 	'util/Vent',
 	'tpl!templates/root.html'
 ], function (

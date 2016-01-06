@@ -9,7 +9,7 @@ define([
 	'models/User',
 	'models/UserAddress',
 	'models/Order',
-	'tpl!templates/checkout.html'
+	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
 	App,

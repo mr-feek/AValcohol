@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'tpl!templates/no-featured-products.html'
+	'tpl!templates/user-home/no-featured-products.html'
 ], function (Mn,
 			 tpl) {
 	var NoFeaturedProductsView = Mn.ItemView.extend({

@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'tpl!templates/billing-info-entry.html'
+	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	tpl

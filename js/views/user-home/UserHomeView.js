@@ -1,11 +1,11 @@
 define([
 	'marionette',
-	'views/UserHomeHeaderView',
-	'views/ProductCategoriesView',
-	'views/ProductsView',
-	'views/CartView',
+	'views/user-home/UserHomeHeaderView',
+	'views/user-home/ProductCategoriesView',
+	'views/user-home/ProductsView',
+	'views/cart/CartView',
 	'App',
-	'tpl!templates/user-home.html'
+	'tpl!templates/user-home/user-home.html'
 ], function (
 	Mn,
 	UserHomeHeaderView,

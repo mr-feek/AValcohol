@@ -1,7 +1,7 @@
 define([
 	'marionette',
-	'views/CartProductView',
-	'views/EmptyCartView'
+	'views/cart/CartProductView',
+	'views/cart/EmptyCartView'
 ], function (
 	Mn,
 	CartProductView,

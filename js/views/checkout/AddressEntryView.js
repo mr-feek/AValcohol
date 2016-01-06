@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'App',
 	'models/UserAddress',
-	'tpl!templates/address-entry.html'
+	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
 	App,

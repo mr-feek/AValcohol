@@ -1,9 +1,9 @@
 define([
 	'marionette',
 	'foundationEqualizer',
-	'views/ProductView',
-	'views/NoFeaturedProductsView',
-	'../collections/Products'
+	'views/user-home/ProductView',
+	'views/user-home/NoFeaturedProductsView',
+	'collections/Products'
 ], function (
 	Mn,
 	FoundationEqualizer,

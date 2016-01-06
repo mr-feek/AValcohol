@@ -3,7 +3,7 @@ define([
 	'App',
 	'models/UserAddress',
 	'behaviors/ModelValidation',
-	'tpl!templates/mvp-home.html',
+	'tpl!templates/landing/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (
 	Mn,
