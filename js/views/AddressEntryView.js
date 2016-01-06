@@ -60,14 +60,7 @@ define([
 		ui: {},
 
 		initialize: function () {
-			var address = App.user.get('address')
-
-			// hack to get to the address.get(key) through the relation, not sure what im doing wrong otherwise...
-			if (address) {
-				address = address.attributes;
-			}
-
-			this.model = address;
+			this.model = App.user.get('address');
 		}
 	});
 
