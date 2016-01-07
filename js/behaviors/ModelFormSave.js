@@ -9,6 +9,7 @@ define([
 	var ModelFormSave = Mn.Behavior.extend({
 		successCallback: null,
 		failCallback: null,
+		appliedListeners: false, // flag for if we are already listening to model validation
 
 		ui: {
 			inputs : 'input[model_attribute]',
@@ -19,17 +20,21 @@ define([
 			'click @ui.saveModel' : 'saveClicked'
 		},
 
+		defaults: {
+			showValidationErrorsOnForm: true
+		},
+
 		/**
 		 * This behavior listens for a click on .save and cycles through each of the inputs within the views $el that
-		 * has a "model_attribute" attribute and calls this.view.set(model_attribute, value)
+		 * has a "model_attribute" attribute and calls this.view.set(model_attribute, input.value)
 		 *
 		 * VIEW REQUIRES:
-		 * - template with inputs containing [model_attribute] attribute key. IE <input model_attribute="first_name">
-		 *	- optional success / fail callback for calling once model is saved
+		 * 	- template with inputs containing [model_attribute] attribute key. IE <input model_attribute="first_name">
+		 *	- optional success / fail callbacks for calling once model is saved
+		 * 	- optional option showValidationErrorsOnForm
 		 * @param options
 		 */
-		initialize: function(options) {
-		},
+		initialize: function(options) {	},
 
 		/**
 		 * Called from the view in order to set the callbacks for when model.save finishes.
@@ -44,8 +49,15 @@ define([
 		saveClicked: function(evt) {
 			evt.preventDefault();
 
-			this.setModelAttributes();
+			// attach events for validation failure if necessary
+			if (this.getOption('showValidationErrorsOnForm') && !this.appliedListeners) {
+				this.listenTo(this.view.model, "invalid", this.showValidationErrors);
+				this.appliedListeners = true;
+			}
 
+			this.setModelAttributes();
+			// check if valid first, cause of a nasty bug in backbone where model.save doesn't return a rejected
+			// promise if validate fails, therefore breaking the promise chain...
 			if (this.view.model.isValid()) {
 				this.view.model.save()
 					.done(function(data) {
@@ -58,8 +70,26 @@ define([
 							this.failCallback(data)
 						}
 					}.bind(this));
-
 			}
+		},
+
+		showValidationErrors: function(model, errors) {
+			this.clearValidationErrors();
+
+			_.each(errors, function(error) {
+				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]'); // could change this find to search directly from ui inputs.. too tired to figure that out now
+
+				// add error class to label
+				$input.parent('label').addClass('error');
+
+				var html = '<small class="error"\>' + error.message + '</small>';
+				$input.after(html);
+			}.bind(this));
+		},
+
+		clearValidationErrors: function() {
+			this.$el.find('small.error').remove();
+			this.$el.find('label.error').removeClass('error');
 		},
 
 		setModelAttributes() {
