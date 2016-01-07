@@ -16,6 +16,7 @@ define([
 		 * VIEW REQUIRES:
 		 * - ui.alertArea (defaults to top of view)
 		 * - modelsToValidate (defaults to views model)
+		 * - models validate to return an array of errors containing attribute / error message
 		 *
 		 * @param options
 		 */
@@ -33,8 +34,10 @@ define([
 			}, this);
 		},
 
-		validationError: function(model, message) {
-			this.showError(message);
+		validationError: function(model, errors) {
+			_.each(errors, function(error) {
+				this.showError(error.message);
+			}.bind(this));
 		},
 
 		showError: function(message) {
