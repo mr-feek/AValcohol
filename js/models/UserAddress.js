@@ -15,9 +15,15 @@ define([
 		},
 
 		validate: function(attrs, options) {
+			var errors = [];
 			if (attrs.zipcode !== 16801 && attrs.zipcode !== "16801") {
-				return "We're sorry, but at this time we can only deliver to the 16801 area";
+				errors.push({
+					attribute: attrs.zipcode,
+					message: "We're sorry, but at this time we can only deliver to the 16801 area"
+				});
 			}
+
+			return errors.length > 0 ? errors : null;
 		}
 	});
 
