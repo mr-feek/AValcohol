@@ -14,8 +14,8 @@ define([
 		 * at the top of the view in an alert bar
 		 *
 		 * VIEW REQUIRES:
-		 * - ui.alertArea
-		 * - modelsToValidate
+		 * - ui.alertArea (defaults to top of view)
+		 * - modelsToValidate (defaults to views model)
 		 *
 		 * @param options
 		 */
@@ -23,6 +23,10 @@ define([
 		},
 
 		onShow: function() {
+			if (!this.view.modelsToValidate) {
+				this.view.modelsToValidate = [this.view.model];
+			}
+
 			// models to validate should have been set in initialize of the view, so were good to set up listeners
 			_.each(this.view.modelsToValidate, function(model) {
 				this.listenTo(model, "invalid", this.validationError);
@@ -34,6 +38,13 @@ define([
 		},
 
 		showError: function(message) {
+			if (!this.view.ui.alertArea) {
+				// insert alert area into the views $el and cache it into views ui as alertArea
+				var html = '<div class="alert-area"></div>'
+				this.view.$el.prepend(html);
+				this.view.ui.alertArea = this.view.$el.find('.alert-area');
+			}
+
 			this.view.ui.alertArea.append('<div data-alert class="alert-box alert round text-center"> \
 				<div class="message">' + message + '</div> \
 				<a href="#" class="close">&times;</a> \
