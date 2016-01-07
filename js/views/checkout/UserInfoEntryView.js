@@ -1,16 +1,24 @@
 define([
 	'marionette',
 	'App',
+	'behaviors/ModelFormSave',
 	'tpl!templates/checkout/user-info-entry.html'
 ], function (
 	Mn,
 	App,
+	ModelFormSave,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
 		className: '',
+
+		behaviors: {
+			ModelFormSave: {
+				behaviorClass: ModelFormSave
+			}
+		},
 
 		templateHelpers: function() {
 			var view = this;
@@ -42,12 +50,18 @@ define([
 			}
 		},
 
-		events: {},
-
-		ui: {},
-
 		initialize: function (options) {
 			this.model = App.user;
+			// attach callback to ModelFormSave behavior
+			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess, this.modelSaveFail);
+		},
+
+		modelSaveSuccess: function(response) {
+			debugger;
+		},
+
+		modelSaveFail: function(response) {
+			console.error('something went wrong: ' + response.responseText);
 		}
 	});
 
