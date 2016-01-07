@@ -33,6 +33,11 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 	$app->post('status', 'OrderController@updateStatus');
 });
 
+$app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('', 'UserController@create');
+	$app->put('{id}', 'UserController@update');
+});
+
 // To Do: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();

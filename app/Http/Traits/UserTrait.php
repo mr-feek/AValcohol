@@ -36,4 +36,21 @@ trait UserTrait {
 
 		return $user->charge($amount, $options);
 	}
+
+	public function createUser($data) {
+		$user = User::create($data);
+		// ensure this property is set..
+		$user->mvp_user = true;
+		$user->save();
+
+		return $user;
+	}
+
+	public function updateUser($data) {
+		$user = User::find($data['id']);
+
+		$user->update($data);
+
+		return $user;
+	}
 }

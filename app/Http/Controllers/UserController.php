@@ -9,10 +9,27 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Order;
-use App\Models\User;
+use App\Http\Traits\UserTrait;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+	use UserTrait;
 
+	public function create(Request $request) {
+		$user = $this->createUser($request->input());
+
+		return response()->json([
+			'success' => true,
+			'user' => $user
+		]);
+	}
+
+	public function update(Request $request) {
+		$user = $this->updateUser($request->input());
+		return response() ->json([
+			'success' => true,
+			'user' => $user
+		]);
+	}
 }
