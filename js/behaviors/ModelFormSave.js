@@ -50,9 +50,12 @@ define([
 			evt.preventDefault();
 
 			// attach events for validation failure if necessary
-			if (this.getOption('showValidationErrorsOnForm') && !this.appliedListeners) {
-				this.listenTo(this.view.model, "invalid", this.showValidationErrors);
-				this.appliedListeners = true;
+			if (this.getOption('showValidationErrorsOnForm')) {
+				this.clearValidationErrors();
+				if (!this.appliedListeners) {
+					this.listenTo(this.view.model, "invalid", this.showValidationErrors);
+					this.appliedListeners = true;
+				}
 			}
 
 			this.setModelAttributes();
@@ -74,8 +77,6 @@ define([
 		},
 
 		showValidationErrors: function(model, errors) {
-			this.clearValidationErrors();
-
 			_.each(errors, function(error) {
 				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]'); // could change this find to search directly from ui inputs.. too tired to figure that out now
 
