@@ -49,6 +49,9 @@ define([
 				<div class="message">' + message + '</div> \
 				<a href="#" class="close">&times;</a> \
 			</div>');
+
+			// reflow foundation so that we can listen to alert close events
+			$(this.view.$el).foundation('alert', 'reflow');
 		}
 	});
 
