@@ -8,7 +8,7 @@ define([
 	UserAddress
 ) {
 	var User = Backbone.RelationalModel.extend({
-		urlRoot: '/api/user/',
+		urlRoot: '/api/user',
 
 		/*
 		relations: [
