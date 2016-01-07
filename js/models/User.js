@@ -29,6 +29,10 @@ define([
 			}
 		],
 
+		parse: function(response, xhr) {
+			return response.user;
+		},
+
 		defaults: {
 			email: null,
 			first_name: null,
