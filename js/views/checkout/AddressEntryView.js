@@ -2,17 +2,25 @@ define([
 	'marionette',
 	'App',
 	'models/UserAddress',
+	'behaviors/ModelFormSave',
 	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
 	App,
 	UserAddress,
+	ModelFormSave,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'form',
 		className: '',
+
+		behaviors: {
+			ModelFormSave: {
+				behaviorClass: ModelFormSave
+			}
+		},
 
 		templateHelpers: function() {
 			var view = this;
@@ -49,6 +57,9 @@ define([
 
 		initialize: function () {
 			this.model = App.user.get('address');
+			if (!this.model) {
+				this.model = UserAddress.findOrCreate({});
+			}
 		}
 	});
 
