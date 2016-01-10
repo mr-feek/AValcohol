@@ -5,7 +5,7 @@ define([
 	Backbone
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
-		urlRoot: '/api/user/address',
+		urlRoot: '/api/address',
 
 		defaults: {
 			city: undefined,
