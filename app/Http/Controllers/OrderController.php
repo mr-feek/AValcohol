@@ -39,10 +39,7 @@ class OrderController extends Controller
 		$address = UserAddress::find($request->input('address.id'));
 
 		if (!$user) {
-			$user = User::create($request->input('user'));
-			// ensure this property is set..
-			$user->mvp_user = true;
-			$user->save();
+			throw new APIException('user was not found');
 		}
 
 		if (!$address) {
