@@ -9,8 +9,15 @@
 namespace App\Http\Traits;
 
 
+use App\Models\UserAddress;
+
 trait AddressTrait
 {
+
+	public function createAddress($data) {
+		return UserAddress::create($data);
+	}
+
 	/**
 	 * @param $zip
 	 *

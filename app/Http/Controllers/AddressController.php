@@ -9,6 +9,23 @@ class AddressController extends Controller
 {
 	use AddressTrait;
 
+	public function create(Request $request) {
+		$this->validate($request, [
+			'street' => 'required',
+			'city' => 'required',
+			'state' => 'required',
+			'zipcode' => 'required',
+			'user_id' => 'required'
+		]);
+
+		$address = $this->createAddress($request->input());
+
+		return response()->json([
+			'success' => true,
+			'address' => $address
+		]);
+	}
+
 	/**
 	 * This function will determine whether or not we can deliver to the address entered.
 	 * For now, it just checks if the address is equal to 16801

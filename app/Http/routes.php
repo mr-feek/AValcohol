@@ -22,6 +22,7 @@ $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('validate', 'AddressController@validateAddress');
+	$app->post('', 'AddressController@create');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
