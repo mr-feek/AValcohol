@@ -18,10 +18,6 @@ define([
 			return response.address;
 		},
 
-		relations: {
-
-		},
-
 		required: ['city', 'street', 'state'], // taking out zipcode for now since it has additional validator
 
 		validate: function(attrs, options) {
