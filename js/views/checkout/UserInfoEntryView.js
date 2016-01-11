@@ -13,6 +13,7 @@ define([
 		template: tpl,
 		tagName: 'div',
 		className: '',
+		parent: null,
 
 		behaviors: {
 			ModelFormSave: {
@@ -26,13 +27,13 @@ define([
 			return {
 				first: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('first');
+					var val = view.model.get('first_name');
 					return val ? val : '';
 				},
 
 				last: function() {
 					if (!view.model) {	return;	}
-					var val = view.model.get('last');
+					var val = view.model.get('last_name');
 					return val ? val : '';
 				},
 
@@ -51,13 +52,14 @@ define([
 		},
 
 		initialize: function (options) {
+			this.parent = options.parent;
 			this.model = App.user;
 			// attach callback to ModelFormSave behavior
 			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess, this.modelSaveFail);
 		},
 
 		modelSaveSuccess: function(response) {
-			debugger;
+			this.parent.showNext();
 		},
 
 		modelSaveFail: function(response) {
