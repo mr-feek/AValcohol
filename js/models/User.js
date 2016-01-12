@@ -25,7 +25,12 @@ define([
 				type: Backbone.HasOne,
 				key: 'address',
 				relatedModel: UserAddress,
-				includeInJSON: false
+				includeInJSON: false,
+				reverseRelation: {
+					key: 'user',
+					includeInJSON: true,
+					type: Backbone.HasOne
+				}
 			}
 		],
 

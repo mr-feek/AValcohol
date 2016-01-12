@@ -9,13 +9,23 @@
 namespace App\Http\Traits;
 
 
+use App\Models\User;
 use App\Models\UserAddress;
 
 trait AddressTrait
 {
 
+	/**
+	 * Creates a new address and associates it with the given user
+	 * @param $data
+	 * @return mixed
+	 */
 	public function createAddress($data) {
-		return UserAddress::create($data);
+		$user_id = $data['user']['id'];
+		$user = User::findOrFail($user_id);
+		$address = $user->addresses()->save(new UserAddress($data));
+
+		return $address;
 	}
 
 	/**

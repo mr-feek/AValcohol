@@ -37,7 +37,7 @@ class User extends Model
 	protected $hidden = ['password'];
 
 	// black list for mass assignable
-	protected $guarded = [];
+	protected $fillable = ['email', 'password', 'first_name', 'last_name', 'phone_number'];
 
 	public function addresses() {
 		return $this->hasMany('App\Models\UserAddress');
