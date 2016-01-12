@@ -35,12 +35,8 @@ class OrderController extends Controller
 		]);
 
 		// TO DO: authenticate
-		$user = User::find($request->input('user.id'));
-		$address = UserAddress::find($request->input('address.id'));
-
-		if (!$user) {
-			throw new APIException('user was not found');
-		}
+		$user = User::findOrFail($request->input('user.id'));
+		$address = UserAddress::findOrFail($request->input('address.id'));
 
 		if (!$address) {
 			$input = $request->input('address');
