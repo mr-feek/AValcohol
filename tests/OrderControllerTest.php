@@ -22,6 +22,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
 
+	/**
 	public function testCreateOrderWithoutExistingUser() {
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
@@ -48,6 +49,37 @@ class OrderControllerTest extends TestCase
 
 		$response = $this->createOrder($products, $address, $user, $token);
 		$this->verifyFullOrderInDatabase($response, $products);
+	}
+	 * */
+
+	public function testCreateOrderFailsWithInvalidUserID() {
+		$products = $this->getProductsToBuy();
+		$address = $this->getAddress();
+
+		// make user with fake id
+		$user = new \App\Models\User();
+		$user->id = 'fakeID';
+
+		$token = $this->createFakeToken();
+
+		$this->createOrder($products, $address, $user, $token);
+
+		$this->verifyOrderNotCreated();
+	}
+
+	public function testCreateOrderFailsWithInvalidUserAddressID() {
+		$products = $this->getProductsToBuy();
+
+		// fake address..
+		$address = new \App\Models\UserAddress();
+		$address->id = 'fakeID';
+		
+		$user = \App\Models\User::find(1);
+		$token = $this->createFakeToken();
+
+		$this->createOrder($products, $address, $user, $token);
+
+		$this->verifyOrderNotCreated();
 	}
 
 	public function testCreateOrderFailsWithInvalidProductID() {
