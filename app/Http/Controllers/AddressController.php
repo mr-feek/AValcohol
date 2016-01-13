@@ -15,7 +15,7 @@ class AddressController extends Controller
 			'city' => 'required',
 			'state' => 'required',
 			'zipcode' => 'required',
-			'user_id' => 'required'
+			'user.id' => 'required'
 		]);
 
 		$address = $this->createAddress($request->input());

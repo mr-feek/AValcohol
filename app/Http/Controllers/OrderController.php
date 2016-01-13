@@ -11,6 +11,7 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\UserAddress;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -35,27 +36,11 @@ class OrderController extends Controller
 		]);
 
 		// TO DO: authenticate
-		$user = User::find($request->input('user.id'));
-		$address = UserAddress::find($request->input('address.id'));
-
-		if (!$user) {
-			throw new APIException('user was not found');
-		}
-
-		if (!$address) {
-			$input = $request->input('address');
-			$input['user_id'] = $user->id;
-			// don't proceed in creating the address if we can't deliver there..
-			$canDeliver = $this->canDeliverToAddress($input['zipcode']);
-			if (!$canDeliver) {
-				return response()->json([
-					'success' => false,
-					'message' => $this->cannot_deliver_message
-				]);
-			}
-
-			$address = UserAddress::create($input);
-			$address->save();
+		try {
+			$user = User::findOrFail($request->input('user.id'));
+			$address = UserAddress::findOrFail($request->input('address.id'));
+		} catch(ModelNotFoundException $e) {
+			throw new APIException($e->getMessage());
 		}
 
 		$address_id = $address->id;
