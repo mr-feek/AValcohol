@@ -43,7 +43,7 @@ class MiddlewareTest extends TestCase
 	}
 
 	protected function shouldDeliver($time, $expected) {
-		$response = $this->deliveryHours->isBetween($this->deliveryHours->openTime, $this->deliveryHours->closeTime, $time);
+		$response = $this->deliveryHours->isOpenAt($time);
 
 		$this->assertEquals($expected, $response);
 	}
