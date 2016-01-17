@@ -26,9 +26,13 @@ use Illuminate\Database\Eloquent\Model;
 class BlacklistedAddress extends Model
 {
 	/**
-	 * @var array possible reasons for address to be blacklisted
+	 * possible reasons for being blacklisted
+	 * @return string
 	 */
-	public $reasons = array(
-		'1' => 'fraternity'
-	);
+	public function getReason() {
+		switch($this->id) {
+			case 1:
+				return "We're sorry, but at this time we cannot deliver to fraternities";
+		}
+	}
 }
