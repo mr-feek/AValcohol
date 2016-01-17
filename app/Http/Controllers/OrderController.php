@@ -48,11 +48,6 @@ class OrderController extends Controller
 		$stripe_token = $request->input('stripe_token');
 		$products = $request->input('products');
 
-		$canDeliver = $this->canDeliverToAddress($address->zipcode);
-		if (!$canDeliver) {
-			throw new APIException($this->cannot_deliver_message);
-		}
-
 		$order = new Order();
 		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {
 			$order->amount = 0;

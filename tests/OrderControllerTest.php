@@ -99,6 +99,7 @@ class OrderControllerTest extends TestCase
 		$this->seeJson(['message' => "Invalid Product ID: 0"]);
 	}
 
+	/*
 	public function testCannotCreateOrderIfCannotDeliverToAddress() {
 		$products = $this->getProductsToBuy();
 		$user = \App\Models\User::find(1);
@@ -110,6 +111,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 		$this->seeJson(['message' => "We're sorry, but at this time we can only deliver to the 16801 area"]);
 	}
+	*/
 
 	protected function verifyOrderNotCreated() {
 		$this->seeJson(['success' => false]);
