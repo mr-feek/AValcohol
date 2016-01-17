@@ -29,6 +29,8 @@ class AddressController extends Controller
 
 	public function update(Request $request, $id) {
 		$address = UserAddress::findOrFail($id);
+
+		$this->enforceUserCanUpdateAddress($request['user_id'], $address);
 		$address->update($request->input());
 
 		return array(

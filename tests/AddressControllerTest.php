@@ -77,4 +77,19 @@ class AddressControllerTest extends TestCase
 			'message' => "We're sorry, but at this time we can only deliver to the 16801 area"
 		]);
 	}
+
+	public function testUserCannotUpdateOtherUsersAddress() {
+		$address = UserAddress::find(1);
+		$id = $address->id + 1;
+		$address->id = $id;
+
+		$data = $address->toArray();
+
+		$this->put('/address/' . $address->id, $data);
+
+		$this->seeJson([
+			'success' => false,
+			'message' => 'invalid permissions.'
+		]);
+	}
 }

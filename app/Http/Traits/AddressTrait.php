@@ -61,4 +61,10 @@ trait AddressTrait
 		$this->cannot_deliver_message = "We're sorry, but at this time we can only deliver to the 16801 area";
 		return false;
 	}
+
+	protected function enforceUserCanUpdateAddress($user_id, UserAddress $address) {
+		if ($user_id !== $address->user->id) {
+			throw new APIException('invalid permissions.');
+		}
+	}
 }
