@@ -40,7 +40,9 @@ define([
 
 				numProducts: function() {
 					return App.cart.length;
-				}
+				},
+
+				blastMessage: App.config.get('blastMessage')
 			}
 		},
 

@@ -39,6 +39,8 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->put('{id}', 'UserController@update');
 });
 
+$app->get('/config', 'ConfigController@getConfig');
+
 // To Do: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();

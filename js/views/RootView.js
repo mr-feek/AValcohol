@@ -33,8 +33,7 @@ define([
 		},
 
 		initialize: function (options) {
-			var view = this;
-			Vent.on('root:scrollTo', view.scrollTo);
+			Vent.on('root:scrollTo', this.scrollTo);
 		},
 
 		onRender: function () {
