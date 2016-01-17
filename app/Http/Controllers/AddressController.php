@@ -25,25 +25,4 @@ class AddressController extends Controller
 			'address' => $address
 		]);
 	}
-
-	/**
-	 * This function will determine whether or not we can deliver to the address entered.
-	 * For now, it just checks if the address is equal to 16801
-	 * @param Request $request
-	 * @return boolean
-	 */
-	public function validateAddress(Request $request) {
-		$this->validate($request, [
-			'address.zipcode' => 'required'
-		]);
-
-		$address = $request->input('address');
-		$zip = $address['zipcode'];
-		$canDeliver = $this->canDeliverToAddress($zip);
-
-		return response()->json([
-			'canDeliver' => $canDeliver,
-			'message' => $this->cannot_deliver_message
-		]);
-	}
 }
