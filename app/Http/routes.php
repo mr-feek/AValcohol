@@ -26,7 +26,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('', 'OrderController@createOrder');
+	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
 
 	// To Do: ADMIN AUTH
 	$app->get('pending-and-out-for-delivery', 'OrderController@getAllPendingAndOutForDelivery');

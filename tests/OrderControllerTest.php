@@ -9,6 +9,7 @@
 class OrderControllerTest extends TestCase
 {
 	use \Illuminate\Foundation\Testing\DatabaseTransactions;
+	use \Illuminate\Foundation\Testing\WithoutMiddleware;
 
 	public function testCreateOrderWithExistingUser() {
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
