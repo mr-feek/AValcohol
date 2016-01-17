@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'App',
-	'tpl!templates/cart-product.html'
+	'tpl!templates/cart/cart-product.html'
 ], function (
 	Mn,
 	App,

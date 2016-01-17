@@ -3,53 +3,90 @@
 namespace App\Http\Controllers;
 
 use App\Events\OrderWasSubmitted;
+use App\Exceptions\APIException;
+use App\Http\Traits\AddressTrait;
+use App\Http\Traits\UserTrait;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\UserAddress;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
+	use AddressTrait, UserTrait;
 
 	/**
 	 * @param Request $request
-	 * 		- user_id
-	 * 		- address_id
-	 * 		- product_id
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws APIException
 	 */
 	public function createOrder(Request $request) {
 		$success = false;
 
-		$productId = $request->input('product_id');
-		$product = Product::find($productId);
+		$this->validate($request, [
+			'products' => 'required',
+			'user' => 'required',
+			'address' => 'required',
+			'stripe_token' => 'required'
+		]);
 
-		$userId = $request->input('user_id');
-		$user = User::find($userId);
+		// TO DO: authenticate
+		try {
+			$user = User::findOrFail($request->input('user.id'));
+			$address = UserAddress::findOrFail($request->input('address.id'));
+		} catch(ModelNotFoundException $e) {
+			throw new APIException($e->getMessage());
+		}
 
-		$addressId = $request->input('address_id');
-		$address = UserAddress::find($addressId);
+		$address_id = $address->id;
+		$user_id = $user->id;
+		$stripe_token = $request->input('stripe_token');
+		$products = $request->input('products');
 
-		if ($product && $user && $address) {
-			$amount = $product->price;
-			$order = new Order();
+		$canDeliver = $this->canDeliverToAddress($address->zipcode);
+		if (!$canDeliver) {
+			throw new APIException($this->cannot_deliver_message);
+		}
 
-			$order->amount = $amount;
+		$order = new Order();
+		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {
+			$order->amount = 0;
 			$order->status = 'pending'; // TO DO: make this the default db side
-			$order->product_id = $productId;
-			$order->user_id = $userId;
-			$order->user_address_id = $addressId;
+			$order->user_id = $user_id;
+			$order->user_address_id = $address_id;
+			$order->save();
 
-			$success = $order->save();
+			$amount = 0;
+			foreach ($products as $p) {
+				$product = Product::find($p['id']);
 
-			if ($success) {
-				// notify pusher etc
-				Event::fire(new OrderWasSubmitted($order));
+				if (!$product) {
+					throw new APIException("Invalid Product ID: $p->id");
+				}
+
+				$amount += $product->price;
+
+				// create order_product record
+				$order->products()->attach($product->id, ['product_price' => $product->price]);
 			}
 
-		}
+			// update the order record with the proper price
+			$order->amount = $amount;
+			$order->save();
+
+			// lets charge em
+			$this->chargeUserForOrder($user_id, $order->id, $stripe_token);
+
+			// notify pusher etc
+			Event::fire(new OrderWasSubmitted($order));
+
+			$success = true;
+		});
 
 		return response()->json([
 			'success' => $success,
@@ -70,7 +107,7 @@ class OrderController extends Controller
 		$orders = Order::
 			where('status', 'pending')
 			->orWhere('status', 'out-for-delivery')
-			->with(['product', 'user', 'address'])
+			->with(['products', 'user', 'address'])
 			->get();
 
 		return response()->json([
@@ -96,7 +133,7 @@ class OrderController extends Controller
 			->get();
 */
 
-		$order = Order::where('id', $id)->with(['user', 'product', 'address'])->get();
+		$order = Order::where('id', $id)->with(['user', 'products', 'address'])->get();
 
 		return response()->json([
 			'order' => $order

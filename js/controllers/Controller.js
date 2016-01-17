@@ -4,10 +4,10 @@
 
 define([
 	'marionette',
-	'views/HeaderView',
-	'views/MVPHomeView',
-	'views/UserHomeView',
-	'views/CheckoutView'
+	'views/landing/HeaderView',
+	'views/landing/MVPHomeView',
+	'views/user-home/UserHomeView',
+	'views/checkout/CheckoutView'
 ], function (
 	Marionette,
 	HeaderView,

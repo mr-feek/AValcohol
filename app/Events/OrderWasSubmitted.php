@@ -22,7 +22,7 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 	public function __construct(Order $order)
 	{
 		$this->order = $order;
-		$this->env =  $_ENV['APP_ENV']; // should probably figure out how to load this directly from $app->environment()....
+		$this->env =  \Dotenv::findEnvironmentVariable('APP_ENV');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class OrderWasSubmitted extends Event implements ShouldBroadcast
 	public function broadcastWith()
 	{
 		// fetch the relations
-		$this->order->load('user', 'product', 'address');
+		$this->order->load('user', 'products', 'address');
 
 		return [
 			'order' => $this->order

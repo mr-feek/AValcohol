@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'tpl!templates/address-entry.html'
+	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	tpl
@@ -8,19 +8,7 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'form',
-		className: '',
-
-		templateHelpers: function() {
-			var view = this;
-
-			return {
-
-			}
-		},
-
-		events: {},
-
-		ui: {},
+		className: 'payment-form',
 
 		initialize: function (options) {
 		}

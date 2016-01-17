@@ -1,9 +1,10 @@
 define([
 	'backbone',
+	'backboneRelational'
 ], function (
 	Backbone
 ) {
-	var Product = Backbone.Model.extend({
+	var Product = Backbone.RelationalModel.extend({
 		urlRoot: '/api/',
 
 		defaults: {

@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'util/Vent',
-	'tpl!templates/header.html'
+	'tpl!templates/landing/header.html'
 ], function (
 	Mn,
 	Vent,

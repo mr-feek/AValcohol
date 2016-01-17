@@ -1,13 +1,13 @@
 define([
 	'marionette',
-	'tpl!templates/billing-info-entry.html'
+	'tpl!templates/cart/empty-cart.html'
 ], function (
 	Mn,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
-		tagName: 'form',
+		tagName: 'div',
 		className: '',
 
 		templateHelpers: function() {

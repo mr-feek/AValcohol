@@ -1,8 +1,8 @@
 define([
 	'marionette',
 	'foundationEqualizer',
-	'views/ProductView',
-	'views/NoFeaturedProductsView',
+	'views/user-home/ProductView',
+	'views/user-home/NoFeaturedProductsView',
 	'collections/Products',
 	'behaviors/CollectionLoadingIndicator'
 ], function (

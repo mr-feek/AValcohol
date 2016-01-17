@@ -25,7 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserAddress extends Model
 {
-	protected $table = "user_addresses";
+	protected $table = 'user_addresses';
+
+	protected $fillable = ['street', 'city', 'state', 'zipcode'];
 
 	public function user() {
 		return $this->belongsTo('App\Models\User');

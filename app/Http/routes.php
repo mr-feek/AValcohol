@@ -23,10 +23,11 @@ $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('validate', 'AddressController@validateAddress');
+	$app->post('', 'AddressController@create');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('create', 'OrderController@createOrder');
+	$app->post('', 'OrderController@createOrder');
 
 	// To Do: ADMIN AUTH
 	$app->get('pending-and-out-for-delivery', 'OrderController@getAllPendingAndOutForDelivery');
@@ -34,7 +35,24 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 	$app->post('status', 'OrderController@updateStatus');
 });
 
+$app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('', 'UserController@create');
+	$app->put('{id}', 'UserController@update');
+});
+
 // To Do: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();
 });
+
+$app->get('/stripe/key', function() use ($app) {
+	return response()->json([
+		'key' => Dotenv::findEnvironmentVariable('STRIPE_KEY')
+	]); // should i do this via config() helper?
+});
+
+if ($app->environment() !== 'production') {
+	$app->group(['prefix' => 'logs', 'namespace' => '\Rap2hpoutre\LaravelLogViewer'], function ($app) {
+		$app->get('', 'LogViewerController@index');
+	});
+}

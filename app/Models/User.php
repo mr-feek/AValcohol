@@ -11,6 +11,7 @@ namespace App\Models;
 use App\Models\UserAddress;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Cashier\Billable;
 
 /**
  * App\Models\User
@@ -26,11 +27,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $stripe_id
  * @property string $card_brand
  * @property string $card_last_four
+ * @property boolean $mvp_user
  */
 class User extends Model
 {
 
+	use Billable;
+
 	protected $hidden = ['password'];
+
+	// black list for mass assignable
+	protected $fillable = ['email', 'password', 'first_name', 'last_name', 'phone_number'];
 
 	public function addresses() {
 		return $this->hasMany('App\Models\UserAddress');

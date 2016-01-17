@@ -5,11 +5,19 @@ var OrderList = React.createClass({
 				<div className="order panel">
 					<li>Order ID: {order.id}</li>
 					<ul>
-						Product Details
-						<ul>
-							<li>Product Name: {order.product.name}</li>
-							<li>Contains: {order.product.contains} {order.product.container}(s) {order.product.ounces}oz</li>
-						</ul>
+						Products
+						<ol>
+							{order.products.map(function(product) {
+								return [
+									<li>
+										<ul>
+											<li>Product Name: {product.name}</li>
+											<li>Contains: {product.contains} {product.container}(s) {product.ounces}oz</li>
+										</ul>
+									</li>
+								]
+							})}
+						</ol>
 
 						Order Details
 						<ul>
