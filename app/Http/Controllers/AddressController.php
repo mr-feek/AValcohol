@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\AddressTrait;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -24,5 +25,15 @@ class AddressController extends Controller
 			'success' => true,
 			'address' => $address
 		]);
+	}
+
+	public function update(Request $request, $id) {
+		$address = UserAddress::findOrFail($id);
+		$address->update($request->input());
+
+		return array(
+			'success' => true,
+			'address' => $address
+		);
 	}
 }
