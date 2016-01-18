@@ -8,7 +8,7 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 	git add . -f
 	git commit -m "built with love by travis <3"
 	git remote add production https://${GH_TOKEN}:x-oauth-basic@github.com/feeekkk/AValcohol-production.git
-	git push production master --force
+	git push production HEAD:master --force
 else
 	if ([ "$TRAVIS_BRANCH" == "dev" ]) &&
 	[ "$TRAVIS_PULL_REQUEST" == "false" ]; then
