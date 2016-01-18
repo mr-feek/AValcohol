@@ -2,7 +2,6 @@
 if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	sass --update sass:css;
-	rm -rf .git
 	git config user.name "Travis CI"
 	git config user.email "feek-travis@avalcohol.com"
 	git config --global push.default simple
