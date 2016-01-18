@@ -10,6 +10,8 @@ use App\Models\UserAddress;
  */
 class AddressControllerTest extends TestCase
 {
+	use \Illuminate\Foundation\Testing\DatabaseTransactions;
+
 	public function testCanCreateAddress() {
 		$address = new UserAddress();
 		$address->city = 'State College';

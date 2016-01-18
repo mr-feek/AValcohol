@@ -65,6 +65,10 @@ class OrderControllerTest extends TestCase
 		$this->createOrder($products, $address, $user, $token);
 
 		$this->verifyOrderNotCreated();
+
+		$this->seeJson([
+			'message' => 'App\\Models\\User not found.'
+		]);
 	}
 
 	public function testCreateOrderFailsWithInvalidUserAddressID() {
@@ -80,6 +84,10 @@ class OrderControllerTest extends TestCase
 		$this->createOrder($products, $address, $user, $token);
 
 		$this->verifyOrderNotCreated();
+
+		$this->seeJson([
+			'message' => 'App\\Models\\UserAddress not found.'
+		]);
 	}
 
 	public function testCreateOrderFailsWithInvalidProductID() {

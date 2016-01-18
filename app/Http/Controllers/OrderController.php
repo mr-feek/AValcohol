@@ -40,7 +40,7 @@ class OrderController extends Controller
 			$user = User::findOrFail($request->input('user.id'));
 			$address = UserAddress::findOrFail($request->input('address.id'));
 		} catch(ModelNotFoundException $e) {
-			throw new APIException($e->getMessage());
+			throw new APIException($e->getModel() . ' not found.');
 		}
 
 		$address_id = $address->id;
