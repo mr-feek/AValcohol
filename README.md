@@ -6,10 +6,17 @@
 4. type `php composer.phar install` (make sure you have composer installed first)
 
 ##Current Deploy Process To dev.avalcohol.com
-1. push changes to this repo
-2. cd to AValcohol-dev
-4. php sync.php
-5. git push
-6. ssh onto server
-7. cd www/dev/AValcohol-dev/
-8. git pull
+1. push changes to the *dev* branch on this repo, the rest will be handled magically by travis
+2. ssh onto server and cd to www/dev
+3. edit .env if necessary
+4. php artisan migrate if there are any migrations needing to be ran
+
+##Current Production Deploy Process To dev.avalcohol.com
+1. make sure you frickin have it on dev and test making an order and everything PERSONALLY so that everything works. Check admin orders page too to make sure pusher integration is working
+2. merge into master and git push
+3. travis will test / build everything and then will commit and push all of the built code to AValcohol-production
+4. clone the repo locally to your computer
+5. run the necessary migrations on the LIVE db
+6. git push and hope for the best ~
+7. IN CASE OF BAD BUILD
+8. ssh and git revert bby
