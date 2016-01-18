@@ -6,7 +6,7 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 	git config user.email "feek-travis@avalcohol.com"
 	git add . -f
 	git commit -m "built with love by travis <3"
-	git push "https://feeekkk${GH_TOKEN}@github.com/feeekkk/AValcohol-production.git" --force --quiet
+	git push "https://feeekkk:${GH_TOKEN}@github.com/feeekkk/AValcohol-production.git" --force --quiet
 else
 	if ([ "$TRAVIS_BRANCH" == "dev" ]) &&
 	[ "$TRAVIS_PULL_REQUEST" == "false" ]; then
