@@ -28,6 +28,7 @@ trait UserTrait {
 			'currency' => 'usd',
 			'description' => 'test charge',
 			'source' => $stripe_token,
+			'receipt_email' => $user->email,
 			'metadata' => array(
 				'user_id' => $user_id,
 				'order_id' => $order_id
