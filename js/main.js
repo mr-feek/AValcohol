@@ -90,20 +90,20 @@ require([
 		Backbone.history.start({
 			pushState: true
 		});
-	});
 
-	// freeze scrolling of main content when offcanvas is open
-	$(document)
-		.on('open.fndtn.offcanvas', '[data-offcanvas]', function() {
-			$('#all-wrapper').css({
-				'overflow' : 'hidden',
-				'height' : '100vh'
-			});
-		})
-		.on('close.fndtn.offcanvas', '[data-offcanvas]', function() {
-			$('#all-wrapper').css({
-				'overflow' : 'initial',
-				'height' : 'initial'
-			});
-		})
+		// freeze scrolling of main content when offcanvas is open
+		$(document)
+			.on('open.fndtn.offcanvas', '[data-offcanvas]', function() {
+				$('#all-wrapper').css({
+					'overflow' : 'hidden',
+					'height' : '100vh'
+				});
+			})
+			.on('close.fndtn.offcanvas', '[data-offcanvas]', function() {
+				$('#all-wrapper').css({
+					'overflow' : 'initial',
+					'height' : 'initial'
+				});
+			})
+	});
 });
