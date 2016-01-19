@@ -47,15 +47,21 @@ define([
 		},
 
 		initialize: function() {
-			this.on('change:phone', this.stripPhoneNumber);
+			this.on('change:phone_number', this.stripPhoneNumber);
 		},
 
 		/**
 		 * Strip everything but digits
 		 */
 		stripPhoneNumber: function() {
-			var num = this.get('phone').replace(/\D/g,'');
-			this.set('phone', num);
+			var num = this.get('phone_number')
+
+			if (!num) {
+				return
+			}
+
+			num = num.replace(/\D/g,'');
+			this.set('phone_number', num);
 		},
 
 		validate: function(attrs, options) {
