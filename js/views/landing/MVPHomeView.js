@@ -18,6 +18,7 @@ define([
 
 		events: {
 			'click @ui.submitAddress' : 'addressSubmitted',
+			'keydown @ui.streetAddress' : 'addressSubmitted',
 			'click @ui.skipEntry' : 'showUserHome'
 		},
 
@@ -64,6 +65,12 @@ define([
 		},
 
 		addressSubmitted: function(e) {
+			if (e.keyCode) {
+				if (e.keyCode === 13) {
+					e.preventDefault();
+				}
+				return;
+			}
 			e.preventDefault();
 			this.updateUserAddress();
 		},
@@ -117,7 +124,6 @@ define([
 			this.address.set('state', state);
 			this.address.set('zipcode', zip);
 			//address.set('unit', unit);
-
 			if (this.address.isValid()) {
 				// set up the relation
 				this.user.set('address',  this.address);
