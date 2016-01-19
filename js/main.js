@@ -105,5 +105,15 @@ require([
 					'height' : 'initial'
 				});
 			})
+	}).error(function(response) {
+		if (response.status === 503) {
+			// api is down for maintenance
+			$('body').html(
+				'<div style="text-align:center;">' +
+					'<h1>We Are Currently Down For Maintenance.</h1>' +
+					'<p>Please check back soon - Aqua Vitae</p>' +
+				'</div>'
+			);
+		}
 	});
 });
