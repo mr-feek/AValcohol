@@ -17,6 +17,13 @@ class UserController extends Controller
 	use UserTrait;
 
 	public function create(Request $request) {
+		$this->validate($request, [
+			'email' => 'required|email',
+			'first_name' => 'required|alpha',
+			'last_name' => 'required|alpha',
+			'phone_number' => 'required|digits:10'
+		]);
+
 		$user = $this->createUser($request->input());
 
 		return response()->json([

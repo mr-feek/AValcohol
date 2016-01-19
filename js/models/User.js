@@ -43,7 +43,19 @@ define([
 			first_name: null,
 			last_name: null,
 			phone_number: null,
-			mvp_user: 1 // this account does NOT need a password, email, etc
+			mvp_user: 1 // this account does NOT need a password etc
+		},
+
+		initialize: function() {
+			this.on('change:phone', this.stripPhoneNumber);
+		},
+
+		/**
+		 * Strip everything but digits
+		 */
+		stripPhoneNumber: function() {
+			var num = this.get('phone').replace(/\D/g,'');
+			this.set('phone', num);
 		},
 
 		validate: function(attrs, options) {
@@ -69,6 +81,13 @@ define([
 				errors.push({
 					attribute: 'phone_number',
 					message: 'please enter a ten digit phone number'
+				})
+			}
+
+			if (!attrs.email) {
+				errors.push({
+					attribute: 'email',
+					message: 'please enter a valid email address'
 				})
 			}
 

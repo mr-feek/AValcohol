@@ -63,7 +63,15 @@ define([
 		},
 
 		modelSaveFail: function(response) {
-			console.error('something went wrong: ' + response.responseText);
+			var attribute = Object.keys(response.responseJSON)[0];
+			var message = response.responseJSON[attribute][0];
+
+			var error = {
+				attribute: attribute,
+				message: message
+			};
+
+			this.triggerMethod('showValidationErrors', this.model, [error])
 		}
 	});
 
