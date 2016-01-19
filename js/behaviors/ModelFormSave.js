@@ -88,6 +88,11 @@ define([
 			}.bind(this));
 		},
 
+		// for calling from view
+		onShowValidationErrors: function(model, errors) {
+			this.showValidationErrors(model, errors);
+		},
+
 		clearValidationErrors: function() {
 			this.$el.find('small.error').remove();
 			this.$el.find('label.error').removeClass('error');
