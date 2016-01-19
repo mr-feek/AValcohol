@@ -27,7 +27,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('', 'OrderController@createOrder');
+	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
 
 	// To Do: ADMIN AUTH
 	$app->get('pending-and-out-for-delivery', 'OrderController@getAllPendingAndOutForDelivery');
@@ -39,6 +39,8 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
 });
+
+$app->get('/config', 'ConfigController@getConfig');
 
 // To Do: ADMIN AUTH
 $app->get('/environment', function() use ($app) {

@@ -1,0 +1,25 @@
+.status-area {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+
+	a.status {
+		padding: 1rem;
+		display: table-cell;
+		border: 1px solid $dark-text-color;
+		text-align: center;
+
+		&.disabled {
+			color: $dark-text-color;
+
+			&:hover {
+				cursor: default;
+			}
+		}
+
+		i {
+			padding-right: rem-calc(10);
+			font-size: rem-calc(36);
+		}
+	}
+}

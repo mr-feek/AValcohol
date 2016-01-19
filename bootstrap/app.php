@@ -55,6 +55,7 @@ $app->singleton(
 |
 */
 
+// these run for every request
 // $app->middleware([
 //     // Illuminate\Cookie\Middleware\EncryptCookies::class,
 //     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -63,9 +64,10 @@ $app->singleton(
 //     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
 // ]);
 
-// $app->routeMiddleware([
-
-// ]);
+// these can be called by specific routes
+$app->routeMiddleware([
+	'delivery-hours' => App\Http\Middleware\DeliveryHours::class
+]);
 
 /*
 |--------------------------------------------------------------------------

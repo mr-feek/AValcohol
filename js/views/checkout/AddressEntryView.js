@@ -15,6 +15,7 @@ define([
 		template: tpl,
 		tagName: 'form',
 		className: '',
+		parent: null,
 
 		behaviors: {
 			ModelFormSave: {
@@ -55,8 +56,10 @@ define([
 
 		ui: {},
 
-		initialize: function () {
+		initialize: function (options) {
+			this.parent = options.parent;
 			this.model = App.user.get('address');
+
 			if (!this.model) {
 				this.model = UserAddress.findOrCreate({});
 			}

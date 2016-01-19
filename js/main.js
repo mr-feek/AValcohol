@@ -48,20 +48,24 @@ require.config({
 
 require([
 	'App',
+	'backbone',
 	'views/RootView',
 	'controllers/Controller',
 	'util/Router',
 	'collections/Cart',
 	'models/User',
+	'models/Config',
 	'foundation',
 	'foundationOffCanvas'
 ], function (
 	app,
+	Backbone,
 	RootView,
 	Controller,
 	Router,
 	Cart,
-	User
+	User,
+	Config
 ) {
 	$(document).foundation();
 
@@ -78,10 +82,14 @@ require([
 		app.rootView.render();
 	});
 
-	app.start();
+	// screw it, we're waiting for config to fetch before starting app
+	app.config = new Config();
+	app.config.fetch().done(function() {
+		app.start();
 
-	Backbone.history.start({
-		pushState: true
+		Backbone.history.start({
+			pushState: true
+		});
 	});
 
 	// freeze scrolling of main content when offcanvas is open
