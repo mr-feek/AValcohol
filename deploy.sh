@@ -8,7 +8,7 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 	git config user.email "feek-travis@avalcohol.com"
 	git config --global push.default simple
 	git add . -f
-	git commit -m "built with love by travis <3"
+	git commit -m "built with love by travis <3. Build: ${TRAVIS_BUILD_NUMBER} | Commit Range: ${TRAVIS_COMMIT_RANGE}"
 	git remote add production https://${GH_TOKEN}@github.com/feeekkk/AValcohol-production.git
 	git push production master --force
 else
