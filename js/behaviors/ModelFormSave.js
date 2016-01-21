@@ -62,14 +62,19 @@ define([
 				}
 			}
 
-			this.setModelAttributes();
-			// check if valid first, cause of a nasty bug in backbone where model.save doesn't return a rejected
-			// promise if validate fails, therefore breaking the promise chain...
-			if (this.view.model.isValid()) {
-				this.view.model.save()
-					.done(function(data) {
+			// get attributes to update
+			var changedAttributes = this.getModelChangedAttributes();
+
+			// wait to set until back end has saved
+			var promise = this.view.model.save(changedAttributes, {	wait: true	});
+
+			// promise will be false if validation failed and model was not set.
+			// This will be picked up by our model invalid listener
+			if (promise) {
+				promise
+					.done(function(response) {
 						if (this.successCallback) {
-							this.successCallback(data);
+							this.successCallback(response);
 						}
 					}.bind(this))
 					.fail(function(response) {
@@ -107,6 +112,11 @@ define([
 			}
 		},
 
+		/**
+		 * Shows the validation errors on the form
+		 * @param model
+		 * @param errors
+		 */
 		showValidationErrors: function(model, errors) {
 			_.each(errors, function(error) {
 				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]'); // could change this find to search directly from ui inputs.. too tired to figure that out now
@@ -124,17 +134,27 @@ define([
 			this.showValidationErrors(model, errors);
 		},
 
+		/**
+		 * Removes all errors from the form
+		 */
 		clearValidationErrors: function() {
 			this.$el.find('small.error').remove();
 			this.$el.find('label.error').removeClass('error');
 		},
 
-		setModelAttributes() {
+		/**
+		 * Retrieves all of the attributes / values to save to backend
+		 * @returns {Array}
+		 */
+		getModelChangedAttributes() {
+			var attributes = [];
 			_.each(this.ui.inputs, function(input) {
 				var key = $(input).attr('model_attribute');
 				var value = input.value;
-				this.view.model.set(key, value);
+				attributes[key] = value;
 			}, this)
+
+			return attributes;
 		}
 	});
 
