@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="columns small-12 medium-6">
+		<h5>Delivery Information</h5>
+
+		<p>
+			<%= user.get('first_name') + " " + user.get('last_name') %>
+			<a class="edit user">Edit</a>
+		</p>
+
+		<p>
+			<%= address.get('street') + ", " + address.get('zipcode') %>
+			<a class="edit address">Edit</a>
+		</p>
+	</div>
+
+	<div class="columns small-12 medium-6">
+		<h5>Billing Info</h5>
+		<p>
+			XXXX XXXX XXXX <%= card.get('last_four') %>
+			<a class="edit billing">Edit</a>
+		</p>
+	</div>
+</div>
+
+<h5>Products</h5>
+<p>yhhhhh</p>
+<textarea class="note" placeholder="Additional notes for apartment number, etc"></textarea>
+<button class="button order">SUBMIT ORDER</button>

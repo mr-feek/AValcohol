@@ -2,29 +2,26 @@ define([
 	'marionette',
 	'App',
 	'stripe',
-	'views/checkout/CheckoutProductsView',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
-	'models/Product',
-	'models/User',
-	'models/UserAddress',
-	'models/Order',
+	'views/checkout/OrderReviewView',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
 	App,
 	Stripe,
-	CheckoutProductsView,
 	AddressEntryView,
 	BillingInfoEntryView,
 	UserInfoEntryView,
-	Product,
-	User,
-	UserAddress,
-	Order,
+	OrderReviewView,
 	tpl
 ) {
+
+	/**
+	 * This view is the parent view container for the checkout process. It keeps track of the
+	 * current flow state
+	 */
 	var CheckoutView = Mn.LayoutView.extend({
 		template: tpl,
 		tagName: 'div',
@@ -32,29 +29,18 @@ define([
 		currentIndex: 0,
 		viewFlow: [], // populated in initialize
 
-		templateHelpers: function() {
-			return {
-				cart: App.cart
-			}
-		},
-
 		events: {
-			'click @ui.order' : 'getStripeToken',
-			'click @ui.savedView' : 'goToView'
+			'click @ui.savedView' : '_goToView'
 		},
 
 		ui: {
 			'statusArea' : '.status-area',
 			'statuses' : '.status',
-			'savedView' : '.submitted',
-			'order' : '.order',
-			'billingForm' : '.billing-info',
-			'payButton' : '.button.order',
-			'note' : '.note'
+			'savedView' : '.submitted'
 		},
 
 		regions: {
-			active: '.active'
+			current: '.current'
 		},
 
 		initialize: function (options) {
@@ -65,63 +51,79 @@ define([
 			this.viewFlow.push(
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
-				new BillingInfoEntryView({	parent:	this })
+				new BillingInfoEntryView({	parent:	this }),
+				new OrderReviewView({	parent: this })
 			);
 		},
 
 		onBeforeShow: function() {
-			this.showActiveView();
+			this._showCurrentView();
 		},
 
-		showActiveView: function() {
-			this.updateStatus();
+		/**
+		 * Updates the current status and shows the view at the current index
+		 * @private
+		 */
+		_showCurrentView: function() {
+			this._updateStatus();
 			// we are preventing destroy here, so remember to clean up later
-			this.getRegion('active').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
+			this.getRegion('current').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
 		},
 
+		/**
+		 * Increments the current index and shows the next view, also updating the active class
+		 */
 		showNext: function() {
+			this._removeActiveClass();
 			this.currentIndex++;
-			this.showActiveView();
+			this._showCurrentView();
 		},
 
-		updateStatus: function() {
+		/**
+		 * Adds class submitted and active as well as removes the disabled class. Does NOT remove an active class
+		 * from the previous state, so do so yourself
+		 * @private
+		 */
+		_updateStatus: function() {
 			var $status = $(this.ui.statuses[this.currentIndex]);
 			$status.addClass('submitted');
+			$status.addClass('active');
 			$status.removeClass('disabled');
 		},
 
-		goToView: function(evt) {
+		/**
+		 * Removes the current view from being active
+		 * @private
+		 */
+		_removeActiveClass: function() {
+			var $status = $(this.ui.statuses[this.currentIndex]);
+			$status.removeClass('active');
+		},
+
+		/**
+		 * Helper function to switch which index is being shown. Updates the active class
+		 * @param index
+		 */
+		goToIndex: function(index) {
+			this._removeActiveClass();
+			this.currentIndex = index;
+			this._showCurrentView();
+		},
+
+		/**
+		 * Function to go to the clicked view (from the status thing)
+		 * @param evt
+		 * @private
+		 */
+		_goToView: function(evt) {
+			this._removeActiveClass();
 			_.each(this.ui.statuses, function(status, index) {
-				if (evt.target === status) {
+				if (evt.currentTarget === status) {
 					this.currentIndex = index;
 				}
 			}.bind(this));
 
-			this.showActiveView();
-		},
-
-		/**
-		 * creates a new order model and saves it to the backend
-		 * @param token verified stripe token
-		 */
-		submitOrder: function(token) {
-			// get note
-			var note = this.ui.note.val();
-
-			// create order
-			var order = Order.findOrCreate({
-				products: App.cart,
-				user: App.user,
-				address: App.user.get('address'),
-				stripe_token: App.user.get('token'),
-				note: note
-			});
-
-			order.save().done(function (result) {
-				console.log('pass');
-			}).fail(function (result) {
-				console.log('fail');
-			});
+			this._showCurrentView();
 		}
 	});
 

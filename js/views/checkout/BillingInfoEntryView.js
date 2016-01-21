@@ -2,11 +2,13 @@ define([
 	'marionette',
 	'App',
 	'stripe',
+	'models/Card',
 	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	App,
 	Stripe,
+	Card,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -24,8 +26,12 @@ define([
 		},
 
 		initialize: function (options) {
-			this.model = App.user;
 			this.parent = options.parent;
+
+			// create card relation
+			var card = Card.findOrCreate({});
+			App.user.set('card', card);
+			this.model = App.user.get('card');
 		},
 
 		disableSaveButton() {
@@ -66,9 +72,11 @@ define([
 				$div.text(response.error.message);
 				this.enableSaveButton();
 			} else {
+				debugger;
 				// response contains id and card, which contains additional card details
 				var token = response.id;
 				this.model.set('token', token);
+				this.model.set('last_four', response.card.last4)
 				this.parent.showNext();
 			}
 		}

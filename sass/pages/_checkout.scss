@@ -1,20 +1,25 @@
 .status-area {
 	width: 100%;
-	display: table;
-	table-layout: fixed;
 
 	a.status {
-		padding: 1rem;
-		display: table-cell;
-		border: 1px solid $dark-text-color;
-		text-align: center;
+		padding: 0.5rem 2rem;
+
+		&.active {
+			background-color: transparent;
+			color: $red;
+			border: 2px solid $red;
+		}
 
 		&.disabled {
-			color: $dark-text-color;
+			opacity: 0.5;
 
 			&:hover {
 				cursor: default;
 			}
+		}
+
+		i, span {
+			vertical-align: middle;
 		}
 
 		i {
