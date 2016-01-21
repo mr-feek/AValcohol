@@ -33,6 +33,13 @@ class UserController extends Controller
 	}
 
 	public function update(Request $request) {
+		$this->validate($request, [
+			'email' => 'email',
+			'first_name' => 'alpha',
+			'last_name' => 'alpha',
+			'phone_number' => 'digits:10'
+		]);
+
 		$user = $this->updateUser($request->input());
 		return response() ->json([
 			'success' => true,
