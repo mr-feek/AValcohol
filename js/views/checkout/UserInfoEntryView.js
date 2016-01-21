@@ -55,24 +55,12 @@ define([
 			this.parent = options.parent;
 			this.model = App.user;
 			// attach callback to ModelFormSave behavior
-			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess, this.modelSaveFail);
+			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);
 		},
 
 		modelSaveSuccess: function(response) {
 			this.parent.showNext();
 		},
-
-		modelSaveFail: function(response) {
-			var attribute = Object.keys(response.responseJSON)[0];
-			var message = response.responseJSON[attribute][0];
-
-			var error = {
-				attribute: attribute,
-				message: message
-			};
-
-			this.triggerMethod('showValidationErrors', this.model, [error])
-		}
 	});
 
 	return view;

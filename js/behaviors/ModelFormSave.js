@@ -39,11 +39,15 @@ define([
 		/**
 		 * Called from the view in order to set the callbacks for when model.save finishes.
 		 * Functions are called with the context of the view
-		 * @param callback
+		 * @param successCallback
+		 * @param failCallback (optional)
 		 */
 		onSetModelSaveCallbacks: function(successCallback, failCallback) {
 			this.successCallback = successCallback.bind(this.view);
-			this.failCallback = failCallback.bind(this.view);
+
+			if (failCallback) {
+				this.failCallback = failCallback.bind(this.view);
+			}
 		},
 
 		saveClicked: function(evt) {
@@ -68,11 +72,38 @@ define([
 							this.successCallback(data);
 						}
 					}.bind(this))
-					.fail(function(data) {
-						if (this.failCallback) {
-							this.failCallback(data)
-						}
+					.fail(function(response) {
+						this.modelSaveFail(response);
 					}.bind(this));
+			}
+		},
+
+		/**
+		 * This is called if the model save failed, most likely due to back end validation failure
+		 * @param data
+		 */
+		modelSaveFail: function(response) {
+			if (this.getOption('showValidationErrorsOnForm')) {
+				// cycle through response and build an errors array in the expected format
+				var errors = [];
+				var keys = Object.keys(response.responseJSON);
+
+				_.each(keys, function (key) {
+					var attribute = key;
+					var message = response.responseJSON[attribute][0];
+					errors.push({
+						attribute: attribute,
+						message: message
+					})
+				});
+
+				// show the errors returned from the api
+				this.showValidationErrors(this.model, errors);
+			}
+
+			// call view supplied callback
+			if (this.failCallback) {
+				this.failCallback(response)
 			}
 		},
 
