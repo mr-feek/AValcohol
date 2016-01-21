@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user_address_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $note
  */
 class Order extends Model
 {

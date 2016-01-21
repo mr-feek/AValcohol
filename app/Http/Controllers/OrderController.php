@@ -49,11 +49,15 @@ class OrderController extends Controller
 		$products = $request->input('products');
 
 		$order = new Order();
-		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {
-			$order->amount = 0;
-			$order->status = 'pending'; // TO DO: make this the default db side
-			$order->user_id = $user_id;
-			$order->user_address_id = $address_id;
+		$order->amount = 0;
+		$order->status = 'pending'; // TO DO: make this the default db side
+		$order->user_id = $user_id;
+		$order->user_address_id = $address_id;
+		$order->note = $request->input('note');
+		// save in transaction
+
+		// start a transaction so that if something is incorrect, no data is saved
+		DB::transaction(function() use(&$order, $products, $user_id, $stripe_token, &$success) {
 			$order->save();
 
 			$amount = 0;

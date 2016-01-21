@@ -108,6 +108,24 @@ class OrderControllerTest extends TestCase
 		$this->seeJson(['message' => "Invalid Product ID: 0"]);
 	}
 
+	public function testCreateOrderWithNote() {
+		$this->expectsEvents('App\Events\OrderWasSubmitted');
+
+		$products = $this->getProductsToBuy();
+		$address = $this->getAddress();
+		$user = \App\Models\User::find(1);
+		$token = $this->createFakeToken();
+		$note = 'noteeee';
+
+		$response = $this->createOrder($products, $address, $user, $token, $note);
+		$this->verifyFullOrderInDatabase($response, $products);
+
+		$this->seeInDatabase('orders', [
+			'id' => $response->order->id,
+			'note' => $note
+		]);
+	}
+
 	/*
 	public function testCannotCreateOrderIfCannotDeliverToAddress() {
 		$products = $this->getProductsToBuy();
@@ -201,12 +219,13 @@ class OrderControllerTest extends TestCase
 	 * @param $token stripe token
 	 * @return mixed response content
 	 */
-	protected function createOrder($products, $address, $user, $token) {
+	protected function createOrder($products, $address, $user, $token, $note = null) {
 		$data = [
 			'products' => $products,
 			'address' => $address->toArray(),
 			'user' => $user->toArray(),
-			'stripe_token' => $token
+			'stripe_token' => $token,
+			'note' => $note
 		];
 
 		$this->post('/order', $data);

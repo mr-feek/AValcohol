@@ -49,7 +49,8 @@ define([
 			'savedView' : '.submitted',
 			'order' : '.order',
 			'billingForm' : '.billing-info',
-			'payButton' : '.button.order'
+			'payButton' : '.button.order',
+			'note' : '.note'
 		},
 
 		regions: {
@@ -114,11 +115,16 @@ define([
 		 * @param token verified stripe token
 		 */
 		submitOrder: function(token) {
+			// get note
+			var note = this.ui.note.val();
+
+			// create order
 			var order = Order.findOrCreate({
 				products: App.cart,
 				user: App.user,
 				address: App.user.get('address'),
-				stripe_token: token
+				stripe_token: token,
+				note: note
 			});
 
 			order.save().done(function (result) {

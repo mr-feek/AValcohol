@@ -32,10 +32,11 @@ define([
 		],
 
 		defaults: {
-			products: undefined,
-			user: undefined,
-			address: undefined,
-			stripe_token: undefined
+			products: null,
+			user: null,
+			address: null,
+			stripe_token: null,
+			note: null
 		}
 	});
 
