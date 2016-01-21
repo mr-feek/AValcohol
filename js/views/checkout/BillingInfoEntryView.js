@@ -72,7 +72,6 @@ define([
 				$div.text(response.error.message);
 				this.enableSaveButton();
 			} else {
-				debugger;
 				// response contains id and card, which contains additional card details
 				var token = response.id;
 				this.model.set('token', token);
