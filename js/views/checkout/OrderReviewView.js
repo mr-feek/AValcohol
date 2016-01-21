@@ -35,7 +35,8 @@ define([
 		},
 
 		events: {
-			'click @ui.edit' : 'goToView'
+			'click @ui.edit' : 'goToView',
+			'click @ui.submitOrder' : 'submitOrder'
 		},
 
 		ui: {
