@@ -54,7 +54,6 @@ define([
 		},
 
 		regions: {
-			items: '.items',
 			active: '.active'
 		},
 
@@ -71,7 +70,6 @@ define([
 		},
 
 		onBeforeShow: function() {
-			this.getRegion('items').show(new CheckoutProductsView({ collection: App.cart }));
 			this.showActiveView();
 		},
 
@@ -79,14 +77,6 @@ define([
 			this.updateStatus();
 			// we are preventing destroy here, so remember to clean up later
 			this.getRegion('active').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
-		},
-
-		disablePayButton() {
-			this.ui.payButton.addClass('disabled');
-		},
-
-		enablePayButton() {
-			this.ui.payButton.removeClass('disabled');
 		},
 
 		showNext: function() {
@@ -123,7 +113,7 @@ define([
 				products: App.cart,
 				user: App.user,
 				address: App.user.get('address'),
-				stripe_token: token,
+				stripe_token: App.user.get('token'),
 				note: note
 			});
 
@@ -132,46 +122,6 @@ define([
 			}).fail(function (result) {
 				console.log('fail');
 			});
-		},
-
-		/**
-		 * Stops the form from being submitted and sends the required details to stripe to authorize a token
-		 * disables the submit button
-		 * Calls stripeResponseHandler
-		 * @param evt
-		 */
-		getStripeToken: function(evt) {
-			evt.preventDefault();
-
-			if (this.ui.payButton.hasClass('disabled')) {
-				return;
-			}
-
-			var $form = this.ui.billingForm;
-
-			// Disable the submit button to prevent repeated clicks
-			this.disablePayButton();
-
-			Stripe.card.createToken($form.context, this.stripeResponseHandler.bind(this));
-		},
-
-		/**
-		 * handler for getting the stripe token
-		 * @param status
-		 * @param response
-		 */
-		stripeResponseHandler: function(status, response) {
-			var $form = this.ui.billingForm;
-
-			if (response.error) {
-				// Show the errors on the form
-				$form.find('.payment-errors').text(response.error.message);
-				$form.find('button').prop('disabled', false);
-			} else {
-				// response contains id and card, which contains additional card details
-				var token = response.id;
-				this.submitOrder(token);
-			}
 		}
 	});
 
