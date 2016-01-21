@@ -61,8 +61,29 @@ define([
 			this.model = App.user.get('address');
 
 			if (!this.model) {
+				// create relation
 				this.model = UserAddress.findOrCreate({});
+				App.user.set('address', this.model);
 			}
+
+			// attach callback to ModelFormSave behavior
+			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess, this.modelSaveFail);
+		},
+
+		modelSaveSuccess: function(response) {
+			this.parent.showNext();
+		},
+
+		modelSaveFail: function(response) {
+			var attribute = Object.keys(response.responseJSON)[0];
+			var message = response.responseJSON[attribute][0];
+
+			var error = {
+				attribute: attribute,
+				message: message
+			};
+
+			this.triggerMethod('showValidationErrors', this.model, [error])
 		}
 	});
 
