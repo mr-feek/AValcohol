@@ -14,6 +14,7 @@ define([
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: 'body',
+		$offCanvasWrap: null,
 
 		events: {},
 
@@ -53,7 +54,12 @@ define([
 		 */
 		closeOffCanvas: function(cleanup) {
 			var view = this;
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+
+			if (!this.$offCanvasWrap) {
+				this.$offCanvasWrap = $('.off-canvas-wrap')
+			}
+
+			this.$offCanvasWrap.foundation('offcanvas', 'hide', 'move-left');
 
 			if (cleanup) {
 				// race condition for one second.
@@ -64,7 +70,10 @@ define([
 		},
 
 		openOffCanvas: function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
+			if (!this.$offCanvasWrap) {
+				this.$offCanvasWrap = $('.off-canvas-wrap')
+			}
+			this.$offCanvasWrap.foundation('offcanvas', 'show', 'move-left');
 		}
 	});
 
