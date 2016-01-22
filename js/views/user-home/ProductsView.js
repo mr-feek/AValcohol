@@ -46,9 +46,6 @@ define([
 			this.triggerMethod("setCollection", this.collection);
 			this.collection.fetch();
 
-			// when an item is added / removed from the cart, we want to show it differently on the page
-			// rendering logic handled in productview
-			this.listenTo(this.collection, 'change:inCart', this.render); // THIS CAN BE WAY MORE EFFICIENT
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
 			// for some reason onAddChild d oesn't seem to be called after re-rendering
 		},
