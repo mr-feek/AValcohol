@@ -55,7 +55,15 @@ define([
 
 		addToCart: function() {
 			this.model.set('inCart', true);
-			App.cart.push(this.model);
+
+			/**
+			 * Delaying this because app.cart.push is expensive and slows down the animation of
+			 * showing the cart. not ideal but it'll do for now
+			 */
+			_.delay(function() {
+				App.cart.push(this.model);
+			}.bind(this), 300);
+
 			App.rootView.openOffCanvas(); // show the cart
 		},
 
