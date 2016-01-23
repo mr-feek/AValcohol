@@ -3,12 +3,14 @@ define([
 	'App',
 	'models/UserAddress',
 	'behaviors/ModelFormSave',
+	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
 	App,
 	UserAddress,
 	ModelFormSave,
+	ModelSaveAnimation,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -20,6 +22,9 @@ define([
 		behaviors: {
 			ModelFormSave: {
 				behaviorClass: ModelFormSave
+			},
+			ModelSaveAnimation: {
+				behaviorClass: ModelSaveAnimation
 			}
 		},
 

@@ -3,12 +3,14 @@ define([
 	'App',
 	'stripe',
 	'models/Card',
+	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	App,
 	Stripe,
 	Card,
+	ModelSaveAnimation,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -16,6 +18,12 @@ define([
 		tagName: 'form',
 		className: 'payment-form',
 		parent: null,
+
+		behaviors: {
+			ModelSaveAnimation: {
+				behaviorClass: ModelSaveAnimation
+			}
+		},
 
 		ui: {
 			saveButton : '.save'
@@ -45,6 +53,9 @@ define([
 		getStripeToken: function(evt) {
 			evt.preventDefault();
 
+			// fake a request so that our behavior will show a loading view
+			this.model.trigger('request');
+
 			// prevent repeated clicks
 			if (this.ui.saveButton.hasClass('disabled')) {
 				return;
@@ -64,6 +75,9 @@ define([
 		 */
 		stripeResponseHandler: function(status, response) {
 			var $form = this.$el;
+
+			// fake a request so that our behavior will hdie the loading view
+			this.model.trigger('sync');
 
 			if (response.error) {
 				// Show the errors on the form

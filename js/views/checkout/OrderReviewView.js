@@ -9,6 +9,7 @@ define([
 	'models/UserAddress',
 	'models/Order',
 	'models/Card',
+	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/order-review.html'
 ], function (
 	Mn,
@@ -18,6 +19,7 @@ define([
 	UserAddress,
 	Order,
 	Card,
+	ModelSaveAnimation,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -34,6 +36,12 @@ define([
 			}
 		},
 
+		behaviors: {
+			ModelSaveAnimation: {
+				behaviorClass: ModelSaveAnimation
+			}
+		},
+
 		events: {
 			'click @ui.edit' : 'goToView',
 			'click @ui.submitOrder' : 'submitOrder'
@@ -47,14 +55,16 @@ define([
 
 		initialize: function (options) {
 			this.parent = options.parent;
+			this.model = Order.findOrCreate({});
 
+			// subscribe to these events so that if a user goes back in the flow, the info
+			// is updated here
 			this.listenTo(App.user, 'sync', this.modelChanged);
 			this.listenTo(App.user.get('address'), 'sync', this.modelChanged);
 			this.listenTo(App.user.get('card'), 'sync', this.modelChanged);
 		},
 
 		modelChanged: function() {
-			console.log('re rendering');
 			this.render();
 		},
 
@@ -91,7 +101,7 @@ define([
 			var note = this.ui.note.val();
 
 			// create order
-			var order = Order.findOrCreate({
+			this.model.set({
 				products: App.cart,
 				user: App.user,
 				address: App.user.get('address'),
@@ -99,7 +109,7 @@ define([
 				note: note
 			});
 
-			order.save().done(function (result) {
+			this.model.save().done(function (result) {
 				console.log('pass');
 			}).fail(function (result) {
 				console.log('fail');
