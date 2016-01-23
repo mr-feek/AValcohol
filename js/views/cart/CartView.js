@@ -21,24 +21,15 @@ define([
 
 			return {
 				number: App.cart.length,
-
-				subtotal: function() {
-					// loop through products and multiply price * quantity for combined total
-					var total = 0;
-
-					_.each(view.collection.models, function(model) {
-						total += model.get('price') * model.get('quantity');
-					});
-
-					return Number(total).toFixed(2);
-				}
+				subtotal: view.calculateSubtotal
 			}
 		},
 
 		ui: {
 			numProducts : '.num-products',
 			checkout : '.checkout',
-			continueShopping : '.back-to-shopping'
+			continueShopping : '.back-to-shopping',
+			subTotal: '.subtotal'
 		},
 
 		events: {
@@ -47,7 +38,8 @@ define([
 		},
 
 		collectionEvents: {
-			//'update' : 'productsChanged', // used to just rerender..
+			'update' : 'updateTotals',
+			'change:quantity' : 'updateTotals'
 		},
 
 		/**
@@ -56,6 +48,24 @@ define([
 		 */
 		initialize: function (options) {
 			this.collection = options.collection;
+			_.bindAll(this, 'calculateSubtotal');
+		},
+
+		calculateSubtotal: function() {
+			// loop through products and multiply price * quantity for combined total
+			var total = 0;
+
+			//debugger;
+			_.each(this.collection.models, function(model) {
+				total += model.get('price') * model.get('quantity');
+			});
+
+			return Number(total).toFixed(2);
+		},
+
+		updateTotals: function() {
+			var subtotal = this.calculateSubtotal();
+			this.ui.subTotal.html('$' + subtotal);
 		},
 
 		showCheckout: function(e) {
