@@ -10,11 +10,16 @@
 	}
 
 	.top {
-		min-height: 70%;
+		height: 70%;
+
+		.products {
+			height: calc(100% - 2.8625rem); // account for height of buttons
+			overflow: auto;
+		}
 	}
 
 	.footer {
-		min-height: 30%;
+		height: 30%;
 		background-color: $vapor;
 		padding: 0 1rem;
 
