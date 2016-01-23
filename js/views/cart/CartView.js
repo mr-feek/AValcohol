@@ -47,8 +47,7 @@ define([
 		},
 
 		collectionEvents: {
-			'update' : 'productsChanged',
-			'change:quantity' : 'productsChanged' // maybe this could be more efficient
+			//'update' : 'productsChanged', // used to just rerender..
 		},
 
 		/**
@@ -57,10 +56,6 @@ define([
 		 */
 		initialize: function (options) {
 			this.collection = options.collection;
-		},
-
-		productsChanged: function() {
-			this.render();
 		},
 
 		showCheckout: function(e) {

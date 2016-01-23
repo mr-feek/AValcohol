@@ -31,6 +31,10 @@ define([
 			'click @ui.increaseQuantity' : 'increaseQuantity'
 		},
 
+		modelEvents: {
+			'change:quantity' : 'quantityChanged'
+		},
+
 		ui: {
 			'remove' : '.remove',
 			'decreaseQuantity' : '.subtract',
@@ -38,6 +42,10 @@ define([
 		},
 
 		initialize: function (options) {
+		},
+
+		quantityChanged: function(model, quantity) {
+			this.render();
 		},
 
 		/**
