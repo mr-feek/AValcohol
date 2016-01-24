@@ -8,9 +8,6 @@ define([
 	Mn
 ) {
 	var ModelSaveAnimation = Mn.Behavior.extend({
-		ui: {
-			loading: '.loading'
-		},
 
 		initialize: function(options) {	},
 
@@ -21,14 +18,12 @@ define([
 		},
 
 		showLoadingAnimation: function() {
-			// substr to remove "." from ui value
 			var html =
 				'<div class="loading text-center"\>' +
 					'\<img src="/img/loading.gif"/>' +
 					'<p>Loading...</p>' +
 				'\</div>';
 			this.$el.prepend(html);
-
 		},
 
 		hideLoadingAnimation: function() {
