@@ -6,6 +6,8 @@ define([
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
 	'views/checkout/OrderReviewView',
+	'views/checkout/OrderSubmittedView',
+	'util/Vent',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
@@ -15,6 +17,8 @@ define([
 	BillingInfoEntryView,
 	UserInfoEntryView,
 	OrderReviewView,
+	OrderSubmittedView,
+	Vent,
 	tpl
 ) {
 
@@ -28,6 +32,7 @@ define([
 		className: 'small-12 columns',
 		currentIndex: 0,
 		viewFlow: [], // populated in initialize
+		region: null, // initialize
 
 		events: {
 			'click @ui.savedView' : '_goToView'
@@ -44,6 +49,13 @@ define([
 		},
 
 		initialize: function (options) {
+			/**
+			 * store the region that this view is in so that we can swap out this view
+			 * with the order complete view. not ideal but need to ship this
+			 */
+			this.region = options.region;
+			Vent.on('order:submitted', this.showOrderSubmittedView.bind(this));
+
 			$.get('/api/stripe/key', function(response) {
 				Stripe.setPublishableKey(response.key);
 			}.bind(this));
@@ -54,6 +66,14 @@ define([
 				new BillingInfoEntryView({	parent:	this }),
 				new OrderReviewView({	parent: this })
 			);
+		},
+
+		/**
+		 * replaces THIS view with the order submitted view
+		 * @param order
+		 */
+		showOrderSubmittedView: function(order) {
+			this.region.show(new OrderSubmittedView({ model: order }));
 		},
 
 		onBeforeShow: function() {

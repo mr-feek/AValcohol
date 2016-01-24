@@ -10,6 +10,7 @@ define([
 	'models/Order',
 	'models/Card',
 	'behaviors/ModelSaveAnimation',
+	'util/Vent',
 	'tpl!templates/checkout/order-review.html'
 ], function (
 	Mn,
@@ -20,6 +21,7 @@ define([
 	Order,
 	Card,
 	ModelSaveAnimation,
+	Vent,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -56,7 +58,7 @@ define([
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = Order.findOrCreate({});
-
+			
 			// subscribe to these events so that if a user goes back in the flow, the info
 			// is updated here
 			this.listenTo(App.user, 'sync', this.modelChanged);
@@ -109,11 +111,13 @@ define([
 				note: note
 			});
 
-			this.model.save().done(function (result) {
-				console.log('pass');
-			}).fail(function (result) {
-				console.log('fail');
-			});
+			this.model.save()
+				.done(function (result) {
+					Vent.trigger('order:submitted', this.model);
+				}.bind(this))
+				.fail(function (result) {
+					console.log('fail');
+				});
 		}
 	});
 

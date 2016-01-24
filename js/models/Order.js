@@ -37,7 +37,11 @@ define([
 			address: null,
 			stripe_token: null,
 			note: null
-		}
+		},
+
+		parse: function(response, xhr) {
+			return response.order;
+		},
 	});
 
 	return Order;
