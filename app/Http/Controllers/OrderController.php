@@ -32,13 +32,15 @@ class OrderController extends Controller
 			'products' => 'required',
 			'user' => 'required',
 			'address' => 'required',
-			'stripe_token' => 'required'
+			'stripe_token' => 'required',
+                        'coordinates' => 'required'
 		]);
 
 		// TO DO: authenticate
 		try {
 			$user = User::findOrFail($request->input('user.id'));
 			$address = UserAddress::findOrFail($request->input('address.id'));
+                        
 		} catch(ModelNotFoundException $e) {
 			throw new APIException($e->getModel() . ' not found.');
 		}
@@ -47,7 +49,7 @@ class OrderController extends Controller
 		$user_id = $user->id;
 		$stripe_token = $request->input('stripe_token');
 		$products = $request->input('products');
-
+                
 		$order = new Order();
 		DB::transaction(function() use(&$order, $address_id, $products, $user_id, $stripe_token, &$success) {
 			$order->amount = 0;
