@@ -83,8 +83,7 @@ class AddressControllerTest extends TestCase
 
 	public function testUserCannotUpdateOtherUsersAddress() {
 		$address = UserAddress::find(1);
-		$id = $address->id + 1;
-		$address->id = $id;
+		$address->user_id = $address->user_id + 1;
 
 		$data = $address->toArray();
 

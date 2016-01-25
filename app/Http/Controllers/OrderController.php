@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderWasSubmitted;
 use App\Exceptions\APIException;
-use App\Http\Traits\AddressTrait;
-use App\Http\Traits\UserTrait;
 use App\Models\Entities\Order;
 use App\Models\Entities\OrderProduct;
 use App\Models\Entities\Product;
@@ -18,7 +16,6 @@ use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
-	use AddressTrait, UserTrait;
 
 	/**
 	 * @param Request $request

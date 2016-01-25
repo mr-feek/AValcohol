@@ -80,8 +80,10 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
+
+// 3rd party
 $app->register(\Laravel\Cashier\CashierServiceProvider::class);
 $app->register(Rdehnhardt\MaintenanceMode\Providers\MaintenanceModeServiceProvider::class);
 

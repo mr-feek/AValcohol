@@ -38,6 +38,9 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
+
+	// temp
+	$app->get('{id}', 'UserController@get');
 });
 
 $app->get('/config', 'ConfigController@getConfig');
