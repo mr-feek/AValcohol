@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Models\Product::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Entities\Product::class, function(Faker\Generator $faker) {
 	return [
 		'upc' => $faker->randomNumber(9),
 		'name' => $faker->name(),
@@ -21,7 +21,7 @@ $factory->define(App\Models\Product::class, function(Faker\Generator $faker) {
 	];
 });
 
-$factory->define(App\Models\User::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Entities\User::class, function(Faker\Generator $faker) {
 	return [
 		'email' => $faker->email(),
 		'password' => $faker->password(),
@@ -31,7 +31,7 @@ $factory->define(App\Models\User::class, function(Faker\Generator $faker) {
 	];
 });
 
-$factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Entities\UserAddress::class, function(Faker\Generator $faker) {
 	return [
 		'street' => $faker->streetName(),
 		'city' => $faker->city(),
@@ -40,7 +40,7 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 	];
 });
 
-$factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
+$factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $faker) {
 	return [
 		'amount' => $faker->randomNumber(2),
 		'status' => 'pending',

@@ -6,7 +6,7 @@
  * Time: 2:24 AM
  */
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,15 +25,15 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
 	public function products() {
-		return $this->belongsToMany('App\Models\Product')->withPivot('product_price');
+		return $this->belongsToMany('App\Models\Entities\Product')->withPivot('product_price');
 	}
 
 	public function user() {
-		return $this->belongsTo('App\Models\User');
+		return $this->belongsTo('App\Models\Entities\User');
 	}
 
 	public function address() {
-		return $this->belongsTo('App\Models\UserAddress', 'user_address_id');
+		return $this->belongsTo('App\Models\Entities\UserAddress', 'user_address_id');
 	}
 
 	/**

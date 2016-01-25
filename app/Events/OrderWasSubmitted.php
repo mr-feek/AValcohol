@@ -8,7 +8,7 @@
 
 namespace App\Events;
 
-use App\Models\Order;
+use App\Models\Entities\Order;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 

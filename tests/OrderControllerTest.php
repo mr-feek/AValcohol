@@ -6,6 +6,11 @@
  * Date: 12/29/15
  * Time: 4:39 AM
  */
+
+use App\Models\Entities\User;
+use App\Models\Entities\UserAddress;
+use App\Models\Entities\Product;
+
 class OrderControllerTest extends TestCase
 {
 	use \Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,7 +21,7 @@ class OrderControllerTest extends TestCase
 
 		$products = $this->getProductsToBuy();
 		$address = $this->getAddress();
-		$user = \App\Models\User::find(1);
+		$user = User::find(1);
 		$token = $this->createFakeToken();
 
 		$response = $this->createOrder($products, $address, $user, $token);
@@ -45,7 +50,7 @@ class OrderControllerTest extends TestCase
 		$products = $this->getProductsToBuy();
 		$user = \App\Models\User::find(1);
 		// create a fake address (dont attach it to the user, let back end do that. Also don't persist to db)
-		$address = factory(\App\Models\UserAddress::class)->make(['zipcode' => 16801]);
+		$address = factory(\App\Models\Entities\UserAddress::class)->make(['zipcode' => 16801]);
 		$token = $this->createFakeToken();
 
 		$response = $this->createOrder($products, $address, $user, $token);
@@ -58,7 +63,7 @@ class OrderControllerTest extends TestCase
 		$address = $this->getAddress();
 
 		// make user with fake id
-		$user = new \App\Models\User();
+		$user = new User();
 		$user->id = 'fakeID';
 
 		$token = $this->createFakeToken();
@@ -68,7 +73,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'App\\Models\\User not found.'
+			'message' => 'App\\Models\\Entities\\User not found.'
 		]);
 	}
 
@@ -76,10 +81,10 @@ class OrderControllerTest extends TestCase
 		$products = $this->getProductsToBuy();
 
 		// fake address..
-		$address = new \App\Models\UserAddress();
+		$address = new UserAddress();
 		$address->id = 'fakeID';
 		
-		$user = \App\Models\User::find(1);
+		$user = User::find(1);
 		$token = $this->createFakeToken();
 
 		$this->createOrder($products, $address, $user, $token);
@@ -87,7 +92,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'App\\Models\\UserAddress not found.'
+			'message' => 'App\\Models\\Entities\\UserAddress not found.'
 		]);
 	}
 
@@ -96,10 +101,10 @@ class OrderControllerTest extends TestCase
 		// TO DO: figure out how to listen for rolling back event so we actually know no orders were created...
 
 		$products = $this->getProductsToBuy();
-		$fake_product = new \App\Models\Product();
+		$fake_product = new Product();
 		$fake_product->id = 0;
 		$products[] = $fake_product;
-		$user = \App\Models\User::find(1);
+		$user = User::find(1);
 		$token = $this->createFakeToken();
 		$address = $this->getAddress();
 
@@ -113,7 +118,7 @@ class OrderControllerTest extends TestCase
 
 		$products = $this->getProductsToBuy();
 		$address = $this->getAddress();
-		$user = \App\Models\User::find(1);
+		$user = User::find(1);
 		$token = $this->createFakeToken();
 		$note = 'noteeee';
 
@@ -132,7 +137,7 @@ class OrderControllerTest extends TestCase
 		$user = \App\Models\User::find(1);
 		$token = $this->createFakeToken();
 		$zip = 11111;
-		$address = factory(\App\Models\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
+		$address = factory(\App\Models\Entities\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
@@ -146,9 +151,9 @@ class OrderControllerTest extends TestCase
 
 	protected function getProductsToBuy() {
 		return [
-			\App\Models\Product::find(1)->toArray(),
-			\App\Models\Product::find(2)->toArray(),
-			\App\Models\Product::find(3)->toArray()
+			Product::find(1)->toArray(),
+			Product::find(2)->toArray(),
+			Product::find(3)->toArray()
 		];
 	}
 
@@ -156,7 +161,7 @@ class OrderControllerTest extends TestCase
 	 * @return UserAddress model
 	 */
 	protected function getAddress() {
-		return factory(\App\Models\UserAddress::class)->create(['zipcode' => 16801, 'user_id' => 1]);
+		return factory(UserAddress::class)->create(['zipcode' => 16801, 'user_id' => 1]);
 	}
 
 	/**

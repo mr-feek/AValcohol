@@ -6,8 +6,7 @@
  * Time: 7:43 PM
  */
 
-namespace App\Models;
-
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,10 +29,10 @@ class UserAddress extends Model
 	protected $fillable = ['street', 'city', 'state', 'zipcode'];
 
 	public function user() {
-		return $this->belongsTo('App\Models\User');
+		return $this->belongsTo('App\Models\Entities\User');
 	}
 
 	public function order() {
-		return $this->hasMany('App\Models\Order');
+		return $this->hasMany('App\Models\Entities\Order');
 	}
 }

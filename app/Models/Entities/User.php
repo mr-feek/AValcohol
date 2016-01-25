@@ -6,9 +6,7 @@
  * Time: 3:04 PM
  */
 
-namespace App\Models;
-
-use App\Models\UserAddress;
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
@@ -40,6 +38,6 @@ class User extends Model
 	protected $fillable = ['email', 'password', 'first_name', 'last_name', 'phone_number'];
 
 	public function addresses() {
-		return $this->hasMany('App\Models\UserAddress');
+		return $this->hasMany('App\Models\Entities\UserAddress');
 	}
 }

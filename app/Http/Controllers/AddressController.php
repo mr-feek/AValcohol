@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\AddressTrait;
-use App\Models\UserAddress;
+use App\Models\Entities\UserAddress;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller

@@ -8,11 +8,10 @@
 
 namespace App\Http\Traits;
 
-
 use App\Exceptions\APIException;
-use App\Models\BlacklistedAddress;
-use App\Models\User;
-use App\Models\UserAddress;
+use App\Models\Entities\BlacklistedAddress;
+use App\Models\Entities\User;
+use App\Models\Entities\UserAddress;
 
 trait AddressTrait
 {

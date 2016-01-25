@@ -8,8 +8,8 @@
 
 namespace App\Http\Traits;
 
-use App\Models\Order;
-use App\Models\User;
+use App\Models\Entities\Order;
+use App\Models\Entities\User;
 
 trait UserTrait {
 	/**
