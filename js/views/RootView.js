@@ -13,7 +13,7 @@ define([
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
-		el: 'body',
+		el: '#mount-point',
 		$offCanvasWrap: null,
 
 		events: {},
