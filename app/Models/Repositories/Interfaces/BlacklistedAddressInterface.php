@@ -9,5 +9,5 @@
 namespace App\Models\Repositories\Interfaces;
 
 interface BlacklistedAddressInterface {
-	public function get($data);
+	public function get($street, $city, $state, $zipcode);
 }

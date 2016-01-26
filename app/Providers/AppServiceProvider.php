@@ -7,14 +7,20 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Repositories\UserRepository;
 use App\Models\Repositories\UserAddressRepository;
 use App\Models\Repositories\BlacklistedAddressRepository;
+use App\Models\Repositories\OrderRepository;
+use App\Models\Repositories\ProductRepository;
 
 use App\Models\Services\UserService;
 use App\Models\Services\UserAddressService;
 use App\Models\Services\BlacklistedAddressService;
+use App\Models\Services\OrderService;
+use App\Models\Services\ProductService;
 
 use App\Models\Entities\User;
 use App\Models\Entities\UserAddress;
 use App\Models\Entities\BlacklistedAddress;
+use App\Models\Entities\Order;
+use App\Models\Entities\Product;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,6 +56,24 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind('BlacklistedAddressService', function($app)
 		{
 			return new BlacklistedAddressService($app->make('Repositories\Interfaces\BlacklistedAddressInterface'));
+		});
+
+		$this->app->bind('App\Models\Repositories\Interfaces\OrderInterface', function($app)
+		{
+			return new OrderRepository(new Order());
+		});
+		$this->app->bind('OrderService', function($app)
+		{
+			return new OrderService($app->make('Repositories\Interfaces\OrderInterface'));
+		});
+
+		$this->app->bind('App\Models\Repositories\Interfaces\ProductInterface', function($app)
+		{
+			return new ProductRepository(new Product());
+		});
+		$this->app->bind('ProductService', function($app)
+		{
+			return new ProductService($app->make('Repositories\Interfaces\ProductInterface'));
 		});
 	}
 }

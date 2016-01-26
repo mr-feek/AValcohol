@@ -43,6 +43,10 @@ class UserRepository extends BaseRepository implements UserInterface
 		// to do
 	}
 
+	public function enforceGetPermissions($data) {
+		// to do
+	}
+
 	// Fulfills a charge to the given user id based on the value of order_id
 	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
 		$amount = $order->amount * 100; // charge amount needs to be converted to pennies

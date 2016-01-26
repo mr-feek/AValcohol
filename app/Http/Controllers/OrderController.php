@@ -2,29 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OrderWasSubmitted;
 use App\Exceptions\APIException;
 use App\Models\Entities\Order;
 use App\Models\Entities\OrderProduct;
-use App\Models\Entities\Product;
-use App\Models\Entities\UserAddress;
-use App\Models\Entities\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Services\OrderService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 
 class OrderController extends Controller
 {
 
 	/**
 	 * @param Request $request
+	 * @param \App\Http\Controllers\OrderService|OrderService $service
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws APIException
 	 */
-	public function createOrder(Request $request) {
-		$success = false;
-
+	public function createOrder(Request $request, OrderService $service) {
 		$this->validate($request, [
 			'products' => 'required',
 			'user' => 'required',
@@ -32,60 +25,10 @@ class OrderController extends Controller
 			'stripe_token' => 'required'
 		]);
 
-		// TO DO: authenticate
-		try {
-			$user = User::findOrFail($request->input('user.id'));
-			$address = UserAddress::findOrFail($request->input('address.id'));
-		} catch(ModelNotFoundException $e) {
-			throw new APIException($e->getModel() . ' not found.');
-		}
-
-		$address_id = $address->id;
-		$user_id = $user->id;
-		$stripe_token = $request->input('stripe_token');
-		$products = $request->input('products');
-
-		$order = new Order();
-		$order->amount = 0;
-		$order->status = 'pending'; // TO DO: make this the default db side
-		$order->user_id = $user_id;
-		$order->user_address_id = $address_id;
-		$order->note = $request->input('note');
-		// save in transaction
-
-		// start a transaction so that if something is incorrect, no data is saved
-		DB::transaction(function() use(&$order, $products, $user_id, $stripe_token, &$success) {
-			$order->save();
-
-			$amount = 0;
-			foreach ($products as $p) {
-				$product = Product::find($p['id']);
-
-				if (!$product) {
-					throw new APIException("Invalid Product ID: $p->id");
-				}
-
-				$amount += $product->price;
-
-				// create order_product record
-				$order->products()->attach($product->id, ['product_price' => $product->price]);
-			}
-
-			// update the order record with the proper price
-			$order->amount = $amount;
-			$order->save();
-
-			// lets charge em
-			$this->chargeUserForOrder($user_id, $order->id, $stripe_token);
-
-			// notify pusher etc
-			Event::fire(new OrderWasSubmitted($order));
-
-			$success = true;
-		});
+		$order = $service->create($request->input());
 
 		return response()->json([
-			'success' => $success,
+			'success' => true,
 			'order' => $order
 		]);
 	}
@@ -162,5 +105,4 @@ class OrderController extends Controller
 			'status' => $order->status
 		]);
 	}
-
 }

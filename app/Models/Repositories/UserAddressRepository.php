@@ -9,10 +9,9 @@
 namespace App\Models\Repositories;
 
 use App\Models\Entities\UserAddress;
-use App\Models\Entities\BlacklistedAddress;
-use App\Models\Entities\User;
 use App\Models\Repositories\Interfaces\UserAddressInterface;
 use App\Exceptions\APIException;
+use App\Models\Entities\User;
 
 class UserAddressRepository extends BaseRepository implements UserAddressInterface {
 	protected $cannotDeliverMessage = '';
@@ -22,29 +21,30 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 		$this->model = $address;
 	}
 
-	public function get($id) {
-		return User::findOrFail($id);
+	public function getById($id) {
+		return UserAddress::findOrFail($id);
 	}
 
 	public function update($data) {
-		$user = User::find($data['id']);
+		$user = UserAddress::findOrFail($data['id']);
 		$user->update($data);
 	}
 
 	/**
+	 * @param User $user
 	 * @param $data
 	 * @return mixed
-	 * @throws APIException
 	 */
-	public function create($data)
+	public function create(User $user, $data)
 	{
-
-		$user_id = $data['user']['id'];
-		$user = User::findOrFail($user_id);
-
 		$address = $user->addresses()->save(new UserAddress($data));
 
 		return $address;
+	}
+
+	public function isInDeliveryZone($long, $lat) {
+		// to do
+		return true;
 	}
 
 	public function canDeliverToAddress($data) {
@@ -59,7 +59,7 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	 * @return bool
 	 */
 	public function userCanUpdateAddress($address, $user_id) {
-		if ($user_id !== $address->user->id) {
+		if ($user_id !== $address->user_id) {
 			return false;
 		}
 	}

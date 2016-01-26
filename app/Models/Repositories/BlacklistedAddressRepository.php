@@ -18,8 +18,17 @@ class BlacklistedAddressRepository extends BaseRepository implements Blacklisted
 		$this->model = $address;
 	}
 
-	public function get($data)
+	public function get($street, $city, $state, $zipcode)
 	{
-		return BlacklistedAddress::find($data);
+		/**
+		 * This find is returning a collection for some reason NEEDS MORE TESTING
+		 */
+		$this->model = BlacklistedAddress
+			::where('street', $street)
+			->where('city', $city)
+			->where('state', $state)
+			->where('zipcode', $zipcode)
+			->first();
+		return $this->model;
 	}
 }

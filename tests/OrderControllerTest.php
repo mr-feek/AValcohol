@@ -73,7 +73,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'App\\Models\\Entities\\User not found.'
+			'message' => 'No query results for model [App\\Models\\Entities\\User].'
 		]);
 	}
 
@@ -92,7 +92,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'App\\Models\\Entities\\UserAddress not found.'
+			'message' => 'No query results for model [App\\Models\\Entities\\UserAddress].'
 		]);
 	}
 
@@ -110,7 +110,7 @@ class OrderControllerTest extends TestCase
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
-		$this->seeJson(['message' => "Invalid Product ID: 0"]);
+		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Product]."]);
 	}
 
 	public function testCreateOrderWithNote() {
