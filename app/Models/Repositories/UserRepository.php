@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
 	public function getUserById($id)
 	{
-		return User::findOrFail($id);
+		return $this->model = User::findOrFail($id);
 	}
 
 	public function create($data) {
@@ -33,10 +33,8 @@ class UserRepository extends BaseRepository implements UserInterface
 		return $user;
 	}
 
-	public function update($data) {
-		$user = User::find($data['id']);
-		$user->update($data);
-		return $user;
+	public function update(User $model, $data) {
+		return $this->model = $model->update($data);
 	}
 
 	public function enforceUpdatePermissions($data) {
@@ -46,23 +44,4 @@ class UserRepository extends BaseRepository implements UserInterface
 	public function enforceGetPermissions($data) {
 		// to do
 	}
-
-	// Fulfills a charge to the given user id based on the value of order_id
-	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
-		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
-
-		$options = [
-			'currency' => 'usd',
-			'description' => 'test charge',
-			'source' => $stripe_token,
-			'receipt_email' => $user->email,
-			'metadata' => array(
-				'user_id' => $user->id,
-				'order_id' => $order->id
-			)
-		];
-
-		return $user->charge($amount, $options);
-	}
-
 }

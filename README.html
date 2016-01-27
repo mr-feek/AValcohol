@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h1 id="avalcoholbuildstatus">AValcohol <a href="https://magnum.travis-ci.com/fpm5022/AValcohol"><img src="https://magnum.travis-ci.com/fpm5022/AValcohol.svg?token=crFjMNDDdzj4qoYgDDWv&branch=master" alt="Build Status" /></a></h1>
+
+<h2 id="initliazingthisprojectlocally:">Initliazing this project locally:</h2>
+
+<ol>
+<li>clone this repo</li>
+<li>open up terminal and navigate to the cloned repo</li>
+<li>type <code>bower install</code> to install the front-end dependencies (make sure you have bower installed first)</li>
+<li>type <code>php composer.phar install</code> (make sure you have composer installed first)</li>
+</ol>
+
+<h2 id="currentdeployprocesstodev.avalcohol.com">Current Deploy Process To dev.avalcohol.com</h2>
+
+<ol>
+<li>push changes to this repo</li>
+<li>cd to AValcohol-dev</li>
+<li>php sync.php</li>
+<li>git push</li>
+<li>ssh onto server</li>
+<li>cd www/dev/AValcohol-dev/</li>
+<li>git pull</li>
+</ol>
+
+<h2 id="apidesignphilosophylooselyfollowedforthetimebeing">API Design Philosophy (loosely followed for the time being)</h2>
+
+<h3 id="middleware">Middleware</h3>
+
+<p>performs logic that does not require any data (IE whether or not the store is open for orders, etc)
+certain authentication
+calls controller</p>
+
+<h3 id="controllers">Controllers</h3>
+
+<p>perform required data validation
+calls service
+return response</p>
+
+<h3 id="services">Services</h3>
+
+<p>can pull in other services if needed to communicate with other services (not other repositories)???
+handles business rules (permissions, etc) by calling the repositories methods and arranging logic based on repositories response
+throws business exceptions
+calls repository
+fire events</p>
+
+<h3 id="repositories">Repositories</h3>
+
+<p>performs and returns individual logic. each method performs one task
+strict parameters listed in each function
+throws find or fail exceptions</p>
+
+<h3 id="models">Models</h3>
+
+<p>eloquent stuff</p>
+
+</body>
+</html>

@@ -41,10 +41,4 @@ class UserService extends BaseService
 		$this->repo->enforceUpdatePermissions($data);
 		return $this->repo->update($data);
 	}
-
-	public function chargeUserForOrder($user_id, $order_id) {
-		$user = $this->repo->getUserById($user_id);
-		$order = $this->orderRepo->getOrderById($order_id);
-		$this->repo->chargeUserForOrder($user, $order);
-	}
 }

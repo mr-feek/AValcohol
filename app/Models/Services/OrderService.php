@@ -26,6 +26,11 @@ class OrderService extends BaseService
 		$this->productService = $productService;
 	}
 
+	/**
+	 * Creates a new order and charges the user
+	 * @param $data
+	 * @return mixed
+	 */
 	public function create($data) {
 		$user = $this->userService->getUser($data['user']['id']);
 		$address = $this->addressService->get($data['address']['id']);
@@ -37,5 +42,4 @@ class OrderService extends BaseService
 
 		return $order;
 	}
-
 }

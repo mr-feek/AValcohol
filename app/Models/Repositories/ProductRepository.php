@@ -19,6 +19,6 @@ class ProductRepository extends BaseRepository implements ProductInterface
 	}
 
 	public function getById($id) {
-		return Product::findOrFail($id);
+		return $this->model = Product::findOrFail($id);
 	}
 }

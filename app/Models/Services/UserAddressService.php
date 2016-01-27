@@ -29,6 +29,7 @@ class UserAddressService extends BaseService
 
 	public function update($data) {
 		$address = $this->get($data['id']);
+
 		if (!$this->repo->userCanUpdateAddress($address, $data['user_id'])) {
 			throw new APIException('invalid permissions.');
 		}

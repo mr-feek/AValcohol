@@ -10,7 +10,6 @@ namespace App\Models\Repositories;
 
 use App\Models\Entities\UserAddress;
 use App\Models\Repositories\Interfaces\UserAddressInterface;
-use App\Exceptions\APIException;
 use App\Models\Entities\User;
 
 class UserAddressRepository extends BaseRepository implements UserAddressInterface {
@@ -22,34 +21,33 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	}
 
 	public function getById($id) {
-		return UserAddress::findOrFail($id);
+		return $this->model = UserAddress::findOrFail($id);
 	}
 
-	public function update($data) {
-		$user = UserAddress::findOrFail($data['id']);
-		$user->update($data);
+	public function update(UserAddress $model, $data) {
+		return $this->model = $model->update($data);
 	}
 
 	/**
+	 * Creates a new address and associates it with the given user
 	 * @param User $user
 	 * @param $data
 	 * @return mixed
 	 */
 	public function create(User $user, $data)
 	{
-		$address = $user->addresses()->save(new UserAddress($data));
-
-		return $address;
+		return $this->model = $user->addresses()->save(new UserAddress($data));
 	}
 
+	/**
+	 * Determines if the given long / lat of the address is within our current delivery zone
+	 * @param $long
+	 * @param $lat
+	 * @return bool
+	 */
 	public function isInDeliveryZone($long, $lat) {
 		// to do
 		return true;
-	}
-
-	public function canDeliverToAddress($data) {
-		$this->cannotDeliverMessage = "We're sorry, but at this time we can only deliver to the 16801 area";
-		return false;
 	}
 
 	/**

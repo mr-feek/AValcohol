@@ -19,6 +19,11 @@ class BlacklistedAddressService extends BaseService
 		$this->repo = $repo;
 	}
 
+	/**
+	 * Determines whether or not a given address is blacklisted from being delivered to
+	 * @param $data
+	 * @return bool
+	 */
 	public function isBlacklisted($data) {
 		$model = $this->repo->get($data['street'], $data['city'], $data['state'], $data['zipcode']);
 
@@ -30,6 +35,10 @@ class BlacklistedAddressService extends BaseService
 		return false;
 	}
 
+	/**
+	 * Returns the reason for an address being blacklisted (can only be called after calling isBlacklisted)
+	 * @return string
+	 */
 	public function getReason() {
 		return $this->blacklistedReason;
 	}

@@ -23,11 +23,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 	/**
 	 * Create order and charge user should probably be split into two methods and controlled
-	 * by the service, but since it needs to be a transaction im just doing it all here for now
+	 * by the service, but since it needs to be a transaction im just doing it all here for now YOLO
 	 * @param User $user
 	 * @param UserAddress $address
 	 * @param $products
 	 * @param $data
+	 * @return Order
 	 */
 	public function createOrderAndChargeUser(User $user, UserAddress $address, $products, $data) {
 		$this->model->amount = 0;

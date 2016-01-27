@@ -9,5 +9,5 @@
 namespace App\Models\Repositories\Interfaces;
 
 interface ProductInterface {
-
+	public function getById($id);
 }

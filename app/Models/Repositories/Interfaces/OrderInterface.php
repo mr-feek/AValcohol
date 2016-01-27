@@ -10,8 +10,10 @@ namespace App\Models\Repositories\Interfaces;
 
 use App\Models\Entities\User;
 use App\Models\Entities\UserAddress;
+use App\Models\Entities\Order;
 
 interface OrderInterface
 {
 	public function createOrderAndChargeUser(User $user, UserAddress $address, $products, $data);
+	public function chargeUserForOrder(User $user, Order $order, $stripe_token);
 }
