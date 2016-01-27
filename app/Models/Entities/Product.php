@@ -25,7 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
+ * @property float $sale_price
  */
 class Product extends Model
 {
+	protected $hidden = ['price']; // this is the vendor price
 }

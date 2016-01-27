@@ -193,7 +193,7 @@ class OrderControllerTest extends TestCase
 		$amount = 0;
 
 		foreach ($products as $product) {
-			$amount += $product['price'];
+			$amount += $product['sale_price'];
 		}
 
 		$this->seeInDatabase('orders', [
@@ -213,7 +213,11 @@ class OrderControllerTest extends TestCase
 	 */
 	protected function verifyOrderProductsInDatabase($order_id, $products) {
 		foreach ($products as $product) {
-			$this->seeInDatabase('order_product', ['order_id' => $order_id, 'product_id' => $product['id'], 'product_price' => $product['price']]);
+			$this->seeInDatabase('order_product', [
+				'order_id' => $order_id,
+				'product_id' => $product['id'],
+				'product_sale_price' => $product['sale_price']
+			]);
 		}
 	}
 

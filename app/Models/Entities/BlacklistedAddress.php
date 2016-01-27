@@ -29,7 +29,7 @@ class BlacklistedAddress extends Model
 	 * @return string
 	 */
 	public function getReason() {
-		switch($this->id) {
+		switch($this->reason) {
 			case 1:
 				return "We're sorry, but at this time we cannot deliver to fraternities";
 		}

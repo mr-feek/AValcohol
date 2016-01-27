@@ -16,6 +16,7 @@ $factory->define(App\Models\Entities\Product::class, function(Faker\Generator $f
 		'upc' => $faker->randomNumber(9),
 		'name' => $faker->name(),
 		'price' => $faker->randomNumber(2),
+		'sale_price' => $faker->randomNumber(2),
 		'featured' => $faker->boolean(10), // will be true 10 percent of the time
 		'image_url' => 'genesee-cream-ale.jpg'
 	];

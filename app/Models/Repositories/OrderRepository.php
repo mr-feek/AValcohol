@@ -45,9 +45,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 			$amount = 0;
 			foreach ($products as $p) {
-				$amount += $p->price;
+				$amount += $p->sale_price;
 				// create order_product record
-				$order->products()->attach($p->id, ['product_price' => $p->price]);
+				$order->products()->attach($p->id, [
+					'product_vendor_price' => $p->price,
+					'product_sale_price' => $p->sale_price
+				]);
 			}
 
 			// update the order record with the proper price
