@@ -23,7 +23,10 @@ $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'AddressController@create');
-	$app->put('{id}', 'AddressController@update');
+	// for now, because we don't have user accounts and can't enforce security,
+	// all updated addresses will be treated as creating a new address
+	//$app->put('{id}', 'AddressController@update');
+	$app->put('{id}', 'AddressController@create');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
