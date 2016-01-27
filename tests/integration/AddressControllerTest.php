@@ -93,7 +93,7 @@ class AddressControllerTest extends TestCase
 
 		$this->seeJson([
 			'success' => false,
-			'message' => 'invalid permissions.'
+			'message' => 'You do not have permission to access this resource.'
 		]);
 	}
 }

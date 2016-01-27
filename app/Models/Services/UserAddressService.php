@@ -8,6 +8,7 @@
 
 namespace App\Models\Services;
 
+use App\Exceptions\InvalidPermissionException;
 use App\Models\Repositories\Interfaces\UserAddressInterface;
 use App\Exceptions\APIException;
 
@@ -31,10 +32,10 @@ class UserAddressService extends BaseService
 		$address = $this->get($data['id']);
 
 		if (!$this->repo->userCanUpdateAddress($address, $data['user_id'])) {
-			throw new APIException('invalid permissions.');
+			throw new InvalidPermissionException();
 		}
 
-		return $this->repo->update($data);
+		return $this->repo->update($address, $data);
 	}
 
 	public function create($data) {

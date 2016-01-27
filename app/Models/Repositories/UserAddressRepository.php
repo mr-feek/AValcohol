@@ -21,11 +21,14 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	}
 
 	public function getById($id) {
-		return $this->model = UserAddress::findOrFail($id);
+		$this->model = UserAddress::findOrFail($id);
+		return $this->model;
 	}
 
 	public function update(UserAddress $model, $data) {
-		return $this->model = $model->update($data);
+		$this->model = $model;
+		$this->model->update($data);
+		return $this->model;
 	}
 
 	/**
@@ -36,7 +39,8 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	 */
 	public function create(User $user, $data)
 	{
-		return $this->model = $user->addresses()->save(new UserAddress($data));
+		$this->model = $user->addresses()->save(new UserAddress($data));
+		return $this->model;
 	}
 
 	/**
@@ -60,5 +64,7 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 		if ($user_id !== $address->user_id) {
 			return false;
 		}
+
+		return true;
 	}
 }
