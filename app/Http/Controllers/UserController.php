@@ -44,11 +44,4 @@ class UserController extends Controller
 			'user' => $user
 		]);
 	}
-
-	public function get(UserService $userService, $id) {
-		$data = $userService->getUser($id);
-		return response()->json([
-			'id' => $data->id
-		]);
-	}
 }
