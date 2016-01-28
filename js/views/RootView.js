@@ -28,11 +28,9 @@ define([
 		},
 
 		regions: {
-			header : function() {
-				return $('header');
-			},
-			main: '#main',
-			rightOffCanvas: '.right-off-canvas-menu'
+			header : $('header'),
+			main: $('#main'),
+			rightOffCanvas: $('.right-off-canvas-menu')
 		},
 
 		initialize: function (options) {
