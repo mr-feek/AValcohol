@@ -30,7 +30,7 @@ define([
 				region.show(new MVPHomeView());
 			} catch(e) {
 				// try again
-				console.err('delaying and trying again..');
+				console.log('delaying and trying again..');
 				_.delay(this.showHome, 100);
 			}
 		},
