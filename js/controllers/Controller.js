@@ -20,6 +20,8 @@ define([
 
 		initialize: function(options) {
 			this.rootView = options.rootView;
+
+			_.bindAll(this, 'showHome');
 		},
 
 		showHome: function() {
