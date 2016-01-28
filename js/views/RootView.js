@@ -28,16 +28,16 @@ define([
 		},
 
 		regions: {
-			header : $('header'),
-			main: $('#main'),
-			rightOffCanvas: $('.right-off-canvas-menu')
+			header: 'header',
+			main: '#main',
+			rightOffCanvas: '.right-off-canvas-menu'
 		},
 
 		initialize: function (options) {
 			Vent.on('root:scrollTo', this.scrollTo);
 		},
 
-		onRender: function () {
+		onShow: function () {
 			this.getRegion('header').show(new HeaderView());
 			// main region is populated by the router
 		},
