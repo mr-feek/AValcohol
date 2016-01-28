@@ -82,7 +82,7 @@ class AddressControllerTest extends TestCase
 		]);
 	}
 	*/
-
+/*
 	public function testUserCannotUpdateOtherUsersAddress() {
 		$address = UserAddress::find(1);
 		$address->user_id = $address->user_id + 1;
@@ -96,4 +96,5 @@ class AddressControllerTest extends TestCase
 			'message' => 'You do not have permission to access this resource.'
 		]);
 	}
+*/
 }
