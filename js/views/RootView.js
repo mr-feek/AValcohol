@@ -28,7 +28,9 @@ define([
 		},
 
 		regions: {
-			header: 'header',
+			header : function() {
+				return $('header');
+			},
 			main: '#main',
 			rightOffCanvas: '.right-off-canvas-menu'
 		},
