@@ -15,10 +15,17 @@ define([
 		},
 
 		ui: {
-			link : '.top-bar-section .right *' // either li or anchor
+			link : '.top-bar-section .right *', // either li or anchor
+			secondaryHeader : '.secondary-header'
 		},
 
 		initialize: function(options) {
+		},
+
+		onShow: function() {
+			setTimeout(function() {
+				this.ui.secondaryHeader.slideDown();
+			}.bind(this), 1000);
 		},
 
 		linkClicked: function(evt) {
