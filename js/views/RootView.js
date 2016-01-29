@@ -1,13 +1,13 @@
 define([
 	'marionette',
 	'views/HeaderView',
-	'views/MVPHomeView',
+	'views/HomeView',
 	'util/Vent',
 	'tpl!templates/root.html'
-], function (
+], function(
 	Mn,
 	HeaderView,
-	MVPHomeView,
+	HomeView,
 	Vent,
 	tpl
 ) {
@@ -15,57 +15,30 @@ define([
 		template: tpl,
 		el: 'body',
 
-		events: {},
+		events: {
+		},
 
-		childEvents: {
-			// every time a view is shown inside a region we need to make sure foundation listeners are applied
-			show: function() {
-				$(document).foundation();
-				$(document).foundation('offcanvas', 'reflow');
-				$(document).foundation('alert', 'reflow');
-			}
+		ui: {
 		},
 
 		regions: {
 			header: 'header',
-			main: '#main',
-			rightOffCanvas: '.right-off-canvas-menu'
+			main: '#main'
 		},
 
-		initialize: function (options) {
+		initialize: function(options) {
 			var view = this;
 			Vent.on('root:scrollTo', view.scrollTo);
 		},
 
-		onRender: function () {
+		onRender: function() {
 			this.getRegion('header').show(new HeaderView());
-			// main region is populated by the router
+			this.getRegion('main').show(new HomeView());
 		},
 
-		scrollTo: function (selector) {
+		scrollTo: function(selector) {
 			$('html, body').animate({
-				scrollTop: $(selector).offset().top
-			}, 500);
-		},
-
-		/**
-		 * closes the off canvas
-		 * @param bool cleanup, whether or not to empty the off canvas region
-		 */
-		closeOffCanvas: function(cleanup) {
-			var view = this;
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
-
-			if (cleanup) {
-				// race condition for one second.
-				setTimeout(function() {
-					view.getRegion('rightOffCanvas').empty();
-				}, 1000);
-			}
-		},
-
-		openOffCanvas: function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-left');
+				scrollTop: $(selector).offset().top}, 500);
 		}
 	});
 

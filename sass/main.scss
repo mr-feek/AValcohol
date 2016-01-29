@@ -1,32 +1,14 @@
-@import 'variables';
-// for use in _settings.scss
+@import 'variables'; // for use in _settings.scss
 // FOUNDATION
 @import '_settings.scss';
 @import '../vendor/foundation/scss/foundation';
 @import '../vendor/foundation-icon-fonts/foundation-icons';
 //
 @import 'utils';
-@import 'components/header';
-@import 'pages/home';
-@import 'components/footer';
-@import 'pages/user-home';
-@import 'components/cart';
-@import 'components/product';
 
-// some global styles...
-
-#main-wrapper {
-	min-height: 100%;
-
-	#main-wrapper {
-		margin-bottom: -1 * $footerHeight;
-	}
-	#main-wrapper:after {
-		content: "";
-		display: block;
-		height: $footerHeight;
-	}
-}
+@import 'header';
+@import 'home';
+@import 'footer';
 
 p {
 	color: $dark-text-color;
