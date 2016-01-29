@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h1 id="avalcoholbuildstatus">AValcohol <a href="https://magnum.travis-ci.com/fpm5022/AValcohol"><img src="https://magnum.travis-ci.com/fpm5022/AValcohol.svg?token=crFjMNDDdzj4qoYgDDWv&branch=master" alt="Build Status" /></a></h1>
+
+<h2 id="initliazingthisprojectlocally:">Initliazing this project locally:</h2>
+
+<ol>
+<li>clone this repo</li>
+<li>open up terminal and navigate to the cloned repo</li>
+<li>type <code>bower install</code> to install the front-end dependencies (make sure you have bower installed first)</li>
+<li>type <code>php composer.phar install</code> (make sure you have composer installed first)</li>
+</ol>
+
+<h2 id="currentdeployprocesstodev.avalcohol.com">Current Deploy Process To dev.avalcohol.com</h2>
+
+<ol>
+<li>push changes to the <em>dev</em> branch on this repo, the rest will be handled magically by travis</li>
+<li>ssh onto server and cd to www/dev</li>
+<li>edit .env if necessary</li>
+<li>php artisan migrate if there are any migrations needing to be ran
+gs</li>
+</ol>
+
+<h2 id="currentproductiondeployprocesstoavalcohol.com">Current Production Deploy Process To avalcohol.com</h2>
+
+<ol>
+<li>test on dev first.</li>
+<li>merge into master and git push</li>
+<li>travis will test / build everything and then will commit and push all of the built code to AValcohol-production</li>
+<li>ssh onto server and run <code>php artisan down</code> to put the site into maintenance mode</li>
+<li>run the necessary migrations on the LIVE db <code>php artisan migrate</code></li>
+<li>update code <code>git pull</code></li>
+<li>update .env or anything else</li>
+<li>run tests <code>phpunit</code></li>
+<li>test making an order etc.</li>
+<li><code>php artisan up</code></li>
+<li>watch error logs</li>
+</ol>
+
+</body>
+</html>

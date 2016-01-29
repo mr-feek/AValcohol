@@ -1,7 +1,7 @@
 <?php
 
-require '../../../vendor/autoload.php';
-require '../../../vendor/j4mie/paris/paris.php';
+require '../../vendor/autoload.php';
+require '../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
 
 error_reporting(-1);
