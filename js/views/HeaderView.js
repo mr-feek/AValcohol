@@ -34,7 +34,7 @@ define([
 				case 'retailer':
 					selector = '.retailers';
 					break;
-				case 'button round contact':
+				case 'contact':
 					selector = ".contact-us";
 					break;
 			}
