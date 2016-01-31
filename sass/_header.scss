@@ -23,13 +23,11 @@
 }
 
 .secondary-header {
-	display: none; // changed in javascript
-	background: $red;
+	background: white;
 	max-width: 100%;
 
 	p {
 		margin: 0;
-		color: white;
 	}
 
 	.columns {

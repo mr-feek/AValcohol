@@ -10,7 +10,8 @@ define([
 
 		events: {
 			'click @ui.sendEmail' : 'sendEmail',
-			'click @ui.closeAlert' : 'closeAlert'
+			'click @ui.closeAlert' : 'closeAlert',
+			'click @ui.join' : 'joinClicked'
 		},
 
 		ui: {
@@ -20,10 +21,14 @@ define([
 			'errorAlert' : '.error', // error message
 			'closeAlert' : '.close', // close button in success message
 			'address' : '.address', // email address
-			'message' : '.message' // email message
+			'message' : '.message', // email message,
+			secondaryHeader : '.secondary-header',
+			email : '.email', // mvp join signup email
+			join : '.join' // mvp email button
 		},
 
 		initialize: function(options) {
+			_.bindAll(this, 'joinClicked', 'emailSubmitSuccess');
 		},
 
 		onShow: function() {
@@ -92,7 +97,39 @@ define([
 		closeAlert: function(evt) {
 			evt.preventDefault();
 			this.ui.successAlert.fadeOut();
-		}
+		},
+
+		joinClicked: function(evt) {
+			evt.preventDefault();
+			var email = this.ui.email.val();
+			var regex = /\S+@\S+\.\S+/;
+
+			if (regex.test(email)) {
+				this.submitEmail(email);
+			} else {
+				alert('Please enter a valid email address');
+			}
+		},
+
+		submitEmail: function(email) {
+			$.post(
+				'/php/api/email/create',
+				{email : email},
+				this.emailSubmitSuccess
+			)
+		},
+
+		emailSubmitSuccess: function(response) {
+			if (response.success) {
+				this.ui.secondaryHeader.prepend('' +
+					'<div class="columns small-12">' +
+						'<div data-alert class="alert-box success radius">Thanks for signing up!</div>' +
+					'</div>');
+			}
+			else {
+				console.error('something went wrong');
+			}
+		},
 	});
 
 	return HomeView;
