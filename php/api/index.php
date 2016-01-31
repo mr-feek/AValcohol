@@ -29,6 +29,17 @@ $app->get('/alcohols', function() use($app) {
 	respond($data);
 });
 
+$app->post('/email/create', function() use($app) {
+	$email = $app->request->post('email');
+	$record = ORM::for_table('mvp_signup')->create();
+	$record->email = $email;
+	$success = $record->save();
+
+	respond(array(
+		'success' => $success
+	));
+});
+
 $app->post('/email/send', function() use($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
