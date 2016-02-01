@@ -37,7 +37,7 @@ define([
 			Vent.on('root:scrollTo', this.scrollTo);
 		},
 
-		onShow: function () {
+		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
 			// main region is populated by the router
 		},

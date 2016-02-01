@@ -76,10 +76,10 @@ require([
 			rootView: app.rootView
 		});
 
-		app.router = new Router({ controller: controller });
 		app.cart = new Cart();
 		app.user = User.findOrCreate({});
 		app.rootView.render();
+		app.router = new Router({ controller: controller });
 	});
 
 	// screw it, we're waiting for config to fetch before starting app
