@@ -25,16 +25,8 @@ define([
 		},
 
 		showHome: function() {
-			// theres a race condition here i think...
 			var region = this.rootView.getRegion('main');
-			try {
-				region._ensureElement();
-				region.show(new MVPHomeView());
-			} catch(e) {
-				// try again
-				console.log('delaying and trying again..');
-				_.delay(this.showHome, 100);
-			}
+			region.show(new MVPHomeView());
 		},
 
 		showUserHome: function(endpoint) {
