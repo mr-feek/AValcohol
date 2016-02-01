@@ -140,8 +140,13 @@ define([
 			if (response.success) {
 				this.ui.secondaryHeader.prepend('' +
 					'<div class="columns small-12">' +
-						'<div data-alert class="alert-box success radius">Thanks for signing up!</div>' +
+						'<div data-alert class="alert-box success radius text-center">Thanks for signing up! We\'ll be in touch shortly.</div>' +
 					'</div>');
+
+				setTimeout(function() {
+					this.ui.secondaryHeader.slideUp();
+					this.ui.secondaryHeaderAnchor.slideUp();
+				}.bind(this), 4000)
 			}
 			else {
 				console.error('something went wrong');
