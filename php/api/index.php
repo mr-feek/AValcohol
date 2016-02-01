@@ -10,9 +10,15 @@ set_error_handler("var_dump");
 
 $app = new \Slim\Slim();
 
-ORM::configure('mysql:host=localhost;dbname=AValcohol');
-ORM::configure('username', 'root');
-ORM::configure('password', 'feeksql');
+$dotenv = new \Dotenv\Dotenv('../../');
+$dotenv->load();
+
+// db host might need to be changed to localhost idk..
+$db_url = getenv('DB_CONNECTION') . ':host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_DATABASE');
+
+ORM::configure($db_url);
+ORM::configure('username', getenv('DB_USERNAME'));
+ORM::configure('password', getenv('DB_PASSWORD'));
 
 $app->get('/', function() use($app) {
 	echo 'yo pluto';
@@ -40,6 +46,9 @@ $app->post('/email/create', function() use($app) {
 	));
 });
 
+/**
+ * Sends an email to angela
+ */
 $app->post('/email/send', function() use($app) {
 	$from = $app->request->post('from');
 	$message = $app->request->post('message');
