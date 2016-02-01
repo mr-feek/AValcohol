@@ -3,5 +3,8 @@
         "slim/slim": "^2.6",
         "j4mie/paris": "^1.5",
         "vlucas/phpdotenv": "^2.2"
-    }
+    },
+  "autoload": {
+	"classmap": ["php/"]
+  }
 }

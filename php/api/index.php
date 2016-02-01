@@ -35,11 +35,23 @@ $app->get('/alcohols', function() use($app) {
 	respond($data);
 });
 
+/**
+ * user is signing up for soft launch
+ */
 $app->post('/email/create', function() use($app) {
 	$email = $app->request->post('email');
 	$record = ORM::for_table('mvp_signup')->create();
 	$record->email = $email;
 	$success = $record->save();
+
+	$mailchimp = new MailChimp(getenv('MAILCHIMP_KEY'));
+	$options = array(
+		'id_list' => 'e2c9eed2ca',
+		'email' => $email,
+		'status' => 'subscribed',
+		'interests' => array('52b6c69dc6', true)
+	);
+	$mailchimp->list_add_subscriber($options);
 
 	respond(array(
 		'success' => $success
