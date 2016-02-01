@@ -7,3 +7,10 @@
 .section {
 	min-height: 85%;
 }
+
+.stick {
+	position: fixed;
+	top: 0;
+	z-index: 1000000;
+	border-bottom: 2px solid $red;
+}

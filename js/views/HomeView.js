@@ -23,12 +23,29 @@ define([
 			'address' : '.address', // email address
 			'message' : '.message', // email message,
 			secondaryHeader : '.secondary-header',
+			secondaryHeaderAnchor: '.secondary-header-anchor',
 			email : '.email', // mvp join signup email
-			join : '.join' // mvp email button
+			join : '.join', // mvp email button
 		},
 
 		initialize: function(options) {
+			$(window).scroll(this.stickify.bind(this));
 			_.bindAll(this, 'joinClicked', 'emailSubmitSuccess');
+		},
+
+		stickify: function(e) {
+			var windowTop = $(window).scrollTop();
+			var divTop = this.ui.secondaryHeaderAnchor.offset().top;
+
+			var preservedHeight = this.ui.secondaryHeader.height();
+			
+			if (windowTop > divTop) {
+				this.ui.secondaryHeaderAnchor.height(preservedHeight);
+				this.ui.secondaryHeader.addClass('stick');
+			} else {
+				this.ui.secondaryHeaderAnchor.height(0);
+				this.ui.secondaryHeader.removeClass('stick');
+			}
 		},
 
 		onShow: function() {
