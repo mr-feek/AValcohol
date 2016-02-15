@@ -4,14 +4,19 @@ require '../../vendor/autoload.php';
 require '../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
 
-error_reporting(-1);
-ini_set('display_errors', 'On');
-set_error_handler("var_dump");
-
-$app = new \Slim\Slim();
-
 $dotenv = new \Dotenv\Dotenv('../../');
 $dotenv->load();
+
+if (getenv('APP_ENV') !== 'production') {
+	error_reporting(-1);
+	ini_set('display_errors', 'On');
+	set_error_handler("var_dump");
+} else {
+	ini_set("display_errors", 0);
+	ini_set("log_errors", 1);
+}
+
+$app = new \Slim\Slim();
 
 // db host might need to be changed to localhost idk..
 $db_url = getenv('DB_CONNECTION') . ':host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_DATABASE');
