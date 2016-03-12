@@ -3,6 +3,9 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	sass --update sass:css;
 	rm -rf .git/
+	rm -rf .env
+	rm -rf ./.env.example
+	rm -rf ./.env.travis
 	git init
 	git config user.name "Travis CI"
 	git config user.email "feek-travis@avalcohol.com"
