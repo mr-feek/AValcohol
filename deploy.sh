@@ -6,6 +6,7 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 	rm -rf .env
 	rm -rf ./.env.example
 	rm -rf ./.env.travis
+	echo "dev/" >> ./.gitignore
 	git init
 	git config user.name "Travis CI"
 	git config user.email "feek-travis@avalcohol.com"
