@@ -9,7 +9,9 @@ sass/.sass-cache/
 .env
 local/
 storage/
-composer.lock
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+php/api/my_log
+composer-setup.php
+php/api/error.log

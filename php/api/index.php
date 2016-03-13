@@ -4,19 +4,25 @@ require '../../vendor/autoload.php';
 require '../../vendor/j4mie/paris/paris.php';
 require '../models/Alcohol.php';
 
+use api\MyLogWriter;
+
 $dotenv = new \Dotenv\Dotenv('../../');
 $dotenv->load();
 
-if (getenv('APP_ENV') !== 'production') {
-	error_reporting(-1);
-	ini_set('display_errors', 'On');
-	set_error_handler("var_dump");
-} else {
-	ini_set("display_errors", 0);
-	ini_set("log_errors", 1);
+$environment = getenv('APP_ENV');
+$debug = ($environment !== 'production') ? true : false; // temp, second should be false
+
+if (!$debug) {
+	// we're in production, don't display errors in case any happen from outside the slim app
+	ini_set('display_errors', 0);
 }
 
-$app = new \Slim\Slim();
+$app = new \Slim\Slim(array(
+	'mode' => $environment,
+	'debug' => $debug,
+	'log.writer' => new MyLogWriter(),
+	'log.enabled' => !$debug,
+));
 
 // db host might need to be changed to localhost idk..
 $db_url = getenv('DB_CONNECTION') . ':host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_DATABASE');
@@ -26,6 +32,8 @@ ORM::configure('username', getenv('DB_USERNAME'));
 ORM::configure('password', getenv('DB_PASSWORD'));
 
 $app->get('/', function() use($app) {
+	// FOR TESTING EMAIL ERRORS
+	$wrong = $right;
 	echo 'yo pluto';
 });
 
