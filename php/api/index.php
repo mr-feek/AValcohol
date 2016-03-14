@@ -32,8 +32,6 @@ ORM::configure('username', getenv('DB_USERNAME'));
 ORM::configure('password', getenv('DB_PASSWORD'));
 
 $app->get('/', function() use($app) {
-	// FOR TESTING EMAIL ERRORS
-	$wrong = $right;
 	echo 'yo pluto';
 });
 
