@@ -2,12 +2,14 @@ define([
 	'marionette',
 	'views/landing/HeaderView',
 	'views/landing/MVPHomeView',
+	'views/account/AccountManagerView',
 	'util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
 	HeaderView,
 	MVPHomeView,
+	AccountManagerView,
 	Vent,
 	tpl
 ) {
@@ -30,11 +32,15 @@ define([
 		regions: {
 			header: 'header',
 			main: '#main',
-			rightOffCanvas: '.right-off-canvas-menu'
+			rightOffCanvas: '.right-off-canvas-menu',
+			modalRegion: '.modal-region'
 		},
 
 		initialize: function (options) {
 			Vent.on('root:scrollTo', this.scrollTo);
+			Vent.on('account:signin', this.showSignIn, this);
+			Vent.on('account:signup', this.showSignUp, this);
+			Vent.on('modal:close', this.closeModal, this);
 		},
 
 		onRender: function () {
@@ -67,6 +73,18 @@ define([
 					view.getRegion('rightOffCanvas').empty();
 				}, 1000);
 			}
+		},
+
+		closeModal: function() {
+			this.getRegion('modalRegion').empty();
+		},
+
+		showSignIn: function() {
+			this.getRegion('modalRegion').show(new AccountManagerView());
+		},
+
+		showSignUp: function() {
+
 		},
 
 		openOffCanvas: function() {
