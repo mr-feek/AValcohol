@@ -2,14 +2,12 @@ define([
 	'marionette',
 	'views/landing/HeaderView',
 	'views/landing/MVPHomeView',
-	'views/account/AccountManagerView',
 	'util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
 	HeaderView,
 	MVPHomeView,
-	AccountManagerView,
 	Vent,
 	tpl
 ) {
@@ -77,14 +75,6 @@ define([
 
 		closeModal: function() {
 			this.getRegion('modalRegion').empty();
-		},
-
-		showSignIn: function() {
-			this.getRegion('modalRegion').show(new AccountManagerView());
-		},
-
-		showSignUp: function() {
-
 		},
 
 		openOffCanvas: function() {

@@ -2,6 +2,7 @@ vendor/
 node_modules/
 css/
 sass/.sass-cache/
+vendors/sass/.sass-cache/
 .idea/
 local/
 storage/framework/down

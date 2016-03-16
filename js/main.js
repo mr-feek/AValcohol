@@ -54,7 +54,7 @@ require([
 	'util/Router',
 	'collections/Cart',
 	'models/User',
-	'models/Config',
+	'../shared/js/models/Config',
 	'foundation',
 	'foundationOffCanvas'
 ], function (
