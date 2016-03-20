@@ -3,7 +3,7 @@ define([
 	'App',
 	'stripe',
 	'models/Card',
-	'behaviors/ModelSaveAnimation',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,

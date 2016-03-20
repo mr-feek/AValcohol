@@ -4,12 +4,16 @@
 define([
 	'marionette',
 	'views/HeaderView',
+	'views/LoginView',
 	'util/Vent',
+	'App',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
 	HeaderView,
+	LoginView,
 	Vent,
+	app,
 	tpl
 ) {
 	var RootView = Mn.LayoutView.extend({
@@ -29,7 +33,7 @@ define([
 
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
-			// main region is populated by the router
+			this.getRegion('main').show(new LoginView({	model: app.vendor }));
 		},
 
 		closeModal: function() {

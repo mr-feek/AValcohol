@@ -55,6 +55,7 @@ require([
 	'views/RootView',
 	'controllers/Controller',
 	'util/Router',
+	'models/Vendor',
 	'../../shared/js/models/Config',
 	'foundation',
 ], function (
@@ -63,6 +64,7 @@ require([
 	RootView,
 	Controller,
 	Router,
+	Vendor,
 	Config
 ) {
 	$(document).foundation();
@@ -73,6 +75,8 @@ require([
 		var controller = new Controller({
 			rootView: app.rootView
 		});
+
+		app.vendor = new Vendor();
 
 		app.rootView.render();
 		app.router = new Router({ controller: controller });

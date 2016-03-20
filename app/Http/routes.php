@@ -12,7 +12,7 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->welcome();
+    return 'sup pluto';
 });
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -41,6 +41,10 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
+});
+
+$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('login', 'VendorController@login');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

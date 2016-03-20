@@ -1,0 +1,19 @@
+.login {
+	margin-top: 5rem;
+
+	h3 {
+		text-align: center;
+	}
+
+	.login-container {
+		margin-left: auto;
+		margin-right: auto;
+		padding: 5rem;
+		width: 50%;
+		border: 1px solid $light-text-color;
+
+		.error {
+			margin-top: -1rem; // for showing the errors
+		}
+	}
+}

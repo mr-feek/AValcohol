@@ -9,7 +9,7 @@ define([
 	'models/UserAddress',
 	'models/Order',
 	'models/Card',
-	'behaviors/ModelSaveAnimation',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'util/Vent',
 	'tpl!templates/checkout/order-review.html'
 ], function (

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Entities\Vendor;
+use App\Models\Repositories\VendorRepository;
 use Illuminate\Support\ServiceProvider;
 
 use App\Models\Repositories\UserRepository;
@@ -74,6 +76,15 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind('ProductService', function($app)
 		{
 			return new ProductService($app->make('Repositories\Interfaces\ProductInterface'));
+		});
+
+		$this->app->bind('App\Models\Repositories\Interfaces\VendorInterface', function($app)
+		{
+			return new VendorRepository(new Vendor());
+		});
+		$this->app->bind('VendorService', function($app)
+		{
+			return new VendorService($app->make('Repositories\Interfaces\VendorInterface'));
 		});
 	}
 }

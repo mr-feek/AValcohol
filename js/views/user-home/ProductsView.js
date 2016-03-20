@@ -4,7 +4,7 @@ define([
 	'views/user-home/ProductView',
 	'views/user-home/NoFeaturedProductsView',
 	'collections/Products',
-	'behaviors/CollectionLoadingIndicator'
+	'../../../shared/js/behaviors/CollectionLoadingIndicator'
 ], function (
 	Mn,
 	FoundationEqualizer,
