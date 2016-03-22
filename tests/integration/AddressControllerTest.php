@@ -11,7 +11,7 @@ use App\Models\Entities\BlacklistedAddress;
  */
 class AddressControllerTest extends TestCase
 {
-	use \Illuminate\Foundation\Testing\DatabaseTransactions;
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 	public function testCanCreateAddress() {
 		$address = new UserAddress();

@@ -13,8 +13,9 @@ use App\Models\Entities\Product;
 
 class OrderControllerTest extends TestCase
 {
-	use \Illuminate\Foundation\Testing\DatabaseTransactions;
-	use \Illuminate\Foundation\Testing\WithoutMiddleware;
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+	//use \Illuminate\Foundation\Testing\WithoutMiddleware;
+
 
 	public function testCreateOrderWithExistingUser() {
 		$this->expectsEvents('App\Events\OrderWasSubmitted');

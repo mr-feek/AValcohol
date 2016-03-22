@@ -4,6 +4,15 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 Dotenv::load(__DIR__.'/../');
 
+/**
+ * apparently 5.2 should load dotenv this way, but namespace is wrong or something for me
+ * try {
+(new Dotenv\Dotenv(__DIR__.'/../'))->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+//
+}
+ */
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -20,13 +29,6 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
-$app->configure('jwt');
-class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
-/** This gives you finer control over the payloads you create if you require it.
- *  Source: https://github.com/tymondesigns/jwt-auth/wiki/Installation
- */
-class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory'); // Optional
 
 $app->withEloquent();
 
