@@ -5,6 +5,7 @@ define([
 	'marionette',
 	'views/HeaderView',
 	'views/LoginView',
+	'views/VendorHomeRootView',
 	'util/Vent',
 	'App',
 	'tpl!templates/root.html'
@@ -12,6 +13,7 @@ define([
 	Mn,
 	HeaderView,
 	LoginView,
+	VendorHomeRootView,
 	Vent,
 	app,
 	tpl
@@ -33,7 +35,8 @@ define([
 
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
-			this.getRegion('main').show(new LoginView({	model: app.vendor }));
+			//this.getRegion('main').show(new LoginView({	model: app.vendor }));
+			this.getRegion('main').show(new VendorHomeRootView());
 		},
 
 		closeModal: function() {

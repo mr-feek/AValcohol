@@ -1,0 +1,9 @@
+// this page overrides the default header styling for the vendor header
+
+.top-bar.vendor {
+	border-bottom: 2px solid $dark-text-color;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
