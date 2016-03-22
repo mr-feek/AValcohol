@@ -16,11 +16,13 @@ define([
 		ui: {
 			username: '.username',
 			password: '.password',
-			login: '.go'
+			login: '.go',
+			forgot: '.forgot-password'
 		},
 
 		events: {
-			'click @ui.login' : 'login'
+			'click @ui.login' : 'login',
+			'click @ui.forgot' : 'forgotPassword'
 		},
 
 		initialize: function (options) {
@@ -59,6 +61,10 @@ define([
 			this.$el.find('small.error').remove();
 			this.$el.find('label.error').removeClass('error');
 		},
+
+		forgotPassword: function() {
+			// to do
+		}
 	});
 
 	return view;
