@@ -1,6 +1,6 @@
 define([
 	'backbone',
-	'../models/Product',
+	'../../shared/js/models/Product',
 	'util/Vent',
 ], function (
 	Backbone,

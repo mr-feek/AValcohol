@@ -1,9 +1,5 @@
 #sidebar {
-	position: fixed;
-	top: $headerHeight; // so that it is positioned directly beneath header
-	bottom: 0;
-	left: 0;
-	width: 200px;
+	// position controlled in vendor home.scss
 	background-color: $dark-text-color;
 	text-align: center;
 
@@ -18,6 +14,7 @@
 
 		p {
 			color: $light-text-color;
+			margin-bottom: 0;
 		}
 
 		&:hover {

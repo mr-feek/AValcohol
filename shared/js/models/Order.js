@@ -1,8 +1,8 @@
 define([
 	'backbone',
-	'models/User',
-	'models/Product',
-	'models/UserAddress',
+	'../../../shared/js/models/User',
+	'../../../shared/js/models/Product',
+	'../../../shared/js/models/UserAddress',
 	'backboneRelational'
 ], function (
 	Backbone,

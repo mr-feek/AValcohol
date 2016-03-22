@@ -1,0 +1,19 @@
+// controls layout of vendor home root view
+
+$sidebarWidth: 200px;
+
+#sidebar {
+	position: fixed;
+	top: $headerHeight; // so that it is positioned directly beneath header
+	bottom: 0;
+	left: 0;
+	width: $sidebarWidth;
+}
+
+#content {
+	position: absolute;
+	top: $headerHeight;
+	left: $sidebarWidth;
+	right: 0;
+	padding: 1rem;
+}

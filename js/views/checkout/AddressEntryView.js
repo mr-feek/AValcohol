@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'App',
-	'models/UserAddress',
+	'../../../shared/js/models/UserAddress',
 	'../../../shared/js/behaviors/ModelFormSave',
 	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'

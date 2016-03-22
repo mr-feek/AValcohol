@@ -4,11 +4,11 @@
 define([
 	'marionette',
 	'App',
-	'models/Product',
-	'models/User',
-	'models/UserAddress',
-	'models/Order',
-	'models/Card',
+	'../../../shared/js/models/Product',
+	'../../../shared/js/models/User',
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/models/Order',
+	'../../../shared/js/models/Card',
 	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'util/Vent',
 	'tpl!templates/checkout/order-review.html'

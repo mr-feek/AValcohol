@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'App',
 	'stripe',
-	'models/Card',
+	'../../../shared/js/models/Card',
 	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
