@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'util/Vent',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/header.html'
 ], function (
 	Mn,
@@ -32,7 +32,7 @@ define([
 		},
 
 		showSettings: function() {
-
+			Vent.trigger('settings:show');
 		}
 	});
 

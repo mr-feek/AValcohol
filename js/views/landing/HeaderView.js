@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'util/Vent',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/landing/header.html'
 ], function (
 	Mn,

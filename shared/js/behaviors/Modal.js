@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'../../../js/util/Vent'
+	'../util/Vent'
 ], function (
 	Mn,
 	Vent

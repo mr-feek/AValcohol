@@ -6,7 +6,8 @@ define([
 	'views/HeaderView',
 	'views/LoginView',
 	'views/VendorHomeRootView',
-	'util/Vent',
+	'views/VendorSettingsView',
+	'../../../shared/js/util/Vent',
 	'App',
 	'tpl!templates/root.html'
 ], function (
@@ -14,6 +15,7 @@ define([
 	HeaderView,
 	LoginView,
 	VendorHomeRootView,
+	VendorSettingsView,
 	Vent,
 	app,
 	tpl
@@ -31,6 +33,7 @@ define([
 		},
 
 		initialize: function (options) {
+			Vent.on('settings:show', this.showSettings, this);
 		},
 
 		onRender: function () {
@@ -44,6 +47,10 @@ define([
 		closeModal: function() {
 			this.getRegion('modalRegion').empty();
 		},
+
+		showSettings: function() {
+			this.getRegion('modalRegion').show(new VendorSettingsView());
+		}
 	});
 
 	return RootView;

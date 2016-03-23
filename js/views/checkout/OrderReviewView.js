@@ -10,7 +10,7 @@ define([
 	'../../../shared/js/models/Order',
 	'../../../shared/js/models/Card',
 	'../../../shared/js/behaviors/ModelSaveAnimation',
-	'util/Vent',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/order-review.html'
 ], function (
 	Mn,

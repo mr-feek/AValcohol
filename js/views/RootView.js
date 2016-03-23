@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'views/landing/HeaderView',
 	'views/landing/MVPHomeView',
-	'util/Vent',
+	'../../shared/js/util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
