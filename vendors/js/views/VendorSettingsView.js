@@ -3,21 +3,29 @@
  */
 define([
 	'marionette',
+	'../../../shared/js/behaviors/Modal',
 	'tpl!templates/vendor-settings.html'
 ], function (
 	Mn,
+	Modal,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'modal',
 
 		templateHelpers: function() {
 			var view = this;
 
 			return {
 
+			}
+		},
+
+		behaviors: {
+			Modal: {
+				behaviorClass: Modal
 			}
 		},
 

@@ -33,6 +33,7 @@ define([
 		},
 
 		initialize: function (options) {
+			Vent.on('modal:close', this.closeModal, this);
 			Vent.on('settings:show', this.showSettings, this);
 		},
 
