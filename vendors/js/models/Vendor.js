@@ -16,7 +16,8 @@ define([
 		defaults: {
 			email: null,
 			name: 'Vendor Name',
-			password: null
+			password: null,
+			autoAcceptOrders: true
 		},
 
 		initialize: function() {

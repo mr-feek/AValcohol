@@ -4,10 +4,12 @@
 define([
 	'marionette',
 	'../../../shared/js/behaviors/Modal',
+	'../../../shared/js/behaviors/ModelFormSave',
 	'tpl!templates/vendor-settings.html'
 ], function (
 	Mn,
 	Modal,
+	ModelFormSave,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -26,6 +28,9 @@ define([
 		behaviors: {
 			Modal: {
 				behaviorClass: Modal
+			},
+			ModelFormSave: {
+				behaviorClass: ModelFormSave
 			}
 		},
 
