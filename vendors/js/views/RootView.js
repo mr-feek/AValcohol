@@ -34,7 +34,9 @@ define([
 		},
 
 		onRender: function () {
-			this.getRegion('header').show(new HeaderView());
+			this.getRegion('header').show(new HeaderView( {
+				model: app.vendor
+			}));
 			//this.getRegion('main').show(new LoginView({	model: app.vendor }));
 			this.getRegion('main').show(new VendorHomeRootView());
 		},

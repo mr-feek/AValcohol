@@ -14,7 +14,8 @@ define([
 		},
 
 		defaults: {
-			username: null,
+			email: null,
+			name: 'Vendor Name',
 			password: null
 		},
 
