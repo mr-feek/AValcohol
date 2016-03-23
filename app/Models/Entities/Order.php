@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
 	public function products() {
-		return $this->belongsToMany('App\Models\Entities\Product')->withPivot('product_price');
+		return $this->belongsToMany('App\Models\Entities\Product')->withPivot(['product_vendor_price', 'product_sale_price']);
 	}
 
 	public function user() {

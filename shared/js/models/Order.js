@@ -40,7 +40,13 @@ define([
 		},
 
 		parse: function(response, xhr) {
-			return response.order;
+			// if this is a request made for a singular model, the model will be stored in this location
+			if (response.order) {
+				return response.order;
+			}
+
+			// otherwise it's part of a collection, and just return response so it doesn't break backbone relational
+			return response;
 		},
 	});
 

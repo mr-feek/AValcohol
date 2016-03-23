@@ -9,8 +9,12 @@ define([
 	Order
 ) {
 	var collection =Backbone.Collection.extend({
-		url: 'api/vendor/orders',
-		model: Order
+		url: '/api/vendor/orders',
+		model: Order,
+
+		parse: function(response, xhr) {
+			return response.orders;
+		}
 	});
 
 	return collection;

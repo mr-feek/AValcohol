@@ -4,18 +4,18 @@
 define([
 	'marionette',
 	'collections/Orders',
-	'../../../shared/js/behaviors/CollectionLoadingIndicator',
-	'tpl!templates/orders.html'
+	'views/OrderView',
+	'../../../shared/js/behaviors/CollectionLoadingIndicator'
 ], function (
 	Mn,
 	Orders,
-	CollectionLoadingIndicator,
-	tpl
+	OrderView,
+	CollectionLoadingIndicator
 ) {
-	var view = Mn.CompositeView.extend({
-		template: tpl,
+	var view = Mn.CollectionView.extend({
 		tagName: 'div',
 		className: '',
+		childView: OrderView,
 
 		behaviors: {
 			CollectionLoadingIndicator: {
@@ -30,6 +30,9 @@ define([
 		initialize: function (options) {
 			this.collection = new Orders();
 			this.triggerMethod("setCollection", this.collection);
+		},
+
+		onRender: function() {
 			this.collection.fetch();
 		}
 	});
