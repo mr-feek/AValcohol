@@ -13,6 +13,7 @@ require.config({
 		'foundation' : 			'../../vendor/foundation/js/foundation',
 		'foundationEqualizer' : '../../vendor/foundation/js/foundation/foundation.equalizer',
 		'foundationOffCanvas': 	'../../vendor/foundation/js/foundation/foundation.offcanvas',
+		'foundationTooltip': 	'../../vendor/foundation/js/foundation/foundation.tooltip',
 		'modernizr' : 			'../../vendor/modernizr/modernizr',
 		'text': 				'../../vendor/requirejs-text/text',
 		'tpl': 					'../../vendor/requirejs-tpl/tpl',
@@ -45,6 +46,9 @@ require.config({
 		foundationOffCanvas: {
 			deps: ['foundation']
 		},
+		foundationTooltip: {
+			deps: ['foundation']
+		}
 	},
 	deps: ['jquery', 'underscore']
 });

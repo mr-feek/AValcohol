@@ -5,7 +5,8 @@ define([
 	'marionette',
 	'../../../shared/js/behaviors/Modal',
 	'../../../shared/js/behaviors/ModelFormSave',
-	'tpl!templates/vendor-settings.html'
+	'tpl!templates/vendor-settings.html',
+	'foundationTooltip'
 ], function (
 	Mn,
 	Modal,
@@ -39,6 +40,11 @@ define([
 		ui: {},
 
 		initialize: function (options) {
+		},
+
+		onShow: function() {
+			$(document).foundation();
+			$(document).foundation('tooltip', 'reflow');
 		}
 	});
 
