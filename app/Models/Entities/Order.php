@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer $id
  * @property float $amount
- * @property string $status
  * @property integer $user_id
  * @property integer $user_address_id
  * @property \Carbon\Carbon $created_at
@@ -36,13 +35,12 @@ class Order extends Model
 		return $this->belongsTo('App\Models\Entities\UserAddress', 'user_address_id');
 	}
 
-	/**
-	 * gets possible enum values for the status column
-	 *
-	 * TO DO: pull this directly from the DB values and make it universal on all models
-	 * @return array
-	 */
-	public static function getStatusKeys() {
-		return ['pending', 'out-for-delivery', 'delivered', 'pending-refund', 'refunded'];
+	public function status() {
+		return $this->belongsTo('App\Models\Entities\OrderStatus');
+	}
+
+	// signature, picture, etc.
+	public function deliveryDetails() {
+		return $this->belongsTo('App\Models\Entities\OrderDeliveryDetail');
 	}
 }

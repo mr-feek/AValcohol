@@ -41,7 +41,7 @@ class OrderProduct extends Migration
      */
     public function down()
     {
-        Schema::drop('order_product');
+        Schema::dropIfExists('order_product');
 
 		// add product ID to orders table
 		Schema::table('orders', function(Blueprint $table) {

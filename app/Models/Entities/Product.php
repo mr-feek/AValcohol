@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $upc
  * @property string $name
- * @property float $price
  * @property string $contains
  * @property string $ounces
  * @property string $container
@@ -29,5 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Model
 {
-	protected $hidden = ['price']; // this is the vendor price
+	public function vendor() {
+		return $this->belongsTo('App\Models\Entities\Vendor');
+	}
 }

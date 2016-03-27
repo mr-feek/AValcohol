@@ -35,9 +35,17 @@ class User extends Model
 	protected $hidden = ['password'];
 
 	// black list for mass assignable
-	protected $fillable = ['email', 'password', 'first_name', 'last_name', 'phone_number'];
+	protected $fillable = ['email', 'password'];
 
 	public function addresses() {
 		return $this->hasMany('App\Models\Entities\UserAddress');
+	}
+
+	public function profile() {
+		return $this->hasOne('App\Models\Entities\UserProfile');
+	}
+
+	public function vendor() {
+		return $this->hasOne('App\Models\Entities\Vendor');
 	}
 }
