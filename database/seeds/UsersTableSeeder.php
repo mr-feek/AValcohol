@@ -32,6 +32,9 @@ class UsersTableSeeder extends Seeder
 					'sale_price' => $price + 1
 				]);
 			}
+
+			// create the settings entry
+			$vendor->settings()->save(factory(App\Models\Entities\VendorSetting::class)->make());
 		});
     }
 }

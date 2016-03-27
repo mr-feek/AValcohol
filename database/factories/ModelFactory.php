@@ -66,3 +66,9 @@ $factory->define(App\Models\Entities\Vendor::class, function(\Faker\Generator $f
 		'phone_number' => $faker->phoneNumber
 	];
 });
+
+$factory->define(App\Models\Entities\VendorSetting::class, function(\Faker\Generator $faker) {
+	return [
+
+	];
+});

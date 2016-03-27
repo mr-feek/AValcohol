@@ -19,8 +19,7 @@ class OrderProduct extends Migration
 
 			$table->foreign('order_id')
 					->references('id')
-					->on('orders')
-					->onDelete('cascade');
+					->on('orders');
 
 			$table->foreign('product_id')
 					->references('id')
@@ -41,12 +40,20 @@ class OrderProduct extends Migration
      */
     public function down()
     {
+		Schema::table('order_product', function(Blueprint $table) {
+			$table->dropForeign(['order_id']);
+			$table->dropForeign(['product_id']);
+		});
+
         Schema::dropIfExists('order_product');
 
 		// add product ID to orders table
+		/*
+		 * something about this is broken, idk what. fuck it
 		Schema::table('orders', function(Blueprint $table) {
-			$table->unsignedInteger('product_id');
-			$table->foreign('product_id')->references('id')->on('products');
+			$table->integer('product_id')->unsigned();
+			$table->foreign('product_id')->references('id')->on('products') ->onDelete('cascade');
 		});
+		*/
     }
 }

@@ -67,7 +67,7 @@ class VendorSchema extends Migration
 
 		Schema::create('vendor_settings', function(Blueprint $table) {
 			$table->unsignedInteger('vendor_id');
-			$table->boolean('auto_accept_orders');
+			$table->boolean('auto_accept_orders')->default(1);
 			$table->timestamps();
 
 			$table->foreign('vendor_id')
@@ -129,7 +129,14 @@ class VendorSchema extends Migration
 		Schema::drop('order_statuses');
 		Schema::drop('order_denials');
 		Schema::drop('vendor_settings');
-		Schema::drop('vendor_products');
+		Schema::drop('vendor_product');
+		Schema::table('order_product', function(Blueprint $table) {
+			$table->dropForeign(['vendor_id']);
+			$table->dropColumn('vendor_id');
+		});/*
+		Schema::table('vendors', function(Blueprint $table) {
+			$table->dropForeign(['user_id']);
+		});*/
 		Schema::drop('vendors');
 		Schema::drop('user_profiles');
 
@@ -146,12 +153,6 @@ class VendorSchema extends Migration
 
 		Schema::table('orders', function(Blueprint $table) {
 			$table->string('status');
-		});
-
-		Schema::table('order_product', function(Blueprint $table) {
-			$table->dropColumn('vendor_id');
-
-			$table->dropForeign('vendor_id');
 		});
     }
 }
