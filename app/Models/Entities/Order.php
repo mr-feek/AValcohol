@@ -36,11 +36,11 @@ class Order extends Model
 	}
 
 	public function status() {
-		return $this->belongsTo('App\Models\Entities\OrderStatus');
+		return $this->hasOne('App\Models\Entities\OrderStatus');
 	}
 
 	// signature, picture, etc.
 	public function deliveryDetails() {
-		return $this->belongsTo('App\Models\Entities\OrderDeliveryDetail');
+		return $this->hasOne('App\Models\Entities\OrderDeliveryDetail');
 	}
 }

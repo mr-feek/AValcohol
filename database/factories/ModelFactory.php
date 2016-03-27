@@ -15,8 +15,6 @@ $factory->define(App\Models\Entities\Product::class, function(Faker\Generator $f
 	return [
 		'upc' => $faker->randomNumber(9),
 		'name' => $faker->name(),
-		'price' => $faker->randomNumber(2),
-		'sale_price' => $faker->randomNumber(2),
 		'featured' => $faker->boolean(10), // will be true 10 percent of the time
 		'image_url' => 'genesee-cream-ale.jpg'
 	];
@@ -25,10 +23,7 @@ $factory->define(App\Models\Entities\Product::class, function(Faker\Generator $f
 $factory->define(App\Models\Entities\User::class, function(Faker\Generator $faker) {
 	return [
 		'email' => $faker->email(),
-		'password' => $faker->password(),
-		'first_name' => $faker->firstName(),
-		'last_name' => $faker->lastName(),
-		'phone_number' => $faker->phoneNumber(),
+		'password' => $faker->password()
 	];
 });
 
@@ -41,11 +36,33 @@ $factory->define(App\Models\Entities\UserAddress::class, function(Faker\Generato
 	];
 });
 
+$factory->define(App\Models\Entities\UserProfile::class, function(Faker\Generator $faker) {
+	return [
+		'first_name' => $faker->firstName,
+		'last_name' => $faker->lastName,
+		'phone_number' => $faker->phoneNumber
+	];
+});
+
 $factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $faker) {
 	return [
 		'amount' => $faker->randomNumber(2),
-		'status' => 'pending',
 		'user_id' => 1,
 		'user_address_id' => 1
+	];
+});
+
+$factory->define(App\Models\Entities\OrderStatus::class, function(\Faker\Generator $faker) {
+	return [
+		'vendor_status' => 'pending',
+		'delivery_status' => 'pending'
+	];
+});
+
+$factory->define(App\Models\Entities\Vendor::class, function(\Faker\Generator $faker) {
+	return [
+		'name' => $faker->company,
+		'address' => $faker->address,
+		'phone_number' => $faker->phoneNumber
 	];
 });
