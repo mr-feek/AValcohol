@@ -31,4 +31,21 @@ class Product extends Model
 	public function vendor() {
 		return $this->belongsTo('App\Models\Entities\Vendor');
 	}
+
+	/**
+	 * This overrides the default to array and flattens the pivot table attribute,
+	 * merging the attributes so that they are not nested within a pivot attribute
+	 *
+	 * be careful that there arent any duplicaated attributes within the pivot table or they
+	 * will overwrite!
+	 * @param int $options
+	 * @return array
+	 *
+	public function toArray($options = 0)
+	{
+		$attributes = $this->attributesToArray();
+		$attributes = array_merge($attributes, $this->relationsToArray()['pivot']);
+		return $attributes;
+	}
+	 */
 }

@@ -5,7 +5,7 @@ define([
 	Backbone
 ) {
 	var Product = Backbone.RelationalModel.extend({
-		urlRoot: '/api/',
+		urlRoot: '/api/product',
 
 		defaults: {
 			quantity: 1, // for use in cart,

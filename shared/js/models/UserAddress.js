@@ -8,6 +8,7 @@ define([
 		urlRoot: '/api/address',
 
 		defaults: {
+			id: 1, // temp
 			city: undefined,
 			street: undefined,
 			state: undefined,

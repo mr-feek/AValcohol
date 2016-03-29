@@ -4,14 +4,16 @@ define([
 	'views/user-home/ProductView',
 	'views/user-home/NoFeaturedProductsView',
 	'collections/Products',
-	'../../../shared/js/behaviors/CollectionLoadingIndicator'
+	'../../../shared/js/behaviors/CollectionLoadingIndicator',
+	'App'
 ], function (
 	Mn,
 	FoundationEqualizer,
 	ProductView,
 	EmptyView,
 	Products,
-	CollectionLoadingIndicator
+	CollectionLoadingIndicator,
+	App
 ) {
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
@@ -37,14 +39,13 @@ define([
 		/**
 		 *
 		 * @param options
-		 * 		- endpoint (optional)
 		 */
 		initialize: function (options) {
-			this.endpoint = options.endpoint;
-			this.collection = new Products([], { endpoint: this.endpoint});
+			this.collection = new Products();
 			// pass the collection to the loading indicator
 			this.triggerMethod("setCollection", this.collection);
-			this.collection.fetch();
+			var address_id = App.user.get('address').get('id');
+			this.collection.fetch({ data: $.param({	address_id: address_id })});
 
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
 			// for some reason onAddChild d oesn't seem to be called after re-rendering

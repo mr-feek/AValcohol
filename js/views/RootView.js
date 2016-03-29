@@ -36,8 +36,6 @@ define([
 
 		initialize: function (options) {
 			Vent.on('root:scrollTo', this.scrollTo);
-			Vent.on('account:signin', this.showSignIn, this);
-			Vent.on('account:signup', this.showSignUp, this);
 			Vent.on('modal:close', this.closeModal, this);
 		},
 

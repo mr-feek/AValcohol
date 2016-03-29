@@ -38,7 +38,7 @@ define([
 		initialize: function () {
 			this.router = app.router;
 			this.user = app.user;
-			this.address = UserAddress.findOrCreate({});
+			this.address = this.user.get('address');
 			this.modelsToValidate.push(this.user, this.address); // dont think we need to listen to user, but why not..
 		},
 

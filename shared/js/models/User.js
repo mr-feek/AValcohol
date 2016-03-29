@@ -51,7 +51,8 @@ define([
 			first_name: null,
 			last_name: null,
 			phone_number: null,
-			mvp_user: 1 // this account does NOT need a password etc
+			mvp_user: 1, // this account does NOT need a password etc,
+			address: UserAddress.findOrCreate({})
 		},
 
 		initialize: function() {

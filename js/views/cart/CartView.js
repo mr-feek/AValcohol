@@ -57,7 +57,7 @@ define([
 
 			//debugger;
 			_.each(this.collection.models, function(model) {
-				total += model.get('sale_price') * model.get('quantity');
+				total += model.get('pivot').sale_price * model.get('quantity');
 			});
 
 			return Number(total).toFixed(2);
