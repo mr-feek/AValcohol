@@ -16,7 +16,7 @@ $app->get('/', function () use ($app) {
 });
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('all', 'ProductController@getAll');
+	$app->get('all', 'ProductController@getAllProductsForAddress');
 	$app->get('featured', 'ProductController@getAllFeatured');
 	$app->get('beer', 'ProductController@getAllBeer');
 });

@@ -22,17 +22,15 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	}
 
 	/**
-	 * Create order and charge user should probably be split into two methods and controlled
-	 * by the service, but since it needs to be a transaction im just doing it all here for now YOLO
+	 * Create order
 	 * @param User $user
 	 * @param UserAddress $address
 	 * @param $products
 	 * @param $data
 	 * @return Order
 	 */
-	public function createOrderAndChargeUser(User $user, UserAddress $address, $products, $data) {
+	public function createOrder(User $user, UserAddress $address, $products, $data) {
 		$this->model->amount = 0;
-		$this->model->status = 'pending'; // TO DO: make this the default db side
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
@@ -56,9 +54,6 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			// update the order record with the proper price
 			$order->amount = $amount;
 			$order->save();
-
-			// lets charge em
-			$this->chargeUserForOrder($user, $order, $stripe_token);
 		});
 
 		return $this->model;

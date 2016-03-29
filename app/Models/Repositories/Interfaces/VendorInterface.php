@@ -8,7 +8,11 @@
 
 namespace App\Models\Repositories\Interfaces;
 
+use App\Models\Entities\Vendor;
+
 interface VendorInterface
 {
 	public function login($username, $password);
+	public function getById($id);
+	public function getProducts(Vendor $vendor);
 }

@@ -9,6 +9,7 @@
 namespace App\Models\Repositories;
 
 use App\Models\Entities\Product;
+use App\Models\Entities\Vendor;
 use App\Models\Repositories\Interfaces\ProductInterface;
 
 class ProductRepository extends BaseRepository implements ProductInterface

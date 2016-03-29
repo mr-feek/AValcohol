@@ -35,7 +35,7 @@ class OrderService extends BaseService
 		$user = $this->userService->getUser($data['user']['id']);
 		$address = $this->addressService->get($data['address']['id']);
 		$products = $this->productService->getAll($data['products']);
-		$order = $this->repo->createOrderAndChargeUser($user, $address, $products, $data);
+		$order = $this->repo->createOrder($user, $address, $products, $data);
 
 		// notify pusher etc
 		Event::fire(new OrderWasSubmitted($order));

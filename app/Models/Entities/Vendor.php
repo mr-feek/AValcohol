@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
-	protected $hidden = ['password'];
+	protected $hidden = [''];
 
 	public function user() {
 		return $this->belongsTo('App\Models\Entities\User');
