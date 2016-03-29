@@ -26,7 +26,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @param User $user
 	 * @param UserAddress $address
 	 * @param $products
-	 * @param $data
+	 * @param $data array with note for now
 	 * @return Order
 	 */
 	public function createOrder(User $user, UserAddress $address, $products, $data) {
@@ -43,11 +43,13 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 			$amount = 0;
 			foreach ($products as $p) {
-				$amount += $p->sale_price;
+				$amount += $p->pivot->sale_price;
+
 				// create order_product record
 				$order->products()->attach($p->id, [
-					'product_vendor_price' => $p->price,
-					'product_sale_price' => $p->sale_price
+					'product_vendor_price' => $p->pivot->vendor_price,
+					'product_sale_price' => $p->pivot->sale_price,
+					'vendor_id' => $p->pivot->vendor_id
 				]);
 			}
 

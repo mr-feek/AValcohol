@@ -14,7 +14,7 @@ use App\Models\Entities\Product;
 class OrderControllerTest extends TestCase
 {
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
-	
+
 	public function testCreateOrderWithExistingUser() {
 		$this->withoutMiddleware();
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
@@ -25,6 +25,7 @@ class OrderControllerTest extends TestCase
 		$token = $this->createFakeToken();
 
 		$response = $this->createOrder($products, $address, $user, $token);
+
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
 

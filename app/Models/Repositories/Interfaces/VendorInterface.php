@@ -15,4 +15,5 @@ interface VendorInterface
 	public function login($username, $password);
 	public function getById($id);
 	public function getProducts(Vendor $vendor);
+	public function getProduct(Vendor $vendor, $productId);
 }

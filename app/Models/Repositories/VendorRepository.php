@@ -37,4 +37,10 @@ class VendorRepository extends BaseRepository implements VendorInterface
 
 		return $withoutVendorPrice;
 	}
+
+	public function getProduct(Vendor $vendor, $productId)
+	{
+		$product = $vendor->products()->where('product_id', $productId)->first();
+		return $product;
+	}
 }

@@ -38,4 +38,10 @@ class VendorService extends BaseService
 		$vendor = $this->repo->getById($vendor['id']);
 		return $this->repo->getProducts($vendor);
 	}
+
+	public function getProduct($vendorProduct) {
+		$vendor = $this->repo->getById($vendorProduct['vendor_id']);
+		$product = $this->repo->getProduct($vendor, $vendorProduct['product_id']);
+		return $product;
+	}
 }
