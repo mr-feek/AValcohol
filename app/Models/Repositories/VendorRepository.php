@@ -2,6 +2,7 @@
 
 namespace App\Models\Repositories;
 
+use App\Exceptions\APIException;
 use App\Models\Entities\Vendor;
 use App\Models\Repositories\Interfaces\VendorInterface;
 
@@ -41,6 +42,9 @@ class VendorRepository extends BaseRepository implements VendorInterface
 	public function getProduct(Vendor $vendor, $productId)
 	{
 		$product = $vendor->products()->where('product_id', $productId)->first();
+		if (!$product) {
+			throw new APIException('The specified product was not found');
+		}
 		return $product;
 	}
 }

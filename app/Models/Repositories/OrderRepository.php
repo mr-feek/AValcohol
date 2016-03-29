@@ -9,6 +9,7 @@
 namespace App\Models\Repositories;
 
 use App\Models\Entities\Order;
+use App\Models\Entities\OrderStatus;
 use App\Models\Entities\User;
 use App\Models\Entities\UserAddress;
 use App\Models\Repositories\Interfaces\OrderInterface;
@@ -56,6 +57,8 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			// update the order record with the proper price
 			$order->amount = $amount;
 			$order->save();
+
+			$order->status()->save(new OrderStatus());
 		});
 
 		return $this->model;

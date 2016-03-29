@@ -77,6 +77,7 @@ class OrderControllerTest extends TestCase
 		$products = $this->getProductsToBuy();
 		$fake_product = new Product();
 		$fake_product->id = 0;
+		$fake_product->vendor_id = 1;
 		$products[] = $fake_product;
 		$user = User::find(1);
 		$token = $this->createFakeToken();
@@ -84,7 +85,18 @@ class OrderControllerTest extends TestCase
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
-		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Product]."]);
+		$this->seeJson(['message' => "The specified product was not found"]);
+
+		// now lets do the same with a bad vendor id
+		$products = $this->getProductsToBuy();
+		$fake_product = new Product();
+		$fake_product->id = 1;
+		$fake_product->vendor_id = 0;
+		$products[] = $fake_product;
+
+		$this->createOrder($products, $address, $user, $token);
+		$this->verifyOrderNotCreated();
+		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Vendor]."]);
 	}
 
 	public function testCreateOrderWithNote() {
@@ -136,7 +148,7 @@ class OrderControllerTest extends TestCase
 				continue;
 			}
 
-			$products[] = $product;
+			$products[] = (array) $product;
 		}
 		return $products;
 	}
@@ -183,9 +195,15 @@ class OrderControllerTest extends TestCase
 		$this->seeInDatabase('orders', [
 			'id' => $response->order->id,
 			'amount' => $amount,
-			'status' => 'pending',
 			'user_id' => $response->order->user_id,
 			'user_address_id' => $response->order->user_address_id
+		]);
+
+		// ensure default order statuses created
+		$this->seeInDatabase('order_statuses', [
+			'order_id' => $response->order->id,
+			'vendor_status' => 'pending',
+			'delivery_status' => 'pending'
 		]);
 
 		$this->verifyOrderProductsInDatabase($response->order->id, $products);
@@ -199,8 +217,10 @@ class OrderControllerTest extends TestCase
 		foreach ($products as $product) {
 			$this->seeInDatabase('order_product', [
 				'order_id' => $order_id,
-				'product_id' => $product['id'],
-				'product_sale_price' => $product['sale_price']
+				'product_id' => $product['product_id'],
+				'product_vendor_price' => $product['vendor_price'],
+				'product_sale_price' => $product['sale_price'],
+				'vendor_id' => $product['vendor_id']
 			]);
 		}
 	}
