@@ -31,7 +31,20 @@ class ProductController extends Controller
 		]);
 	}
 
-	public function getAllFeatured() {
-		return Product::where('featured', 1)->get();
+	/*
+	 * Not needed for beta (not implemented)
+	 */
+	public function getAllFeatured(Request $request, ProductService $service) {
+		$this->validate($request, [
+			'address_id' => 'required'
+		]);
+
+		$address = ['id' => $request->address_id];
+
+		$products = $service->getAllFeaturedProductsForAddress($address);
+
+		return response()->json([
+			'products' => $products
+		]);
 	}
 }

@@ -10,11 +10,16 @@ class ProductControllerTest extends TestCase
 {
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
-	public function testGetAllProductsForAddress() {
-		// select random address
-		$address = \App\Models\Entities\UserAddress::orderByRaw('RAND()')->first();
+	protected $address;
 
-		$this->get('product/all?address_id=' . $address->id);
+	public function setUp()
+	{
+		parent::setUp();
+		$this->address =  \App\Models\Entities\UserAddress::orderByRaw('RAND()')->first();
+	}
+
+	public function testGetAllProductsForAddress() {
+		$this->get('product/all?address_id=' . $this->address->id);
 
 		$this->seeJsonStructure([
 			'products' => [
@@ -29,6 +34,36 @@ class ProductControllerTest extends TestCase
 			]
 		]);
 
+		$this->doesNotReturnCertainAttributes();
+	}
+
+	/*
+	public function testGetAllFeaturedProductsForAddress() {
+		$this->get('product/featured?address_id=' . $this->address->id);
+
+		$this->seeJsonStructure([
+			'products' => [
+				'*' => [
+					'id', 'upc', 'name', 'contains', 'ounces', 'container', 'featured', 'image_url',
+					'pivot' => [
+						'vendor_id',
+						'product_id',
+						'sale_price'
+					]
+				]
+			]
+		]);
+
+		$products = $this->response->getContent();
+		foreach($products as $product) {
+			$this->assertTrue($product->featured, 1);
+		}
+
+		$this->doesNotReturnCertainAttributes();
+	}
+	*/
+
+	private function doesNotReturnCertainAttributes() {
 		$this->assertNotContains('vendor_price', $this->response->getContent());
 	}
 

@@ -53,4 +53,20 @@ class ProductService extends BaseService
 
 		return $products;
 	}
+
+	/*
+	 * NOT DONE. don't need for beta
+	 *
+	public function getAllFeaturedProductsForAddress($address) {
+		$vendors = $this->vendorService->getVendorsForAddress($address);
+
+		$products = [];
+		foreach($vendors as $vendor) {
+			$vendorProducts = $this->vendorService->getProductsForVendor($vendor->toArray())->toArray();
+			$products = array_merge($products, $vendorProducts);
+		}
+
+		return $products;
+	}
+	*/
 }
