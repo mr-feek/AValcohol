@@ -96,8 +96,8 @@ class VendorSchema extends Migration
 
 		Schema::create('order_statuses', function(Blueprint $table) {
 			$table->unsignedInteger('order_id');
-			$table->string('vendor_status');
-			$table->string('delivery_status');
+			$table->string('vendor_status')->default('pending');
+			$table->string('delivery_status')->default('pending');
 			$table->timestamps();
 
 			$table->foreign('order_id')
