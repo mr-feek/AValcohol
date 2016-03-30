@@ -64,11 +64,12 @@ define([
 
 		},
 
+		/**
+		 * enter or click button will continue
+		 * @param e
+		 */
 		addressSubmitted: function(e) {
-			if (e.keyCode) {
-				if (e.keyCode === 13) {
-					e.preventDefault();
-				}
+			if (e.keyCode && e.keyCode !== 13) {
 				return;
 			}
 			e.preventDefault();
