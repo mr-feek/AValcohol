@@ -44,7 +44,7 @@ define([
 			this.collection = new Products();
 			// pass the collection to the loading indicator
 			this.triggerMethod("setCollection", this.collection);
-			var address_id = App.user.get('address').get('id');
+			var address_id = App.user.get('address').get('id') || 1; // default to 1 for now
 			this.collection.fetch({ data: $.param({	address_id: address_id })});
 
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.

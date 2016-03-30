@@ -6,9 +6,15 @@ define([
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/address',
-
+/*
+		relations: [{
+			type: Backbone.HasOne,
+			reverseRelation: {
+				key: 'address'
+			}
+		}],
+*/
 		defaults: {
-			id: 1, // temp
 			city: undefined,
 			street: undefined,
 			state: undefined,

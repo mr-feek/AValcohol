@@ -14,7 +14,7 @@ define([
 
 		templateHelpers: function() {
 			var view = this;
-			
+
 			return {
 				img_url: '/img/products/' + view.model.get('image_url'),
 				price: view.model.get('pivot').sale_price

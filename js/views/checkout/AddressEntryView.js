@@ -65,12 +65,6 @@ define([
 			this.parent = options.parent;
 			this.model = App.user.get('address');
 
-			if (!this.model) {
-				// create relation
-				this.model = UserAddress.findOrCreate({});
-				App.user.set('address', this.model);
-			}
-
 			// attach callback to ModelFormSave behavior
 			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);
 		},

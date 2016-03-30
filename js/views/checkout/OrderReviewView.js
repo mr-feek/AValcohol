@@ -102,6 +102,8 @@ define([
 			// get note
 			var note = this.ui.note.val();
 
+			debugger;
+
 			// create order
 			this.model.set({
 				products: App.cart,
@@ -116,7 +118,9 @@ define([
 					Vent.trigger('order:submitted', this.model);
 				}.bind(this))
 				.fail(function (result) {
-					console.log('fail');
+					alert("Sorry, but something went wrong with creating your order, please let us know" +
+						" by clicking on the feedback button at the bottom of this page. Don't worry," +
+						" we did NOT charge your credit card!");
 				});
 		}
 	});

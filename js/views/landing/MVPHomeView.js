@@ -125,8 +125,6 @@ define([
 			this.address.set('zipcode', zip);
 			//address.set('unit', unit);
 			if (this.address.isValid()) {
-				// set up the relation
-				this.user.set('address',  this.address);
 				this.showUserHome();
 			}
 		},
