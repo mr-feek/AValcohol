@@ -1,0 +1,34 @@
+.order {
+	border: 2px solid $dark-text-color;
+	margin: 1rem;
+
+	.user-info {
+		background-color: $dark-text-color;
+		color: white;
+		padding: .5rem;
+
+		span.label {
+			background-color: lighten($dark-text-color, 10);
+			color: $light-text-color;
+		}
+
+		span {
+			font-size: .75rem;
+		}
+	}
+
+	.footer {
+		border-top: 2px solid $dark-text-color;
+		margin-top: 1rem;
+		padding-top: 1rem;
+
+		span.label {
+			background-color: lighten($light-text-color, 10);
+			color: $light-text-color;
+		}
+
+		.button {
+			margin-left: 1rem;
+		}
+	}
+}

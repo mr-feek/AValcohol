@@ -17,7 +17,10 @@ define([
 			var view = this;
 
 			return {
-
+				user_name: this.model.get('user').first + ' ' + this.model.get('user').last,
+				dob: this.model.get('user').dob,
+				orderNumber: this.model.get('id'),
+				timePlaced: this.model.get('created_at')
 			}
 		},
 
