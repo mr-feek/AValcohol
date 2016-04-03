@@ -25,6 +25,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
  * @property float $sale_price
+ * @property-read \App\Models\Entities\Vendor $vendor
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereUpc($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereContains($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereOunces($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereContainer($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereFeatured($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereImageUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Product whereDeletedAt($value)
+ * @mixin \Eloquent
  */
 class Product extends Model
 {

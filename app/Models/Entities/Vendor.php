@@ -11,6 +11,28 @@ namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Entities\Vendor
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $address
+ * @property integer $phone_number
+ * @property integer $user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\Entities\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\Product[] $products
+ * @property-read \App\Models\Entities\VendorSetting $settings
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereAddress($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Vendor extends Model
 {
 	protected $hidden = [''];

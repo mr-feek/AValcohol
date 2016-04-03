@@ -21,6 +21,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $zipcode
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereReason($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereZipcode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\BlacklistedAddress whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class BlacklistedAddress extends Model
 {
