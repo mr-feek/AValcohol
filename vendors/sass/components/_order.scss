@@ -17,9 +17,30 @@
 		}
 	}
 
+	.product {
+		padding: .5rem;
+		border-bottom: 1px dotted $light-text-color;
+
+		.product-picture {
+			max-height: 70px;
+		}
+
+		.title {
+			font-weight: bold;
+		}
+	}
+
+	.note {
+		padding: 1rem;
+
+		span.label {
+			background-color: lighten($light-text-color, 10);
+			color: $light-text-color;
+		}
+	}
+
 	.footer {
 		border-top: 2px solid $dark-text-color;
-		margin-top: 1rem;
 		padding-top: 1rem;
 
 		span.label {

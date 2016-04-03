@@ -11,13 +11,11 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: 'row',
+		className: 'row product',
 
 		templateHelpers: function() {
-			var view = this;
-
 			return {
-
+				'product_vendor_price' : this.model.get('pivot').product_vendor_price
 			}
 		},
 
