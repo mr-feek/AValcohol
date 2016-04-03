@@ -63,7 +63,7 @@ define([
 		},
 
 		forgotPassword: function() {
-			// to do
+			alert('Please contact feek@avalcohol.com to reset your password.');
 		}
 	});
 
