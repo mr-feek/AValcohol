@@ -47,7 +47,7 @@ class VendorController extends Controller
 
 	public function getAllOrders(Request $request, VendorService $service) {
 		// TO DO
-		$orders = Order::with(['products', 'user', 'address'])->get();
-		return response()->json(compact('orders'));
+		$orders = Order::with(['products', 'user.profile', 'address'])->get();
+		return response()->json(['orders' => $orders]);
 	}
 }
