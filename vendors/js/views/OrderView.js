@@ -21,7 +21,7 @@ define([
 			var user = this.model.get('user');
 			return {
 				userName: user.get('profile').first_name + ' ' + user.get('profile').last_name,
-				dob: user.get('dob'),
+				dob: user.get('profile').date_of_birth,
 				orderNumber: this.model.get('id'),
 				timePlaced: this.model.get('created_at'),
 				vendorOrderTotal: this.model.get('vendor_order_total')

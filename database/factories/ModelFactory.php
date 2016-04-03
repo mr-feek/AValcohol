@@ -40,7 +40,8 @@ $factory->define(App\Models\Entities\UserProfile::class, function(Faker\Generato
 	return [
 		'first_name' => $faker->firstName,
 		'last_name' => $faker->lastName,
-		'phone_number' => $faker->phoneNumber
+		'phone_number' => $faker->phoneNumber,
+		'date_of_birth' => $faker->date()
 	];
 });
 

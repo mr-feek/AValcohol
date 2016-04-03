@@ -23,7 +23,8 @@ class VendorControllerTest extends TestCase
 					'user' => [
 						'profile' => [
 							'first_name',
-							'last_name'
+							'last_name',
+							'date_of_birth'
 						]
 					],
 					'user_address_id',
