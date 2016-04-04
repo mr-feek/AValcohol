@@ -52,6 +52,9 @@
 		span.label {
 			background-color: lighten($light-text-color, 10);
 			color: $light-text-color;
+			margin-left: 1rem;
+			margin-right: .25rem;
+			vertical-align: middle;
 		}
 
 		.button {

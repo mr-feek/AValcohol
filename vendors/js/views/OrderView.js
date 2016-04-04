@@ -24,7 +24,8 @@ define([
 				dob: user.get('profile').date_of_birth,
 				orderNumber: this.model.get('id'),
 				timePlaced: this.model.get('created_at'),
-				vendorOrderTotal: this.model.get('vendor_order_total')
+				vendorOrderTotal: this.model.get('vendor_order_total'),
+				status: this.model.get('status').vendor_status
 			}
 		},
 

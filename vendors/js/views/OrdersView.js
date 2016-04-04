@@ -28,7 +28,7 @@ define([
 		ui: {},
 
 		initialize: function (options) {
-			this.collection = new Orders();
+			this.collection = new Orders([], {	endpoint: '/pending'	});
 			this.triggerMethod("setCollection", this.collection);
 		},
 
