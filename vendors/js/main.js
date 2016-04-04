@@ -81,7 +81,6 @@ require([
 		});
 
 		app.vendor = new Vendor();
-
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
 	});

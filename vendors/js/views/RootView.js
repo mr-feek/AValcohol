@@ -3,21 +3,13 @@
  */
 define([
 	'marionette',
-	'views/HeaderView',
-	'views/LoginView',
-	'views/VendorHomeRootView',
 	'views/VendorSettingsView',
 	'../../../shared/js/util/Vent',
-	'App',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
-	HeaderView,
-	LoginView,
-	VendorHomeRootView,
 	VendorSettingsView,
 	Vent,
-	app,
 	tpl
 ) {
 	var RootView = Mn.LayoutView.extend({
@@ -35,16 +27,6 @@ define([
 		initialize: function (options) {
 			Vent.on('modal:close', this.closeModal, this);
 			Vent.on('settings:show', this.showSettings, this);
-		},
-
-		onRender: function () {
-			/*
-			this.getRegion('header').show(new HeaderView( {
-				model: app.vendor
-			}));
-			*/
-			this.getRegion('main').show(new LoginView({	model: app.vendor }));
-			//this.getRegion('main').show(new VendorHomeRootView());
 		},
 
 		closeModal: function() {

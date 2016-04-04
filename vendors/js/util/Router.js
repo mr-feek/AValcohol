@@ -11,6 +11,9 @@ define([
 		},
 
 		appRoutes: {
+			'vendors/' : 'showLogin',
+			'vendors/login' : 'showLogin',
+			'vendors/dashboard' : 'showDashboard'
 		}
 	});
 

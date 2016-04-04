@@ -17,7 +17,8 @@ define([
 			email: null,
 			name: 'Vendor Name',
 			password: null,
-			autoAcceptOrders: true
+			autoAcceptOrders: true,
+			loggedIn: false
 		},
 
 		initialize: function() {
@@ -52,10 +53,11 @@ define([
 				},
 				function(result) {
 					debugger;
-				}
+					this.set('logged_in', true);
+				}.bind(this)
 			).fail(function(result) {
-
-			});
+				debugger;
+			}.bind(this));
 		}
 	});
 
