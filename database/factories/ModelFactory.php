@@ -49,7 +49,8 @@ $factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $fa
 	return [
 		'amount' => $faker->randomNumber(2),
 		'user_id' => 1,
-		'user_address_id' => 1
+		'user_address_id' => 1,
+		'vendor_id' => 1
 	];
 });
 

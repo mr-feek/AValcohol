@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserProfile whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $date_of_birth
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserProfile whereDateOfBirth($value)
  */
 class UserProfile extends Model
 {

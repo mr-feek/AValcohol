@@ -13,6 +13,19 @@ class VendorControllerTest extends TestCase
 		$this->verifyJsonStructure();
 	}
 
+	public function testGetPendingOrdersForVendor() {
+		$this->get('vendor/orders/pending');
+		$this->verifyJsonStructure();
+
+		$this->seeJsonContains([
+			'vendor_status' => 'pending'
+		]);
+
+		$this->dontSeeJson([
+			'vendor_status' => 'accepted'
+		]);
+	}
+
 	protected function verifyJsonStructure() {
 		$this->seeJsonStructure([
 			'orders' => [

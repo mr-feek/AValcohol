@@ -39,9 +39,23 @@ class VendorService extends BaseService
 		return $this->repo->getProducts($vendor);
 	}
 
+	/**
+	 * returns a specific vendor prdouct
+	 * @param $vendorProduct array with vendor id and product id
+	 * @return mixed
+	 */
 	public function getProduct($vendorProduct) {
 		$vendor = $this->repo->getById($vendorProduct['vendor_id']);
 		$product = $this->repo->getProduct($vendor, $vendorProduct['product_id']);
 		return $product;
+	}
+
+	/**
+	 * returns all orders that a vendor has not accepted / rejected yet
+	 * @param $vendor
+	 */
+	public function getPendingOrders($vendor) {
+		$vendor = $this->repo->getById($vendor['id']);
+		return $this->repo->getAllPendingOrders($vendor);
 	}
 }

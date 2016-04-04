@@ -77,8 +77,12 @@ class VendorSchema extends Migration
 		});
 
 		Schema::table('orders', function(Blueprint $table) {
-			// might have an issue here because modifying table with enum is not supported... will have to drop hole table and recreate
 			$table->dropColumn('status');
+
+			$table->unsignedInteger('vendor_id'); // for now, an order cannot be split amongst vendors
+			$table->foreign('vendor_id')
+				->references('id')->on('vendors')
+				->onDelete('cascade');
 		});
 
 		Schema::table('order_product', function(Blueprint $table) {

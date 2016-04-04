@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Vendor whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\Order[] $orders
  */
 class Vendor extends Model
 {
@@ -47,5 +48,9 @@ class Vendor extends Model
 
 	public function settings() {
 		return $this->hasOne('App\Models\Entities\VendorSetting');
+	}
+
+	public function orders() {
+		return $this->hasMany('App\Models\Entities\Order');
 	}
 }

@@ -46,8 +46,21 @@ class VendorController extends Controller
 	}
 
 	public function getAllOrders(Request $request, VendorService $service) {
-		// TO DO
+		// to do: migrate to service
 		$orders = Order::with(['products', 'user.profile', 'address'])->get();
+		return response()->json(['orders' => $orders]);
+	}
+
+	/**
+	 * Gets all orders that we have submitted to a vendor, awaiting their response
+	 * @param Request $request
+	 * @param VendorService $service
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function getAllPendingOrders(Request $request, VendorService $service) {
+		// to do: authorize vendor
+		$vendor = ['id' => 1];
+		$orders = $service->getPendingOrders($vendor);
 		return response()->json(['orders' => $orders]);
 	}
 }

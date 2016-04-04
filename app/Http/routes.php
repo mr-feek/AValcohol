@@ -46,6 +46,7 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 $app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('login', 'VendorController@login');
 	$app->get('orders', 'VendorController@getAllOrders');
+	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

@@ -47,4 +47,18 @@ class VendorRepository extends BaseRepository implements VendorInterface
 		}
 		return $product;
 	}
+
+	/**
+	 * This query can be optimized by querying order table directly
+	 * @param Vendor $vendor
+	 * @return mixed
+	 */
+	public function getAllPendingOrders(Vendor $vendor)
+	{
+		$orders = $vendor->orders()->with(['user.profile', 'products', 'status' => function($query) {
+			$query->where('vendor_status', 'pending');
+		}])->get();
+
+		return $orders;
+	}
 }
