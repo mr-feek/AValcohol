@@ -7,8 +7,8 @@ define([
 ], function (
 	Backbone,
 	User,
-	OrderStatus,
-	Product
+	Product,
+	OrderStatus
 ) {
 	var Order = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order',
@@ -27,7 +27,13 @@ define([
 			{
 				type: Backbone.HasOne,
 				key: 'status',
-				relatedModel: OrderStatus
+				relatedModel: OrderStatus,
+				includeInJSON: false,
+				reverseRelation: {
+					key: 'order',
+					type: Backbone.HasOne,
+					includeInJSON: false
+				}
 			},
 		],
 

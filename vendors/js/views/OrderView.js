@@ -25,16 +25,32 @@ define([
 				orderNumber: this.model.get('id'),
 				timePlaced: this.model.get('created_at'),
 				vendorOrderTotal: this.model.get('vendor_order_total'),
-				status: this.model.get('status').vendor_status
+				status: this.model.get('status').get('vendor_status')
 			}
 		},
 
-		events: {},
+		events: {
+			'click @ui.reject' : 'rejectOrder',
+			'click @ui.accept' : 'acceptOrder'
+		},
 
-		ui: {},
+		ui: {
+			reject: '.reject',
+			accept: '.accept'
+		},
 
 		initialize: function (options) {
 			this.collection = this.model.get('products');
+		},
+
+		rejectOrder: function(e) {
+			e.preventDefault();
+			this.model.get('status').set('vendor_status', 'rejected');
+			this.model.get('status').save();
+		},
+
+		acceptOrder: function(e) {
+			e.preventDefault();
 		}
 	});
 

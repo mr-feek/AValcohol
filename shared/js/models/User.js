@@ -12,16 +12,6 @@ define([
 	var User = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user',
 
-		/*
-		relations: [
-			{
-				type: Backbone.HasMany,
-				key: 'previous_orders',
-				relatedModel: 'Order'
-			}
-		],
-		*/
-
 		relations: [
 			{
 				type: Backbone.HasOne,
