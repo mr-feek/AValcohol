@@ -9,7 +9,7 @@
 
 		i {
 			color: $light-text-color;
-			font-size: rem-calc(72px);
+			font-size: rem-calc(48px);
 		}
 
 		p {
@@ -17,15 +17,23 @@
 			margin-bottom: 0;
 		}
 
-		&:hover {
-			cursor: pointer;
-			opacity: 0.75;
+		span.coming-soon {
+			background-color: white;
+			color: $dark-text-color;
+			font-size: rem-calc(8px);
 		}
 
+		/*
+		&:hover {
+			cursor: pointer;
+		}
+		*/
+
 		&.active {
-			background-color: rgba(255, 255, 255, 0.1);
+			background-color: white;
+			border-left: 5px solid $red;
 			i, p {
-				color: white
+				color: $dark-text-color;
 			}
 		}
 	}

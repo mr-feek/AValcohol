@@ -15,6 +15,12 @@
 		span {
 			font-size: .75rem;
 		}
+
+		span.coming-soon {
+			background-color: white;
+			color: $dark-text-color;
+			font-size: rem-calc(8px);
+		}
 	}
 
 	.product {
