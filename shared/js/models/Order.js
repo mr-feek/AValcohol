@@ -2,12 +2,12 @@ define([
 	'backbone',
 	'../../../shared/js/models/User',
 	'../../../shared/js/models/Product',
-	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/models/OrderStatus',
 	'backboneRelational'
 ], function (
 	Backbone,
 	User,
-	UserAddress,
+	OrderStatus,
 	Product
 ) {
 	var Order = Backbone.RelationalModel.extend({
@@ -26,15 +26,14 @@ define([
 			},
 			{
 				type: Backbone.HasOne,
-				key: 'address',
-				relatedModel: UserAddress
-			}
+				key: 'status',
+				relatedModel: OrderStatus
+			},
 		],
 
 		defaults: {
 			products: null,
 			user: null,
-			address: null,
 			stripe_token: null,
 			note: null
 		},
