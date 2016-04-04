@@ -11,9 +11,7 @@ $sidebarWidth: 110px;
 }
 
 #content {
-	position: absolute;
-	top: $headerHeight;
-	left: $sidebarWidth;
-	right: 0;
+	margin-top: $headerHeight;
+	margin-left: $sidebarWidth;
 	padding: 1rem;
 }
