@@ -12,6 +12,7 @@ define([
 ) {
 	var Order = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order',
+		idAttribute: 'id',
 
 		relations: [
 			{

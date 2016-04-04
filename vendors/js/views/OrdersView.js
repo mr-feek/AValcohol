@@ -3,11 +3,13 @@
  */
 define([
 	'marionette',
+	'backbone.poller',
 	'collections/Orders',
 	'views/OrderView',
 	'../../../shared/js/behaviors/CollectionLoadingIndicator'
 ], function (
 	Mn,
+	BackbonePoller,
 	Orders,
 	OrderView,
 	CollectionLoadingIndicator
@@ -23,17 +25,24 @@ define([
 			}
 		},
 
+
 		events: {},
 
 		ui: {},
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: '/pending'	});
-			this.triggerMethod("setCollection", this.collection);
+			//this.triggerMethod("setCollection", this.collection);
+
+			var options = {
+				delay: 30000, // 30 seconds
+				merge: false // this is triggering a reload, figure out why (but the data should never be changing anyway)
+			};
+			this.poller = BackbonePoller.get(this.collection, options);
 		},
 
 		onRender: function() {
-			this.collection.fetch();
+			this.poller.start();
 		}
 	});
 

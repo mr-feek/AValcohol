@@ -58,7 +58,7 @@ class VendorRepository extends BaseRepository implements VendorInterface
 		$orders = $vendor->orders()->whereHas('status', function($query) {
 			$query->where('vendor_status', 'pending');
 		})->with(['status', 'user.profile', 'products'])->get();
-
+		
 		return $orders;
 	}
 }
