@@ -1,11 +1,11 @@
 define([
 	'backbone'
-], function (
+], function(
 	Backbone
 ) {
-	var skel = Backbone.Model.extend({
-		urlRoot: '/api/'
+	var  = Backbone.Model.extend({
+		urlRoot: 'php/api/'
 	});
 
-	return skel;
+	return ;
 });

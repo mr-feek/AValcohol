@@ -4,7 +4,6 @@ css/
 sass/.sass-cache/
 .idea/
 local/
-storage/framework/down
 composer.lock
 composer.phar
 passwords.secret
@@ -13,3 +12,5 @@ config.codekit
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+storage/
+composer-setup.php

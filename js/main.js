@@ -10,7 +10,6 @@ require.config({
 		'foundationEqualizer' : '../vendor/foundation/js/foundation/foundation.equalizer',
 		'foundationOffCanvas': 	'../vendor/foundation/js/foundation/foundation.offcanvas',
 		'modernizr' : 			'../vendor/modernizr/modernizr',
-		'slick': 				'../vendor/slick-carousel/slick/slick',
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
 		'async': 				'../vendor/requirejs-plugins/src/async',
@@ -43,7 +42,7 @@ require.config({
 			deps: ['foundation']
 		},
 	},
-	deps: ['jquery', 'underscore', 'slick']
+	deps: ['jquery', 'underscore']
 });
 
 require([
@@ -110,8 +109,8 @@ require([
 			// api is down for maintenance
 			$('body').html(
 				'<div style="text-align:center;">' +
-					'<h1>We Are Currently Down For Maintenance.</h1>' +
-					'<p>Please check back soon - Aqua Vitae</p>' +
+				'<h1>We Are Currently Down For Maintenance.</h1>' +
+				'<p>Please check back soon - Aqua Vitae</p>' +
 				'</div>'
 			);
 		}

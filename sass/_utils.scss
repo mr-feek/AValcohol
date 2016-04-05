@@ -1,4 +1,3 @@
-// global styles
 .fullWidth {
 	width: 100%;
 	margin: auto;
@@ -9,29 +8,9 @@
 	min-height: 85%;
 }
 
-.section.fullWidth {
-	padding: 3rem;
-}
-
-.divider {
-	margin: auto;
-	border-bottom: 1px solid $gainsboro;
-	width: 75%;
-}
-
-// dark button
-.secondary-dark {
-	background-color: $secondary-dark-button-color;
-
-	&:hover {
-		background-color: scale_color($secondary-dark-button-color, $lightness: 10%);
-	}
-}
-
-.fi-arrow-right {
-	margin-left: 0.5rem;
-}
-
-.fi-arrow-left {
-	margin-right: 0.5rem;
+.stick {
+	position: fixed;
+	top: 0;
+	z-index: 1000000;
+	border-bottom: 2px solid $red;
 }

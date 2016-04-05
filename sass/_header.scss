@@ -1,0 +1,40 @@
+.top-bar {
+	height: $headerHeight;
+	background-color: white;
+
+	.logo {
+		height: 50px;
+		margin: 10px;
+	}
+
+	.top-bar-section {
+		ul {
+			line-height: $headerHeight;
+
+			li {
+				background: transparent;
+				cursor: pointer;
+				font-size: 13px;
+				text-transform: uppercase;
+				margin-right: 1rem;
+			}
+		}
+	}
+}
+
+.secondary-header {
+	background: white;
+	width: 100%;
+
+	p {
+		margin: 0;
+	}
+
+	.columns {
+		padding: 1rem;
+	}
+
+	.button, p, input {
+		margin: 0;
+	}
+}
