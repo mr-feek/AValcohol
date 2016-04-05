@@ -35,8 +35,7 @@ define([
 			//this.triggerMethod("setCollection", this.collection);
 
 			var options = {
-				delay: 30000, // 30 seconds
-				merge: false // this is triggering a reload, figure out why (but the data should never be changing anyway)
+				delay: 3000 // 3 seconds
 			};
 			this.poller = BackbonePoller.get(this.collection, options);
 		},

@@ -9,10 +9,7 @@ define([
 ) {
 	var OrderStatus = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order/status',
-
-		initialize: function() {
-			Backbone.Model.prototype.idAttribute = 'order_id'
-		}
+		idAttribute: 'order_id'
 	});
 
 	return OrderStatus;
