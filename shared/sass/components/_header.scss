@@ -2,10 +2,20 @@
 	height: $headerHeight;
 	background-color: white;
 
-	.logo {
-		height: 50px;
-		margin: 10px;
+	.title-area {
+		.logo {
+			height: 50px;
+			margin: 10px;
+		}
+
+		span {
+			text-transform: uppercase;
+			color: $dark-text-color;
+			font-size: .75rem;
+		}
 	}
+
+
 
 	.top-bar-section {
 		ul {

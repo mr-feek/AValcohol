@@ -29,7 +29,7 @@ define([
 	var CheckoutView = Mn.LayoutView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: 'small-12 columns',
+		className: 'small-12 columns checkout',
 		currentIndex: 0,
 		viewFlow: [], // populated in initialize
 		region: null, // initialize

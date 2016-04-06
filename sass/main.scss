@@ -21,11 +21,9 @@
 
 #main-wrapper {
 	min-height: 100%;
+	margin-bottom: -1 * $footerHeight;
 
-	#main-wrapper {
-		margin-bottom: -1 * $footerHeight;
-	}
-	#main-wrapper:after {
+	&:after {
 		content: "";
 		display: block;
 		height: $footerHeight;

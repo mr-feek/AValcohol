@@ -1,30 +1,59 @@
-.status-area {
-	width: 100%;
+.checkout {
+	background-color: $light-text-color;
+	padding: 1rem;
 
-	a.status {
-		padding: 0.5rem 2rem;
+	h1 {
+		text-align: center;
+		font-size: 2rem;
+	}
 
-		&.active {
-			background-color: transparent;
-			color: $red;
-			border: 2px solid $red;
-		}
+	&-wrapper {
+		background-color: white;
+		padding: 0;
+		-webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+		-moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+		box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
 
-		&.disabled {
-			opacity: 0.5;
+		.status-area {
+			width: 100%;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			border-bottom: 2px solid $light-text-color;
 
-			&:hover {
-				cursor: default;
+			a.status {
+				font-size: .75rem;
+
+				&.disabled {
+					color: $light-text-color;
+					&:hover {
+						cursor: default;
+					}
+				}
+
+				i, span {
+					vertical-align: middle;
+				}
+
+				i {
+					padding-right: rem-calc(10);
+					font-size: rem-calc(24);
+				}
 			}
 		}
 
-		i, span {
-			vertical-align: middle;
-		}
+		.current {
+			padding: 1rem;
 
-		i {
-			padding-right: rem-calc(10);
-			font-size: rem-calc(36);
+			fieldset {
+				margin-bottom: 0;
+				margin-top: 0;
+			}
+
+			.loading {
+				// to account for padding of container
+				width: calc(100% - 2rem);
+				height: calc(100% - 5rem);
+			}
 		}
 	}
 }
