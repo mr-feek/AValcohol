@@ -19,10 +19,12 @@ class UserController extends Controller
 			'email' => 'required|email',
 			'first_name' => 'required|alpha',
 			'last_name' => 'required|alpha',
-			'phone_number' => 'required|digits:10'
+			'phone_number' => 'required|digits:10',
+			'date_of_birth' => 'required|date|isTwentyOne'
 		]);
 
 		$user = $service->create($request->input());
+		//$user->profile; // force inclusion
 
 		return response()->json([
 			'success' => true,
@@ -35,7 +37,8 @@ class UserController extends Controller
 			'email' => 'email',
 			'first_name' => 'alpha',
 			'last_name' => 'alpha',
-			'phone_number' => 'digits:10'
+			'phone_number' => 'digits:10',
+			'date_of_birth' => 'required|date|isTwentyOne'
 		]);
 
 		$user = $service->update($request->input());

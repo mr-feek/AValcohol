@@ -2,12 +2,14 @@ define([
 	'backbone',
 	'backboneRelational',
 	'../../../shared/js/models/UserAddress',
-	'../../../shared/js/models/Card'
+	'../../../shared/js/models/Card',
+	'moment'
 ], function (
 	Backbone,
 	BackboneRelational,
 	UserAddress,
-	Card
+	Card,
+	moment
 ) {
 	var User = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user',
@@ -41,6 +43,7 @@ define([
 			first_name: null,
 			last_name: null,
 			phone_number: null,
+			date_of_birth: null,
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
@@ -98,7 +101,26 @@ define([
 				})
 			}
 
+			if (!attrs.date_of_birth) {
+				errors.push({
+					attribute: 'date_of_birth',
+					message: 'please enter your date of birth'
+				})
+			} else if (!this.isTwentyOne(attrs.date_of_birth)) {
+				errors.push({
+					attribute: 'date_of_birth',
+					message: 'you must be 21 to purchase alcohol in the US'
+				})
+			}
+
 			return errors.length > 0 ? errors : null;
+		},
+
+		isTwentyOne: function(dateString) {
+			var dob = moment(dateString);
+			var now = moment();
+			var twentyOneToday = now.subtract(21, 'years');
+			return dob.isSameOrBefore(twentyOneToday);
 		}
 	});
 

@@ -2,6 +2,8 @@
 
 namespace App\Models\Repositories\Interfaces;
 
+use App\Models\Entities\User;
+
 /**
  * Created by PhpStorm.
  * User: Feek
@@ -12,4 +14,5 @@ interface UserInterface
 {
 	public function getUserById($id);
 	public function create($data);
+	public function attachProfile(User $user, $data);
 }

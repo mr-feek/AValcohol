@@ -48,7 +48,7 @@ class User extends Model
 
 	protected $hidden = ['password'];
 
-	// black list for mass assignable
+	// white list for mass assignable
 	protected $fillable = ['email', 'password'];
 
 	public function addresses() {

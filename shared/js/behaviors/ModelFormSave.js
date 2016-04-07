@@ -52,7 +52,6 @@ define([
 
 		saveClicked: function(evt) {
 			evt.preventDefault();
-			debugger;
 
 			// attach events for validation failure if necessary
 			if (this.getOption('showValidationErrorsOnForm')) {

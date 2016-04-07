@@ -33,6 +33,12 @@ class UserRepository extends BaseRepository implements UserInterface
 		return $user;
 	}
 
+	public function attachProfile(User $user, $data)
+	{
+		$user->profile()->create($data);
+		return $user;
+	}
+
 	public function update(User $model, $data) {
 		return $this->model = $model->update($data);
 	}

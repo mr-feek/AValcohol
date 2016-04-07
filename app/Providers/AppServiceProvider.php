@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Validator;
+use DateTime;
 use App\Models\Entities\Vendor;
 use App\Models\Repositories\VendorRepository;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +35,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+		Validator::extend('isTwentyOne', function($attribute, $value, $parameters, $validator) {
+			$from = new DateTime($value);
+			$to   = new DateTime('today');
+			$age = $from->diff($to)->y;
+
+			return $age >= 21;
+		}, 'You must be 21 in order to create an account');
+
 		$this->app->bind('App\Models\Repositories\Interfaces\UserInterface', function($app)
 		{
 			return new UserRepository(new User());

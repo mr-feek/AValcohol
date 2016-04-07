@@ -37,11 +37,15 @@ $factory->define(App\Models\Entities\UserAddress::class, function(Faker\Generato
 });
 
 $factory->define(App\Models\Entities\UserProfile::class, function(Faker\Generator $faker) {
+	$max = 'now';
+	$max = new DateTime('today');
+	$max->sub(new DateInterval('P21Y')); // subtract 21 years from today
+
 	return [
 		'first_name' => $faker->firstName,
 		'last_name' => $faker->lastName,
-		'phone_number' => $faker->phoneNumber,
-		'date_of_birth' => $faker->date()
+		'phone_number' => substr(str_replace(['(', ')', '.', '-', 'x', '+'], '', $faker->phoneNumber), 0, 10),
+		'date_of_birth' => $faker->date('Y-m-d', $max)
 	];
 });
 
