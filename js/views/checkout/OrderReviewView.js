@@ -9,6 +9,7 @@ define([
 	'../../../shared/js/models/UserAddress',
 	'../../../shared/js/models/Order',
 	'../../../shared/js/models/Card',
+	'views/cart/CartProductView',
 	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/order-review.html'
