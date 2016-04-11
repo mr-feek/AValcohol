@@ -35,7 +35,7 @@ define([
 			//this.triggerMethod("setCollection", this.collection);
 
 			var options = {
-				delay: 3000 // 3 seconds
+				delay: 30000 // 30 seconds
 			};
 			this.poller = BackbonePoller.get(this.collection, options);
 		},
