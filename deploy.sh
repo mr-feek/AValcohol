@@ -2,6 +2,7 @@
 if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	sass --update sass:css;
+	sass --update vendors/sass:vendors/css;
 	rm -rf .git/
 	rm -rf .env
 	rm -rf ./.env.example
