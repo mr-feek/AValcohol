@@ -26,6 +26,20 @@ use Laravel\Cashier\Billable;
  * @property string $card_brand
  * @property string $card_last_four
  * @property boolean $mvp_user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\UserAddress[] $addresses
+ * @property-read \App\Models\Entities\UserProfile $profile
+ * @property-read \App\Models\Entities\Vendor $vendor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereMvpUser($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereStripeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereCardBrand($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\User whereCardLastFour($value)
+ * @mixin \Eloquent
  */
 class User extends Model
 {
@@ -34,10 +48,18 @@ class User extends Model
 
 	protected $hidden = ['password'];
 
-	// black list for mass assignable
-	protected $fillable = ['email', 'password', 'first_name', 'last_name', 'phone_number'];
+	// white list for mass assignable
+	protected $fillable = ['email', 'password'];
 
 	public function addresses() {
 		return $this->hasMany('App\Models\Entities\UserAddress');
+	}
+
+	public function profile() {
+		return $this->hasOne('App\Models\Entities\UserProfile');
+	}
+
+	public function vendor() {
+		return $this->hasOne('App\Models\Entities\Vendor');
 	}
 }

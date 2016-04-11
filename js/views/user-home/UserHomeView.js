@@ -57,7 +57,7 @@ define([
 			if (options.endpoint) {
 				this.endpoint = options.endpoint;
 			} else {
-				this.endpoint = 'featured';
+				this.endpoint = 'all';
 			}
 
 			App.cart.on('update', view.updateNumProducts, view);
@@ -65,7 +65,6 @@ define([
 
 		onBeforeShow: function() {
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
-			this.getRegion('sidebar').show(new ProductCategoriesView({ endpoint: this.endpoint }));
 			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
 			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},

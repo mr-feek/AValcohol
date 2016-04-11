@@ -33,12 +33,18 @@ class UserService extends BaseService
 		return $this->repo->getUserById($id);
 	}
 
-	public function create($data) {
-		return $this->repo->create($data);
+	public function create($data, $withUserProfile = true) {
+		$user = $this->repo->create($data);
+		if ($withUserProfile) {
+			$user = $this->repo->attachProfile($user, $data);
+		}
+
+		return $user;
 	}
 
 	public function update($data) {
+		$user = $this->getUser($data['id']);
 		$this->repo->enforceUpdatePermissions($data);
-		return $this->repo->update($data);
+		return $this->repo->update($user, $data);
 	}
 }

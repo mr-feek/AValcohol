@@ -1,9 +1,9 @@
 define([
 	'marionette',
 	'App',
-	'models/UserAddress',
-	'behaviors/ModelFormSave',
-	'behaviors/ModelSaveAnimation',
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/behaviors/ModelFormSave',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
@@ -64,12 +64,6 @@ define([
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = App.user.get('address');
-
-			if (!this.model) {
-				// create relation
-				this.model = UserAddress.findOrCreate({});
-				App.user.set('address', this.model);
-			}
 
 			// attach callback to ModelFormSave behavior
 			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);

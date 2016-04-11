@@ -13,10 +13,10 @@ use App\Models\Entities\Product;
 
 class OrderControllerTest extends TestCase
 {
-	use \Illuminate\Foundation\Testing\DatabaseTransactions;
-	use \Illuminate\Foundation\Testing\WithoutMiddleware;
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 	public function testCreateOrderWithExistingUser() {
+		$this->withoutMiddleware();
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
@@ -25,40 +25,12 @@ class OrderControllerTest extends TestCase
 		$token = $this->createFakeToken();
 
 		$response = $this->createOrder($products, $address, $user, $token);
-		$this->verifyFullOrderInDatabase($response, $products);
-	}
-
-	/**
-	public function testCreateOrderWithoutExistingUser() {
-		$this->expectsEvents('App\Events\OrderWasSubmitted');
-
-		$products = $this->getProductsToBuy();
-		$address = $this->getAddress();
-		$user = new \App\Models\User();
-		$user->mvp_user = true;
-		// don't save user, we'll let endpoint do that
-		$token = $this->createFakeToken();
-
-		$response = $this->createOrder($products, $address, $user, $token);
 
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
-
-	public function testCreateOrderWithoutExistingAddress() {
-		$this->expectsEvents('App\Events\OrderWasSubmitted');
-
-		$products = $this->getProductsToBuy();
-		$user = \App\Models\User::find(1);
-		// create a fake address (dont attach it to the user, let back end do that. Also don't persist to db)
-		$address = factory(\App\Models\Entities\UserAddress::class)->make(['zipcode' => 16801]);
-		$token = $this->createFakeToken();
-
-		$response = $this->createOrder($products, $address, $user, $token);
-		$this->verifyFullOrderInDatabase($response, $products);
-	}
-	 * */
 
 	public function testCreateOrderFailsWithInvalidUserID() {
+		$this->withoutMiddleware();
 		$products = $this->getProductsToBuy();
 		$address = $this->getAddress();
 
@@ -78,12 +50,13 @@ class OrderControllerTest extends TestCase
 	}
 
 	public function testCreateOrderFailsWithInvalidUserAddressID() {
+		$this->withoutMiddleware();
 		$products = $this->getProductsToBuy();
 
 		// fake address..
 		$address = new UserAddress();
 		$address->id = 'fakeID';
-		
+
 		$user = User::find(1);
 		$token = $this->createFakeToken();
 
@@ -97,12 +70,14 @@ class OrderControllerTest extends TestCase
 	}
 
 	public function testCreateOrderFailsWithInvalidProductID() {
+		$this->withoutMiddleware();
 		//$this->expectsEvents('connection.rollingBack');
 		// TO DO: figure out how to listen for rolling back event so we actually know no orders were created...
 
 		$products = $this->getProductsToBuy();
 		$fake_product = new Product();
 		$fake_product->id = 0;
+		$fake_product->vendor_id = 1;
 		$products[] = $fake_product;
 		$user = User::find(1);
 		$token = $this->createFakeToken();
@@ -110,10 +85,22 @@ class OrderControllerTest extends TestCase
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
-		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Product]."]);
+		$this->seeJson(['message' => "The specified product was not found"]);
+
+		// now lets do the same with a bad vendor id
+		$products = $this->getProductsToBuy();
+		$fake_product = new Product();
+		$fake_product->id = 1;
+		$fake_product->vendor_id = 0;
+		$products[] = $fake_product;
+
+		$this->createOrder($products, $address, $user, $token);
+		$this->verifyOrderNotCreated();
+		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Vendor]."]);
 	}
 
 	public function testCreateOrderWithNote() {
+		$this->withoutMiddleware();
 		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
@@ -150,11 +137,20 @@ class OrderControllerTest extends TestCase
 	}
 
 	protected function getProductsToBuy() {
-		return [
-			Product::find(1)->toArray(),
-			Product::find(2)->toArray(),
-			Product::find(3)->toArray()
-		];
+		$products = [];
+		// fetch 3 products to add to this order
+		while (count($products) < 3) {
+			// fetch a random product that a vendor has
+			$random = rand(1, 100);
+			$product = DB::table('vendor_product')->where('product_id', $random)->first();
+
+			if (!$product) {
+				continue;
+			}
+
+			$products[] = (array) $product;
+		}
+		return $products;
 	}
 
 	/**
@@ -199,9 +195,15 @@ class OrderControllerTest extends TestCase
 		$this->seeInDatabase('orders', [
 			'id' => $response->order->id,
 			'amount' => $amount,
-			'status' => 'pending',
 			'user_id' => $response->order->user_id,
 			'user_address_id' => $response->order->user_address_id
+		]);
+
+		// ensure default order statuses created
+		$this->seeInDatabase('order_statuses', [
+			'order_id' => $response->order->id,
+			'vendor_status' => 'pending',
+			'delivery_status' => 'pending'
 		]);
 
 		$this->verifyOrderProductsInDatabase($response->order->id, $products);
@@ -215,14 +217,16 @@ class OrderControllerTest extends TestCase
 		foreach ($products as $product) {
 			$this->seeInDatabase('order_product', [
 				'order_id' => $order_id,
-				'product_id' => $product['id'],
-				'product_sale_price' => $product['sale_price']
+				'product_id' => $product['product_id'],
+				'product_vendor_price' => $product['vendor_price'],
+				'product_sale_price' => $product['sale_price'],
+				'vendor_id' => $product['vendor_id']
 			]);
 		}
 	}
 
 	/**
-	 * @param $products array
+	 * @param $products array of std class (all that is needed is ids)
 	 * @param $address model
 	 * @param $user model
 	 * @param $token stripe token

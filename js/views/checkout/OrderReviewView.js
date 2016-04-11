@@ -4,14 +4,13 @@
 define([
 	'marionette',
 	'App',
-	'models/Product',
-	'models/User',
-	'models/UserAddress',
-	'models/Order',
-	'models/Card',
-	'views/cart/CartProductView',
-	'behaviors/ModelSaveAnimation',
-	'util/Vent',
+	'../../../shared/js/models/Product',
+	'../../../shared/js/models/User',
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/models/Order',
+	'../../../shared/js/models/Card',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/order-review.html'
 ], function (
 	Mn,
@@ -112,6 +111,8 @@ define([
 			// get note
 			var note = this.ui.note.val();
 
+			debugger;
+
 			// create order
 			this.model.set({
 				products: App.cart,
@@ -126,7 +127,9 @@ define([
 					Vent.trigger('order:submitted', this.model);
 				}.bind(this))
 				.fail(function (result) {
-					console.log('fail');
+					alert("Sorry, but something went wrong with creating your order, please let us know" +
+						" by clicking on the feedback button at the bottom of this page. Don't worry," +
+						" we did NOT charge your credit card!");
 				});
 		}
 	});

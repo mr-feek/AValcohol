@@ -12,13 +12,13 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->welcome();
+    return 'sup pluto';
 });
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('all', 'ProductController@getAll');
-	$app->get('featured', 'ProductController@getAllFeatured');
-	$app->get('beer', 'ProductController@getAllBeer');
+	$app->get('', 'ProductController@getAllProductsForAddress');
+	//$app->get('featured', 'ProductController@getAllFeatured');
+	//$app->get('beer', 'ProductController@getAllBeer');
 });
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -41,6 +41,12 @@ $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], functi
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
+});
+
+$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('login', 'VendorController@login');
+	$app->get('orders', 'VendorController@getAllOrders');
+	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

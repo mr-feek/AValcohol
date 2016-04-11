@@ -9,6 +9,7 @@
 namespace App\Models\Repositories;
 
 use App\Models\Entities\Order;
+use App\Models\Entities\OrderStatus;
 use App\Models\Entities\User;
 use App\Models\Entities\UserAddress;
 use App\Models\Repositories\Interfaces\OrderInterface;
@@ -22,20 +23,19 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	}
 
 	/**
-	 * Create order and charge user should probably be split into two methods and controlled
-	 * by the service, but since it needs to be a transaction im just doing it all here for now YOLO
+	 * Create order
 	 * @param User $user
 	 * @param UserAddress $address
 	 * @param $products
-	 * @param $data
+	 * @param $data array with note for now
 	 * @return Order
 	 */
-	public function createOrderAndChargeUser(User $user, UserAddress $address, $products, $data) {
+	public function createOrder(User $user, UserAddress $address, $products, $data) {
 		$this->model->amount = 0;
-		$this->model->status = 'pending'; // TO DO: make this the default db side
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
+		$this->model->vendor_id = $products[0]->pivot->vendor_id; // TEMP!!! to do: remove vendor id from orders table
 		$order = $this->model;
 		$stripe_token = $data['stripe_token'];
 
@@ -45,11 +45,13 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 			$amount = 0;
 			foreach ($products as $p) {
-				$amount += $p->sale_price;
+				$amount += $p->pivot->sale_price;
+
 				// create order_product record
 				$order->products()->attach($p->id, [
-					'product_vendor_price' => $p->price,
-					'product_sale_price' => $p->sale_price
+					'product_vendor_price' => $p->pivot->vendor_price,
+					'product_sale_price' => $p->pivot->sale_price,
+					'vendor_id' => $p->pivot->vendor_id
 				]);
 			}
 
@@ -57,8 +59,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			$order->amount = $amount;
 			$order->save();
 
-			// lets charge em
-			$this->chargeUserForOrder($user, $order, $stripe_token);
+			$order->status()->save(new OrderStatus());
 		});
 
 		return $this->model;

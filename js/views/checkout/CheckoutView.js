@@ -7,7 +7,7 @@ define([
 	'views/checkout/UserInfoEntryView',
 	'views/checkout/OrderReviewView',
 	'views/checkout/OrderSubmittedView',
-	'util/Vent',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,

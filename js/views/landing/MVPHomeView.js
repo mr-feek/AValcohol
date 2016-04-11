@@ -1,8 +1,8 @@
 define([
 	'marionette',
 	'App',
-	'models/UserAddress',
-	'behaviors/ModelValidation',
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/behaviors/ModelValidation',
 	'tpl!templates/landing/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (
@@ -38,7 +38,7 @@ define([
 		initialize: function () {
 			this.router = app.router;
 			this.user = app.user;
-			this.address = UserAddress.findOrCreate({});
+			this.address = this.user.get('address');
 			this.modelsToValidate.push(this.user, this.address); // dont think we need to listen to user, but why not..
 		},
 
@@ -64,11 +64,12 @@ define([
 
 		},
 
+		/**
+		 * enter or click button will continue
+		 * @param e
+		 */
 		addressSubmitted: function(e) {
-			if (e.keyCode) {
-				if (e.keyCode === 13) {
-					e.preventDefault();
-				}
+			if (e.keyCode && e.keyCode !== 13) {
 				return;
 			}
 			e.preventDefault();
@@ -125,8 +126,6 @@ define([
 			this.address.set('zipcode', zip);
 			//address.set('unit', unit);
 			if (this.address.isValid()) {
-				// set up the relation
-				this.user.set('address',  this.address);
 				this.showUserHome();
 			}
 		},

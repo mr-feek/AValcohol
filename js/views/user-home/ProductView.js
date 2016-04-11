@@ -46,7 +46,11 @@ define([
 		templateHelpers: function() {
 			var view = this;
 			return {
-				img_url: '/img/products/' + view.model.get('image_url')
+				img_url: '/img/products/' + view.model.get('image_url'),
+				price: view.model.get('pivot').sale_price,
+				contains: view.model.get('contains'),
+				ounces: view.model.get('ounces'),
+				container: view.model.get('container')
 			}
 		},
 

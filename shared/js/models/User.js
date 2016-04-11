@@ -1,26 +1,18 @@
 define([
 	'backbone',
 	'backboneRelational',
-	'models/UserAddress',
-	'models/Card'
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/models/Card',
+	'../../../vendor/moment/moment'
 ], function (
 	Backbone,
 	BackboneRelational,
 	UserAddress,
-	Card
+	Card,
+	moment
 ) {
 	var User = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user',
-
-		/*
-		relations: [
-			{
-				type: Backbone.HasMany,
-				key: 'previous_orders',
-				relatedModel: 'Order'
-			}
-		],
-		*/
 
 		relations: [
 			{
@@ -51,11 +43,15 @@ define([
 			first_name: null,
 			last_name: null,
 			phone_number: null,
+			date_of_birth: null,
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
 		initialize: function() {
 			this.on('change:phone_number', this.stripPhoneNumber);
+
+			// attach relation
+			this.set('address', UserAddress.findOrCreate({}));
 		},
 
 		/**
@@ -105,7 +101,26 @@ define([
 				})
 			}
 
+			if (!attrs.date_of_birth) {
+				errors.push({
+					attribute: 'date_of_birth',
+					message: 'please enter your date of birth'
+				})
+			} else if (!this.isTwentyOne(attrs.date_of_birth)) {
+				errors.push({
+					attribute: 'date_of_birth',
+					message: 'you must be 21 to purchase alcohol in the US'
+				})
+			}
+
 			return errors.length > 0 ? errors : null;
+		},
+
+		isTwentyOne: function(dateString) {
+			var dob = moment(dateString);
+			var now = moment();
+			var twentyOneToday = now.subtract(21, 'years');
+			return dob.isSameOrBefore(twentyOneToday);
 		}
 	});
 

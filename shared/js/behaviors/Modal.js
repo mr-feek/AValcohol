@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'util/Vent'
+	'../util/Vent'
 ], function (
 	Mn,
 	Vent
@@ -23,12 +23,14 @@ define([
 
 		events: {
 			'click @ui.close' : 'close',
+			'click @ui.cancel' : 'close',
 			'click @ui.background' : 'close'
 		},
 
 		ui: {
 			close : '.close',
-			background: '.background'
+			background: '.background',
+			cancel: '.cancel'
 		},
 
 		close: function() {

@@ -17,11 +17,7 @@ define([
 
 			return {
 				img_url: '/img/products/' + view.model.get('image_url'),
-
-				total: function() {
-					var total = view.model.get('price') * view.model.get('quantity');
-					return Number(total).toFixed(2);
-				}
+				price: view.model.get('pivot').sale_price
 			}
 		},
 

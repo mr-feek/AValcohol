@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'views/landing/HeaderView',
 	'views/landing/MVPHomeView',
-	'util/Vent',
+	'../../shared/js/util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
@@ -36,8 +36,6 @@ define([
 
 		initialize: function (options) {
 			Vent.on('root:scrollTo', this.scrollTo);
-			Vent.on('account:signin', this.showSignIn, this);
-			Vent.on('account:signup', this.showSignUp, this);
 			Vent.on('modal:close', this.closeModal, this);
 		},
 

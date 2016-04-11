@@ -13,7 +13,9 @@ require.config({
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
 		'async': 				'../vendor/requirejs-plugins/src/async',
-		'stripe':				'https://js.stripe.com/v2/?noext'
+		'stripe':				'https://js.stripe.com/v2/?noext',
+		'moment':				'../vendor/moment/moment',
+		'pickaday':				'../vendor/pikaday/pikaday'
 	},
 	shim: {
 		underscore: {
@@ -52,8 +54,8 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'collections/Cart',
-	'models/User',
-	'models/Config',
+	'../shared/js/models/User',
+	'../shared/js/models/Config',
 	'foundation',
 	'foundationOffCanvas'
 ], function (

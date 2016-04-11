@@ -21,6 +21,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property integer $user_id
+ * @property-read \App\Models\Entities\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\Order[] $order
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereZipcode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\UserAddress whereUserId($value)
+ * @mixin \Eloquent
  */
 class UserAddress extends Model
 {

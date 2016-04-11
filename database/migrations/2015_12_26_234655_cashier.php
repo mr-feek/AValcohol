@@ -38,6 +38,11 @@ class Cashier extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('subscriptions');
+		Schema::table('users', function ($table) {
+			$table->dropColumn('stripe_id');
+			$table->dropColumn('card_brand');
+			$table->dropColumn('card_last_four');
+		});
     }
 }
