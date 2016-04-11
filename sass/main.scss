@@ -17,6 +17,14 @@
 @import 'components/modal';
 @import 'pages/checkout';
 
+.button.secondary-dark {
+	background-color: $secondary-dark-button-color;
+
+	&:hover {
+		background-color: lighten($secondary-dark-button-color, 10%);
+	}
+}
+
 // some global styles...
 
 #main-wrapper {

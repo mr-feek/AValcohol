@@ -1,7 +1,7 @@
 $fi-path: "../../vendor/foundation-icon-fonts" !default;
-$secondary-dark-button-color: #333;
 $light-text-color: #ddd;
 $dark-text-color: #334857;
+$secondary-dark-button-color: $dark-text-color;
 $red: #ee4137;
 $headerHeight: 65px;
 $arrowSize: 20px;

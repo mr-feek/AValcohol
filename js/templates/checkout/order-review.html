@@ -1,5 +1,11 @@
 <div class="row">
 	<div class="columns small-12 medium-6">
+		<h5>Products</h5>
+		<div class="products">
+
+		</div>
+	</div>
+	<div class="columns small-12 medium-6">
 		<h5>Delivery Information</h5>
 
 		<p>
@@ -11,9 +17,7 @@
 			<%= address.get('street') + ", " + address.get('zipcode') %>
 			<a class="edit address">Edit</a>
 		</p>
-	</div>
 
-	<div class="columns small-12 medium-6">
 		<h5>Billing Info</h5>
 		<p>
 			XXXX XXXX XXXX <%= card.get('last_four') %>
@@ -22,9 +26,31 @@
 	</div>
 </div>
 
-<h5>Products</h5>
-<p>yhhhhh</p>
+<div class="row">
+	<div class="num-products"><%= number %> Items</div>
+	<div class="divider"></div>
+	<div class="totals">
+		<div class="clearfix total">
+			<span class="left">Subtotal</span>
+			<span class="right subtotal">$<%= subtotal() %></span>
+		</div>
+		<div class="clearfix total">
+			<span class="left">Tax</span>
+			<span class="right">$0.00</span>
+		</div>
+		<div class="clearfix total">
+			<span class="left">Delivery Fee</span>
+			<span class="right">$0.00</span>
+		</div>
+		<div class="clearfix total">
+			<strong>
+				<span class="left">Total</span>
+				<span class="right">$0.00</span>
+			</strong>
+		</div>
+	</div>
+</div>
+
 <textarea class="note" placeholder="Additional notes for apartment number, etc"></textarea>
 <button class="button order">Request Order</button>
-<p>Please note that AValcohol is not allowed to accept your order. It is up to our vendors to accept or deny your order.
- Either way, we will let you know the status of your order as soon as our vendor makes their decision!</p>
+<p>Please note that your order will only be delivered if our licensed retail partner (vendor) accepts your Order Request. AValcohol has no say in the acceptance of your order; it is up to this vendor to accept or deny your request. Either way, we will let you know the status of your order as soon as the vendor makes their decision!</p>

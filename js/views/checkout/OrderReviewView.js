@@ -9,6 +9,7 @@ define([
 	'models/UserAddress',
 	'models/Order',
 	'models/Card',
+	'views/cart/CartProductView',
 	'behaviors/ModelSaveAnimation',
 	'util/Vent',
 	'tpl!templates/checkout/order-review.html'
@@ -20,21 +21,27 @@ define([
 	UserAddress,
 	Order,
 	Card,
+	CartProductView,
 	ModelSaveAnimation,
 	Vent,
 	tpl
 ) {
-	var view = Mn.ItemView.extend({
+	var view = Mn.CompositeView.extend({
 		template: tpl,
 		tagName: 'div',
 		className: '',
 		parent: null,
+		childView: CartProductView,
+		childViewContainer: '.products',
 
 		templateHelpers: function() {
 			return {
 				user: App.user,
 				address: App.user.get('address'),
-				card: App.user.get('card')
+				card: App.user.get('card'),
+				products: App.cart,
+				number: this.collection.length,
+				subtotal: this.collection.calculateSubtotal
 			}
 		},
 
@@ -58,15 +65,18 @@ define([
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = Order.findOrCreate({});
-			
-			// subscribe to these events so that if a user goes back in the flow, the info
-			// is updated here
-			this.listenTo(App.user, 'sync', this.modelChanged);
-			this.listenTo(App.user.get('address'), 'sync', this.modelChanged);
-			this.listenTo(App.user.get('card'), 'sync', this.modelChanged);
+			this.collection = App.cart;
 		},
 
-		modelChanged: function() {
+		onShow: function() {
+			// subscribe to these events so that if a user goes back in the flow, the info
+			// is updated here
+			this.listenTo(App.user, 'sync', this.modelHasChanged);
+			this.listenTo(App.user.get('address'), 'sync', this.modelHasChanged);
+			this.listenTo(App.user.get('card'), 'sync', this.modelHasChanged);
+		},
+
+		modelHasChanged: function() {
 			this.render();
 		},
 

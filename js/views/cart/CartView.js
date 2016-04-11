@@ -17,17 +17,15 @@ define([
 		childViewContainer: '.products',
 
 		templateHelpers: function() {
-			var view = this;
-
 			return {
-				number: App.cart.length,
-				subtotal: view.calculateSubtotal
+				number: App.cart.models.length,
+				subtotal: App.cart.calculateSubtotal
 			}
 		},
 
 		ui: {
 			numProducts : '.num-products',
-			checkout : '.checkout',
+			checkout : '.go-to-checkout',
 			continueShopping : '.back-to-shopping',
 			subTotal: '.subtotal'
 		},
@@ -48,23 +46,10 @@ define([
 		 */
 		initialize: function (options) {
 			this.collection = options.collection;
-			_.bindAll(this, 'calculateSubtotal');
-		},
-
-		calculateSubtotal: function() {
-			// loop through products and multiply price * quantity for combined total
-			var total = 0;
-
-			//debugger;
-			_.each(this.collection.models, function(model) {
-				total += model.get('sale_price') * model.get('quantity');
-			});
-
-			return Number(total).toFixed(2);
 		},
 
 		updateTotals: function() {
-			var subtotal = this.calculateSubtotal();
+			var subtotal = App.cart.calculateSubtotal();
 			this.ui.subTotal.html('$' + subtotal);
 		},
 
