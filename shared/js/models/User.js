@@ -3,7 +3,7 @@ define([
 	'backboneRelational',
 	'../../../shared/js/models/UserAddress',
 	'../../../shared/js/models/Card',
-	'../../../vendor/moment/moment'
+	'moment'
 ], function (
 	Backbone,
 	BackboneRelational,
