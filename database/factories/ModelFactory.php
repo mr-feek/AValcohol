@@ -61,7 +61,10 @@ $factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $fa
 $factory->define(App\Models\Entities\OrderStatus::class, function(\Faker\Generator $faker) {
 	return [
 		'vendor_status' => 'pending',
-		'delivery_status' => 'pending'
+		'delivery_status' => 'pending',
+		'charge_id' => uniqid(),
+		'charge_authorized' => $faker->boolean(90),
+		'charge_captured' => $faker->boolean()
 	];
 });
 

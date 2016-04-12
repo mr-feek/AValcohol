@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Order whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property integer $vendor_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Entities\Order whereVendorId($value)
  */
 class Order extends Model
 {

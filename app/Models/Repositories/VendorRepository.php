@@ -56,7 +56,11 @@ class VendorRepository extends BaseRepository implements VendorInterface
 	public function getAllPendingOrders(Vendor $vendor)
 	{
 		$orders = $vendor->orders()->whereHas('status', function($query) {
-			$query->where('vendor_status', 'pending');
+			$query->where([
+				['vendor_status', 'pending'],
+				['charge_authorized', true],
+				['charge_captured', false]
+			]);
 		})->with(['status', 'user.profile', 'products'])->get();
 		
 		return $orders;

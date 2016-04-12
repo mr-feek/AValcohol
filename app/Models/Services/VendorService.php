@@ -41,12 +41,13 @@ class VendorService extends BaseService
 
 	/**
 	 * returns a specific vendor prdouct
-	 * @param $vendorProduct array with vendor id and product id
+	 * @param $vendor_id
+	 * @param $product_id
 	 * @return mixed
 	 */
-	public function getProduct($vendorProduct) {
-		$vendor = $this->repo->getById($vendorProduct['vendor_id']);
-		$product = $this->repo->getProduct($vendor, $vendorProduct['product_id']);
+	public function getProduct($vendor_id, $product_id) {
+		$vendor = $this->repo->getById($vendor_id);
+		$product = $this->repo->getProduct($vendor, $product_id);
 		return $product;
 	}
 

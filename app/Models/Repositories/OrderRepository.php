@@ -65,6 +65,13 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		return $this->model;
 	}
 
+	/**
+	 * @deprecated now we authorize then capture when vendor accepts. this charges user immediately
+	 * @param User $user
+	 * @param Order $order
+	 * @param $stripe_token
+	 * @return \Stripe\Charge
+	 */
 	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
 		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
 
@@ -80,5 +87,32 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		];
 
 		return $user->charge($amount, $options);
+	}
+
+	public function authorizeChargeOnCard(Order $order, $stripe_token)
+	{
+		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
+
+		$options = [
+			'currency' => 'usd',
+			'description' => 'test charge',
+			'source' => $stripe_token,
+			'receipt_email' => $order->user->email,
+			'capture' => false, // JUST AUTHORIZE THE AMOUNT! will be charged when vendor accepts
+			'metadata' => array(
+				'user_id' => $order->user->id,
+				'order_id' => $order->id
+			)
+		];
+
+		$charge = $order->user->charge($amount, $options);
+
+		$order->status()->update([
+			'charge_id' => $charge->id,
+			'charge_authorized' => true
+		]);
+		$order->save();
+
+		return $order;
 	}
 }

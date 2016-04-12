@@ -75,10 +75,7 @@ class OrderControllerTest extends TestCase
 		// TO DO: figure out how to listen for rolling back event so we actually know no orders were created...
 
 		$products = $this->getProductsToBuy();
-		$fake_product = new Product();
-		$fake_product->id = 0;
-		$fake_product->vendor_id = 1;
-		$products[] = $fake_product;
+		$products[0]->id = 0;
 		$user = User::find(1);
 		$token = $this->createFakeToken();
 		$address = $this->getAddress();
@@ -137,19 +134,8 @@ class OrderControllerTest extends TestCase
 	}
 
 	protected function getProductsToBuy() {
-		$products = [];
-		// fetch 3 products to add to this order
-		while (count($products) < 3) {
-			// fetch a random product that a vendor has
-			$random = rand(1, 100);
-			$product = DB::table('vendor_product')->where('product_id', $random)->first();
-
-			if (!$product) {
-				continue;
-			}
-
-			$products[] = (array) $product;
-		}
+		$vendor = \App\Models\Entities\Vendor::find(1);
+		$products = $vendor->products()->take(3)->get();
 		return $products;
 	}
 
@@ -189,7 +175,7 @@ class OrderControllerTest extends TestCase
 		$amount = 0;
 
 		foreach ($products as $product) {
-			$amount += $product['sale_price'];
+			$amount += $product->pivot->sale_price;
 		}
 
 		$this->seeInDatabase('orders', [
@@ -203,9 +189,15 @@ class OrderControllerTest extends TestCase
 		$this->seeInDatabase('order_statuses', [
 			'order_id' => $response->order->id,
 			'vendor_status' => 'pending',
-			'delivery_status' => 'pending'
+			'delivery_status' => 'pending',
+			'charge_authorized' => 1,
+			'charge_captured' => 0
 		]);
 
+		// for ensuring there is a charge id
+		$order = \App\Models\Entities\Order::find($response->order->id);
+
+		$this->assertNotEmpty($order->status->charge_id);
 		$this->verifyOrderProductsInDatabase($response->order->id, $products);
 	}
 
@@ -217,10 +209,10 @@ class OrderControllerTest extends TestCase
 		foreach ($products as $product) {
 			$this->seeInDatabase('order_product', [
 				'order_id' => $order_id,
-				'product_id' => $product['product_id'],
-				'product_vendor_price' => $product['vendor_price'],
-				'product_sale_price' => $product['sale_price'],
-				'vendor_id' => $product['vendor_id']
+				'product_id' => $product->pivot->product_id,
+				'product_vendor_price' => $product->pivot->vendor_price,
+				'product_sale_price' => $product->pivot->sale_price,
+				'vendor_id' => $product->pivot->vendor_id
 			]);
 		}
 	}
@@ -230,6 +222,7 @@ class OrderControllerTest extends TestCase
 	 * @param $address model
 	 * @param $user model
 	 * @param $token stripe token
+	 * @param null $note
 	 * @return mixed response content
 	 */
 	protected function createOrder($products, $address, $user, $token, $note = null) {

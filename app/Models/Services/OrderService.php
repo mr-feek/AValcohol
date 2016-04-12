@@ -30,22 +30,26 @@ class OrderService extends BaseService
 	}
 
 	/**
-	 * Creates a new order and charges the user
+	 * Creates a new order and creates an authorization charge on the card
 	 * @param $data
 	 * @return mixed
 	 */
 	public function create($data) {
 		$user = $this->userService->getUser($data['user']['id']);
 		$address = $this->addressService->get($data['address']['id']);
-		//$products = $this->productService->getAll($data['products']);
 
 		$products = [];
 		foreach($data['products'] as $product) {
-			$product = $this->vendorService->getProduct($product);
+			$product = $this->vendorService->getProduct($product['pivot']['vendor_id'], $product['id']);
 			$products[] = $product;
 		}
 
 		$order = $this->repo->createOrder($user, $address, $products, $data);
+		$authorized = $this->repo->authorizeChargeOnCard($order, $data['stripe_token']);
+
+		if (!$authorized) {
+			// to do
+		}
 
 		// notify pusher etc
 		Event::fire(new OrderWasSubmitted($order));
