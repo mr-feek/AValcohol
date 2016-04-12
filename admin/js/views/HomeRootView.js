@@ -4,12 +4,10 @@
 define([
 	'marionette',
 	'views/SidebarView',
-	'views/ReadyOrdersView',
 	'tpl!templates/vendor-home.html'
 ], function (
 	Mn,
 	SidebarView,
-	ReadyOrdersView,
 	tpl
 ) {
 	var view = Mn.LayoutView.extend({
@@ -27,7 +25,7 @@ define([
 
 		onRender: function() {
 			this.getRegion('sidebar').show(new SidebarView());
-			this.getRegion('main').show(new ReadyOrdersView());
+			// main populated in controller
 		}
 	});
 

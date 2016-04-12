@@ -22,11 +22,25 @@ define([
 			}
 		},
 
-		events: {},
+		events: {
+			'click @ui.ready' : 'showReadyOrders',
+			'click @ui.outForDelivery' : 'showOutForDeliveryOrders'
+		},
 
-		ui: {},
+		ui: {
+			ready :'.ready',
+			outForDelivery : '.out-for-delivery'
+		},
 
 		initialize: function (options) {
+		},
+
+		showReadyOrders: function() {
+
+		},
+
+		showOutForDeliveryOrders: function() {
+
 		}
 	});
 

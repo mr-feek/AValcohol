@@ -13,7 +13,9 @@ define([
 		appRoutes: {
 			'admin/' : 'showLogin',
 			'admin/login' : 'showLogin',
-			'admin/dashboard' : 'showDashboard'
+			'admin/dashboard' : 'showReadyOrders',
+			'admin/dashboard/ready' : 'showReadyOrders',
+			'admin/dashboard/out' : 'showOrdersOutForDelivery'
 		}
 	});
 

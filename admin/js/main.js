@@ -61,7 +61,6 @@ require([
 	'views/RootView',
 	'controllers/Controller',
 	'util/Router',
-	'models/Vendor',
 	'../../shared/js/models/Config',
 	'foundation',
 ], function (
@@ -70,7 +69,6 @@ require([
 	RootView,
 	Controller,
 	Router,
-	Vendor,
 	Config
 ) {
 	$(document).foundation();
