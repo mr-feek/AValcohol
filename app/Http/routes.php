@@ -46,6 +46,7 @@ $app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], funct
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
+	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

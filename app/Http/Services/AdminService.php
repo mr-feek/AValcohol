@@ -19,4 +19,8 @@ class AdminService extends BaseService
 	public function getOrdersReadyToBePickedUp() {
 		return $this->repo->getOrdersReadyToBePickedUp();
 	}
+
+	public function getOrdersOutForDelivery() {
+		return $this->repo->getOrdersOutForDelivery();
+	}
 }

@@ -32,4 +32,22 @@ class AdminRepository extends BaseRepository implements AdminInterface
 
 		return $orders;
 	}
+
+	/*
+	 * todo: optimize
+	 * this could be optimized by querying order table directly
+	 */
+	public function getOrdersOutForDelivery()
+	{
+		$orders = Order::whereHas('status', function($query) {
+			$query->where([
+				['vendor_status', 'accepted'],
+				['delivery_status', 'out-for-delivery'],
+				['charge_authorized', true],
+				['charge_captured', true]
+			]);
+		})->with(['status', 'user.profile', 'products'])->get();
+
+		return $orders;
+	}
 }

@@ -17,4 +17,9 @@ class AdminController extends Controller
 		$orders = $service->getOrdersReadyToBePickedUp();
 		return response()->json(['orders' => $orders]);
 	}
+
+	public function getOrdersOutForDelivery(Request $request, AdminService $service) {
+		$orders = $service->getOrdersOutForDelivery();
+		return response()->json(['orders' => $orders]);
+	}
 }

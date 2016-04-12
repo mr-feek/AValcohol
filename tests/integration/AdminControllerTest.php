@@ -22,6 +22,20 @@ class AdminControllerTest extends TestCase
 		$this->verifyJsonStructure();
 	}
 
+	public function testGetOrdersOurForDelivery() {
+		$this->get('/admin/orders/out');
+
+		$orders = json_decode($this->response->getContent())->orders;
+		foreach($orders as $order) {
+			$this->assertEquals($order->status->vendor_status, 'accepted');
+			$this->assertEquals($order->status->delivery_status, 'out-for-delivery');
+			$this->assertTrue((boolean) $order->status->charge_authorized);
+			$this->assertTrue((boolean) $order->status->charge_captured);
+		}
+
+		$this->verifyJsonStructure();
+	}
+
 	protected function verifyJsonStructure() {
 		$this->seeJsonStructure([
 			'orders' => [

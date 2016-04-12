@@ -11,4 +11,5 @@ namespace App\Http\Repositories\Interfaces;
 interface AdminInterface
 {
 	public function getOrdersReadyToBePickedUp();
+	public function getOrdersOutForDelivery();
 }
