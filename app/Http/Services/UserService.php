@@ -39,7 +39,9 @@ class UserService extends BaseService
 			$user = $this->repo->attachProfile($user, $data);
 		}
 
-		$this->repo->addToMailChimp($user);
+		if (env('environment') === 'production') {
+			$this->repo->addToMailChimp($user);
+		}
 
 		return $user;
 	}
