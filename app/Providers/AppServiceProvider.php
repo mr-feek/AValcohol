@@ -14,12 +14,14 @@ use App\Http\Repositories\UserAddressRepository;
 use App\Http\Repositories\BlacklistedAddressRepository;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\ProductRepository;
+use App\Http\Repositories\AdminRepository;
 
 use App\Http\Services\UserService;
 use App\Http\Services\UserAddressService;
 use App\Http\Services\BlacklistedAddressService;
 use App\Http\Services\OrderService;
 use App\Http\Services\ProductService;
+use App\Http\Services\AdminService;
 
 use App\Models\User;
 use App\Models\UserAddress;
@@ -96,6 +98,15 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind('VendorService', function($app)
 		{
 			return new VendorService($app->make('Repositories\Interfaces\VendorInterface'));
+		});
+
+		$this->app->bind('App\Http\Repositories\Interfaces\AdminInterface', function($app)
+		{
+			return new AdminRepository();
+		});
+		$this->app->bind('AdminService', function($app)
+		{
+			return new AdminService($app->make('Repositories\Interfaces\AdminInterface'));
 		});
 	}
 }

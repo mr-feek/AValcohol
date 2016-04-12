@@ -59,9 +59,10 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
+
 	return [
-		'vendor_status' => 'pending',
-		'delivery_status' => 'pending',
+		'vendor_status' => $faker->boolean() < 50 ? 'pending' : 'accepted',
+		'delivery_status' => $faker->boolean() < 50 ? 'pending' : 'out-for-delivery',
 		'charge_id' => uniqid(),
 		'charge_authorized' => $faker->boolean(90),
 		'charge_captured' => $faker->boolean()

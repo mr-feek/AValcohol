@@ -8,8 +8,6 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Order;
 use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -44,12 +42,13 @@ class VendorController extends Controller
         // all good so return the token
         return response()->json(compact('token'));
 	}
-
+/*
 	public function getAllOrders(Request $request, VendorService $service) {
 		// to do: migrate to service
 		$orders = Order::with(['products', 'user.profile', 'address'])->get();
 		return response()->json(['orders' => $orders]);
 	}
+*/
 
 	/**
 	 * Gets all orders that we have submitted to a vendor, awaiting their response
