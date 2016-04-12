@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
 use App\Models\Entities\Vendor;
@@ -45,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
 
 		$this->app->bind('App\Models\Repositories\Interfaces\UserInterface', function($app)
 		{
-			return new UserRepository(new User());
+			return new UserRepository(new User(), new MailChimp(env('MAILCHIMP_KEY')));
 		});
 		$this->app->bind('UserService', function($app)
 		{

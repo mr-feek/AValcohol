@@ -17,9 +17,6 @@ use Laravel\Cashier\Billable;
  * @property integer $id
  * @property string $email
  * @property string $password
- * @property string $first_name
- * @property string $last_name
- * @property integer $phone_number
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $stripe_id

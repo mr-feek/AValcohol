@@ -4,6 +4,7 @@ namespace App\Models\Repositories;
 
 use App\Models\Entities\User;
 use App\Models\Repositories\Interfaces\UserInterface;
+use DrewM\MailChimp\MailChimp;
 
 /**
  * Created by PhpStorm.
@@ -13,10 +14,14 @@ use App\Models\Repositories\Interfaces\UserInterface;
  */
 class UserRepository extends BaseRepository implements UserInterface
 {
+	protected $mailchimp;
+	const LIST_ID = 'e2c9eed2ca';
+	const SOFT_LAUNCH_INTEREST_ID = 'f7cb7e6ba5';
 
-	public function __construct(User $user)
+	public function __construct(User $user, MailChimp $mailchimp)
 	{
 		$this->model = $user;
+		$this->mailchimp = $mailchimp;
 	}
 
 	public function getUserById($id)
@@ -49,5 +54,24 @@ class UserRepository extends BaseRepository implements UserInterface
 
 	public function enforceGetPermissions($data) {
 		// to do
+	}
+
+	/**
+	 * //todo: migrate this to be processed by queue
+	 * @param User $user
+	 */
+	public function addToMailChimp(User $user)
+	{
+		$result = $this->mailchimp->post('lists/' . self::LIST_ID . '/members', [
+			'email_address' => $user->email,
+			'merge_fields' => [
+				'FIRST_NAME' => $user->profile->first_name,
+				'LAST_NAME' => $user->profile->last_name,
+			],
+			'interests' => [
+				self::SOFT_LAUNCH_INTEREST_ID => true // soft launch
+			],
+			'status' => 'subscribed'
+		]);
 	}
 }

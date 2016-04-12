@@ -12,4 +12,8 @@ class ConfigTest extends TestCase
 		$time = date_default_timezone_get();
 		$this->assertEquals($time, 'America/New_York');
 	}
+
+	public function testHasEnvVariables() {
+		$this->assertNotNull(env('MAILCHIMP_KEY'));
+	}
 }
