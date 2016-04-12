@@ -15,7 +15,7 @@ class ProductControllerTest extends TestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->address =  \App\Models\Entities\UserAddress::orderByRaw('RAND()')->first();
+		$this->address =  \App\Models\UserAddress::orderByRaw('RAND()')->first();
 	}
 
 	public function testGetAllProductsForAddress() {

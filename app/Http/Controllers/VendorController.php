@@ -9,8 +9,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Entities\Order;
-use App\Models\Services\VendorService;
+use App\Models\Order;
+use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 

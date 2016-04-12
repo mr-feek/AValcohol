@@ -11,7 +11,7 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-		factory(App\Models\Entities\Order::class, 20)->create()->each(function(\App\Models\Entities\Order $o) {
+		factory(App\Models\Order::class, 20)->create()->each(function(\App\Models\Order $o) {
 			$products = [];
 
 			// fetch 3 products to add to this order
@@ -39,7 +39,7 @@ class OrdersTableSeeder extends Seeder
 			}
 
 			// need to create default status record entry...
-			$o->status()->save(factory(App\Models\Entities\OrderStatus::class)->make());
+			$o->status()->save(factory(App\Models\OrderStatus::class)->make());
 
 			$o->save();
 		});

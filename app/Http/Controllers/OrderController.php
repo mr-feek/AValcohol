@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\APIException;
-use App\Models\Entities\Order;
-use App\Models\Entities\OrderProduct;
-use App\Models\Services\OrderService;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Http\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

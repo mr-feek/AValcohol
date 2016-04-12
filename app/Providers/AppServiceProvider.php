@@ -5,27 +5,27 @@ namespace App\Providers;
 use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
-use App\Models\Entities\Vendor;
-use App\Models\Repositories\VendorRepository;
+use App\Models\Vendor;
+use App\Http\Repositories\VendorRepository;
 use Illuminate\Support\ServiceProvider;
 
-use App\Models\Repositories\UserRepository;
-use App\Models\Repositories\UserAddressRepository;
-use App\Models\Repositories\BlacklistedAddressRepository;
-use App\Models\Repositories\OrderRepository;
-use App\Models\Repositories\ProductRepository;
+use App\Http\Repositories\UserRepository;
+use App\Http\Repositories\UserAddressRepository;
+use App\Http\Repositories\BlacklistedAddressRepository;
+use App\Http\Repositories\OrderRepository;
+use App\Http\Repositories\ProductRepository;
 
-use App\Models\Services\UserService;
-use App\Models\Services\UserAddressService;
-use App\Models\Services\BlacklistedAddressService;
-use App\Models\Services\OrderService;
-use App\Models\Services\ProductService;
+use App\Http\Services\UserService;
+use App\Http\Services\UserAddressService;
+use App\Http\Services\BlacklistedAddressService;
+use App\Http\Services\OrderService;
+use App\Http\Services\ProductService;
 
-use App\Models\Entities\User;
-use App\Models\Entities\UserAddress;
-use App\Models\Entities\BlacklistedAddress;
-use App\Models\Entities\Order;
-use App\Models\Entities\Product;
+use App\Models\User;
+use App\Models\UserAddress;
+use App\Models\BlacklistedAddress;
+use App\Models\Order;
+use App\Models\Product;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
 			return $age >= 21;
 		}, 'You must be 21 in order to create an account');
 
-		$this->app->bind('App\Models\Repositories\Interfaces\UserInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\UserInterface', function($app)
 		{
 			return new UserRepository(new User(), new MailChimp(env('MAILCHIMP_KEY')));
 		});
@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
 			return new UserService($app->make('Repositories\Interfaces\UserInterface'));
 		});
 
-		$this->app->bind('App\Models\Repositories\Interfaces\UserAddressInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\UserAddressInterface', function($app)
 		{
 			return new UserAddressRepository(new UserAddress());
 		});
@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
 			return new UserAddressService($app->make('Repositories\Interfaces\UserAddressInterface'));
 		});
 
-		$this->app->bind('App\Models\Repositories\Interfaces\BlacklistedAddressInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\BlacklistedAddressInterface', function($app)
 		{
 			return new BlacklistedAddressRepository(new BlacklistedAddress());
 		});
@@ -71,7 +71,7 @@ class AppServiceProvider extends ServiceProvider
 			return new BlacklistedAddressService($app->make('Repositories\Interfaces\BlacklistedAddressInterface'));
 		});
 
-		$this->app->bind('App\Models\Repositories\Interfaces\OrderInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\OrderInterface', function($app)
 		{
 			return new OrderRepository(new Order());
 		});
@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
 			return new OrderService($app->make('Repositories\Interfaces\OrderInterface'));
 		});
 
-		$this->app->bind('App\Models\Repositories\Interfaces\ProductInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\ProductInterface', function($app)
 		{
 			return new ProductRepository(new Product());
 		});
@@ -89,7 +89,7 @@ class AppServiceProvider extends ServiceProvider
 			return new ProductService($app->make('Repositories\Interfaces\ProductInterface'));
 		});
 
-		$this->app->bind('App\Models\Repositories\Interfaces\VendorInterface', function($app)
+		$this->app->bind('App\Http\Repositories\Interfaces\VendorInterface', function($app)
 		{
 			return new VendorRepository(new Vendor());
 		});

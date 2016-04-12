@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Entities\UserAddress;
-use App\Models\Entities\BlacklistedAddress;
+use App\Models\UserAddress;
+use App\Models\BlacklistedAddress;
 
 /**
  * Created by PhpStorm.
@@ -69,7 +69,7 @@ class AddressControllerTest extends TestCase
 	/*
 	public function testDontCreateAddressIfNotInDeliveryZone() {
 		$zip = 11111;
-		$address = factory(\App\Models\Entities\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
+		$address = factory(\App\Models\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
 
 		$data = $address->toArray();
 		$data['user'] = array('id' => $data['user_id']);

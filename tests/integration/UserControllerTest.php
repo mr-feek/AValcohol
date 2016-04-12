@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\UserProfile;
+use App\Models\User;
+
 /**
  * Created by PhpStorm.
  * User: Feek
@@ -9,8 +12,8 @@
 class UserControllerTest extends TestCase
 {
 	public function testCreateUser() {
-		$user = factory(App\Models\Entities\User::class)->make();
-		$profile = factory(\App\Models\Entities\UserProfile::class)->make();
+		$user = factory(User::class)->make();
+		$profile = factory(UserProfile::class)->make();
 
 		$user->date_of_birth = $profile->date_of_birth;
 		$user->first_name = $profile->first_name;
@@ -49,8 +52,8 @@ class UserControllerTest extends TestCase
 	}
 
 	public function testCannotCreateUserIfNotTwentyOne() {
-		$user = factory(App\Models\Entities\User::class)->make();
-		$profile = factory(\App\Models\Entities\UserProfile::class)->make();
+		$user = factory(App\Models\User::class)->make();
+		$profile = factory(\App\Models\UserProfile::class)->make();
 
 		$user->first_name = $profile->first_name;
 		$user->last_name = $profile->last_name;

@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Models\Entities\Product::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Product::class, function(Faker\Generator $faker) {
 	return [
 		'upc' => $faker->randomNumber(9),
 		'name' => $faker->name(),
@@ -20,14 +20,14 @@ $factory->define(App\Models\Entities\Product::class, function(Faker\Generator $f
 	];
 });
 
-$factory->define(App\Models\Entities\User::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function(Faker\Generator $faker) {
 	return [
 		'email' => $faker->email(),
 		'password' => $faker->password()
 	];
 });
 
-$factory->define(App\Models\Entities\UserAddress::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker) {
 	return [
 		'street' => $faker->streetName(),
 		'city' => $faker->city(),
@@ -36,7 +36,7 @@ $factory->define(App\Models\Entities\UserAddress::class, function(Faker\Generato
 	];
 });
 
-$factory->define(App\Models\Entities\UserProfile::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\UserProfile::class, function(Faker\Generator $faker) {
 	$max = 'now';
 	$max = new DateTime('today');
 	$max->sub(new DateInterval('P21Y')); // subtract 21 years from today
@@ -49,7 +49,7 @@ $factory->define(App\Models\Entities\UserProfile::class, function(Faker\Generato
 	];
 });
 
-$factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $faker) {
+$factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 	return [
 		'amount' => $faker->randomNumber(2),
 		'user_id' => 1,
@@ -58,7 +58,7 @@ $factory->define(App\Models\Entities\Order::class, function(\Faker\Generator $fa
 	];
 });
 
-$factory->define(App\Models\Entities\OrderStatus::class, function(\Faker\Generator $faker) {
+$factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
 	return [
 		'vendor_status' => 'pending',
 		'delivery_status' => 'pending',
@@ -68,7 +68,7 @@ $factory->define(App\Models\Entities\OrderStatus::class, function(\Faker\Generat
 	];
 });
 
-$factory->define(App\Models\Entities\Vendor::class, function(\Faker\Generator $faker) {
+$factory->define(App\Models\Vendor::class, function(\Faker\Generator $faker) {
 	return [
 		'name' => $faker->company,
 		'address' => $faker->address,
@@ -76,7 +76,7 @@ $factory->define(App\Models\Entities\Vendor::class, function(\Faker\Generator $f
 	];
 });
 
-$factory->define(App\Models\Entities\VendorSetting::class, function(\Faker\Generator $faker) {
+$factory->define(App\Models\VendorSetting::class, function(\Faker\Generator $faker) {
 	return [
 
 	];

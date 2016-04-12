@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Entities\Product;
-use App\Models\Services\ProductService;
+use App\Models\Product;
+use App\Http\Services\ProductService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller

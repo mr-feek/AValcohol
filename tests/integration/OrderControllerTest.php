@@ -7,9 +7,10 @@
  * Time: 4:39 AM
  */
 
-use App\Models\Entities\User;
-use App\Models\Entities\UserAddress;
-use App\Models\Entities\Product;
+use App\Models\User;
+use App\Models\UserAddress;
+use App\Models\Product;
+use App\Models\Vendor;
 
 class OrderControllerTest extends TestCase
 {
@@ -45,7 +46,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'No query results for model [App\\Models\\Entities\\User].'
+			'message' => 'No query results for model [App\\Models\\User].'
 		]);
 	}
 
@@ -65,7 +66,7 @@ class OrderControllerTest extends TestCase
 		$this->verifyOrderNotCreated();
 
 		$this->seeJson([
-			'message' => 'No query results for model [App\\Models\\Entities\\UserAddress].'
+			'message' => 'No query results for model [App\\Models\\UserAddress].'
 		]);
 	}
 
@@ -93,7 +94,7 @@ class OrderControllerTest extends TestCase
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
-		$this->seeJson(['message' => "No query results for model [App\\Models\\Entities\\Vendor]."]);
+		$this->seeJson(['message' => "No query results for model [App\\Models\\Vendor]."]);
 	}
 
 	public function testCreateOrderWithNote() {
@@ -121,7 +122,7 @@ class OrderControllerTest extends TestCase
 		$user = \App\Models\User::find(1);
 		$token = $this->createFakeToken();
 		$zip = 11111;
-		$address = factory(\App\Models\Entities\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
+		$address = factory(\App\Models\UserAddress::class)->create(['zipcode' => $zip, 'user_id' => 1]);
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
@@ -134,7 +135,7 @@ class OrderControllerTest extends TestCase
 	}
 
 	protected function getProductsToBuy() {
-		$vendor = \App\Models\Entities\Vendor::find(1);
+		$vendor = Vendor::find(1);
 		$products = $vendor->products()->take(3)->get();
 		return $products;
 	}
@@ -195,7 +196,7 @@ class OrderControllerTest extends TestCase
 		]);
 
 		// for ensuring there is a charge id
-		$order = \App\Models\Entities\Order::find($response->order->id);
+		$order = \App\Models\Order::find($response->order->id);
 
 		$this->assertNotEmpty($order->status->charge_id);
 		$this->verifyOrderProductsInDatabase($response->order->id, $products);
