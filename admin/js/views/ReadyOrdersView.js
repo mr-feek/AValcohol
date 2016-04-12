@@ -5,19 +5,19 @@ define([
 	'marionette',
 	'backbone.poller',
 	'collections/Orders',
-	'views/OrderView',
+	'views/ReadyOrderView',
 	'../../../shared/js/behaviors/CollectionLoadingIndicator'
 ], function (
 	Mn,
 	BackbonePoller,
 	Orders,
-	OrderView,
+	ReadyOrderView,
 	CollectionLoadingIndicator
 ) {
 	var view = Mn.CollectionView.extend({
 		tagName: 'div',
 		className: '',
-		childView: OrderView,
+		childView: ReadyOrderView,
 
 		behaviors: {
 			CollectionLoadingIndicator: {
@@ -31,7 +31,7 @@ define([
 		ui: {},
 
 		initialize: function (options) {
-			this.collection = new Orders([], {	endpoint: '/pending'	});
+			this.collection = new Orders([], {	endpoint: '/ready'	});
 			//this.triggerMethod("setCollection", this.collection);
 
 			var options = {
