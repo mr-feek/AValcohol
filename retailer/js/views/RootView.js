@@ -30,11 +30,21 @@ define([
 		},
 
 		closeModal: function() {
+			this._beforeCloseModal();
 			this.getRegion('modalRegion').empty();
 		},
 
 		showSettings: function() {
+			this._beforeShowModal();
 			this.getRegion('modalRegion').show(new VendorSettingsView());
+		},
+
+		_beforeShowModal: function() {
+			$(this.getRegion('modalRegion').el).css('display', 'block')// $el might not exist yet
+		},
+
+		_beforeCloseModal: function() {
+			this.getRegion('modalRegion').$el.css('display', 'none')
 		}
 	});
 
