@@ -4,9 +4,11 @@
 
 define([
 	'marionette',
+	'App',
 	'tpl!templates/sidebar.html'
 ], function (
 	Mn,
+	App,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -36,12 +38,16 @@ define([
 		},
 
 		showReadyOrders: function() {
-
+			this.ui.ready.addClass('active');
+			this.ui.outForDelivery.removeClass('active');
+			App.router.navigate('admin/dashboard/ready', {trigger: true});
 		},
 
 		showOutForDeliveryOrders: function() {
-
-		}
+			this.ui.outForDelivery.addClass('active');
+			this.ui.ready.removeClass('active');
+			App.router.navigate('admin/dashboard/out', {trigger: true});
+		},
 	});
 
 	return view;

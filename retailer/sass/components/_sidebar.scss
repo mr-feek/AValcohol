@@ -23,14 +23,13 @@
 			font-size: rem-calc(8px);
 		}
 
-		/*
 		&:hover {
 			cursor: pointer;
+			background-color: lighten($dark-text-color, 5%);
 		}
-		*/
 
 		&.active {
-			background-color: white;
+			background-color: $light-text-color;
 			border-left: 5px solid $red;
 			i, p {
 				color: $dark-text-color;

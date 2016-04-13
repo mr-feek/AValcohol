@@ -39,8 +39,12 @@ define([
 			this.poller = BackbonePoller.get(this.collection, options);
 		},
 
-		onRender: function() {
+		onShow: function() {
 			this.poller.start();
+		},
+
+		onBeforeDestroy: function() {
+			this.poller.destroy();
 		}
 	});
 

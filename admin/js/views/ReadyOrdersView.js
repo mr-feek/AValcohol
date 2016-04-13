@@ -25,23 +25,26 @@ define([
 			}
 		},
 
-
 		events: {},
 
 		ui: {},
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: '/ready'	});
-			//this.triggerMethod("setCollection", this.collection);
 
 			var options = {
 				delay: 30000 // 30 seconds
 			};
+
 			this.poller = BackbonePoller.get(this.collection, options);
 		},
 
-		onRender: function() {
+		onShow: function() {
 			this.poller.start();
+		},
+
+		onBeforeDestroy: function() {
+			this.poller.destroy();
 		}
 	});
 
