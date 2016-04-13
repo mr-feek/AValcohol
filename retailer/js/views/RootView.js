@@ -8,6 +8,7 @@ define([
 	'tpl!templates/root.html'
 ], function (
 	Mn,
+	VendorSettingsView,
 	Vent,
 	tpl
 ) {
