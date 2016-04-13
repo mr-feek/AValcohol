@@ -35,21 +35,20 @@ define([
 		},
 
 		events: {
-			'click @ui.reject' : 'rejectOrder',
-			'click @ui.accept' : 'acceptOrder'
+			'click @ui.deliver' : 'showDeliveryView'
 		},
 
 		ui: {
-			reject: '.reject',
-			accept: '.accept'
+			deliver: '.deliver'
 		},
 
 		initialize: function (options) {
 			this.collection = this.model.get('products');
 		},
 
-		acceptOrder: function(e) {
+		showDeliveryView: function(e) {
 			e.preventDefault();
+			alert('will begin collecting signature and picture here');
 		}
 	});
 
