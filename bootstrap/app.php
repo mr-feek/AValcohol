@@ -102,7 +102,7 @@ $app->register(Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class);
 // commenting this out for now cause it does NOT work with lumen 5.2
 //$app->register(Rdehnhardt\MaintenanceMode\Providers\MaintenanceModeServiceProvider::class);
 
-if ($app->environment() !== 'production') {
+if ($app->environment() === 'local') {
 	$app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 	$app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
 }
