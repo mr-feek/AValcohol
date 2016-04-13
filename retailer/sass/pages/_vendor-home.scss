@@ -16,3 +16,17 @@ $sidebarWidth: 110px;
 	padding: 1rem;
 	background-color: $light-text-color;
 }
+
+@media #{$small-only} {
+	#sidebar {
+		margin-top: $headerHeight;
+		position: static;
+		width: 100%;
+	}
+
+	#content {
+		width: 100%;
+		margin: 0;
+		padding: 1rem;
+	}
+}
