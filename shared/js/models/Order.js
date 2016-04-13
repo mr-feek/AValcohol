@@ -3,12 +3,14 @@ define([
 	'../../../shared/js/models/User',
 	'../../../shared/js/models/Product',
 	'../../../shared/js/models/OrderStatus',
+	'../../../shared/js/models/UserAddress',
 	'backboneRelational'
 ], function (
 	Backbone,
 	User,
 	Product,
-	OrderStatus
+	OrderStatus,
+	UserAddress
 ) {
 	var Order = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order',
@@ -35,6 +37,12 @@ define([
 					type: Backbone.HasOne,
 					includeInJSON: false
 				}
+			},
+			{
+				type: Backbone.HasOne,
+				key: 'address',
+				relatedModel: UserAddress,
+				includeInJSON: false
 			},
 		],
 

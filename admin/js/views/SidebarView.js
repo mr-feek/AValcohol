@@ -16,14 +16,6 @@ define([
 		tagName: 'div',
 		className: '',
 
-		templateHelpers: function() {
-			var view = this;
-
-			return {
-
-			}
-		},
-
 		events: {
 			'click @ui.ready' : 'showReadyOrders',
 			'click @ui.outForDelivery' : 'showOutForDeliveryOrders'
@@ -35,6 +27,10 @@ define([
 		},
 
 		initialize: function (options) {
+		},
+
+		onShow: function() {
+
 		},
 
 		showReadyOrders: function() {
