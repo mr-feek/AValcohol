@@ -39,7 +39,7 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	 */
 	public function create(User $user, $data)
 	{
-		$this->model = $user->addresses()->save(new UserAddress($data));
+		$this->model = $user->address()->save(new UserAddress($data));
 		return $this->model;
 	}
 

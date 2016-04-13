@@ -48,8 +48,8 @@ class User extends Model
 	// white list for mass assignable
 	protected $fillable = ['email', 'password'];
 
-	public function addresses() {
-		return $this->hasMany('App\Models\UserAddress');
+	public function address() {
+		return $this->hasOne('App\Models\UserAddress');
 	}
 
 	public function profile() {

@@ -50,7 +50,6 @@ class AdminControllerTest extends TestCase
 							'date_of_birth'
 						]
 					],
-					'user_address_id',
 					'created_at',
 					'products' => [
 						'*' => [
@@ -66,6 +65,13 @@ class AdminControllerTest extends TestCase
 							],
 						],
 					],
+					'address' => [
+						'id',
+						'city',
+						'state',
+						'street',
+						'zipcode'
+					]
 				]
 			]
 		]);

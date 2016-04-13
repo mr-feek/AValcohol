@@ -28,7 +28,7 @@ class AdminRepository extends BaseRepository implements AdminInterface
 				['charge_authorized', true],
 				['charge_captured', true]
 			]);
-		})->with(['status', 'user.profile', 'products'])->get();
+		})->with(['status', 'user.profile', 'products', 'address'])->get();
 
 		return $orders;
 	}
@@ -46,7 +46,7 @@ class AdminRepository extends BaseRepository implements AdminInterface
 				['charge_authorized', true],
 				['charge_captured', true]
 			]);
-		})->with(['status', 'user.profile', 'products'])->get();
+		})->with(['status', 'user.profile', 'products', 'address'])->get();
 
 		return $orders;
 	}

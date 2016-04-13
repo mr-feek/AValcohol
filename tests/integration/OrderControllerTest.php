@@ -18,7 +18,6 @@ class OrderControllerTest extends TestCase
 
 	public function testCreateOrderWithExistingUser() {
 		$this->withoutMiddleware();
-		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
 		$address = $this->getAddress();
@@ -99,7 +98,6 @@ class OrderControllerTest extends TestCase
 
 	public function testCreateOrderWithNote() {
 		$this->withoutMiddleware();
-		$this->expectsEvents('App\Events\OrderWasSubmitted');
 
 		$products = $this->getProductsToBuy();
 		$address = $this->getAddress();
