@@ -22,7 +22,7 @@ class AdminControllerTest extends TestCase
 		$this->verifyJsonStructure();
 	}
 
-	public function testGetOrdersOurForDelivery() {
+	public function testGetOrdersOutForDelivery() {
 		$this->get('/admin/orders/out');
 
 		$orders = json_decode($this->response->getContent())->orders;

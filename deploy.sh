@@ -20,6 +20,8 @@ else
 	if ([ "$TRAVIS_BRANCH" == "dev" ]) &&
 	[ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 		sass --update sass:css;
+		sass --update retailer/sass:retailer/css;
+		sass --update admin/sass:admin/css;
 		gulp deploy --user $FTPUSER --password $FTP_PASSWORD;
 	else
 		echo "not deploying because branch is not dev."
