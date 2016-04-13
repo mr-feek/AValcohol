@@ -34,5 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderStatus extends Model
 {
+	protected $primaryKey = 'order_id';
+	protected $hidden = ['charge_id'];
 
+	// white list for mass assignable
+	protected $fillable = ['charge_authorized', 'charge_captured', 'vendor_status', 'delivery_status'];
 }

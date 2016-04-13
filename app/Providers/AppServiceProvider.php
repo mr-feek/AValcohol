@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\OrderStatus;
 use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
@@ -15,6 +16,7 @@ use App\Http\Repositories\BlacklistedAddressRepository;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\AdminRepository;
+use App\Http\Repositories\OrderStatusRepository;
 
 use App\Http\Services\UserService;
 use App\Http\Services\UserAddressService;
@@ -22,6 +24,7 @@ use App\Http\Services\BlacklistedAddressService;
 use App\Http\Services\OrderService;
 use App\Http\Services\ProductService;
 use App\Http\Services\AdminService;
+use App\Http\Services\OrderStatusService;
 
 use App\Models\User;
 use App\Models\UserAddress;
@@ -107,6 +110,15 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind('AdminService', function($app)
 		{
 			return new AdminService($app->make('Repositories\Interfaces\AdminInterface'));
+		});
+
+		$this->app->bind('App\Http\Repositories\Interfaces\OrderStatusInterface', function($app)
+		{
+			return new OrderStatusRepository(new OrderStatus());
+		});
+		$this->app->bind('OrderStatusService', function($app)
+		{
+			return new OrderStatusService($app->make('Repositories\Interfaces\OrderStatusInterface'));
 		});
 	}
 }

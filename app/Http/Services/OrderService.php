@@ -51,9 +51,6 @@ class OrderService extends BaseService
 			// to do
 		}
 
-		// notify pusher etc
-		Event::fire(new OrderWasSubmitted($order));
-
 		return $order;
 	}
 }

@@ -30,12 +30,10 @@ define([
 		},
 
 		events: {
-			'click @ui.reject' : 'rejectOrder',
 			'click @ui.accept' : 'acceptOrder'
 		},
 
 		ui: {
-			reject: '.reject',
 			accept: '.accept'
 		},
 
@@ -43,14 +41,15 @@ define([
 			this.collection = this.model.get('products');
 		},
 
-		rejectOrder: function(e) {
-			e.preventDefault();
-			this.model.get('status').set('vendor_status', 'rejected');
-			this.model.get('status').save();
-		},
-
 		acceptOrder: function(e) {
 			e.preventDefault();
+
+			this.model.get('status').set('delivery_status', 'out-for-delivery').save().done(function() {
+				this.$el.slideUp(400, function() {
+					this.collection.remove(this.model);
+					this.destroy();
+				}.bind(this));
+			}.bind(this));
 		}
 	});
 
