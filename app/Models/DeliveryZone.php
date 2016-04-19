@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DeliveryZone\Point;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -22,11 +20,8 @@ class DeliveryZone extends Model
 {
     //Default is read
     protected $table = self::READ_TABLE;
-    
-    //Table for writing
+
     const WRITE_TABLE = 'delivery_zones';
-    
-    //View for reading
     const READ_TABLE = 'delivery_zones_astext';
     
     protected $guarded = [];
@@ -45,18 +40,18 @@ class DeliveryZone extends Model
     }
     
     /**
-     * Determines whether or not this delivery zone contains the given point
+     * Returns the delivery zones containing this point
      * @param Point $point Description
-     * @return bool
+     * @return Collection
      */
-    public static function containsPoint(Point $point)
+    public static function getZonesContainingPoint(Point $point)
     {
         $latitude =  $point->latitude;
         $longitude = $point->longitude;
 		$where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
         $results = static::whereRaw($where)->get();
 
-		return $results->count() > 0 ? true : false;
+		return $results;
     }
     
     /**
