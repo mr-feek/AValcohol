@@ -45,18 +45,18 @@ class DeliveryZone extends Model
     }
     
     /**
-     * 
+     * Determines whether or not this delivery zone contains the given point
      * @param Point $point Description
-     * @return Collection
+     * @return bool
      */
     public static function containsPoint(Point $point)
     {
         $latitude = is_numeric($latitude = $point->latitude) ? (double) $latitude : 0.0;
         $longitude = is_numeric($longitude = $point->longitude) ? (double) $longitude : 0.0;
-        $where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
-        $results = 
-                static::whereRaw($where)->get();
-        return $results;
+		$where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
+        $results = static::whereRaw($where)->get();
+
+		return $results->count() > 0 ? true : false;
     }
     
     /**
