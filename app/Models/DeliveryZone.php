@@ -51,8 +51,8 @@ class DeliveryZone extends Model
      */
     public static function containsPoint(Point $point)
     {
-        $latitude = is_numeric($latitude = $point->latitude) ? (double) $latitude : 0.0;
-        $longitude = is_numeric($longitude = $point->longitude) ? (double) $longitude : 0.0;
+        $latitude =  $point->latitude;
+        $longitude = $point->longitude;
 		$where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
         $results = static::whereRaw($where)->get();
 
