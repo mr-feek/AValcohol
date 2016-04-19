@@ -4,14 +4,16 @@ define([
 	'views/user-home/ProductView',
 	'views/user-home/NoFeaturedProductsView',
 	'collections/Products',
-	'behaviors/CollectionLoadingIndicator'
+	'../../../shared/js/behaviors/CollectionLoadingIndicator',
+	'App'
 ], function (
 	Mn,
 	FoundationEqualizer,
 	ProductView,
 	EmptyView,
 	Products,
-	CollectionLoadingIndicator
+	CollectionLoadingIndicator,
+	App
 ) {
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
@@ -37,18 +39,14 @@ define([
 		/**
 		 *
 		 * @param options
-		 * 		- endpoint (optional)
 		 */
 		initialize: function (options) {
-			this.endpoint = options.endpoint;
-			this.collection = new Products([], { endpoint: this.endpoint});
+			this.collection = new Products();
 			// pass the collection to the loading indicator
 			this.triggerMethod("setCollection", this.collection);
-			this.collection.fetch();
+			var address_id = App.user.get('address').get('id') || 1; // default to 1 for now
+			this.collection.fetch({ data: $.param({	address_id: address_id })});
 
-			// when an item is added / removed from the cart, we want to show it differently on the page
-			// rendering logic handled in productview
-			this.listenTo(this.collection, 'change:inCart', this.render); // THIS CAN BE WAY MORE EFFICIENT
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
 			// for some reason onAddChild d oesn't seem to be called after re-rendering
 		},

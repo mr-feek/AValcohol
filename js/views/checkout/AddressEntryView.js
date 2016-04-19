@@ -1,14 +1,16 @@
 define([
 	'marionette',
 	'App',
-	'models/UserAddress',
-	'behaviors/ModelFormSave',
+	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/behaviors/ModelFormSave',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
 	App,
 	UserAddress,
 	ModelFormSave,
+	ModelSaveAnimation,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -20,6 +22,9 @@ define([
 		behaviors: {
 			ModelFormSave: {
 				behaviorClass: ModelFormSave
+			},
+			ModelSaveAnimation: {
+				behaviorClass: ModelSaveAnimation
 			}
 		},
 
@@ -60,9 +65,12 @@ define([
 			this.parent = options.parent;
 			this.model = App.user.get('address');
 
-			if (!this.model) {
-				this.model = UserAddress.findOrCreate({});
-			}
+			// attach callback to ModelFormSave behavior
+			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);
+		},
+
+		modelSaveSuccess: function(response) {
+			this.parent.showNext();
 		}
 	});
 

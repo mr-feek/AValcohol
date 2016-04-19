@@ -2,62 +2,60 @@ define([
 	'marionette',
 	'App',
 	'stripe',
-	'views/checkout/CheckoutProductsView',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
-	'models/Product',
-	'models/User',
-	'models/UserAddress',
-	'models/Order',
+	'views/checkout/OrderReviewView',
+	'views/checkout/OrderSubmittedView',
+	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
 	App,
 	Stripe,
-	CheckoutProductsView,
 	AddressEntryView,
 	BillingInfoEntryView,
 	UserInfoEntryView,
-	Product,
-	User,
-	UserAddress,
-	Order,
+	OrderReviewView,
+	OrderSubmittedView,
+	Vent,
 	tpl
 ) {
+
+	/**
+	 * This view is the parent view container for the checkout process. It keeps track of the
+	 * current flow state
+	 */
 	var CheckoutView = Mn.LayoutView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: 'small-12 columns',
+		className: 'small-12 columns checkout',
 		currentIndex: 0,
 		viewFlow: [], // populated in initialize
-
-		templateHelpers: function() {
-			return {
-				cart: App.cart
-			}
-		},
+		region: null, // initialize
 
 		events: {
-			'click @ui.order' : 'getStripeToken',
-			'click @ui.savedView' : 'goToView'
+			'click @ui.savedView' : '_goToView'
 		},
 
 		ui: {
 			'statusArea' : '.status-area',
 			'statuses' : '.status',
-			'savedView' : '.submitted',
-			'order' : '.order',
-			'billingForm' : '.billing-info',
-			'payButton' : '.button.order'
+			'savedView' : '.submitted'
 		},
 
 		regions: {
-			items: '.items',
-			active: '.active'
+			current: '.current'
 		},
 
 		initialize: function (options) {
+			/**
+			 * store the region that this view is in so that we can swap out this view
+			 * with the order complete view. not ideal but need to ship this
+			 */
+			this.region = options.region;
+			Vent.on('order:submitted', this.showOrderSubmittedView.bind(this));
+
 			$.get('/api/stripe/key', function(response) {
 				Stripe.setPublishableKey(response.key);
 			}.bind(this));
@@ -65,107 +63,87 @@ define([
 			this.viewFlow.push(
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
-				new BillingInfoEntryView({	parent:	this })
+				new BillingInfoEntryView({	parent:	this }),
+				new OrderReviewView({	parent: this })
 			);
 		},
 
+		/**
+		 * replaces THIS view with the order submitted view
+		 * @param order
+		 */
+		showOrderSubmittedView: function(order) {
+			this.region.show(new OrderSubmittedView({ model: order }));
+		},
+
 		onBeforeShow: function() {
-			this.getRegion('items').show(new CheckoutProductsView({ collection: App.cart }));
-			this.showActiveView();
+			this._showCurrentView();
 		},
 
-		showActiveView: function() {
-			this.updateStatus();
+		/**
+		 * Updates the current status and shows the view at the current index
+		 * @private
+		 */
+		_showCurrentView: function() {
+			this._updateStatus();
 			// we are preventing destroy here, so remember to clean up later
-			this.getRegion('active').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
+			this.getRegion('current').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
 		},
 
-		disablePayButton() {
-			this.ui.payButton.addClass('disabled');
-		},
-
-		enablePayButton() {
-			this.ui.payButton.removeClass('disabled');
-		},
-
+		/**
+		 * Increments the current index and shows the next view, also updating the active class
+		 */
 		showNext: function() {
+			this._removeActiveClass();
 			this.currentIndex++;
-			this.showActiveView();
+			this._showCurrentView();
 		},
 
-		updateStatus: function() {
+		/**
+		 * Adds class submitted and active as well as removes the disabled class. Does NOT remove an active class
+		 * from the previous state, so do so yourself
+		 * @private
+		 */
+		_updateStatus: function() {
 			var $status = $(this.ui.statuses[this.currentIndex]);
 			$status.addClass('submitted');
+			$status.addClass('active');
 			$status.removeClass('disabled');
 		},
 
-		goToView: function(evt) {
+		/**
+		 * Removes the current view from being active
+		 * @private
+		 */
+		_removeActiveClass: function() {
+			var $status = $(this.ui.statuses[this.currentIndex]);
+			$status.removeClass('active');
+		},
+
+		/**
+		 * Helper function to switch which index is being shown. Updates the active class
+		 * @param index
+		 */
+		goToIndex: function(index) {
+			this._removeActiveClass();
+			this.currentIndex = index;
+			this._showCurrentView();
+		},
+
+		/**
+		 * Function to go to the clicked view (from the status thing)
+		 * @param evt
+		 * @private
+		 */
+		_goToView: function(evt) {
+			this._removeActiveClass();
 			_.each(this.ui.statuses, function(status, index) {
-				if (evt.target === status) {
+				if (evt.currentTarget === status) {
 					this.currentIndex = index;
 				}
 			}.bind(this));
 
-			this.showActiveView();
-		},
-
-		/**
-		 * creates a new order model and saves it to the backend
-		 * @param token verified stripe token
-		 */
-		submitOrder: function(token) {
-			var order = Order.findOrCreate({
-				products: App.cart,
-				user: App.user,
-				address: App.user.get('address'),
-				stripe_token: token
-			});
-
-			order.save().done(function (result) {
-				console.log('pass');
-			}).fail(function (result) {
-				console.log('fail');
-			});
-		},
-
-		/**
-		 * Stops the form from being submitted and sends the required details to stripe to authorize a token
-		 * disables the submit button
-		 * Calls stripeResponseHandler
-		 * @param evt
-		 */
-		getStripeToken: function(evt) {
-			evt.preventDefault();
-
-			if (this.ui.payButton.hasClass('disabled')) {
-				return;
-			}
-
-			var $form = this.ui.billingForm;
-
-			// Disable the submit button to prevent repeated clicks
-			this.disablePayButton();
-
-			Stripe.card.createToken($form.context, this.stripeResponseHandler.bind(this));
-		},
-
-		/**
-		 * handler for getting the stripe token
-		 * @param status
-		 * @param response
-		 */
-		stripeResponseHandler: function(status, response) {
-			var $form = this.ui.billingForm;
-
-			if (response.error) {
-				// Show the errors on the form
-				$form.find('.payment-errors').text(response.error.message);
-				$form.find('button').prop('disabled', false);
-			} else {
-				// response contains id and card, which contains additional card details
-				var token = response.id;
-				this.submitOrder(token);
-			}
+			this._showCurrentView();
 		}
 	});
 

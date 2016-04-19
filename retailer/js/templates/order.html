@@ -1,0 +1,37 @@
+<div class="order">
+	<div class="row user-info">
+		<div class="columns small-3">
+			<span class="label">Name</span> <span><%= userName %></span>
+		</div>
+		<div class="columns small-3">
+			<span class="label">DOB</span> <span><%= dob %></span>
+		</div>
+		<div class="columns small-3">
+			<span class="label">Past Orders</span> <span class="coming-soon label">Coming Soon!</span>
+		</div>
+		<div class="columns small-3">
+			<span class="label">Order Total<%= vendorOrderTotal %></span> <span class="coming-soon label">Coming Soon!</span>
+		</div>
+	</div>
+
+	<div class="products">
+		<!-- populated in child view-->
+	</div>
+
+	<div class="row note">
+		<span class="label">Order Note</span>
+		<div><%= note %></div>
+	</div>
+
+	<div class="row footer">
+		<div class="columns small-12 text-right">
+			<a class="reject button secondary radius tiny">Reject Transaction</a>
+			<a class="accept button radius tiny">Accept and Facilitate Transaction</a>
+		</div>
+		<div class="columns small-12">
+			<span class="label">Order Number</span> <span><%= orderNumber %></span>
+			<span class="label">Time Placed</span> <span><%= timePlaced %></span>
+			<span class="label">Your Status</span> <span><%= status %></span>
+		</div>
+	</div>
+</div>

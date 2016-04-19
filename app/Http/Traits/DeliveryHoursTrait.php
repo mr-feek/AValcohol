@@ -27,6 +27,14 @@ trait DeliveryHoursTrait
 	}
 
 	public function isOpenNow() {
+		// developers can force the store to be open for testing purposes, so check env and toggle
+		$env = \Dotenv::findEnvironmentVariable('APP_ENV');
+		$devForcedOpen = \Dotenv::findEnvironmentVariable('STORE_OPEN');
+		if ($env == 'local' && $devForcedOpen == true) {
+			return true;
+		}
+
+		// normal opp
 		$currentTime = date('G:i');
 		return $this->isBetween($this->openTime, $this->closeTime, $currentTime);
 	}

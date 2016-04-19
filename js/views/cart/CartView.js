@@ -17,28 +17,17 @@ define([
 		childViewContainer: '.products',
 
 		templateHelpers: function() {
-			var view = this;
-
 			return {
-				number: App.cart.length,
-
-				subtotal: function() {
-					// loop through products and multiply price * quantity for combined total
-					var total = 0;
-
-					_.each(view.collection.models, function(model) {
-						total += model.get('price') * model.get('quantity');
-					});
-
-					return Number(total).toFixed(2);
-				}
+				number: App.cart.models.length,
+				subtotal: App.cart.calculateSubtotal
 			}
 		},
 
 		ui: {
 			numProducts : '.num-products',
-			checkout : '.checkout',
-			continueShopping : '.back-to-shopping'
+			checkout : '.go-to-checkout',
+			continueShopping : '.back-to-shopping',
+			subTotal: '.subtotal'
 		},
 
 		events: {
@@ -47,8 +36,8 @@ define([
 		},
 
 		collectionEvents: {
-			'update' : 'productsChanged',
-			'change:quantity' : 'productsChanged' // maybe this could be more efficient
+			'update' : 'updateTotals',
+			'change:quantity' : 'updateTotals'
 		},
 
 		/**
@@ -59,8 +48,9 @@ define([
 			this.collection = options.collection;
 		},
 
-		productsChanged: function() {
-			this.render();
+		updateTotals: function() {
+			var subtotal = App.cart.calculateSubtotal();
+			this.ui.subTotal.html('$' + subtotal);
 		},
 
 		showCheckout: function(e) {

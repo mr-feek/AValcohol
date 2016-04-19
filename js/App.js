@@ -6,7 +6,6 @@ define([
 		},
 
 		onStart: function () {
-			//this.rootView.render();
 		}
 	});
 

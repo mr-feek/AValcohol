@@ -1,12 +1,18 @@
 define([
 	'marionette',
 	'App',
-	'behaviors/ModelFormSave',
+	'../../../shared/js/behaviors/ModelFormSave',
+	'../../../shared/js/behaviors/ModelSaveAnimation',
+	'moment',
+	'pickaday',
 	'tpl!templates/checkout/user-info-entry.html'
 ], function (
 	Mn,
 	App,
 	ModelFormSave,
+	ModelSaveAnimation,
+	moment,
+	Pickaday,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -18,6 +24,9 @@ define([
 		behaviors: {
 			ModelFormSave: {
 				behaviorClass: ModelFormSave
+			},
+			ModelSaveAnimation: {
+				behaviorClass: ModelSaveAnimation
 			}
 		},
 
@@ -48,22 +57,37 @@ define([
 					var val = view.model.get('email');
 					return val ? val : '';
 				},
+
+				dob: function() {
+					if (!view.model) {	return;	}
+					var val = view.model.get('dob');
+					return val ? val : ''
+				}
 			}
+		},
+
+		ui: {
+			dob : '.dob'
 		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = App.user;
 			// attach callback to ModelFormSave behavior
-			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess, this.modelSaveFail);
+			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);
 		},
 
 		modelSaveSuccess: function(response) {
 			this.parent.showNext();
 		},
 
-		modelSaveFail: function(response) {
-			console.error('something went wrong: ' + response.responseText);
+		onShow: function() {
+			var min = moment().subtract(21, 'years').toDate();
+			var picker = new Pickaday({
+				field: this.ui.dob[0],
+				defaultDate: min,
+				maxDate: min
+			});
 		}
 	});
 

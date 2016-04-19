@@ -1,0 +1,40 @@
+<html>
+
+<head>
+	<script data-main="/retailer/js/main.js" src="/vendor/requirejs/require.js"></script>
+	<link rel="stylesheet" type="text/css" href="/retailer/css/main.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+<div id="mount-point"></div>
+
+<!-- doorbell -->
+<script type="text/javascript">
+	window.doorbellOptions = {
+		appKey: 'ZTuQOpRSVSL6aX3u36XGciic7P43eQb06wWbMxQrRcATLIDQLCJMYPipb8SDUCvA',
+
+		// Optional, called when the modal is about to be shown
+		onShow: function() {
+			// prevent scroll
+			$('body').css({
+				'overflow' : 'hidden'
+			});
+		},
+
+		// Optional, called when the modal is about to be hidden
+		onHide: function() {
+			// prevent scroll
+			$('body').css({
+				'overflow' : 'auto'
+			});
+		},
+
+	};
+	(function(d, t) {
+		var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/3016?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+	}(document, 'script'));
+</script>
+</body>
+</html>

@@ -6,15 +6,24 @@
 			// keep buttons exactly 50%;
 			padding: 1rem 0 1.0625rem 0;
 			font-size: 0.8rem;
+
+			i {
+				padding: 0.5rem;
+			}
 		}
 	}
 
 	.top {
-		min-height: 70%;
+		height: 70%;
+
+		.products {
+			height: calc(100% - 2.8625rem); // account for height of buttons
+			overflow: auto;
+		}
 	}
 
 	.footer {
-		min-height: 30%;
+		height: 30%;
 		background-color: $vapor;
 		padding: 0 1rem;
 
@@ -33,7 +42,7 @@
 		}
 	}
 
-	.checkout {
+	.go-to-checkout {
 		width: calc(100% - 6rem);
 		margin-top: 1rem;
 		margin-left: 1rem;
@@ -42,11 +51,7 @@
 
 .cart-product {
 	padding: 0.5rem;
-
-	img {
-		padding: 1rem;
-		width: 80px;
-	}
+	border-bottom: 1px dotted $dark-text-color;
 
 	.details {
 		padding: 0 1rem;
@@ -61,6 +66,7 @@
 
 		p {
 			margin-bottom: .1rem;
+			font-size: 0.8rem;
 		}
 	}
 

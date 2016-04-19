@@ -1,30 +1,22 @@
 define([
 	'marionette',
-	'tpl!templates/.html'
-], function (
+	'tpl!templates/'
+], function(
 	Mn,
 	tpl
 ) {
-	var view = Mn.ItemView.extend({
+	var  = Mn.ItemView.extend({
 		template: tpl,
-		tagName: 'div',
-		className: '',
 
-		templateHelpers: function() {
-			var view = this;
-
-			return {
-
-			}
+		events: {
 		},
 
-		events: {},
+		ui: {
+		},
 
-		ui: {},
-
-		initialize: function (options) {
-		}
+		initialize: function(options) {
+		},
 	});
 
-	return view;
+	return ;
 });

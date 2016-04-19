@@ -12,16 +12,35 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
 		factory(App\Models\Order::class, 20)->create()->each(function(\App\Models\Order $o) {
-			// attach two products to the order and update the order amount
-			$random = rand(1, 10);
-			$product1 =\App\Models\ Product::find($random);
-			$o->products()->attach($product1->id, ['product_price' => $product1->price]);
+			$products = [];
 
-			$random = rand(1, 10);
-			$product2 = \App\Models\Product::find($random);
-			$o->products()->attach($product2->id, ['product_price' => $product2->price]);
+			// fetch 3 products to add to this order
+			while (count($products) < 3) {
+				// fetch a random product that a vendor has
+				$random = rand(1, 100);
+				$product = DB::table('vendor_product')->where('product_id', $random)->first();
 
-			$o->amount = $product1->price + $product2->price;
+				if (!$product) {
+					continue;
+				}
+
+				$products[] = $product;
+			}
+
+			// attach these products to the order
+			foreach($products as $p) {
+				$o->products()->attach($p->product_id, [
+					'product_vendor_price' => $p->vendor_price,
+					'product_sale_price' => $p->sale_price,
+					'vendor_id' => $p->vendor_id
+				]);
+
+				$o->amount += $p->sale_price;
+			}
+
+			// need to create default status record entry...
+			$o->status()->save(factory(App\Models\OrderStatus::class)->make());
+
 			$o->save();
 		});
     }

@@ -1,21 +1,35 @@
 <h1>Checkout</h1>
-<div class="items"></div>
-<div class="status-area">
-	<a class="status disabled">
-		<i class="fi-torso" />
-		Customer Info
-		<i class="fi-check hide" />
-	</a>
-	<a class="status disabled">
-		<i class="fi-home" />
-		Address Info
-		<i class="fi-check hide" />
-	</a>
-	<a class="status disabled">
-		<i class="fi-credit-card" />
-		Billing Info
-		<i class="fi-check hide" />
-	</a>
+<div class="row">
+	<div class="checkout-wrapper columns small-12 medium-9 medium-centered ">
+		<div class="status-area row collapse">
+			<div class="columns small-3 text-center">
+				<a class="status disabled">
+					<i class="fi-torso" />
+					<span>Customer Info</span>
+				</a>
+			</div>
+
+			<div class="columns small-3 text-center ">
+				<a class="status disabled">
+					<i class="fi-home" />
+					<span>Address Info</span>
+				</a>
+			</div>
+
+			<div class="columns small-3 text-center">
+				<a class="status disabled">
+					<i class="fi-credit-card" />
+					<span>Billing Info</span>
+				</a>
+			</div>
+
+			<div class="columns small-3 text-center">
+				<a class="status disabled">
+					<i class="fi-torso" />
+					<span>Review</span>
+				</a>
+			</div>
+		</div>
+		<div class="current"></div>
+	</div>
 </div>
-<div class="active"></div>
-<button class="button order disabled">SUBMIT ORDER</button>

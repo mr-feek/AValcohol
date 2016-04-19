@@ -1,25 +1,59 @@
-.status-area {
-	width: 100%;
-	display: table;
-	table-layout: fixed;
+.checkout {
+	background-color: $light-text-color;
+	padding: 1rem;
 
-	a.status {
-		padding: 1rem;
-		display: table-cell;
-		border: 1px solid $dark-text-color;
+	h1 {
 		text-align: center;
+		font-size: 2rem;
+	}
 
-		&.disabled {
-			color: $dark-text-color;
+	&-wrapper {
+		background-color: white;
+		padding: 0;
+		-webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+		-moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+		box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
 
-			&:hover {
-				cursor: default;
+		.status-area {
+			width: 100%;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			border-bottom: 2px solid $light-text-color;
+
+			a.status {
+				font-size: .75rem;
+
+				&.disabled {
+					color: $light-text-color;
+					&:hover {
+						cursor: default;
+					}
+				}
+
+				i, span {
+					vertical-align: middle;
+				}
+
+				i {
+					padding-right: rem-calc(10);
+					font-size: rem-calc(24);
+				}
 			}
 		}
 
-		i {
-			padding-right: rem-calc(10);
-			font-size: rem-calc(36);
+		.current {
+			padding: 1rem;
+
+			fieldset {
+				margin-bottom: 0;
+				margin-top: 0;
+			}
+
+			.loading {
+				// to account for padding of container
+				width: calc(100% - 2rem);
+				height: calc(100% - 5rem);
+			}
 		}
 	}
 }

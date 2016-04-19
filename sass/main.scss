@@ -1,29 +1,39 @@
-@import 'variables';
+@import '../shared/sass/variables';
 // for use in _settings.scss
 // FOUNDATION
-@import '_settings.scss';
+@import '../shared/sass/_settings.scss';
 @import '../vendor/foundation/scss/foundation';
 @import '../vendor/foundation-icon-fonts/foundation-icons';
 //
-@import 'utils';
-@import 'components/header';
+@import '../shared/sass/utils';
+@import '../shared/sass/components/header';
 @import 'pages/home';
 @import 'components/footer';
 @import 'pages/user-home';
 @import 'components/cart';
 @import 'components/product';
 @import 'components/loading';
+@import '../shared/sass/components/doorbell';
+@import '../shared/sass/components/modal';
 @import 'pages/checkout';
+
+@import '../vendor/pikaday/css/pikaday.css';
+
+.button.secondary-dark {
+	background-color: $secondary-dark-button-color;
+
+	&:hover {
+		background-color: lighten($secondary-dark-button-color, 10%);
+	}
+}
 
 // some global styles...
 
 #main-wrapper {
 	min-height: 100%;
+	margin-bottom: -1 * $footerHeight;
 
-	#main-wrapper {
-		margin-bottom: -1 * $footerHeight;
-	}
-	#main-wrapper:after {
+	&:after {
 		content: "";
 		display: block;
 		height: $footerHeight;

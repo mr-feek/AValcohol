@@ -3,9 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -40,13 +40,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-		if ($e instanceof APIException) {
+		if ($e instanceof APIException ||
+			$e instanceof ModelNotFoundException
+		) {
 			$data = array(
 				'success' => false,
 				'message' => $e->getMessage()
 			);
 
-			return response()->json([$data]);
+			$code = $e->getCode();
+
+			// model not found exception's code is 0 for some reason..
+			if ($code == 0) {
+				$code = 404;
+			}
+
+			return response()->json([$data])->setStatusCode($code);
 		}
 
         return parent::render($request, $e);

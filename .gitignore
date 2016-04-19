@@ -2,6 +2,7 @@ vendor/
 node_modules/
 css/
 sass/.sass-cache/
+vendors/sass/.sass-cache/
 .idea/
 local/
 composer.lock
@@ -12,3 +13,5 @@ config.codekit
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+storage/
+composer-setup.php

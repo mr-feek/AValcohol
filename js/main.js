@@ -10,11 +10,12 @@ require.config({
 		'foundationEqualizer' : '../vendor/foundation/js/foundation/foundation.equalizer',
 		'foundationOffCanvas': 	'../vendor/foundation/js/foundation/foundation.offcanvas',
 		'modernizr' : 			'../vendor/modernizr/modernizr',
-		'slick': 				'../vendor/slick-carousel/slick/slick',
 		'text': 				'../vendor/requirejs-text/text',
 		'tpl': 					'../vendor/requirejs-tpl/tpl',
 		'async': 				'../vendor/requirejs-plugins/src/async',
-		'stripe':				'https://js.stripe.com/v2/?noext'
+		'stripe':				'https://js.stripe.com/v2/?noext',
+		'moment':				'../vendor/moment/moment',
+		'pickaday':				'../vendor/pikaday/pikaday'
 	},
 	shim: {
 		underscore: {
@@ -43,7 +44,7 @@ require.config({
 			deps: ['foundation']
 		},
 	},
-	deps: ['jquery', 'underscore', 'slick']
+	deps: ['jquery', 'underscore']
 });
 
 require([
@@ -53,8 +54,8 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'collections/Cart',
-	'models/User',
-	'models/Config',
+	'../shared/js/models/User',
+	'../shared/js/models/Config',
 	'foundation',
 	'foundationOffCanvas'
 ], function (
@@ -76,10 +77,10 @@ require([
 			rootView: app.rootView
 		});
 
-		app.router = new Router({ controller: controller });
 		app.cart = new Cart();
 		app.user = User.findOrCreate({});
 		app.rootView.render();
+		app.router = new Router({ controller: controller });
 	});
 
 	// screw it, we're waiting for config to fetch before starting app
@@ -105,5 +106,15 @@ require([
 					'height' : 'initial'
 				});
 			})
+	}).error(function(response) {
+		if (response.status === 503) {
+			// api is down for maintenance
+			$('body').html(
+				'<div style="text-align:center;">' +
+				'<h1>We Are Currently Down For Maintenance.</h1>' +
+				'<p>Please check back soon - Aqua Vitae</p>' +
+				'</div>'
+			);
+		}
 	});
 });

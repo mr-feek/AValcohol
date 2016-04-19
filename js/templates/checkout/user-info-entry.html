@@ -2,34 +2,42 @@
 	<legend>Customer Information</legend>
 
 	<div class="row">
-		<div class="columns small-6">
+		<div class="columns medium-6">
 			<label>First Name
-				<input model_attribute="first_name" type="text" placeholder="First Name" value="<%= first() %>"/>
+				<input name="fname" model_attribute="first_name" type="text" placeholder="First Name" value="<%= first() %>"/>
 			</label>
 		</div>
-		<div class="columns small-6">
+		<div class="columns medium-6">
 			<label>Last Name
-				<input model_attribute="last_name" type="text" placeholder="Last Name" value="<%= last() %>"/>
+				<input name="lname" model_attribute="last_name" type="text" placeholder="Last Name" value="<%= last() %>"/>
 			</label>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="columns small-6">
+		<div class="columns medium-6">
 			<label>Phone Number
-				<input class="phone" model_attribute="phone_number" type="text" placeholder="Phone Number" value="<%= phone() %>"/>
+				<input name="phone" class="phone" model_attribute="phone_number" type="text" placeholder="Phone Number" value="<%= phone() %>"/>
 			</label>
 		</div>
-		<div class="columns small-6">
+		<div class="columns medium-6">
 			<label>Email Address
-				<input model_attribute="email" type="text" placeholder="Email Address" value="<%= email() %>"/>
+				<input name="email" model_attribute="email" type="text" placeholder="Email Address" value="<%= email() %>"/>
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns medium-6">
+			<label>Date of Birth
+				<input name="dob" class="dob" model_attribute="date_of_birth" value="<%= dob() %>"/>
 			</label>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="columns small-12">
-			<a href="#" class="button save">Save Customer Information</a>
+			<a href="#" class="button save">Continue to Address Information</a>
 		</div>
 	</div>
 </fieldset>

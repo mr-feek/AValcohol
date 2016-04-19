@@ -1,0 +1,8 @@
+Your order is on the way! Keep an eye on your email (<%= user.email %>) for a receipt, it should arrive any minute now.
+
+
+<h2>Review</h2>
+<p>Order ID: <%= order.id %></p>
+<p>Name: <%= user.first_name + " " + user.last_name %></p>
+<p>Address: <%= address.get('street') %></p>
+<p>Products: <%= getProductInfo() %></p>

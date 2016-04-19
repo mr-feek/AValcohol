@@ -20,10 +20,13 @@ define([
 
 		initialize: function(options) {
 			this.rootView = options.rootView;
+
+			_.bindAll(this, 'showHome');
 		},
 
 		showHome: function() {
-			this.rootView.getRegion('main').show(new MVPHomeView());
+			var region = this.rootView.getRegion('main');
+			region.show(new MVPHomeView());
 		},
 
 		showUserHome: function(endpoint) {
@@ -37,7 +40,8 @@ define([
 		},
 
 		showCheckout: function() {
-			this.rootView.getRegion('main').show(new CheckoutView());
+			var region = this.rootView.getRegion('main');
+			region.show(new CheckoutView({	region: region }));
 		}
 	});
 

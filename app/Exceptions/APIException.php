@@ -18,5 +18,9 @@ namespace App\Exceptions;
  */
 class APIException extends \Exception
 {
-
+	public function __construct($message = '', $code = 400)
+	{
+		$this->message = $message;
+		$this->code = $code;
+	}
 }

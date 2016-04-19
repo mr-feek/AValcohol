@@ -8,16 +8,23 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Http\Traits\UserTrait;
 use Illuminate\Http\Request;
+use App\Http\Services\UserService;
 
 class UserController extends Controller
 {
-	use UserTrait;
 
-	public function create(Request $request) {
-		$user = $this->createUser($request->input());
+	public function create(Request $request, UserService $service) {
+		$this->validate($request, [
+			'email' => 'required|email',
+			'first_name' => 'required|alpha',
+			'last_name' => 'required|alpha',
+			'phone_number' => 'required|digits:10',
+			'date_of_birth' => 'required|date|isTwentyOne'
+		]);
+
+		$user = $service->create($request->input());
+		//$user->profile; // force inclusion
 
 		return response()->json([
 			'success' => true,
@@ -25,8 +32,16 @@ class UserController extends Controller
 		]);
 	}
 
-	public function update(Request $request) {
-		$user = $this->updateUser($request->input());
+	public function update(Request $request, UserService $service) {
+		$this->validate($request, [
+			'email' => 'email',
+			'first_name' => 'alpha',
+			'last_name' => 'alpha',
+			'phone_number' => 'digits:10',
+			'date_of_birth' => 'required|date|isTwentyOne'
+		]);
+
+		$user = $service->update($request->input());
 		return response() ->json([
 			'success' => true,
 			'user' => $user

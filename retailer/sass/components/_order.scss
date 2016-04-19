@@ -1,0 +1,70 @@
+.order {
+	margin: 1rem;
+	-webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	-webkit-border-radius: $button-radius;
+	-moz-border-radius: $button-radius;
+	border-radius: $button-radius;
+	background-color: white;
+
+	.user-info {
+		background-color: $dark-text-color;
+		color: white;
+		padding: .5rem;
+
+		span.label {
+			background-color: lighten($dark-text-color, 10);
+			color: $light-text-color;
+		}
+
+		span {
+			font-size: .75rem;
+		}
+
+		span.coming-soon {
+			background-color: white;
+			color: $dark-text-color;
+			font-size: rem-calc(8px);
+		}
+	}
+
+	.product {
+		padding: .5rem;
+		border-bottom: 1px dotted $light-text-color;
+
+		.product-picture {
+			max-height: 70px;
+		}
+
+		.title {
+			font-weight: bold;
+		}
+	}
+
+	.note {
+		padding: 1rem;
+
+		span.label {
+			background-color: lighten($light-text-color, 10);
+			color: $light-text-color;
+		}
+	}
+
+	.footer {
+		border-top: 2px solid $dark-text-color;
+		padding-top: 1rem;
+
+		span.label {
+			background-color: lighten($light-text-color, 10);
+			color: $light-text-color;
+			margin-left: 1rem;
+			margin-right: .25rem;
+			vertical-align: middle;
+		}
+
+		.button {
+			margin-left: 1rem;
+		}
+	}
+}

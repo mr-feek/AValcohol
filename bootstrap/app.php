@@ -4,6 +4,15 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 Dotenv::load(__DIR__.'/../');
 
+/**
+ * apparently 5.2 should load dotenv this way, but namespace is wrong or something for me
+ * try {
+(new Dotenv\Dotenv(__DIR__.'/../'))->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+//
+}
+ */
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -66,7 +75,10 @@ $app->singleton(
 
 // these can be called by specific routes
 $app->routeMiddleware([
-	'delivery-hours' => App\Http\Middleware\DeliveryHours::class
+	'auth' => App\Http\Middleware\Authenticate::class,
+	'delivery-hours' => App\Http\Middleware\DeliveryHours::class,
+	'jwt.auth'    => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+	//'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
 ]);
 
 /*
@@ -80,11 +92,17 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
-$app->register(\Laravel\Cashier\CashierServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 
-if ($app->environment() !== 'production') {
+// 3rd party
+$app->register(\Laravel\Cashier\CashierServiceProvider::class);
+//$app->register(Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class);
+// commenting this out for now cause it does NOT work with lumen 5.2
+//$app->register(Rdehnhardt\MaintenanceMode\Providers\MaintenanceModeServiceProvider::class);
+
+if ($app->environment() === 'local') {
 	$app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 	$app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
 }

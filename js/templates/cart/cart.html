@@ -4,7 +4,7 @@
 			<i class="fi-arrow-left"></i>
 			Continue Shopping
 		</a>
-		<a href="#" class="button checkout">
+		<a href="#" class="button go-to-checkout">
 			Checkout
 			<i class="fi-arrow-right"></i>
 		</a>
@@ -19,7 +19,7 @@
 	<div class="totals">
 		<div class="clearfix total">
 			<span class="left">Subtotal</span>
-			<span class="right">$<%= subtotal() %></span>
+			<span class="right subtotal">$<%= subtotal() %></span>
 		</div>
 		<div class="clearfix total">
 			<span class="left">Tax</span>
@@ -32,12 +32,12 @@
 		<div class="clearfix total">
 			<strong>
 				<span class="left">Total</span>
-				<span class="right">$<%= subtotal() %></span>
+				<span class="right">$0.00</span>
 			</strong>
 		</div>
 	</div>
 
-	<a href="#" class="button checkout">
+	<a href="#" class="button go-to-checkout">
 		Checkout
 		<i class="fi-arrow-right">
 	</a>

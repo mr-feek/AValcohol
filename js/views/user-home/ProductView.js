@@ -22,6 +22,23 @@ define([
 			'click @ui.addToCart' : 'addToCart'
 		},
 
+		modelEvents: {
+			'change:inCart' : 'inCartChange'
+		},
+
+		/**
+		 * update the view to reflect whether or not this model is in the cart
+		 * @param model
+		 * @param inCart
+		 */
+		inCartChange: function(model, inCart) {
+			if (inCart) {
+				this.$el.addClass('in-cart');
+			} else {
+				this.$el.removeClass('in-cart');
+			}
+		},
+
 		ui: {
 			addToCart: '.button'
 		},
@@ -29,7 +46,11 @@ define([
 		templateHelpers: function() {
 			var view = this;
 			return {
-				img_url: '/img/products/' + view.model.get('image_url')
+				img_url: '/img/products/' + view.model.get('image_url'),
+				price: view.model.get('pivot').sale_price,
+				contains: view.model.get('contains'),
+				ounces: view.model.get('ounces'),
+				container: view.model.get('container')
 			}
 		},
 
@@ -38,18 +59,24 @@ define([
 
 		addToCart: function() {
 			this.model.set('inCart', true);
-			App.cart.push(this.model);
+
+			/**
+			 * Delaying this because app.cart.push is expensive and slows down the animation of
+			 * showing the cart. not ideal but it'll do for now
+			 */
+			_.delay(function() {
+				App.cart.push(this.model);
+			}.bind(this), 300);
+
 			App.rootView.openOffCanvas(); // show the cart
 		},
 
 		/**
-		 * add/remove in-cart clsss to show whether or not an item is currently in the cart
+		 * add in-cart clsss to show whether or not an item is currently in the cart
 		 */
 		onRender: function() {
 			if (this.model.get('inCart')) {
 				this.$el.addClass('in-cart');
-			} else {
-				this.$el.removeClass('in-cart');
 			}
 		}
 	});

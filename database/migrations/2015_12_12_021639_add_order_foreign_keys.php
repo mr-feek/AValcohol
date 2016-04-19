@@ -13,9 +13,9 @@ class AddOrderForeignKeys extends Migration
 	public function up()
 	{
 		Schema::table('orders', function(Blueprint $table) {
-			$table->foreign('product_id')->references('id')->on('products');
-			$table->foreign('user_id')->references('id')->on('users');
-			$table->foreign('user_address_id')->references('id')->on('user_addresses');
+			$table->foreign('product_id')->references('id')->on('products') ->onDelete('cascade');
+			$table->foreign('user_id')->references('id')->on('users') ->onDelete('cascade');
+			$table->foreign('user_address_id')->references('id')->on('user_addresses') ->onDelete('cascade');
 		});
 	}
 
@@ -27,7 +27,7 @@ class AddOrderForeignKeys extends Migration
 	public function down()
 	{
 		Schema::table('orders', function(Blueprint $table) {
-			$table->dropForeign('orders_product_id_foreign');
+			//$table->dropForeign('orders_product_id_foreign'); // dropped in later migration
 			$table->dropForeign('orders_user_id_foreign');
 			$table->dropForeign('orders_user_address_id_foreign');
 		});

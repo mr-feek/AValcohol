@@ -12,32 +12,42 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->welcome();
+    return 'sup pluto';
 });
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('all', 'ProductController@getAll');
-	$app->get('featured', 'ProductController@getAllFeatured');
-	$app->get('beer', 'ProductController@getAllBeer');
+	$app->get('', 'ProductController@getAllProductsForAddress');
+	//$app->get('featured', 'ProductController@getAllFeatured');
+	//$app->get('beer', 'ProductController@getAllBeer');
 });
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'AddressController@create');
-	$app->put('{id}', 'AddressController@update');
+	// for now, because we don't have user accounts and can't enforce security,
+	// all updated addresses will be treated as creating a new address
+	//$app->put('{id}', 'AddressController@update');
+	$app->put('{id}', 'AddressController@create');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
-
-	// To Do: ADMIN AUTH
-	$app->get('pending-and-out-for-delivery', 'OrderController@getAllPendingAndOutForDelivery');
-	$app->get('{id}', 'OrderController@getfullOrderInfo');
-	$app->post('status', 'OrderController@updateStatus');
+	$app->put('status/{id}', ['uses' => 'OrderStatusController@update']);
 });
 
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
+});
+
+$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('login', 'VendorController@login');
+	//$app->get('orders', 'VendorController@getAllOrders');
+	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
+});
+
+$app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
+	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

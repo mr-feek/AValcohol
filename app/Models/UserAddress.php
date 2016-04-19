@@ -8,7 +8,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,6 +21,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property integer $user_id
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $order
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereZipcode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserAddress whereUserId($value)
+ * @mixin \Eloquent
  */
 class UserAddress extends Model
 {
