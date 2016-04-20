@@ -35,6 +35,7 @@
             $(document).ready(function() {
                 $("#signature").jSignature();
             })
+ 
             $("#done").click(function () {
                 $("#buttons").hide();
                 window.navigator.vibrate(300);
@@ -55,15 +56,19 @@
                     }
                 }, 1200);
             })
+
             $("#clear").click(function () {
-            $("#signature").jSignature("reset");
+            	$("#signature").jSignature("reset");
             })
+
             $("#pictureInput").change(function() {
                 previewFile();
             })
+
             $("#data").submit(function() {
                 return confirm('INTERNAL: Confirm Submission');
             })
+
             //https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
             function previewFile() {
                 var preview = $("#preview");
