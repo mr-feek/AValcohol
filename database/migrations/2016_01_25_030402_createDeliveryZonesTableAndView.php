@@ -23,12 +23,12 @@ class CreateDeliveryZonesTableAndView extends Migration
         
         $view = <<<SQL
             CREATE VIEW delivery_zones_astext AS 
-                SELECT avalcohol.delivery_zones.id AS id,
-                    avalcohol.delivery_zones.name AS name,
-                    st_astext(avalcohol.delivery_zones.location) AS points,
-                    avalcohol.delivery_zones.location AS location,
-                    avalcohol.delivery_zones.created_at AS created_at,
-                    avalcohol.delivery_zones.updated_at AS updated_at from avalcohol.delivery_zones;
+                SELECT delivery_zones.id AS id,
+                    delivery_zones.name AS name,
+                    st_astext(delivery_zones.location) AS points,
+                    delivery_zones.location AS location,
+                    delivery_zones.created_at AS created_at,
+                    delivery_zones.updated_at AS updated_at from delivery_zones;
 SQL;
         DB::statement($view);
     }
