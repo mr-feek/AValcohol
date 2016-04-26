@@ -2,7 +2,6 @@
 
 use App\Models\DeliveryZone;
 use App\Models\DeliveryZone\Point;
-use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 /**
  * Created by PhpStorm.
@@ -12,12 +11,18 @@ use \Laravel\Lumen\Testing\DatabaseTransactions;
  */
 class DeliveryZoneTest extends TestCase
 {
-	/*
-	public function testDoesContainPoint() {
-		$zone = DeliveryZone::create([
-			'name' => 'NewZone',
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+
+	public function setup() {
+		parent::setup();
+		DeliveryZone::create([
+			'name' => 'Test1',
 			'points' => [new Point(0,0), new Point(0,4), new Point(4,4), new Point(4, 0)]
 		]);
+	}
+
+	public function testDoesContainPoint() {
+		$zone = DeliveryZone::where(['name' => 'Test1'])->first();
 
 		$inZone = $zone->doesContainPoint(new Point(1, 1));
 		$notInZone = $zone->doesContainPoint(new Point(4,5));
@@ -25,14 +30,8 @@ class DeliveryZoneTest extends TestCase
 		$this->assertTrue($inZone);
 		$this->assertFalse($notInZone);
 	}
-	*/
 
 	public function testGetZonesContainingPoint() {
-		$zone = DeliveryZone::create([
-			'name' => 'NewZone',
-			'points' => [new Point(0,0), new Point(0,4), new Point(4,4), new Point(4, 0)]
-		]);
-
 		$zone = DeliveryZone::getZonesContainingPoint(new Point(1, 1));
 		$noZone = DeliveryZone::getZonesContainingPoint(new Point(4,5));
 

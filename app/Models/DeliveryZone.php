@@ -38,6 +38,18 @@ class DeliveryZone extends Model
         };
         parent::saving($conversion);
     }
+
+	/**
+	 * ensures points attribute is fetched. there has to be a better way but this works for now
+	 * IE $this->fromView()->get();
+	 * @param $query
+	 * @return mixed
+	 *
+	public function scopeFromView($query)
+	{
+		return $query->from(self::READ_TABLE);
+	}
+	 * */
     
     /**
      * Returns the delivery zones containing this point
@@ -55,33 +67,28 @@ class DeliveryZone extends Model
     }
     
     /**
-     *
+     * returns whether or not this delivery zone contains the given point
      * @param Point $point
      * @return bool
      */
     public function doesContainPoint(Point $point)
     {
-        static::validatePolygon($points = $this->points);
-        return static::pointInPolygon($point, is_array($points) ? $points : array());
+        return static::pointInPolygon($point, $this->points);
     }
-    
-    //Custom mutator
-    public function setPointsAttribute($points)
-    {
-        $this->attributes['points'] = static::getPoints($points);
-    }
-    
-    public function addPoint(Point $point)
+
+	/**
+    protected function addPoint(Point $point)
     {
         $this->attributes['points'][] = $point;
     }
-    
-    public function deletePoint(Point $point)
+
+    protected function deletePoint(Point $point)
     {
         if(($key = array_search($point, $this->attributes['points'])) !== false) {
             unset($this->attributes['points'][$key]);
         }
     }
+	 * */
     
     private static function validatePolygon(array $points)
     {
@@ -90,15 +97,20 @@ class DeliveryZone extends Model
         }
     }
     
-    //Overridden to properly hydrate points property when retrieved from db
+    //Overridden to properly hydrate points models when retrieved from db
     public function setRawAttributes(array $attributes, $sync = false) 
     {
-        if(array_key_exists('points', $attributes)) {
+        if (array_key_exists('points', $attributes)) {
             $attributes['points'] = static::getPoints($attributes['points']);
         }
         parent::setRawAttributes($attributes, $sync);
     }
-    
+
+	/**
+	 * either returns the array or parses the polygon string into an array of points
+	 * @param $points
+	 * @return array of points
+	 */
     private static function getPoints($points)
     {
         if(is_array($points)) {
@@ -107,14 +119,12 @@ class DeliveryZone extends Model
             return static::parsePolygon($points);
         }
     }
-    
-    //Alias
-    public function setPolygon($points)
-    {
-        return $this->setPoints($points);
-    }
-    
-    //Parses points into array from MySQL POLYGON() function
+
+	/**
+	 * Parses supplied MySQL POLYGON() function into an array of Point models
+	 * @param $polygon
+	 * @return array
+	 */
     public static function parsePolygon($polygon)
     {
         if(substr($polygon,0,9) === 'POLYGON((') {
@@ -131,15 +141,26 @@ class DeliveryZone extends Model
         }
     }
 
+	/**
+	 * unsets the points attribute because that only exists within the view (read only)
+	 * sets the location polygon attribute to be persisted into the write table
+	 * @param array $attributes
+	 */
     private static function convertPoints(array &$attributes)
     {
-        if(array_key_exists('points', $attributes)) {
+        if (array_key_exists('points', $attributes)) {
             unset($attributes['location']);
             $attributes['location'] = DB::raw(static::getPolygonQueryString($attributes['points']));
             unset($attributes['points']);
         }
     }
-    
+
+	/**
+	 * Converts an array of point models into a query string to be used in the db layer
+	 * @param $points
+	 * @return string
+	 * @throws FormatException
+	 */
     private static function getPolygonQueryString($points)
     {
         static::validatePolygon($points);
@@ -148,12 +169,13 @@ class DeliveryZone extends Model
         $polygonQuery = "ST_GEOMFROMTEXT(\"POLYGON(({$pointsStr}))\")";
         return $polygonQuery;
     }
-    
-    /**
-     * @param Point $p
-     * @param array polygon Array of type Point
-     * @url http://stackoverflow.com/questions/14818567/point-in-polygon-algorithm-giving-wrong-results-sometimes
-     */
+
+	/**
+	 * @param Point $p
+	 * @param array polygon Array of type Point
+	 * @url http://stackoverflow.com/questions/14818567/point-in-polygon-algorithm-giving-wrong-results-sometimes
+	 * @return bool
+	 */
     public static function pointInPolygon(Point $p, array $polygon)
     {
         $c = 0;
@@ -176,7 +198,7 @@ class DeliveryZone extends Model
             $p1 = $p2;
         }
         // if the number of edges we passed through is even, then it's not in the poly.
-        return $c%2!=0;
+        return $c % 2 != 0;
     }
     
     //Convert to write table before save and revert back for reads
