@@ -1,7 +1,5 @@
 <?php
-
-echo "hey";
-
-var_dump($_POST);
+    //Dummy file
+    var_dump($_POST);
 ?>
 

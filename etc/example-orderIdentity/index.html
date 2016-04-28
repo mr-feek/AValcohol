@@ -1,85 +1,90 @@
 <!DOCTYPE html>
 <html>
     <body>
-			<h1>Thank you for your order.</h1>
+        <h1>Thank you for your order.</h1>
 
-			<h2>Please sign here.</h2>
-			<div id="signature"></div>
+        <h2>Please sign here.</h2>
+        <div id="signature"></div>
+            
+        <div id="svgField"></div>
+        
+        <div id="buttons">
+            <button style="float: right" id="done">Done</button>
+            <button style="float: right" id="clear">Clear</button>
+        </div>
+    
+    	<div id="uploadPicture" style="display: none">
+    	    <h2>Upload License Picture</h2>
+            <input type="file" id="pictureInput" />
+            <img id="preview" src="" height="200" alt="Image Preview">
+        </div>
+    
+    	<form id="data" method="POST" action="test.php">
+    	    <input type="hidden" id="svgData" name="svgData" value="" />
+    	    <input type="hidden" id="imageData" name="imageData" />
+            <input id="submit" type="submit" style="display:none" value="Submit" />
+        </form>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <!-- you load jquery somewhere above here ... -->
+        <!--[if lt IE 9]>
+            <script type="text/javascript" src="libs/flashcanvas.js"></script>
+        <![endif]-->
+    	<script src="vendor/jSignature/jSignature.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#signature").jSignature();
+            })
+ 
+            $("#done").click(function () {
+                $("#buttons").hide();
+                window.navigator.vibrate(300);
+                setTimeout(function() {
+                    if(!confirm("INTERNAL: Is this okay?")) {
+                        $("#signature").jSignature("reset");
+                        $("#buttons").show();
+                    } else {
+                        var data = $("#signature").jSignature("getData", "svg");
+                        $("#svgData").val(data);
+                        var imgData = $("#signature").jSignature("getData", "svgbase64");
+                        var image = new Image();
+                        image.src = "data:" + imgData[0] + "," + imgData[1];
+                        $("#signature").empty();
+                        $("#buttons").empty();
+                        $(image).appendTo("#signature");
+                        $("#uploadPicture").show();
+                    }
+                }, 1200);
+            })
 
-			<div id="svgField"></div>
+            $("#clear").click(function () {
+            	$("#signature").jSignature("reset");
+            })
 
-			<div id="buttons">
-				<button style="float: right" id="done">Done</button>
-				<button style="float: right" id="clear">Clear</button>
-		  </div>
+            $("#pictureInput").change(function() {
+                previewFile();
+            })
 
-			<div id="uploadPicture" style="display: none">
-        <h2>Upload License Picture</h2>
-				<input type="file" id="pictureInput" />
-				<img id="preview" src="" height="200" alt="Image Preview">
-			</div>
+            $("#data").submit(function() {
+                return confirm('INTERNAL: Confirm Submission');
+            })
 
-			<form id="data" method="POST" action="test.php">
-				  <input type="hidden" id="svgData" name="svgData" value="" />
-					<input type="hidden" id="imageData" name="imageData" />
-          <input id="submit" type="submit" style="display:none" value="Submit" />
-			</form>
-
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-			<!-- you load jquery somewhere above here ... -->
-		  <!--[if lt IE 9]>
-		  <script type="text/javascript" src="libs/flashcanvas.js"></script>
-		  <![endif]-->
-			<script src="vendor/jSignature/jSignature.min.js"></script>
-			<script>
-			  	$(document).ready(function() {
-			      $("#signature").jSignature();
-			  	})
-					$("#done").click(function () {
-            $("#buttons").hide();
-						window.navigator.vibrate(300)
-						setTimeout(function() {
-							if(!confirm("INTERNAL: Is this okay?")) {
-								$("#signature").jSignature("reset");
-                $("#buttons").show();
-							} else {
-								var data = $("#signature").jSignature("getData", "svg");
-								$("#svgData").val(data);
-								var imgData = $("#signature").jSignature("getData", "svgbase64");
-								var image = new Image();
-								image.src = "data:" + imgData[0] + "," + imgData[1];
-								$("#signature").empty();
-								$("#buttons").empty();
-								$(image).appendTo("#signature");
-                $("#uploadPicture").show();
-							}
-						}, 1200);
-					})
-					$("#clear").click(function () {
-						$("#signature").jSignature("reset");
-					})
-          $("#pictureInput").change(function() {
-            previewFile();
-          })
-          $("#data").submit(function() {
-            return confirm('INTERNAL: Confirm Submission');
-          })
-					//https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
-					function previewFile() {
-					  var preview = $("#preview");
-					  var file    = document.querySelector('input[type=file]').files[0];
-					  var reader  = new FileReader();
-
-					  reader.addEventListener("load", function () {
-					    preview.attr("src", reader.result);
-              $("#imageData").val(reader.result.split(',')[1]);
-              $("#submit").show();
-					  }, false);
-
-					  if (file) {
-					    reader.readAsDataURL(file);
-					  }
-					}
-		  </script>
+            //https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+            function previewFile() {
+                var preview = $("#preview");
+                var file    = document.querySelector('input[type=file]').files[0];
+                var reader  = new FileReader();
+        
+                reader.addEventListener("load", function () {
+                    preview.attr("src", reader.result);
+                    $("#imageData").val(reader.result.split(',')[1]);
+                    $("#submit").show();
+                }, false);
+        
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
     </body>
 </html>
