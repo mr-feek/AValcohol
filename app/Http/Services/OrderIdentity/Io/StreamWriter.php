@@ -24,8 +24,8 @@ class StreamWriter
         if($fp == false) {
             return false;
         }
-        while(!$stream->endOfStream()) {
-            fwrite($fp, $stream->next());
+        while(($next = $stream->next()) !== null) {
+            fwrite($fp, $next);
         }
         return true;
     }
