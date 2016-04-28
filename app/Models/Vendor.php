@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property integer $delivery_zone_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereDeliveryZoneId($value)
  */
 class Vendor extends Model
 {

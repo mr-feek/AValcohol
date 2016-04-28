@@ -37,6 +37,7 @@ use Laravel\Cashier\Billable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCardBrand($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCardLastFour($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\UserAddress $address
  */
 class User extends Model
 {
