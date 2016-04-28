@@ -19,6 +19,10 @@ class AddressControllerTest extends TestCase
 		$address->state = 'PA';
 		$address->zipcode = '16801';
 		$address->street = '810 Walnut Street';
+		$address->location = [
+			'longitude' => 0,
+			'latitude' => 1
+		];
 
 		$data = $address->toArray();
 		$data['user']['id'] = 1;
@@ -31,6 +35,7 @@ class AddressControllerTest extends TestCase
 			'state' => $address->state,
 			'zipcode' => $address->zipcode,
 			'street' => $address->street,
+			'location' => $address->location,
 			'user_id' => 1
 		]);
 	}
@@ -46,6 +51,7 @@ class AddressControllerTest extends TestCase
 		$blacklisted->state = 'blacklist, USA';
 		$blacklisted->zipcode = '16801';
 		$blacklisted->reason = 1;
+		$blacklisted->delivery_zone_id = 1; // temp
 		$blacklisted->save();
 
 		$address = new UserAddress();
@@ -53,6 +59,10 @@ class AddressControllerTest extends TestCase
 		$address->city = $blacklisted->city;
 		$address->state = $blacklisted->state;
 		$address->zipcode = $blacklisted->zipcode;
+		$address->location = [
+			'latitude' => 0,
+			'longitude' => 0
+		];
 		// don't save here.
 
 		$data = $address->toArray();

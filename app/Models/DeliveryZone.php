@@ -61,6 +61,7 @@ class DeliveryZone extends Model
         $latitude =  $point->latitude;
         $longitude = $point->longitude;
 		$where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
+		// does this need to be sanitized?
         $results = static::whereRaw($where)->get();
 
 		return $results;
@@ -150,6 +151,7 @@ class DeliveryZone extends Model
     {
         if (array_key_exists('points', $attributes)) {
             unset($attributes['location']);
+			// can this be SQL injected since it is a raw query???
             $attributes['location'] = DB::raw(static::getPolygonQueryString($attributes['points']));
             unset($attributes['points']);
         }

@@ -40,6 +40,9 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	public function create(User $user, $data)
 	{
 		$this->model = $user->address()->save(new UserAddress($data));
+		$loc = $this->model->location;
+		UserAddress::convertMySQLPointAttributeToPointModel($loc);
+		$this->model->location = $loc;
 		return $this->model;
 	}
 

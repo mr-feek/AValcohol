@@ -32,7 +32,11 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 		'street' => $faker->streetName(),
 		'city' => $faker->city(),
 		'state' => $faker->citySuffix(),
-		'zipcode' => $faker->randomNumber(5)
+		'zipcode' => $faker->randomNumber(5),
+		'location' => [
+			'latitude' => $faker->latitude,
+			'longitude' => $faker->longitude
+		]
 	];
 });
 
@@ -70,15 +74,31 @@ $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker
 });
 
 $factory->define(App\Models\Vendor::class, function(\Faker\Generator $faker) {
+	$zone = factory(\App\Models\DeliveryZone::class, 1)->create();
 	return [
 		'name' => $faker->company,
 		'address' => $faker->address,
-		'phone_number' => $faker->phoneNumber
+		'phone_number' => $faker->phoneNumber,
+		'delivery_zone_id' => $zone->id
 	];
 });
 
 $factory->define(App\Models\VendorSetting::class, function(\Faker\Generator $faker) {
 	return [
 
+	];
+});
+
+$factory->define(\App\Models\DeliveryZone::class, function(\Faker\Generator $faker) {
+	return [
+		'name' => 'FactoryZone',
+		'points' => [
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude)
+		]
 	];
 });

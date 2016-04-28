@@ -18,6 +18,8 @@ class AddressController extends Controller
 			'city' => 'required',
 			'state' => 'required',
 			'zipcode' => 'required',
+			'location.longitude' => 'required',
+			'location.latitude' => 'required',
 			'user.id' => 'required'
 		]);
 

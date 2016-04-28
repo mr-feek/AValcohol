@@ -32,11 +32,15 @@ class DeliveryZoneTest extends TestCase
 	}
 
 	public function testGetZonesContainingPoint() {
-		$zone = DeliveryZone::getZonesContainingPoint(new Point(1, 1));
-		$noZone = DeliveryZone::getZonesContainingPoint(new Point(4,5));
+		$inZone = DeliveryZone::getZonesContainingPoint(new Point(1, 1));
+		$notInTestZone = DeliveryZone::getZonesContainingPoint(new Point(4,5));
 
-		$this->assertFalse($zone->isEmpty());
-		$this->assertTrue($noZone->isEmpty());
+		$this->assertFalse($inZone->isEmpty());
+
+		// assert not of the zones returned are Test1
+		foreach ($notInTestZone as $zone) {
+			$this->assertNotEquals('Test1', $zone->name);
+		}
 
 		$zoneTwo = DeliveryZone::create([
 			'name' => 'Zone 2',
