@@ -68,7 +68,6 @@ class UserAddress extends Model
 	 */
 	static function convertLocationArrayAttributeToMySQLPoint(&$location) {
 		$locationAsPointModel = new Point($location['latitude'], $location['longitude']);
-		// THIS SHOULD BE SANITIZED. use DB::connection->getPDO()->quote() ? floatval() ?
 		$locationAsMySQLPoint = DB::raw("GEOMFROMTEXT('POINT($locationAsPointModel->latitude $locationAsPointModel->longitude)')");
 		$location = $locationAsMySQLPoint;
 	}

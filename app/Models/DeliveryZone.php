@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\APIException;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DeliveryZone\Point;
 use Illuminate\Support\Facades\DB;
@@ -38,18 +39,6 @@ class DeliveryZone extends Model
         };
         parent::saving($conversion);
     }
-
-	/**
-	 * ensures points attribute is fetched. there has to be a better way but this works for now
-	 * IE $this->fromView()->get();
-	 * @param $query
-	 * @return mixed
-	 *
-	public function scopeFromView($query)
-	{
-		return $query->from(self::READ_TABLE);
-	}
-	 * */
     
     /**
      * Returns the delivery zones containing this point
@@ -58,10 +47,9 @@ class DeliveryZone extends Model
      */
     public static function getZonesContainingPoint(Point $point)
     {
-        $latitude =  $point->latitude;
+        $latitude = $point->latitude;
         $longitude = $point->longitude;
 		$where = "ST_CONTAINS(location, POINT({$latitude}, {$longitude}))";
-		// does this need to be sanitized?
         $results = static::whereRaw($where)->get();
 
 		return $results;
@@ -167,6 +155,15 @@ class DeliveryZone extends Model
     {
         static::validatePolygon($points);
         array_push($points, $points[0]);
+
+		// lets just ensure these are floats to avoid sql injection...
+		foreach($points as $point) {
+			if (! ($point instanceof Point) ) {
+				// freak out!
+				throw new APIException('Point given not instance of point');
+			}
+		}
+
         $pointsStr = implode(',', $points);
         $polygonQuery = "ST_GEOMFROMTEXT(\"POLYGON(({$pointsStr}))\")";
         return $polygonQuery;
