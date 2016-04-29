@@ -11,14 +11,18 @@ define([
 			city: undefined,
 			street: undefined,
 			state: undefined,
-			zipcode: undefined
+			zipcode: undefined,
+			location: {
+				latitude: undefined,
+				longitude: undefined
+			}
 		},
 
 		parse: function(response, xhr) {
 			return response.address;
 		},
 
-		required: ['city', 'street', 'state'], // taking out zipcode for now since it has additional validator
+		required: ['city', 'street', 'state', 'zipcode'],
 
 		validate: function(attrs, options) {
 			var errors = [];
