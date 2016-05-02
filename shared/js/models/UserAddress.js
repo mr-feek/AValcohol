@@ -15,11 +15,16 @@ define([
 			location: {
 				latitude: undefined,
 				longitude: undefined
-			}
+			},
+			delivery_zone_id: undefined
 		},
 
 		parse: function(response, xhr) {
 			return response.address;
+		},
+
+		initialize: function() {
+			_.bindAll(this, 'getDeliveryZone');
 		},
 
 		required: ['city', 'street', 'state', 'zipcode'],
@@ -44,6 +49,23 @@ define([
 			}
 
 			return errors.length > 0 ? errors : null;
+		},
+
+		/**
+		 * retrieves and sets the delivery zone id attribute
+		 * @returns {*}
+		 */
+		getDeliveryZone: function() {
+			var promise = $.get(
+				'/api/address/delivery_zone', {
+					latitude: this.get('location')['latitude'],
+					longitude: this.get('location')['longitude']
+				}
+			);
+			promise.done(function(resp) {
+				this.set('delivery_zone_id', resp.delivery_zone_id);
+			}.bind(this));
+			return promise;
 		}
 	});
 

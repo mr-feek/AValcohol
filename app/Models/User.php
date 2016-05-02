@@ -60,4 +60,12 @@ class User extends Model
 	public function vendor() {
 		return $this->hasOne('App\Models\Vendor');
 	}
+
+	public function isVendor() {
+		if(is_null($this->vendor)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

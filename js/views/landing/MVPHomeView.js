@@ -48,20 +48,6 @@ define([
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
 			this.autocomplete = new google.maps.places.Autocomplete(input, options);
-
-			// load in last used address
-			this.place_id = localStorage.getItem('place_id');
-			this.street = localStorage.getItem('street');
-			this.city = localStorage.getItem('city');
-			this.state = localStorage.getItem('state');
-			this.zip = localStorage.getItem('zip');
-			this.longitude = localStorage.getItem('longitude');
-			this.latitude = localStorage.getItem('latitude');
-
-			// if there was a saved address, populate it into the textfield
-			if (this.street && this.city && this.state && this.zip) {
-				this.ui.streetAddress.val(this.street + ', ' + this.city + ', ' + this.state + ', ' + this.zip);
-			}
 		},
 
 		/**
@@ -86,56 +72,34 @@ define([
 		 */
 		updateUserAddress: function() {
 			var place = this.autocomplete.getPlace();
-			var street, city, state, zip, place_id, longitude, latitude;
-			if (!place) {
-				// this means that the place was cached via local storage (no keystrokes in the textbox)
-				street = this.street;
-				city = this.city;
-				state = this.state;
-				zip = this.zip;
-				longitude = this.longitude;
-				latitude = this.latitude;
-			} else {
-				place_id = place.place_id;
-				street = place.name;
-				city = place.vicinity;
-				longitude = place.geometry.location.lat();
-				latitude = place.geometry.location.lng();
+			var state, zip;
 
-				// bruteforce to find which element of the array is tha state / zip
-				// this could be more efficient
-				_.each(place.address_components, function(component) {
-					_.each(component.types, function(type) {
-						if (type === 'administrative_area_level_1') {
-							state = component.short_name;
-						}
-						else if(type === 'postal_code') {
-							zip = component.short_name;
-						}
-					});
+			// bruteforce to find which element of the array is tha state / zip
+			// this could be more efficient
+			_.each(place.address_components, function(component) {
+				_.each(component.types, function(type) {
+					if (type === 'administrative_area_level_1') {
+						state = component.short_name;
+					}
+					else if(type === 'postal_code') {
+						zip = component.short_name;
+					}
 				});
-			}
+			});
 
-			localStorage.setItem('place', place);
-			localStorage.setItem('place_id', place_id);
-			localStorage.setItem('street', street);
-			localStorage.setItem('city', city);
-			localStorage.setItem('state', state);
-			localStorage.setItem('zip', zip);
-			localStorage.setItem('longitude', longitude);
-			localStorage.setItem('latitude', latitude);
-
-			this.address.set('street', street);
-			this.address.set('city', city);
+			this.address.set('street', place.name);
+			this.address.set('city', place.vicinity);
 			this.address.set('state', state);
 			this.address.set('zipcode', zip);
 			this.address.set('location', {
-				'longitude': longitude,
-				'latitude': latitude
+				'longitude': place.geometry.location.lng(),
+				'latitude': place.geometry.location.lat()
 			});
 
 			if (this.address.isValid()) {
-				this.showUserHome();
+				this.address.getDeliveryZone().done(function() {
+					this.showUserHome();
+				}.bind(this));
 			}
 		},
 

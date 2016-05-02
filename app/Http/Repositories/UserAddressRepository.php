@@ -47,17 +47,6 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	}
 
 	/**
-	 * Determines if the given long / lat of the address is within our current delivery zone
-	 * @param $long
-	 * @param $lat
-	 * @return bool
-	 */
-	public function isInDeliveryZone($long, $lat) {
-		// to do
-		return true;
-	}
-
-	/**
 	 * Finds the address based on address Id and compares requesting user id with user id on record
 	 * @param $address
 	 * @param $user_id

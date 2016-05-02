@@ -17,4 +17,5 @@ interface VendorInterface
 	public function getProducts(Vendor $vendor);
 	public function getProduct(Vendor $vendor, $productId);
 	public function getAllPendingOrders(Vendor $vendor);
+	public function getByDeliveryZone($deliveryZoneId);
 }

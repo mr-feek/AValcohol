@@ -81,6 +81,17 @@ class AddressControllerTest extends TestCase
 
 	}
 
+	public function testGetDeliveryZoneID() {
+		$location = [
+			'latitude' => 0,
+			'longitude' => 0
+		];
+
+		$this->get('address/delivery_zone?latitude=' . $location['latitude'] . '&longitude=' . $location['longitude']);
+		$response = json_decode($this->response->getContent());
+		$this->assertNotNull($response->delivery_zone_id, 'No delivery zone contains point 0,0. This could be a flaky test, fix if so by creating a delivery zone containing this point beforehand.');
+	}
+
 /*
 	public function testUserCannotUpdateOtherUsersAddress() {
 		$address = UserAddress::find(1);

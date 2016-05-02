@@ -39,7 +39,7 @@ class UserAddress extends Model
 {
 	protected $table = 'user_addresses';
 
-	protected $fillable = ['street', 'city', 'state', 'zipcode', 'location'];
+	protected $fillable = ['street', 'city', 'state', 'zipcode', 'location', 'delivery_zone_id'];
 
 	public static function boot()
 	{

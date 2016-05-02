@@ -57,6 +57,7 @@ class DeliveryZone extends Model
     
     /**
      * returns whether or not this delivery zone contains the given point
+	 * php implementation rather than sql
      * @param Point $point
      * @return bool
      */
@@ -170,6 +171,7 @@ class DeliveryZone extends Model
     }
 
 	/**
+	 * php implementation rather than sql
 	 * @param Point $p
 	 * @param array polygon Array of type Point
 	 * @url http://stackoverflow.com/questions/14818567/point-in-polygon-algorithm-giving-wrong-results-sometimes
