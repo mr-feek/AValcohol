@@ -37,6 +37,7 @@ use Laravel\Cashier\Billable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCardBrand($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCardLastFour($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\UserAddress $address
  */
 class User extends Model
 {
@@ -58,5 +59,13 @@ class User extends Model
 
 	public function vendor() {
 		return $this->hasOne('App\Models\Vendor');
+	}
+
+	public function isVendor() {
+		if(is_null($this->vendor)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

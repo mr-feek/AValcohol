@@ -27,6 +27,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 	// all updated addresses will be treated as creating a new address
 	//$app->put('{id}', 'AddressController@update');
 	$app->put('{id}', 'AddressController@create');
+	$app->get('delivery_zone', 'AddressController@getDeliveryZoneID');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {

@@ -65,4 +65,14 @@ class VendorRepository extends BaseRepository implements VendorInterface
 		
 		return $orders;
 	}
+
+	/**
+	 * returns all vendors belonging to this delivery zone
+	 * @param $deliveryZoneId
+	 * @return Vendor|\Illuminate\Database\Query\Builder
+	 */
+	public function getByDeliveryZone($deliveryZoneId)
+	{
+		return $this->model->whereDeliveryZoneId($deliveryZoneId)->get();
+	}
 }

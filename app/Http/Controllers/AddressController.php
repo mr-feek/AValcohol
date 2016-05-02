@@ -18,6 +18,8 @@ class AddressController extends Controller
 			'city' => 'required',
 			'state' => 'required',
 			'zipcode' => 'required',
+			'location.longitude' => 'required',
+			'location.latitude' => 'required',
 			'user.id' => 'required'
 		]);
 
@@ -42,5 +44,27 @@ class AddressController extends Controller
 			'success' => true,
 			'address' => $address
 		);
+	}
+
+	public function getDeliveryZoneID(Request $request, UserAddressService $service) {
+		$this->validate($request, [
+			'longitude' => 'required',
+			'latitude' => 'required'
+		]);
+
+		$data = [
+			'location' => [
+				'longitude' => $request->input('longitude'),
+				'latitude' => $request->input('latitude')
+			]
+		];
+
+		$deliveryZoneId = $service->getDeliveryZoneID($data);
+
+		return response()->json([
+			'success' => true,
+			'delivery_zone_id' => $deliveryZoneId
+		]);
+
 	}
 }

@@ -19,7 +19,7 @@ class ProductControllerTest extends TestCase
 	}
 
 	public function testGetAllProductsForAddress() {
-		$this->get('product?address_id=' . $this->address->id);
+		$this->get('product?delivery_zone_id=' . $this->address->delivery_zone_id);
 
 		$this->seeJsonStructure([
 			'products' => [

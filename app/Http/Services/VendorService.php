@@ -20,14 +20,13 @@ class VendorService extends BaseService
 	}
 
 	/**
+	 * returns all vendors for the given delivery zone id
 	 * @param $address array
 	 * @return array
 	 */
 	public function getVendorsForAddress($address) {
-		$address = $this->addressRepo->getById($address['id']);
-
-		// to do. for now just returning vendor with id 1
-		return [$this->repo->getById(1)];
+		$deliveryZoneId = $address['delivery_zone_id'];
+		return $this->repo->getByDeliveryZone($deliveryZoneId);
 	}
 
 	/**

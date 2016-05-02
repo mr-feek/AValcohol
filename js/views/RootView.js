@@ -44,12 +44,6 @@ define([
 			// main region is populated by the router
 		},
 
-		scrollTo: function (selector) {
-			$('html, body').animate({
-				scrollTop: $(selector).offset().top
-			}, 500);
-		},
-
 		/**
 		 * closes the off canvas
 		 * @param bool cleanup, whether or not to empty the off canvas region
