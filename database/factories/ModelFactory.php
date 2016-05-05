@@ -38,7 +38,7 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 			'latitude' => $faker->latitude,
 			'longitude' => $faker->longitude
 		],
-		'delivery_zone_id' => \App\Models\DeliveryZone::orderByRaw('RAND()')->first()->id
+		'delivery_zone_id' => \App\Models\Vendor::orderByRaw('RAND()')->first()->delivery_zone_id
 	];
 });
 
