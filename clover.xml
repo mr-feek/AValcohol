@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1462477219">
+  <project timestamp="1462477219">
+    <file name="/Users/Feek/repos/AValcohol/app/fake_for_coverage.php">
+      <class name="fake_for_coverage" namespace="global" fullPackage="fake.for">
+        <metrics methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
+      </class>
+      <line num="11" type="method" name="thisIsFakeForCoverage" crap="2" count="0"/>
+      <line num="13" type="stmt" count="0"/>
+      <metrics loc="13" ncloc="7" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
+    </file>
+    <metrics files="1" loc="13" ncloc="7" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
+  </project>
+</coverage>
