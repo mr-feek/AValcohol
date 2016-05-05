@@ -41,14 +41,18 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 });
 
 $app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('login', 'VendorController@login');
 	//$app->get('orders', 'VendorController@getAllOrders');
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
+	$app->post('', 'VendorController@create');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
+});
+
+$app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('login', 'AuthController@login');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

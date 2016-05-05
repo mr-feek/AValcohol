@@ -3,8 +3,10 @@
 namespace App\Http\Repositories;
 
 use App\Exceptions\APIException;
+use App\Models\User;
 use App\Models\Vendor;
 use App\Http\Repositories\Interfaces\VendorInterface;
+use Illuminate\Support\Facades\Hash;
 
 class VendorRepository extends BaseRepository implements VendorInterface
 {
@@ -13,10 +15,20 @@ class VendorRepository extends BaseRepository implements VendorInterface
 		$this->model = $vendor;
 	}
 
-	public function login($username, $password) {
-
+	/**
+	 * @param User $user
+	 * @param $data
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
+	public function create(User $user, $data) {
+		$vendor = new Vendor($data);
+		return $user->vendor()->save($vendor);
 	}
 
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
 	public function getById($id) {
 		return $this->model = Vendor::findOrFail($id);
 	}
@@ -39,6 +51,12 @@ class VendorRepository extends BaseRepository implements VendorInterface
 		return $withoutVendorPrice;
 	}
 
+	/**
+	 * @param Vendor $vendor
+	 * @param $productId
+	 * @return mixed
+	 * @throws APIException
+	 */
 	public function getProduct(Vendor $vendor, $productId)
 	{
 		$product = $vendor->products()->where('product_id', $productId)->first();

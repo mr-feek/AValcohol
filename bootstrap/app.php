@@ -68,17 +68,13 @@ $app->singleton(
 // $app->middleware([
 //     // Illuminate\Cookie\Middleware\EncryptCookies::class,
 //     // Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-//     // Illuminate\Session\Middleware\StartSession::class,
-//     // Illuminate\View\Middleware\ShareErrorsFromSession::class,
 //     // Laravel\Lumen\Http\Middleware\VerifyCsrfToken::class,
 // ]);
 
 // these can be called by specific routes
 $app->routeMiddleware([
 	'auth' => App\Http\Middleware\Authenticate::class,
-	'delivery-hours' => App\Http\Middleware\DeliveryHours::class,
-	'jwt.auth'    => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
-	//'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
+	'delivery-hours' => App\Http\Middleware\DeliveryHours::class
 ]);
 
 /*
@@ -98,8 +94,8 @@ $app->register(App\Providers\AuthServiceProvider::class);
 
 // 3rd party
 $app->register(\Laravel\Cashier\CashierServiceProvider::class);
-//$app->register(Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class);
-// commenting this out for now cause it does NOT work with lumen 5.2
+$app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// commenting this out for now cause it does NOT work with lumen 5.2 (there is a fix in the issues though)
 //$app->register(Rdehnhardt\MaintenanceMode\Providers\MaintenanceModeServiceProvider::class);
 
 if ($app->environment() === 'local') {
