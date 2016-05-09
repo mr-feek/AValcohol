@@ -42,7 +42,7 @@ define([
 				type: Backbone.HasOne,
 				key: 'address',
 				relatedModel: UserAddress,
-				includeInJSON: false
+				includeInJSON: true
 			},
 		],
 
