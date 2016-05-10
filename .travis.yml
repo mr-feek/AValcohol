@@ -19,6 +19,7 @@ before_script:
 - npm install -g bower
 - bower install
 - npm install
+- npm install -g casperjs
 - gem install sass
 - cp .env.travis .env
 - mysql -u root -e 'create database AValcohol;'
