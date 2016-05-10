@@ -27,6 +27,7 @@ script:
 - php artisan migrate --env=testing --no-interaction -vvv
 - php artisan db:seed --env=testing --no-interaction -vvv
 - phpunit
+- npm test
 notifications:
   email: false
 services:

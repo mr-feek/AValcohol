@@ -5,6 +5,7 @@ sass/.sass-cache/
 vendors/sass/.sass-cache/
 .idea/
 local/
+tests/frontend/integration/images/
 composer.lock
 composer.phar
 passwords.secret
