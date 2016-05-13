@@ -1,4 +1,5 @@
 # AValcohol [![Build Status](https://magnum.travis-ci.com/fpm5022/AValcohol.svg?token=crFjMNDDdzj4qoYgDDWv&branch=master)](https://magnum.travis-ci.com/fpm5022/AValcohol)
+[![codecov](https://codecov.io/gh/feeekkk/AValcohol/branch/master/graph/badge.svg?token=QglFmQXnQH)](https://codecov.io/gh/feeekkk/AValcohol)
 ## Initializing this project locally:
 1. clone this repo
 2. open up terminal and navigate to the cloned repo

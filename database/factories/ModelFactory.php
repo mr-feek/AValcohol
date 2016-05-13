@@ -38,7 +38,7 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 			'latitude' => $faker->latitude,
 			'longitude' => $faker->longitude
 		],
-		'delivery_zone_id' => \App\Models\DeliveryZone::orderByRaw('RAND()')->first()->id
+		'delivery_zone_id' => \App\Models\Vendor::orderByRaw('RAND()')->first()->delivery_zone_id
 	];
 });
 
@@ -81,8 +81,8 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 
 $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
 	return [
-		'vendor_status' => $faker->boolean() < 50 ? 'pending' : 'accepted',
-		'delivery_status' => $faker->boolean() < 50 ? 'pending' : 'out-for-delivery',
+		'vendor_status' => $faker->boolean() === true ? 'pending' : 'accepted',
+		'delivery_status' => $faker->boolean() === true ? 'pending' : 'out-for-delivery',
 		'charge_id' => uniqid(),
 		'charge_authorized' => $faker->boolean(90),
 		'charge_captured' => $faker->boolean()
