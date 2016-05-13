@@ -2332,16 +2332,16 @@
         },
         {
             "name": "rdehnhardt/lumen-maintenance-mode",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rdehnhardt/lumen-maintenance-mode.git",
-                "reference": "f435724d495079b8bbd6cb5a0981fb19a6b03963"
+                "reference": "e246f5801e2c6939eee56045b3f32b864ce8d3d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rdehnhardt/lumen-maintenance-mode/zipball/f435724d495079b8bbd6cb5a0981fb19a6b03963",
-                "reference": "f435724d495079b8bbd6cb5a0981fb19a6b03963",
+                "url": "https://api.github.com/repos/rdehnhardt/lumen-maintenance-mode/zipball/e246f5801e2c6939eee56045b3f32b864ce8d3d5",
+                "reference": "e246f5801e2c6939eee56045b3f32b864ce8d3d5",
                 "shasum": ""
             },
             "require": {
@@ -2349,6 +2349,9 @@
                 "php": ">=5.5.9"
             },
             "require-dev": {
+                "fabpot/php-cs-fixer": "~2.0",
+                "fzaninotto/faker": "v1.4.0",
+                "laravel/lumen": "~5.0",
                 "phpunit/phpunit": "~4.0"
             },
             "type": "library",
@@ -2377,7 +2380,7 @@
                 "maintenance",
                 "mode"
             ],
-            "time": "2015-07-09 20:33:40"
+            "time": "2016-05-10 15:50:24"
         },
         {
             "name": "stripe/stripe-php",
@@ -2436,7 +2439,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -2496,7 +2499,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -2553,16 +2556,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "17b04e6b1ede45b57d3ad5146abe50df6c3968b4"
+                "reference": "807dde98589f9b2b00624dca326740380d78dbbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/17b04e6b1ede45b57d3ad5146abe50df6c3968b4",
-                "reference": "17b04e6b1ede45b57d3ad5146abe50df6c3968b4",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/807dde98589f9b2b00624dca326740380d78dbbc",
+                "reference": "807dde98589f9b2b00624dca326740380d78dbbc",
                 "shasum": ""
             },
             "require": {
@@ -2609,11 +2612,11 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-12 18:09:53"
+            "time": "2016-05-05 06:56:13"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2662,7 +2665,7 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
@@ -2715,16 +2718,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "1aa25588241f915cf176b7c371e5d629dfff8b43"
+                "reference": "6a5010978edf0a9646342232531e53bfc7abbcd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/1aa25588241f915cf176b7c371e5d629dfff8b43",
-                "reference": "1aa25588241f915cf176b7c371e5d629dfff8b43",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/6a5010978edf0a9646342232531e53bfc7abbcd3",
+                "reference": "6a5010978edf0a9646342232531e53bfc7abbcd3",
                 "shasum": ""
             },
             "require": {
@@ -2793,7 +2796,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2016-05-03 05:58:27"
+            "time": "2016-05-09 22:13:13"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2964,7 +2967,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -3013,7 +3016,7 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -3081,12 +3084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tymondesigns/jwt-auth.git",
-                "reference": "dfd929d1a903d5095c593a6011031dd1aa69d789"
+                "reference": "179f9af4bc0dccdb5c8338918a612e51a7761b55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/dfd929d1a903d5095c593a6011031dd1aa69d789",
-                "reference": "dfd929d1a903d5095c593a6011031dd1aa69d789",
+                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/179f9af4bc0dccdb5c8338918a612e51a7761b55",
+                "reference": "179f9af4bc0dccdb5c8338918a612e51a7761b55",
                 "shasum": ""
             },
             "require": {
@@ -3139,7 +3142,7 @@
                 "jwt",
                 "laravel"
             ],
-            "time": "2016-04-18 21:12:25"
+            "time": "2016-05-13 19:27:17"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3727,20 +3730,23 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b"
+                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
-                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/38e9124049cf1a164f1e4537caf19c99bf1eb260",
+                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4|~5"
             },
             "type": "library",
             "autoload": {
@@ -3764,7 +3770,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2015-06-21 08:01:12"
+            "time": "2016-05-12 18:03:57"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -4362,7 +4368,7 @@
         },
         {
             "name": "symfony/class-loader",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
@@ -4418,7 +4424,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
