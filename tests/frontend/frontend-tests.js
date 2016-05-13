@@ -2,17 +2,23 @@
  * Created by Feek on 5/9/16.
  */
 var enterAddress = require('./integration/EnterAddressTest.js');
+var addProducts = require('./integration/AddProductsToCartTest.js');
 var navigation = require('./integration/navigation');
 
-var numTests = 1; // number of tests expected to be run
+var numTests = enterAddress.numTests + addProducts.numTests;
 
 casper.test.begin('Testing Avalcohol', numTests, function(test) {
 	casper.options.viewportSize = { width: 1280, height: 720 };
+
+	//casper.options.verbose = true;
+	casper.options.logLevel = "debug";
 	casper.start(navigation.landing);
 
 	casper.then(function() {
-		this.echo('starting testing of avalcohol main');
 		enterAddress.runTest(test);
+	});
+	casper.then(function() {
+		addProducts.runTest(test);
 	});
 
 	casper.run(function() {

@@ -4,25 +4,26 @@
   "description": "deploys",
   "main": "index.js",
   "directories": {
-	"test": "tests/frontend"
+    "test": "tests/frontend"
   },
   "scripts": {
-	"test": "casperjs test ./tests/frontend/frontend-tests.js"
+    "test": "rm -rf ./tests/frontend/integration/images/ && casperjs test ./tests/frontend/frontend-tests.js"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/fpm5022/AValcohol.git"
+    "type": "git",
+    "url": "git+https://github.com/fpm5022/AValcohol.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-	"url": "https://github.com/fpm5022/AValcohol/issues"
+    "url": "https://github.com/fpm5022/AValcohol/issues"
   },
   "homepage": "https://github.com/fpm5022/AValcohol#readme",
   "dependencies": {
-	"gulp": "^3.9.0",
-	"gulp-util": "^3.0.7",
-	"minimist": "^1.2.0",
-	"vinyl-ftp": "^0.4.5"
+    "chai": "^3.5.0",
+    "gulp": "^3.9.0",
+    "gulp-util": "^3.0.7",
+    "minimist": "^1.2.0",
+    "vinyl-ftp": "^0.4.5"
   }
 }
