@@ -2,9 +2,11 @@
  * Created by Feek on 3/16/16.
  */
 define([
-	'backbone'
+	'backbone',
+	'util/Vent'
 ], function (
-	Backbone
+	Backbone,
+	Vent
 ) {
 	var Vendor = Backbone.Model.extend({
 		urlRoot: '/api/vendor/',
@@ -18,19 +20,21 @@ define([
 			name: 'Vendor Name',
 			password: null,
 			autoAcceptOrders: true,
-			loggedIn: false
+			loggedIn: false,
+			token: null
 		},
 
 		initialize: function() {
+			_.bindAll(this, 'onLoginSuccess');
 		},
 
 		validate: function(attrs, options) {
 			var errors = [];
 			var defaultMessage = "This field is required";
 
-			if (!attrs.username || attrs.username.length < 1) {
+			if (!attrs.email || attrs.email.length < 1) {
 				errors.push({
-					attribute: 'username',
+					attribute: 'email',
 					message: defaultMessage
 				});
 			}
@@ -45,19 +49,42 @@ define([
 			return errors.length > 0 ? errors : null;
 		},
 
+		/**
+		 * attempts to log in
+		 */
 		login: function() {
-			$.post('/api/vendor/login',
+			$.post('/api/auth/login',
 				{
-					username: this.get('username'),
+					email: this.get('email'),
 					password: this.get('password')
 				},
 				function(result) {
-					debugger;
-					this.set('logged_in', true);
+					this.onLoginSuccess(result.token);
 				}.bind(this)
 			).fail(function(result) {
-				debugger;
+				// TODO
+				alert('incorrect login credentials');
 			}.bind(this));
+		},
+
+		/**
+		 *
+		 * @param token
+		 */
+		onLoginSuccess: function(token) {
+			this.set('logged_in', true);
+			this.set('token', token);
+
+			// add the csrftoken to all backbone syncs
+			var oldSync = Backbone.sync;
+			Backbone.sync = function(method, model, options){
+				options.beforeSend = function(xhr){
+					xhr.setRequestHeader('X-CSRFToken', token);
+				};
+				return oldSync(method, model, options);
+			};
+
+			Vent.trigger('vendor:authenticated');
 		}
 	});
 

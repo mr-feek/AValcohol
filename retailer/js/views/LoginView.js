@@ -3,9 +3,13 @@
  */
 define([
 	'marionette',
+	'util/Vent',
+	'App',
 	'tpl!templates/login.html'
 ], function (
 	Mn,
+	Vent,
+	App,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -14,7 +18,7 @@ define([
 		className: 'login',
 
 		ui: {
-			username: '.username',
+			email: '.email',
 			password: '.password',
 			login: '.go',
 			forgot: '.forgot-password'
@@ -22,16 +26,31 @@ define([
 
 		events: {
 			'click @ui.login' : 'login',
+			'keyup @ui.password' : 'passwordCharacterTyped',
 			'click @ui.forgot' : 'forgotPassword'
 		},
 
 		initialize: function (options) {
 			this.model = options.model;
 			this.listenTo(this.model, "invalid", this.validationError);
+
+			_.bindAll(this, 'passwordCharacterTyped');
+
+			Vent.on('vendor:authenticated', this.onLoginSuccess);
 		},
 
+		passwordCharacterTyped: function(evt) {
+			if (evt.keyCode === 13) {
+				// enter was pressed
+				this.login();
+			}
+		},
+
+		/**
+		 * submits a login request with supplied email and password
+		 */
 		login: function() {
-			this.model.set('username', this.ui.username.val());
+			this.model.set('email', this.ui.email.val());
 			this.model.set('password', this.ui.password.val());
 
 			if (this.model.isValid()) {
@@ -62,8 +81,16 @@ define([
 			this.$el.find('label.error').removeClass('error');
 		},
 
+		/**
+		 * TODO
+		 */
 		forgotPassword: function() {
 			alert('Please contact feek@avalcohol.com to reset your password.');
+		},
+
+		onLoginSuccess: function() {
+			debugger;
+			App.router.navigate('retailer/dashboard', {trigger: true});
 		}
 	});
 

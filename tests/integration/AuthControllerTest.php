@@ -35,10 +35,10 @@ class AuthControllerTest extends TestCase
 			'email' => $this->vendor->email,
 			'password' => $this->vendorRawPassword
 		]);
-/*
+
 		$this->seeJsonStructure([
 			'token'
 		]);
-*/
+
 	}
 }
