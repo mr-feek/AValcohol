@@ -89,7 +89,6 @@ define([
 		},
 
 		onLoginSuccess: function() {
-			debugger;
 			App.router.navigate('retailer/dashboard', {trigger: true});
 		}
 	});

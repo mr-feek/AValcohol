@@ -17,8 +17,6 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'ProductController@getAllProductsForAddress');
-	//$app->get('featured', 'ProductController@getAllFeatured');
-	//$app->get('beer', 'ProductController@getAllBeer');
 });
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -40,8 +38,7 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->put('{id}', 'UserController@update');
 });
 
-$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
-	//$app->get('orders', 'VendorController@getAllOrders');
+$app->group(['prefix' => 'vendor', 'middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 	$app->post('', 'VendorController@create');
 });

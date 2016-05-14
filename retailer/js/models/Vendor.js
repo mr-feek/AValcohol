@@ -75,13 +75,14 @@ define([
 			this.set('logged_in', true);
 			this.set('token', token);
 
-			// add the csrftoken to all backbone syncs
-			var oldSync = Backbone.sync;
-			Backbone.sync = function(method, model, options){
-				options.beforeSend = function(xhr){
-					xhr.setRequestHeader('X-CSRFToken', token);
+			// add the token to all backbone syncs
+			Backbone.ajax = function() {
+				arguments[0].headers = {
+					'Authorization': 'Bearer ' + token,
+					'Accept': "application/json"
 				};
-				return oldSync(method, model, options);
+
+				return Backbone.$.ajax.apply(Backbone.$, arguments);
 			};
 
 			Vent.trigger('vendor:authenticated');
