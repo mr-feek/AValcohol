@@ -8,6 +8,12 @@
  */
 class VendorControllerTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->withoutMiddleware();
+	}
+
 	/*
 	public function testGetAllOrdersForVendor() {
 		$this->get('vendor/orders');
@@ -77,7 +83,7 @@ class VendorControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 
-		$this->post('/vendor', $data);
+		$this->post('/admin/vendor', $data);
 
 		$this->seeJsonStructure([
 			'vendor' => [

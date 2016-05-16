@@ -38,14 +38,15 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->put('{id}', 'UserController@update');
 });
 
-$app->group(['prefix' => 'vendor', 'middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers'], function($app) {
+//'middleware' => 'auth:api'
+$app->group(['prefix' => 'vendor', 'middleware' => 'jwt.auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
-	$app->post('', 'VendorController@create');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
+	$app->post('vendor', 'VendorController@create');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {

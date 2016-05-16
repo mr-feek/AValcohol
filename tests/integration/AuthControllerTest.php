@@ -24,7 +24,7 @@ class AuthControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 		$this->vendorRawPassword = $data['password'];
-		$this->post('/vendor', $data);
+		$this->post('/admin/vendor', $data);
 		$this->vendor = \App\Models\User::whereEmail($data['email'])->with('vendor')->first();
 	}
 
