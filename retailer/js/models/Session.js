@@ -20,6 +20,22 @@ define([
 
 		initialize: function() {
 			this.setDefaultsFromStorage();
+			this.setTokenOnRequests();
+		},
+
+		/**
+		 * if a token is present, this will ensure it is included in every ajax request
+		 */
+		setTokenOnRequests: function() {
+			// Add the token to ALL backbone requests! those that don't need it will just ignore it on the backend
+			Backbone.ajax = function() {
+				arguments[0].headers = {
+					'Authorization': 'Bearer ' + this.get('token'),
+					'Accept': "application/json"
+				};
+
+				return Backbone.$.ajax.apply(Backbone.$, arguments);
+			}.bind(this);
 		},
 
 		/**
@@ -51,15 +67,6 @@ define([
 		* @param token
 		*/
 		onLoginSuccess: function(token) {
-			// add the token to all backbone syncs. Probably should do this a different way, like ajaxSend include if available or something
-			Backbone.ajax = function() {
-				arguments[0].headers = {
-					'Authorization': 'Bearer ' + token,
-					'Accept': "application/json"
-				};
-
-				return Backbone.$.ajax.apply(Backbone.$, arguments);
-			};
 			this.persist('token', token);
 			Vent.trigger('vendor:authenticated');
 		},
@@ -67,9 +74,10 @@ define([
 		/**
 		 * retrieves the key
 		 * @param key
+		 * @return value
 		 */
 		retrieve: function(key) {
-			window.sessionStorage.getItem(key);
+			return window.sessionStorage.getItem(key);
 		},
 
 		/**
