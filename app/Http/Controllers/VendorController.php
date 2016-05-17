@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\JWTAuth;
 
 class VendorController extends Controller
 {
@@ -28,9 +29,13 @@ class VendorController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getAllPendingOrders(Request $request, VendorService $service) {
-		// to do: authorize vendor
-		$vendor = ['id' => 1];
-		$orders = $service->getPendingOrders($vendor);
+		$vendor = $request->user()->vendor->toArray();
+		$orders = $service->getPendingOrders($vendor); // pull vendor id from token
+
+		if (!$orders->isEmpty()) {
+			$this->authorize('vendorGetOrder', $orders);
+		}
+
 		return response()->json(['orders' => $orders]);
 	}
 

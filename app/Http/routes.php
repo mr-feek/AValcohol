@@ -38,7 +38,6 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->put('{id}', 'UserController@update');
 });
 
-//'middleware' => 'auth:api'
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt.auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 });

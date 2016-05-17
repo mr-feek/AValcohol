@@ -3,9 +3,11 @@
 namespace App\Http\Repositories;
 
 use App\Exceptions\APIException;
+use App\Exceptions\NoCollectionResultsAPIException;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Http\Repositories\Interfaces\VendorInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
 
 class VendorRepository extends BaseRepository implements VendorInterface
@@ -80,6 +82,11 @@ class VendorRepository extends BaseRepository implements VendorInterface
 				['charge_captured', false]
 			]);
 		})->with(['status', 'user.profile', 'products'])->get();
+/*
+		if ($orders->isEmpty()) {
+			throw new NoCollectionResultsAPIException();
+		}
+*/
 		
 		return $orders;
 	}

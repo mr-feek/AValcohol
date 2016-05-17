@@ -46,6 +46,10 @@ class Utils extends TestCase {
 		return $this->vendorToken;
 	}
 
+	public function generateTokenForUser(User $user) {
+		return \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+	}
+
 	public function cleanUp() {
 		$user = User::where(['email' => $this->rawVendorData['email']])->first()->delete();
 	}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Vendor;
 /**
  * Created by PhpStorm.
  * User: Feek
@@ -8,10 +9,62 @@
  */
 class VendorControllerTest extends TestCase
 {
+	protected $utils;
+	protected $vendor;
+	protected $token;
+	protected $authHeader;
+
 	public function setUp()
 	{
 		parent::setUp();
 		$this->withoutMiddleware();
+		$this->utils = new Utils();
+		$this->vendor = Vendor::find(1);
+		$this->token = $this->utils->generateTokenForUser($this->vendor->user);
+		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+	}
+
+	public function testCreateVendor() {
+		$data = [
+			'email' => 'asdf@asd.com',
+			'password' => 'password12',
+			'name' => 'first last',
+			'address' => '123 candy cane lane',
+			'phone_number' => '1231231234',
+			'delivery_zone_id' => '1'
+		];
+
+		$this->post('/admin/vendor', $data);
+
+		$this->seeJsonStructure([
+			'vendor' => [
+				'name',
+				'address',
+				'phone_number',
+				'delivery_zone_id'
+			]
+		]);
+
+		$response = json_decode($this->response->getContent());
+
+		$this->seeInDatabase('vendors', [
+			'id' => $response->vendor->id,
+			'name' => $data['name'],
+			'address' => $data['address'],
+			'phone_number' => $data['phone_number'],
+			'delivery_zone_id' => $data['delivery_zone_id'],
+			'user_id' => $response->vendor->user_id
+		]);
+
+		$this->seeInDatabase('users', [
+			'id' => $response->vendor->user_id,
+			'email' => $data['email'],
+		]);
+
+		// ensure password got hashed
+		$this->notSeeInDatabase('users', [
+			'password' => $data['password']
+		]);
 	}
 
 	/*
@@ -27,7 +80,7 @@ class VendorControllerTest extends TestCase
 	*/
 
 	public function testGetPendingOrdersForVendor() {
-		$this->get('vendor/orders/pending');
+		$this->get('vendor/orders/pending', $this->authHeader);
 		$this->verifyJsonStructure();
 
 		$orders = json_decode($this->response->getContent())->orders;
@@ -73,46 +126,5 @@ class VendorControllerTest extends TestCase
 		]);
 	}
 
-	public function testCreateVendor() {
-		$data = [
-			'email' => 'asdf@asd.com',
-			'password' => 'password12',
-			'name' => 'first last',
-			'address' => '123 candy cane lane',
-			'phone_number' => '1231231234',
-			'delivery_zone_id' => '1'
-		];
 
-		$this->post('/admin/vendor', $data);
-
-		$this->seeJsonStructure([
-			'vendor' => [
-				'name',
-				'address',
-				'phone_number',
-				'delivery_zone_id'
-			]
-		]);
-
-		$response = json_decode($this->response->getContent());
-
-		$this->seeInDatabase('vendors', [
-			'id' => $response->vendor->id,
-			'name' => $data['name'],
-			'address' => $data['address'],
-			'phone_number' => $data['phone_number'],
-			'delivery_zone_id' => $data['delivery_zone_id'],
-			'user_id' => $response->vendor->user_id
-		]);
-
-		$this->seeInDatabase('users', [
-			'id' => $response->vendor->user_id,
-			'email' => $data['email'],
-		]);
-
-		// ensure password got hashed
-		$this->notSeeInDatabase('users', [
-			'password' => $data['password']
-		]);
-	}
 }
