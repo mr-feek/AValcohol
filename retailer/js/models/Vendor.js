@@ -2,11 +2,9 @@
  * Created by Feek on 3/16/16.
  */
 define([
-	'backbone',
-	'util/Vent'
+	'backbone'
 ], function (
-	Backbone,
-	Vent
+	Backbone
 ) {
 	var Vendor = Backbone.Model.extend({
 		urlRoot: '/api/vendor/',
@@ -19,14 +17,10 @@ define([
 			email: null,
 			name: 'Vendor Name',
 			password: null,
-			autoAcceptOrders: true,
-			loggedIn: false,
-			token: null
+			autoAcceptOrders: true
 		},
 
-		initialize: function() {
-			_.bindAll(this, 'onLoginSuccess');
-		},
+		initialize: function() { },
 
 		validate: function(attrs, options) {
 			var errors = [];
@@ -47,45 +41,6 @@ define([
 			}
 
 			return errors.length > 0 ? errors : null;
-		},
-
-		/**
-		 * attempts to log in
-		 */
-		login: function() {
-			$.post('/api/auth/login',
-				{
-					email: this.get('email'),
-					password: this.get('password')
-				},
-				function(result) {
-					this.onLoginSuccess(result.token);
-				}.bind(this)
-			).fail(function(result) {
-				// TODO
-				alert('incorrect login credentials');
-			}.bind(this));
-		},
-
-		/**
-		 *
-		 * @param token
-		 */
-		onLoginSuccess: function(token) {
-			this.set('logged_in', true);
-			this.set('token', token);
-
-			// add the token to all backbone syncs
-			Backbone.ajax = function() {
-				arguments[0].headers = {
-					'Authorization': 'Bearer ' + token,
-					'Accept': "application/json"
-				};
-
-				return Backbone.$.ajax.apply(Backbone.$, arguments);
-			};
-
-			Vent.trigger('vendor:authenticated');
 		}
 	});
 

@@ -9,7 +9,7 @@ define([
 ], function (
 	Mn,
 	Vent,
-	App,
+	app,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -55,7 +55,10 @@ define([
 
 			if (this.model.isValid()) {
 				this.clearValidationErrors();
-				this.model.login();
+				app.session.login({
+					email: this.ui.email.val(),
+					password: this.ui.password.val()
+				});
 			}
 		},
 
@@ -89,7 +92,7 @@ define([
 		},
 
 		onLoginSuccess: function() {
-			App.router.navigate('retailer/dashboard', {trigger: true});
+			app.router.navigate('retailer/dashboard', {trigger: true});
 		}
 	});
 

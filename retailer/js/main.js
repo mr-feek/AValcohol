@@ -62,8 +62,9 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'models/Vendor',
+	'models/Session',
 	'../../shared/js/models/Config',
-	'foundation',
+	'foundation'
 ], function (
 	app,
 	Backbone,
@@ -71,6 +72,7 @@ require([
 	Controller,
 	Router,
 	Vendor,
+	Session,
 	Config
 ) {
 	$(document).foundation();
@@ -83,6 +85,7 @@ require([
 		});
 
 		app.vendor = new Vendor();
+		app.session = new Session();
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
 	});
