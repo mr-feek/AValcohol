@@ -73,7 +73,8 @@ $app->singleton(
 
 // these can be called by specific routes
 $app->routeMiddleware([
-	'delivery-hours' => App\Http\Middleware\DeliveryHours::class
+	'delivery-hours' => App\Http\Middleware\DeliveryHours::class,
+	'jwt-auth' => \App\Http\Middleware\UserAuthenticated::class
 ]);
 
 /*
