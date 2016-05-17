@@ -25,9 +25,10 @@ class VendorControllerTest extends TestCase
 	}
 
 	public function testCreateVendor() {
+		$faker = \Faker\Factory::create();
 		$data = [
-			'email' => 'asdf@asd.com',
-			'password' => 'password12',
+			'email' => $faker->email(),
+			'password' => $faker->password(),
 			'name' => 'first last',
 			'address' => '123 candy cane lane',
 			'phone_number' => '1231231234',
@@ -80,6 +81,7 @@ class VendorControllerTest extends TestCase
 	*/
 
 	public function testGetPendingOrdersForVendor() {
+		$this->refreshApplication(); // if this is not called, there is a nasty bug where the wrong request object is sent to jwt
 		$this->get('vendor/orders/pending', $this->authHeader);
 		$this->verifyJsonStructure();
 

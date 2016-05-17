@@ -10,13 +10,11 @@ class EnsureVendorRoutesAreProtectedTest extends TestCase
 {
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
 	protected $utils;
-	protected $token;
 	protected $routes;
 
 	public function setUp() {
 		parent::setUp();
 		$this->utils = new Utils();
-		$this->token = $this->utils->getVendorToken();
 
 		$this->routes = [
 			'get' => [
@@ -36,7 +34,7 @@ class EnsureVendorRoutesAreProtectedTest extends TestCase
 	public function testErrorsAreThrownIfNoToken() {
 		foreach($this->routes['get'] as $route) {
 			$this->get($route);
-			$this->assertEquals($this->response->getStatusCode(), 400);
+			$this->assertEquals(401, $this->response->getStatusCode(), 'route did not return 401 unauthorized');
 		}
 
 		foreach($this->routes['post'] as $route) {

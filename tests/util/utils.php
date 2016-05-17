@@ -51,7 +51,10 @@ class Utils extends TestCase {
 	}
 
 	public function cleanUp() {
-		$user = User::where(['email' => $this->rawVendorData['email']])->first()->delete();
+		// wrapper in case this was never created
+		if ($this->rawVendorData) {
+			$user = User::where(['email' => $this->rawVendorData['email']])->first()->delete();
+		}
 	}
 
 }

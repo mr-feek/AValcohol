@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class VendorController extends Controller
 {
@@ -29,11 +29,16 @@ class VendorController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getAllPendingOrders(Request $request, VendorService $service) {
-		$vendor = $request->user()->vendor->toArray();
+		//$user = JWTAuth::parseToken()->authenticate();
+		$user = $request->user();
+		$vendor = $user->vendor->toArray();
 		$orders = $service->getPendingOrders($vendor); // pull vendor id from token
 
 		if (!$orders->isEmpty()) {
-			$this->authorize('vendorGetOrder', $orders);
+			// TODO: do we only need to check the first one?
+			foreach($orders as $order) {
+				$this->authorize('vendorGetOrder', $order);
+			}
 		}
 
 		return response()->json(['orders' => $orders]);
