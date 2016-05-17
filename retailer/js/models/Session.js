@@ -19,7 +19,14 @@ define([
 		},
 
 		initialize: function() {
+			this.setDefaultsFromStorage();
+		},
 
+		/**
+		 * fetches values saved in storage and sets them to this model
+		 */
+		setDefaultsFromStorage: function() {
+			this.set('token', this.retrieve('token'));
 		},
 
 		/**
@@ -55,6 +62,14 @@ define([
 			};
 			this.persist('token', token);
 			Vent.trigger('vendor:authenticated');
+		},
+
+		/**
+		 * retrieves the key
+		 * @param key
+		 */
+		retrieve: function(key) {
+			window.sessionStorage.getItem(key);
 		},
 
 		/**
