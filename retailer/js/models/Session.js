@@ -44,18 +44,32 @@ define([
 		* @param token
 		*/
 		onLoginSuccess: function(token) {
-		// add the token to all backbone syncs. Probably should do this a different way, like ajaxSend include if available or something
-		Backbone.ajax = function() {
-			arguments[0].headers = {
-				'Authorization': 'Bearer ' + token,
-				'Accept': "application/json"
+			// add the token to all backbone syncs. Probably should do this a different way, like ajaxSend include if available or something
+			Backbone.ajax = function() {
+				arguments[0].headers = {
+					'Authorization': 'Bearer ' + token,
+					'Accept': "application/json"
+				};
+
+				return Backbone.$.ajax.apply(Backbone.$, arguments);
 			};
+			this.persist('token', token);
+			Vent.trigger('vendor:authenticated');
+		},
 
-			return Backbone.$.ajax.apply(Backbone.$, arguments);
-		};
+		/**
+		 * Persists given key value into storage
+		 */
+		persist: function(key, value) {
+			window.sessionStorage.setItem(key, value);
+		},
 
-		Vent.trigger('vendor:authenticated');
-	}
+		/**
+		 * Removes given key from storage
+		 */
+		remove: function(key) {
+			window.sessionStorage.removeItem(key);
+		}
 	});
 
 	return model;
