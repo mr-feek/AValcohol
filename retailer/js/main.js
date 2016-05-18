@@ -88,6 +88,18 @@ require([
 		app.session = new Session();
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
+
+		// subscribe to error codes
+		$.ajaxSetup({
+			statusCode: {
+				401 : function() {
+					app.router.navigate('retailer/login', { trigger: true });
+				},
+				403 : function() {
+					app.router.navigate('retailer/login', { trigger: true });
+				}
+			}
+		});
 	});
 
 	// screw it, we're waiting for config to fetch before starting app

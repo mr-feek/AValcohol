@@ -67,6 +67,7 @@ define([
 		* @param token
 		*/
 		onLoginSuccess: function(token) {
+			this.set('token', token);
 			this.persist('token', token);
 			Vent.trigger('vendor:authenticated');
 		},
