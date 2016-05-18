@@ -17,8 +17,6 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'ProductController@getAllProductsForAddress');
-	//$app->get('featured', 'ProductController@getAllFeatured');
-	//$app->get('beer', 'ProductController@getAllBeer');
 });
 
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -27,6 +25,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 	// all updated addresses will be treated as creating a new address
 	//$app->put('{id}', 'AddressController@update');
 	$app->put('{id}', 'AddressController@create');
+	$app->get('delivery_zone', 'AddressController@getDeliveryZoneID');
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -38,16 +37,19 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
 });
-
-$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('login', 'VendorController@login');
-	//$app->get('orders', 'VendorController@getAllOrders');
+// jwt-auth === UserAuthenticatedMiddleware
+$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
+	$app->post('vendor', 'VendorController@create');
+});
+
+$app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('login', 'AuthController@login');
 });
 
 $app->get('/config', 'ConfigController@getConfig');

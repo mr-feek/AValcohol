@@ -16,3 +16,4 @@ _ide_helper_models.php
 storage/
 composer-setup.php
 nbproject/
+clover.xml

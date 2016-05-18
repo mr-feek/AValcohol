@@ -25,13 +25,22 @@ define([
 		},
 
 		showDashboard: function() {
-			this.authorize();
-			this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
-			this.rootView.getRegion('main').show(new VendorHomeRootView());
+			if (this.authorize()) {
+				this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
+				this.rootView.getRegion('main').show(new VendorHomeRootView());
+			}
 		},
 
+		/**
+		 * If the user is not logged in, redirect to login
+		 * @return boolean whether or not authorized
+		 */
 		authorize: function() {
-			// if the model isn't logged in, redirect to login
+			if (!app.session.get('token')) {
+				app.router.navigate('retailer/login', {trigger: true});
+				return false;
+			}
+			return true;
 		}
 	});
 

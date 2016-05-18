@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\BlacklistedAddress whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\BlacklistedAddress whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property integer $delivery_zone_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BlacklistedAddress whereDeliveryZoneId($value)
  */
 class BlacklistedAddress extends Model
 {

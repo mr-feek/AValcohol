@@ -44,11 +44,11 @@ define([
 			this.collection = new Products();
 			// pass the collection to the loading indicator
 			this.triggerMethod("setCollection", this.collection);
-			var address_id = App.user.get('address').get('id') || 1; // default to 1 for now
-			this.collection.fetch({ data: $.param({	address_id: address_id })});
+			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
+			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
 
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
-			// for some reason onAddChild d oesn't seem to be called after re-rendering
+			// for some reason onAddChild doesn't seem to be called after re-rendering
 		},
 
 		onShow: function() {

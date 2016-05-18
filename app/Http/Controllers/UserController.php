@@ -20,11 +20,11 @@ class UserController extends Controller
 			'first_name' => 'required|alpha',
 			'last_name' => 'required|alpha',
 			'phone_number' => 'required|digits:10',
-			'date_of_birth' => 'required|date|isTwentyOne'
+			'date_of_birth' => 'required|date|isTwentyOne',
+			//'password' => 'required'
 		]);
 
 		$user = $service->create($request->input());
-		//$user->profile; // force inclusion
 
 		return response()->json([
 			'success' => true,

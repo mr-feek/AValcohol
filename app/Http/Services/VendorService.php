@@ -3,31 +3,33 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\UserAddressInterface;
+use App\Http\Repositories\Interfaces\UserInterface;
 use App\Http\Repositories\Interfaces\VendorInterface;
 
 class VendorService extends BaseService
 {
-	protected $addressRepo;
+	protected $userService;
 
-	public function __construct(VendorInterface $vendorRepo, UserAddressInterface $addressRepo)
+	public function __construct(VendorInterface $vendorRepo, UserService $userService)
 	{
 		$this->repo = $vendorRepo;
-		$this->addressRepo = $addressRepo;
+		$this->userService = $userService;
 	}
 
-	public function login() {
-
+	public function create($data) {
+		$user = $this->userService->create($data, false);
+		$vendor = $this->repo->create($user, $data);
+		return $vendor;
 	}
 
 	/**
+	 * returns all vendors for the given delivery zone id
 	 * @param $address array
 	 * @return array
 	 */
 	public function getVendorsForAddress($address) {
-		$address = $this->addressRepo->getById($address['id']);
-
-		// to do. for now just returning vendor with id 1
-		return [$this->repo->getById(1)];
+		$deliveryZoneId = $address['delivery_zone_id'];
+		return $this->repo->getByDeliveryZone($deliveryZoneId);
 	}
 
 	/**

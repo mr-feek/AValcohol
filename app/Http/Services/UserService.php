@@ -13,23 +13,18 @@ use App\Http\Repositories\Interfaces\UserInterface;
  */
 class UserService extends BaseService
 {
-	protected $orderRepo;
 
 	/**
 	 * UserService constructor.
 	 * Loads our $userRepo with the actual Repo associated with our userInterface
 	 * @param userInterface $userRepo
-	 * @param OrderInterface $orderRepo
-	 * @internal param UserAddressInterface $addressRepo
 	 */
-	public function __construct(UserInterface $userRepo, OrderInterface $orderRepo)
+	public function __construct(UserInterface $userRepo)
 	{
 		$this->repo = $userRepo;
-		$this->orderRepo = $orderRepo;
 	}
 
 	public function getUser($id) {
-		$this->repo->enforceGetPermissions($id);
 		return $this->repo->getUserById($id);
 	}
 
@@ -48,7 +43,6 @@ class UserService extends BaseService
 
 	public function update($data) {
 		$user = $this->getUser($data['id']);
-		$this->repo->enforceUpdatePermissions($data);
 		return $this->repo->update($user, $data);
 	}
 }

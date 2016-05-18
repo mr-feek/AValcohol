@@ -28,11 +28,17 @@ $factory->define(App\Models\User::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker) {
+
 	return [
 		'street' => $faker->streetName(),
 		'city' => $faker->city(),
 		'state' => $faker->citySuffix(),
-		'zipcode' => $faker->randomNumber(5)
+		'zipcode' => $faker->randomNumber(5),
+		'location' => [
+			'latitude' => $faker->latitude,
+			'longitude' => $faker->longitude
+		],
+		'delivery_zone_id' => \App\Models\Vendor::orderByRaw('RAND()')->first()->delivery_zone_id
 	];
 });
 
@@ -50,19 +56,33 @@ $factory->define(App\Models\UserProfile::class, function(Faker\Generator $faker)
 });
 
 $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
+	$users = \App\Models\User::orderByRaw('RAND()')->get();
+	// don't create an order for a user that is a vendor
+	$user = null;
+
+	foreach($users as $u) {
+		if ($u->isVendor() === false) {
+			$user = $u;
+			break;
+		}
+	}
+
+	if (!$user) {
+		dd('all users in db are apparently vendors');
+	}
+
 	return [
 		'amount' => $faker->randomNumber(2),
-		'user_id' => 1,
-		'user_address_id' => 1,
-		'vendor_id' => 1
+		'user_id' => $user->id,
+		'user_address_id' => $u->address->id,
+		'vendor_id' => 1 // temp
 	];
 });
 
 $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
-
 	return [
-		'vendor_status' => $faker->boolean() < 50 ? 'pending' : 'accepted',
-		'delivery_status' => $faker->boolean() < 50 ? 'pending' : 'out-for-delivery',
+		'vendor_status' => $faker->boolean() === true ? 'pending' : 'accepted',
+		'delivery_status' => $faker->boolean() === true ? 'pending' : 'out-for-delivery',
 		'charge_id' => uniqid(),
 		'charge_authorized' => $faker->boolean(90),
 		'charge_captured' => $faker->boolean()
@@ -70,15 +90,31 @@ $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker
 });
 
 $factory->define(App\Models\Vendor::class, function(\Faker\Generator $faker) {
+	$zone = factory(\App\Models\DeliveryZone::class)->create();
 	return [
 		'name' => $faker->company,
 		'address' => $faker->address,
-		'phone_number' => $faker->phoneNumber
+		'phone_number' => $faker->phoneNumber,
+		'delivery_zone_id' => $zone->id
 	];
 });
 
 $factory->define(App\Models\VendorSetting::class, function(\Faker\Generator $faker) {
 	return [
 
+	];
+});
+
+$factory->define(\App\Models\DeliveryZone::class, function(\Faker\Generator $faker) {
+	return [
+		'name' => 'FactoryZone',
+		'points' => [
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
+			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude)
+		]
 	];
 });

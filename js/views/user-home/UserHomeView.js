@@ -33,11 +33,7 @@ define([
 		},
 
 		templateHelpers: function() {
-			var view = this;
-
 			return {
-				page: view.endpoint,
-
 				numProducts: function() {
 					return App.cart.length;
 				},
@@ -49,35 +45,15 @@ define([
 		/**
 		 *
 		 * @param options
-		 * 	- endpoint (optional)
 		 */
 		initialize: function (options) {
-			var view = this;
-
-			if (options.endpoint) {
-				this.endpoint = options.endpoint;
-			} else {
-				this.endpoint = 'all';
-			}
-
-			App.cart.on('update', view.updateNumProducts, view);
+			App.cart.on('update', this.updateNumProducts, this);
 		},
 
 		onBeforeShow: function() {
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
-			this.getRegion('products').show(new ProductsView({ endpoint: this.endpoint }));
+			this.getRegion('products').show(new ProductsView());
 			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
-		},
-
-		/**
-		 * called from controller as a fast way to swap product views
-		 * @param endpoint
-		 */
-		showDifferentProductView: function(endpoint) {
-			this.endpoint = endpoint;
-			this.getRegion('sidebar').currentView.endpoint = endpoint;
-			this.getRegion('products').show(new ProductsView({ endpoint: endpoint }));
-			this.getRegion('sidebar').currentView.updateActiveLink();
 		},
 
 		openCart: function(e) {

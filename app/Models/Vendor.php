@@ -8,7 +8,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,10 +32,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property integer $delivery_zone_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereDeliveryZoneId($value)
  */
 class Vendor extends Model
 {
 	protected $hidden = [''];
+
+	protected $fillable = ['name', 'address', 'phone_number', 'delivery_zone_id'];
 
 	public function user() {
 		return $this->belongsTo('App\Models\User');

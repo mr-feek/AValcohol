@@ -40,18 +40,10 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
 	public function create(User $user, $data)
 	{
 		$this->model = $user->address()->save(new UserAddress($data));
+		$loc = $this->model->location;
+		UserAddress::convertMySQLPointAttributeToPointModel($loc);
+		$this->model->location = $loc;
 		return $this->model;
-	}
-
-	/**
-	 * Determines if the given long / lat of the address is within our current delivery zone
-	 * @param $long
-	 * @param $lat
-	 * @return bool
-	 */
-	public function isInDeliveryZone($long, $lat) {
-		// to do
-		return true;
 	}
 
 	/**

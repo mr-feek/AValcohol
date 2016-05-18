@@ -5,7 +5,7 @@ define([
 	Mn,
 	tpl
 ) {
-	var  = Mn.ItemView.extend({
+	var view = Mn.ItemView.extend({
 		template: tpl,
 
 		events: {
@@ -15,8 +15,8 @@ define([
 		},
 
 		initialize: function(options) {
-		},
+		}
 	});
 
-	return ;
+	return view;
 });

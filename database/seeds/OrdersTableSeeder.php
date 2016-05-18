@@ -11,7 +11,7 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-		factory(App\Models\Order::class, 20)->create()->each(function(\App\Models\Order $o) {
+		factory(App\Models\Order::class, 40)->create()->each(function(\App\Models\Order $o) {
 			$products = [];
 
 			// fetch 3 products to add to this order

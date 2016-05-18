@@ -11,14 +11,23 @@ define([
 			city: undefined,
 			street: undefined,
 			state: undefined,
-			zipcode: undefined
+			zipcode: undefined,
+			location: {
+				latitude: undefined,
+				longitude: undefined
+			},
+			delivery_zone_id: undefined
 		},
 
 		parse: function(response, xhr) {
 			return response.address;
 		},
 
-		required: ['city', 'street', 'state'], // taking out zipcode for now since it has additional validator
+		initialize: function() {
+			_.bindAll(this, 'getDeliveryZone');
+		},
+
+		required: ['city', 'street', 'state', 'zipcode'],
 
 		validate: function(attrs, options) {
 			var errors = [];
@@ -40,6 +49,23 @@ define([
 			}
 
 			return errors.length > 0 ? errors : null;
+		},
+
+		/**
+		 * retrieves and sets the delivery zone id attribute
+		 * @returns {*}
+		 */
+		getDeliveryZone: function() {
+			var promise = $.get(
+				'/api/address/delivery_zone', {
+					latitude: this.get('location')['latitude'],
+					longitude: this.get('location')['longitude']
+				}
+			);
+			promise.done(function(resp) {
+				this.set('delivery_zone_id', resp.delivery_zone_id);
+			}.bind(this));
+			return promise;
 		}
 	});
 
