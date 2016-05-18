@@ -25,7 +25,6 @@ class UserService extends BaseService
 	}
 
 	public function getUser($id) {
-		$this->repo->enforceGetPermissions($id);
 		return $this->repo->getUserById($id);
 	}
 
@@ -44,7 +43,6 @@ class UserService extends BaseService
 
 	public function update($data) {
 		$user = $this->getUser($data['id']);
-		$this->repo->enforceUpdatePermissions($data);
 		return $this->repo->update($user, $data);
 	}
 }

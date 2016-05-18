@@ -17,20 +17,18 @@ define([
 			email: null,
 			name: 'Vendor Name',
 			password: null,
-			autoAcceptOrders: true,
-			loggedIn: false
+			autoAcceptOrders: true
 		},
 
-		initialize: function() {
-		},
+		initialize: function() { },
 
 		validate: function(attrs, options) {
 			var errors = [];
 			var defaultMessage = "This field is required";
 
-			if (!attrs.username || attrs.username.length < 1) {
+			if (!attrs.email || attrs.email.length < 1) {
 				errors.push({
-					attribute: 'username',
+					attribute: 'email',
 					message: defaultMessage
 				});
 			}
@@ -43,21 +41,6 @@ define([
 			}
 
 			return errors.length > 0 ? errors : null;
-		},
-
-		login: function() {
-			$.post('/api/vendor/login',
-				{
-					username: this.get('username'),
-					password: this.get('password')
-				},
-				function(result) {
-					debugger;
-					this.set('logged_in', true);
-				}.bind(this)
-			).fail(function(result) {
-				debugger;
-			}.bind(this));
 		}
 	});
 

@@ -8,7 +8,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
 	protected $hidden = [''];
+
+	protected $fillable = ['name', 'address', 'phone_number', 'delivery_zone_id'];
 
 	public function user() {
 		return $this->belongsTo('App\Models\User');

@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Models\User;
 use App\Http\Repositories\Interfaces\UserInterface;
 use DrewM\MailChimp\MailChimp;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Created by PhpStorm.
@@ -29,7 +30,18 @@ class UserRepository extends BaseRepository implements UserInterface
 		return $this->model = User::findOrFail($id);
 	}
 
+	/**
+	 * @param $data
+	 * @return static
+	 */
 	public function create($data) {
+		// mvp users do not need a password because they arent actually making accounts
+		if (array_key_exists('password', $data)) {
+			$rawPassword = $data['password'];
+			$hashed = Hash::make($rawPassword);
+			$data['password'] = $hashed;
+		}
+
 		$user = User::create($data);
 		// ensure this property is set..
 		$user->mvp_user = true;
@@ -46,14 +58,6 @@ class UserRepository extends BaseRepository implements UserInterface
 
 	public function update(User $model, $data) {
 		return $this->model = $model->update($data);
-	}
-
-	public function enforceUpdatePermissions($data) {
-		// to do
-	}
-
-	public function enforceGetPermissions($data) {
-		// to do
 	}
 
 	/**

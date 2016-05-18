@@ -1,6 +1,9 @@
+/**
+ * Created by Feek on 5/17/16.
+ */
 define([
 	'marionette',
-	'tpl!templates/'
+	'tpl!templates/no-orders.html'
 ], function(
 	Mn,
 	tpl
