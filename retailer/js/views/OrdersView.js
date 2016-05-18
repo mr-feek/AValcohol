@@ -7,7 +7,7 @@ define([
 	'collections/Orders',
 	'views/NoOrdersView',
 	'views/OrderView',
-	'../../../shared/js/behaviors/CollectionLoadingIndicator'
+	'behaviors/CollectionLoading'
 ], function (
 	Mn,
 	BackbonePoller,

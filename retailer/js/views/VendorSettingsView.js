@@ -3,8 +3,8 @@
  */
 define([
 	'marionette',
-	'../../../shared/js/behaviors/Modal',
-	'../../../shared/js/behaviors/ModelFormSave',
+	'behaviors/Modal',
+	'behaviors/ModelFormSave',
 	'tpl!templates/vendor-settings.html',
 	'foundationTooltip'
 ], function (

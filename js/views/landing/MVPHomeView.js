@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'App',
 	'../../../shared/js/models/UserAddress',
-	'../../../shared/js/behaviors/ModelValidation',
+	'behaviors/ModelValidation',
 	'tpl!templates/landing/mvp-home.html',
 	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
 ], function (
