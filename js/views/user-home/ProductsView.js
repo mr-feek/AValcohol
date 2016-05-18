@@ -4,7 +4,7 @@ define([
 	'views/user-home/ProductView',
 	'views/user-home/NoFeaturedProductsView',
 	'collections/Products',
-	'../../../shared/js/behaviors/CollectionLoadingIndicator',
+	'behaviors/CollectionLoading',
 	'App'
 ], function (
 	Mn,

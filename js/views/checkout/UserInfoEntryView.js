@@ -1,8 +1,8 @@
 define([
 	'marionette',
 	'App',
-	'../../../shared/js/behaviors/ModelFormSave',
-	'../../../shared/js/behaviors/ModelSaveAnimation',
+	'behaviors/ModelFormSave',
+	'behaviors/ModelSaveAnimation',
 	'moment',
 	'pickaday',
 	'tpl!templates/checkout/user-info-entry.html'
