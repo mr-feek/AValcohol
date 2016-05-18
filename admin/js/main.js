@@ -21,7 +21,8 @@ require.config({
 		'stripe':				'https://js.stripe.com/v2/?noext',
 		'backbone.poller':		'../../vendor/backbone-poller/backbone.poller',
 		'moment':				'../../vendor/moment/moment',
-		'jSignature':			'../../vendor/jSignature/libs/jSignature.min'
+		'jSignature':			'../../vendor/jSignature/libs/jSignature.min',
+		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors'
 	},
 	shim: {
 		underscore: {
