@@ -26,7 +26,7 @@
 12. watch error logs
 
 ##API Design Philosophy (loosely followed for the time being)
-**SIMPLICITY & USABILITY > complex design patterns. We can always refactor at a later point.
+**SIMPLICITY & USABILITY** > complex design patterns. We can always refactor at a later point.
 ###Middleware
 performs logic that does not require any data (IE whether or not the store is open for orders, etc)
 certain authentication
