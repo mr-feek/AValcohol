@@ -1,8 +1,7 @@
 vendor/
 node_modules/
 css/
-*/.sass-cache/
-vendors/sass/.sass-cache/
+.sass-cache/
 .idea/
 local/
 composer.lock
