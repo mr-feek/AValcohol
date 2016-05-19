@@ -89,8 +89,8 @@ define([
 				// response contains id and card, which contains additional card details
 				var token = response.id;
 				this.model.set('token', token);
-				this.model.set('last_four', response.card.last4)
-				this.parent.showNext();
+				this.model.set('last_four', response.card.last4);
+				this.parent.trigger('show:next');
 			}
 		}
 	});
