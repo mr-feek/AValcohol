@@ -64,7 +64,7 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'../../shared/js/models/Config',
-	'foundation',
+	'foundation'
 ], function (
 	app,
 	Backbone,

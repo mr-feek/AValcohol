@@ -16,7 +16,6 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: 'modal',
 
 		templateHelpers: function() {
 			var view = this;

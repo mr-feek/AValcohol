@@ -4,10 +4,14 @@
 define([
 	'marionette',
 	'views/ProductView',
+	'views/CustomerInfoCollectionView',
+	'App',
 	'tpl!templates/order-out-for-delivery.html'
 ], function (
 	Mn,
 	ProductView,
+	CustomerInfoCollectionView,
+	app,
 	tpl
 ) {
 	var view = Mn.CompositeView.extend({
@@ -47,8 +51,7 @@ define([
 		},
 
 		showDeliveryView: function(e) {
-			e.preventDefault();
-			alert('will begin collecting signature and picture here');
+			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionView());
 		}
 	});
 
