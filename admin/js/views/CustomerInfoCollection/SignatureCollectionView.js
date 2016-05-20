@@ -1,31 +1,30 @@
+/**
+ * Created by Feek on 5/19/16.
+ */
 define([
 	'marionette',
-	'behaviors/Modal',
 	'jSignature',
-	'tpl!templates/customer-info-collection.html'
+	'tpl!templates/CustomerInfoCollection/signature-collection.html'
 ], function(
 	Mn,
-	Modal,
 	jSignature,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
 		template: tpl,
+		parent: null,
+
 		className: 'collect-customer-info',
 
-		behaviors: {
-			Modal: {
-				behaviorClass: Modal
-			}
-		},
-
 		events: {
-			'click @ui.clear' : 'clearSignature'
+			'click @ui.clear' : 'clearSignature',
+			'click @ui.next' : 'nextClicked'
 		},
 
 		ui: {
 			'signature' : '#signature-box',
-			'clear' : '.clear'
+			'clear' : '.clear',
+			'next' : '.next'
 		},
 
 		onShow: function() {
@@ -40,6 +39,12 @@ define([
 		},
 
 		initialize: function(options) {
+			this.parent = options.parent;
+			_.bindAll(this, 'nextClicked');
+		},
+
+		nextClicked(evt) {
+			this.parent.trigger('show:next');
 		}
 	});
 

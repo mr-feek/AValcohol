@@ -4,13 +4,13 @@
 define([
 	'marionette',
 	'views/ProductView',
-	'views/CustomerInfoCollectionView',
+	'views/CustomerInfoCollection/ParentView',
 	'App',
 	'tpl!templates/order-out-for-delivery.html'
 ], function (
 	Mn,
 	ProductView,
-	CustomerInfoCollectionView,
+	CustomerInfoCollectionParentView,
 	app,
 	tpl
 ) {
@@ -51,7 +51,7 @@ define([
 		},
 
 		showDeliveryView: function(e) {
-			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionView());
+			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionParentView());
 		}
 	});
 
