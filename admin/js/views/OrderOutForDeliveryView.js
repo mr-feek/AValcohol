@@ -3,12 +3,14 @@
  */
 define([
 	'marionette',
+	'../../../shared/js/models/OrderDeliveryDetails',
 	'views/ProductView',
 	'views/CustomerInfoCollection/ParentView',
 	'App',
 	'tpl!templates/order-out-for-delivery.html'
 ], function (
 	Mn,
+	OrderDeliveryDetails,
 	ProductView,
 	CustomerInfoCollectionParentView,
 	app,
@@ -51,7 +53,11 @@ define([
 		},
 
 		showDeliveryView: function(e) {
-			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionParentView());
+			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionParentView({
+				model: OrderDeliveryDetails.findOrCreate({
+					order: this.model
+				})
+			}));
 		}
 	});
 

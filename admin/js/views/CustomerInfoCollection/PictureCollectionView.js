@@ -11,22 +11,19 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		parent: null,
-
 		className: 'collect-customer-info',
 
 		events: {
-			'click @ui.clear' : 'clearSignature',
-			'click @ui.next' : 'nextClicked',
 			'click @ui.previous' : 'previousClicked',
+			'click @ui.submit' : 'submitClicked',
 			'change @ui.pictureSelect' : 'pictureSelected'
 		},
 
 		ui: {
 			'pictureSelect' : '.picture-upload',
 			'preview' : '#preview',
-			'clear' : '.clear',
-			'next' : '.next',
-			'previous' : '.previous'
+			'previous' : '.previous',
+			'submit' : '.submit'
 		},
 
 		/**
@@ -39,22 +36,27 @@ define([
 			reader.onload = function(e) {
 				this.ui.preview.attr('src', e.target.result);
 				this.ui.preview.fadeIn();
+				this.model.set('photoData', e.target.result);
+				this.enableSubmitButton();
 			}.bind(this);
 
 			reader.readAsDataURL(e.target.files[0]);
 		},
 
-		clearSignature: function() {
-			this.ui.signature.jSignature('reset');
-		},
-
 		initialize: function(options) {
 			this.parent = options.parent;
-			_.bindAll(this, 'nextClicked');
+			_.bindAll(this, 'previousClicked');
 		},
 
-		nextClicked(evt) {
-			this.parent.trigger('show:next');
+		enableSubmitButton: function() {
+			this.ui.submit.removeClass('disabled');
+		},
+
+		submitClicked: function() {
+			if (this.ui.submit.hasClass('disabled')) {
+				return;
+			}
+			this.triggerMethod('submit:details');
 		},
 
 		previousClicked(evt) {

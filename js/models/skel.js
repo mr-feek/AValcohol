@@ -4,7 +4,11 @@ define([
 	Backbone
 ) {
 	var model = Backbone.Model.extend({
-		urlRoot: 'php/api/'
+		urlRoot: '/api/',
+
+		defaults: {
+
+		}
 	});
 
 	return model;

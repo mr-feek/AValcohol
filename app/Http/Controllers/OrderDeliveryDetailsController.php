@@ -7,7 +7,7 @@ use App\Models\OrderIdentity;
 use App\Http\Services\OrderIdentityService;
 use Illuminate\Http\Request;
 
-class OrderIdentityController extends Controller
+class OrderDeliveryDetailsController extends Controller
 {
 
 	/**
@@ -16,18 +16,18 @@ class OrderIdentityController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws APIException
 	 */
-	public function createOrder(Request $request, OrderIdentityService $service) {
+	public function create(Request $request, OrderIdentityService $service) {
 		$this->validate($request, [
-			'photoId' => 'required',
-			'signature' => 'required',
-			'orderId' => 'required'
+			'photoData' => 'required',
+			'signatureSVGData' => 'required',
+			'order_id' => 'required'
 		]);
 
-		$orderIdentity = $service->record($request->input());
+		$orderDeliveryDetails = $service->record($request->input());
 
 		return response()->json([
 			'success' => true,
-			'orderIdentity' => $orderIdentity
+			'delivery_details' => $orderDeliveryDetails
 		]);
 	}
 }

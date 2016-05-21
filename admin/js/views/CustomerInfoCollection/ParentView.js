@@ -20,6 +20,10 @@ define([
 			'sub-region' : '.sub-region'
 		},
 
+		childEvents: {
+			'submit:details' : 'submitDeliveryDetails'
+		},
+
 		behaviors: {
 			Modal: {
 				behaviorClass: Modal
@@ -31,11 +35,25 @@ define([
 
 		initialize: function(options) {
 			var viewsToShow = [
-				new SignatureView({		parent: this	}),
-				new PictureView({	parent: this	})
+				new SignatureView({
+					parent: this,
+					model: this.model
+				}),
+				new PictureView({
+					parent: this,
+					model: this.model
+				})
 			];
 			this.triggerMethod('setViewFlow', viewsToShow);
 			this.triggerMethod('setRegion', this.getRegion('sub-region'));
+		},
+
+		submitDeliveryDetails: function() {
+			this.model.save().done(function(a, b, c) {
+				debugger;
+			}.bind(this)).fail(function(a, b, c) {
+				debugger;
+			}.bind(this));
 		}
 	});
 

@@ -46,6 +46,7 @@ $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], functi
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
 	$app->post('vendor', 'VendorController@create');
+	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {

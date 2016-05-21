@@ -13,7 +13,6 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		parent: null,
-
 		className: 'collect-customer-info',
 
 		events: {
@@ -44,7 +43,15 @@ define([
 		},
 
 		nextClicked(evt) {
+			if (this.ui.signature.jSignature('getData', 'native').length === 0) {
+				alert('no signature detected');
+				return;
+			}
+
 			this.parent.trigger('show:next');
+			// set signature data on model
+			var svgData = this.ui.signature.jSignature('getData', 'svgbase64')[1];
+			this.model.set('signatureSVGData', svgData);
 		}
 	});
 
