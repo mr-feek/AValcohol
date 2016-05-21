@@ -20,7 +20,9 @@ require.config({
 		'async': 				'../../vendor/requirejs-plugins/src/async',
 		'stripe':				'https://js.stripe.com/v2/?noext',
 		'backbone.poller':		'../../vendor/backbone-poller/backbone.poller',
-		'moment':				'../../vendor/moment/moment'
+		'moment':				'../../vendor/moment/moment',
+		'jSignature':			'../../vendor/jSignature/libs/jSignature.min',
+		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors'
 	},
 	shim: {
 		underscore: {
@@ -62,7 +64,7 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'../../shared/js/models/Config',
-	'foundation',
+	'foundation'
 ], function (
 	app,
 	Backbone,

@@ -10,7 +10,7 @@ define([
 	'../../../shared/js/models/Order',
 	'../../../shared/js/models/Card',
 	'views/cart/CartProductView',
-	'../../../shared/js/behaviors/ModelSaveAnimation',
+	'behaviors/ModelSaveAnimation',
 	'../../../shared/js/util/Vent',
 	'tpl!templates/checkout/order-review.html'
 ], function (

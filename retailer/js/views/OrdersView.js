@@ -5,12 +5,14 @@ define([
 	'marionette',
 	'backbone.poller',
 	'collections/Orders',
+	'views/NoOrdersView',
 	'views/OrderView',
-	'../../../shared/js/behaviors/CollectionLoadingIndicator'
+	'behaviors/CollectionLoading'
 ], function (
 	Mn,
 	BackbonePoller,
 	Orders,
+	NoOrdersView,
 	OrderView,
 	CollectionLoadingIndicator
 ) {
@@ -18,13 +20,13 @@ define([
 		tagName: 'div',
 		className: '',
 		childView: OrderView,
+		emptyView: NoOrdersView,
 
 		behaviors: {
 			CollectionLoadingIndicator: {
 				behaviorClass: CollectionLoadingIndicator
 			}
 		},
-
 
 		events: {},
 

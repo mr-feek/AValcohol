@@ -8,6 +8,7 @@ define([
 	'views/checkout/OrderReviewView',
 	'views/checkout/OrderSubmittedView',
 	'../../../shared/js/util/Vent',
+	'behaviors/StateManager',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
@@ -19,6 +20,7 @@ define([
 	OrderReviewView,
 	OrderSubmittedView,
 	Vent,
+	StateManager,
 	tpl
 ) {
 
@@ -30,18 +32,24 @@ define([
 		template: tpl,
 		tagName: 'div',
 		className: 'small-12 columns checkout',
-		currentIndex: 0,
-		viewFlow: [], // populated in initialize
 		region: null, // initialize
 
+		behaviors: {
+			StateManager: {
+				behaviorClass: StateManager
+			}
+		},
+
 		events: {
-			'click @ui.savedView' : '_goToView'
+			'click @ui.savedView' : '_goToView',
+			'click @ui.active' : '_goToView' // allow to click back to active view
 		},
 
 		ui: {
 			'statusArea' : '.status-area',
 			'statuses' : '.status',
-			'savedView' : '.submitted'
+			'savedView' : '.submitted', // all views that have already been saved
+			'active' : '.active'
 		},
 
 		regions: {
@@ -60,12 +68,45 @@ define([
 				Stripe.setPublishableKey(response.key);
 			}.bind(this));
 
-			this.viewFlow.push(
+			var viewsToShow = [
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
 				new BillingInfoEntryView({	parent:	this }),
 				new OrderReviewView({	parent: this })
-			);
+			];
+
+			this.triggerMethod('setViewFlow', viewsToShow);
+			this.triggerMethod('setRegion', this.getRegion('current')); // is this set here?
+
+			this.on('before:showNext', this.beforeShowNext); // triggered by behavior
+		},
+
+		/**
+		 * Adds class active as well as removes the disabled class. Removes active class from previous and adds submitted
+		 * @private
+		 */
+		_updateStatus: function(currentIndex) {
+			var $status = $(this.ui.statuses[currentIndex]);
+			$status.addClass('active');
+			$status.removeClass('disabled');
+
+			var $prevStatus = $(this.ui.statuses[currentIndex - 1]);
+			$prevStatus.removeClass('active');
+			$prevStatus.addClass('submitted');
+		},
+
+		// handle any logic before behavior switches views.
+		beforeShowNext: function(currentIndex) {
+			this._updateStatus(currentIndex);
+		},
+
+		/**
+		 * Removes the current view from being active
+		 * @private
+		 */
+		_removeActiveClass: function(currentIndex) {
+			var $status = $(this.ui.statuses[currentIndex]);
+			$status.removeClass('active');
 		},
 
 		/**
@@ -76,60 +117,6 @@ define([
 			this.region.show(new OrderSubmittedView({ model: order }));
 		},
 
-		onBeforeShow: function() {
-			this._showCurrentView();
-		},
-
-		/**
-		 * Updates the current status and shows the view at the current index
-		 * @private
-		 */
-		_showCurrentView: function() {
-			this._updateStatus();
-			// we are preventing destroy here, so remember to clean up later
-			this.getRegion('current').show(this.viewFlow[this.currentIndex], {	preventDestroy:	true	});
-		},
-
-		/**
-		 * Increments the current index and shows the next view, also updating the active class
-		 */
-		showNext: function() {
-			this._removeActiveClass();
-			this.currentIndex++;
-			this._showCurrentView();
-		},
-
-		/**
-		 * Adds class submitted and active as well as removes the disabled class. Does NOT remove an active class
-		 * from the previous state, so do so yourself
-		 * @private
-		 */
-		_updateStatus: function() {
-			var $status = $(this.ui.statuses[this.currentIndex]);
-			$status.addClass('submitted');
-			$status.addClass('active');
-			$status.removeClass('disabled');
-		},
-
-		/**
-		 * Removes the current view from being active
-		 * @private
-		 */
-		_removeActiveClass: function() {
-			var $status = $(this.ui.statuses[this.currentIndex]);
-			$status.removeClass('active');
-		},
-
-		/**
-		 * Helper function to switch which index is being shown. Updates the active class
-		 * @param index
-		 */
-		goToIndex: function(index) {
-			this._removeActiveClass();
-			this.currentIndex = index;
-			this._showCurrentView();
-		},
-
 		/**
 		 * Function to go to the clicked view (from the status thing)
 		 * @param evt
@@ -137,13 +124,16 @@ define([
 		 */
 		_goToView: function(evt) {
 			this._removeActiveClass();
+			var indexToShow = null;
+
 			_.each(this.ui.statuses, function(status, index) {
 				if (evt.currentTarget === status) {
-					this.currentIndex = index;
+					indexToShow = index;
 				}
 			}.bind(this));
 
-			this._showCurrentView();
+			// call behavior
+			this.triggerMethod('goToIndex', indexToShow);
 		}
 	});
 

@@ -15,7 +15,8 @@ require.config({
 		'async': 				'../vendor/requirejs-plugins/src/async',
 		'stripe':				'https://js.stripe.com/v2/?noext',
 		'moment':				'../vendor/moment/moment',
-		'pickaday':				'../vendor/pikaday/pikaday'
+		'pickaday':				'../vendor/pikaday/pikaday',
+		'behaviors':			'../vendor/UsefulMarionetteViewBehaviors'
 	},
 	shim: {
 		underscore: {

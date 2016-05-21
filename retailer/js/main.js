@@ -20,7 +20,8 @@ require.config({
 		'async': 				'../../vendor/requirejs-plugins/src/async',
 		'stripe':				'https://js.stripe.com/v2/?noext',
 		'backbone.poller':		'../../vendor/backbone-poller/backbone.poller',
-		'moment':				'../../vendor/moment/moment'
+		'moment':				'../../vendor/moment/moment',
+		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors'
 	},
 	shim: {
 		underscore: {
@@ -62,8 +63,9 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'models/Vendor',
+	'models/Session',
 	'../../shared/js/models/Config',
-	'foundation',
+	'foundation'
 ], function (
 	app,
 	Backbone,
@@ -71,6 +73,7 @@ require([
 	Controller,
 	Router,
 	Vendor,
+	Session,
 	Config
 ) {
 	$(document).foundation();
@@ -83,8 +86,21 @@ require([
 		});
 
 		app.vendor = new Vendor();
+		app.session = new Session();
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
+
+		// subscribe to error codes
+		$.ajaxSetup({
+			statusCode: {
+				401 : function() {
+					app.router.navigate('retailer/login', { trigger: true });
+				},
+				403 : function() {
+					app.router.navigate('retailer/login', { trigger: true });
+				}
+			}
+		});
 	});
 
 	// screw it, we're waiting for config to fetch before starting app

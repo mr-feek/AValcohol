@@ -66,7 +66,7 @@ class UserControllerTest extends TestCase
 
 		$this->post('/user', $user->toArray());
 
-		$this->seeJsonEquals([
+		$this->seeJson([
 			'date_of_birth' => ['You must be 21 in order to create an account']
 		]);
 	}

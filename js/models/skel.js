@@ -3,9 +3,9 @@ define([
 ], function(
 	Backbone
 ) {
-	var  = Backbone.Model.extend({
+	var model = Backbone.Model.extend({
 		urlRoot: 'php/api/'
 	});
 
-	return ;
+	return model;
 });

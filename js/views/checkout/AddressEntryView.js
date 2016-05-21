@@ -2,8 +2,8 @@ define([
 	'marionette',
 	'App',
 	'../../../shared/js/models/UserAddress',
-	'../../../shared/js/behaviors/ModelFormSave',
-	'../../../shared/js/behaviors/ModelSaveAnimation',
+	'behaviors/ModelFormSave',
+	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'
 ], function (
 	Mn,
@@ -70,7 +70,7 @@ define([
 		},
 
 		modelSaveSuccess: function(response) {
-			this.parent.showNext();
+			this.parent.trigger('show:next');
 		}
 	});
 
