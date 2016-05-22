@@ -11,9 +11,8 @@ class OrderDeliveryDetailsController extends Controller
 {
 	/**
 	 * @param Request $request
-	 * @param \App\Http\Controllers\OrderIdentityService|OrderIdentityService $service
+	 * @param OrderIdentityService|OrderDeliveryDetailsService $service
 	 * @return \Symfony\Component\HttpFoundation\Response
-	 * @throws APIException
 	 */
 	public function create(Request $request, OrderDeliveryDetailsService $service) {
 		$this->validate($request, [

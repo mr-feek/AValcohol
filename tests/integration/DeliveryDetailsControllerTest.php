@@ -25,6 +25,10 @@ class DeliveryDetailsControllerTest extends TestCase
 			'order_id' => $data['order_id'],
 			'signature' => $data['signature']
 		]);
+
+		$this->seeInDatabase('order_statuses', [
+			'delivery_status' => 'delivered'
+		]);
 	}
 
 	public function testCreateOrderDeliveryDetailsFailsWithInvalidSignatureBase64() {
