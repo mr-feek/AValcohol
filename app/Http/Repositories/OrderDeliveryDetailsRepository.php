@@ -87,7 +87,6 @@ class OrderDeliveryDetailsRepository extends BaseRepository implements OrderDeli
 		if (!is_dir($directory)) {
 			// dir doesn't exist, make it
 			$old = umask(0);
-			$check = umask(0);
 			mkdir($directory, 0755, true); // TODO: fix permissions
 			umask($old);
 		}

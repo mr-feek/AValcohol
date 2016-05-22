@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\APIException;
+use App\Http\Services\OrderDeliveryDetailsService;
 use App\Models\OrderIdentity;
-use App\Http\Services\OrderIdentityService;
 use Illuminate\Http\Request;
 
 class OrderDeliveryDetailsController extends Controller
 {
-
 	/**
 	 * @param Request $request
 	 * @param \App\Http\Controllers\OrderIdentityService|OrderIdentityService $service
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws APIException
 	 */
-	public function create(Request $request, OrderIdentityService $service) {
+	public function create(Request $request, OrderDeliveryDetailsService $service) {
 		$this->validate($request, [
 			'photoData' => 'required',
 			'signature' => 'required', // svg data
