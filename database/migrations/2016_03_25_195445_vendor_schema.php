@@ -117,7 +117,7 @@ class VendorSchema extends Migration
 			$table->timestamps();
 
 			$table->foreign('order_id')
-				->references('id')->on('users')
+				->references('id')->on('orders')
 				->onDelete('cascade');
 		});
     }
