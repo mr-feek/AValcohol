@@ -40,6 +40,8 @@ class OrderDeliveryDetailsRepository extends BaseRepository implements OrderDeli
 	 * @param $data the encoded picture data IE data:image/png;base64,iVBORw0KGgoA...
 	 * @return string the fully quantified path to the saved photo
 	 * @throws APIException if picture could not be saved
+	 *
+	 * TODO: if an error happens while saving, cleanup this file
 	 */
 	public function savePhoto($data)
 	{

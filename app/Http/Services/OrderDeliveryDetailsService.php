@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface;
 use App\Http\Repositories\Interfaces\OrderStatusInterface;
+use Illuminate\Support\Facades\DB;
 
 class OrderDeliveryDetailsService extends BaseService
 {
@@ -27,14 +28,17 @@ class OrderDeliveryDetailsService extends BaseService
      */
     public function create(array $data)
     {
-		$deliveryDetails = $this->repo->create($data);
+	    $deliveryDetails = null;
+	    DB::transaction(function() use( &$deliveryDetails, $data) {
+		    $deliveryDetails = $this->repo->create($data);
 
-	    $orderStatusData = [
-		    'delivery_status' => 'delivered',
-		    'order_id' => $data['order_id']
-	    ];
+		    $orderStatusData = [
+			    'delivery_status' => 'delivered',
+			    'order_id' => $data['order_id']
+		    ];
 
-	    $this->orderStatusService->update($orderStatusData);
+		    $this->orderStatusService->update($orderStatusData);
+	    });
 		return $deliveryDetails;
     }
 }
