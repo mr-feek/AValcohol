@@ -112,10 +112,8 @@ class VendorSchema extends Migration
 
 		Schema::create('order_delivery_details', function(Blueprint $table) {
 			$table->unsignedInteger('order_id');
-                        //photo_path would be better description - not a url
-			$table->string('picture_url');
-                        //Should be text type (not sure what the method is)
-			$table->string('signature'); // probably gonna mess around with this...
+			$table->string('photo_path');
+			$table->text('signature');
 			$table->timestamps();
 
 			$table->foreign('order_id')
