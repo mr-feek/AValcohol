@@ -54,7 +54,7 @@ define([
 				reverseRelation: {
 					key: 'order',
 					type: Backbone.HasOne,
-					includeInJSON: true
+					includeInJSON: 'id'
 				}
 			}
 		],

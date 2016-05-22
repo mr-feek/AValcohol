@@ -51,7 +51,7 @@ define([
 			this.parent.trigger('show:next');
 			// set signature data on model
 			var svgData = this.ui.signature.jSignature('getData', 'svgbase64')[1];
-			this.model.set('signatureSVGData', svgData);
+			this.model.set('signature', svgData);
 		}
 	});
 

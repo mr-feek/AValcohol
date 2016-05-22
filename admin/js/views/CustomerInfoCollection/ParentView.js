@@ -49,10 +49,10 @@ define([
 		},
 
 		submitDeliveryDetails: function() {
-			this.model.save().done(function(a, b, c) {
+			this.model.save().done(function(response) {
 				debugger;
-			}.bind(this)).fail(function(a, b, c) {
-				debugger;
+			}.bind(this)).fail(function(response) {
+				alert('Something went wrong with saving the signature and photo, please try again. If the problem continues, contact your manager ASAP to report the issue to the development team.');
 			}.bind(this));
 		}
 	});

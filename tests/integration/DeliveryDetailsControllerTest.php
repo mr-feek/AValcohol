@@ -27,7 +27,8 @@ class DeliveryDetailsControllerTest extends TestCase
 		]);
 
 		$this->seeInDatabase('order_statuses', [
-			'delivery_status' => 'delivered'
+			'delivery_status' => 'delivered',
+			'order_id' => $data['order_id']
 		]);
 	}
 

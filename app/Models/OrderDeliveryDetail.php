@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderDeliveryDetail extends Model
 {
+	protected $primaryKey = 'order_id';
+	public $incrementing = false;
 	protected $fillable = ['signature', 'order_id'];
 	protected $hidden = ['photo_path'];
 }
