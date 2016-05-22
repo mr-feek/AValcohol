@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\OrderDeliveryDetailsRepository;
+use App\Models\OrderDeliveryDetail;
 use App\Models\OrderStatus;
 use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
@@ -119,6 +121,15 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind('OrderStatusService', function($app)
 		{
 			return new OrderStatusService($app->make('Repositories\Interfaces\OrderStatusInterface'));
+		});
+
+		$this->app->bind('App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface', function($app)
+		{
+			return new OrderDeliveryDetailsRepository(new OrderDeliveryDetail());
+		});
+		$this->app->bind('OrderDeliveryDetailsService', function($app)
+		{
+			return new OrderDeliveryDetailsService($app->make('Repositories\Interfaces\OrderDeliveryDetailsInterface'));
 		});
 	}
 }

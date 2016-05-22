@@ -19,11 +19,21 @@ class OrderDeliveryDetailsController extends Controller
 	public function create(Request $request, OrderIdentityService $service) {
 		$this->validate($request, [
 			'photoData' => 'required',
-			'signatureSVGData' => 'required',
+			'signature' => 'required', // svg data
 			'order_id' => 'required'
 		]);
 
-		$orderDeliveryDetails = $service->record($request->input());
+		$signatureData = $request->input('signature');
+
+		// check for valid base64
+		if (base64_encode(base64_decode($signatureData, true)) !== $signatureData){
+			return response()->json([
+				'success' => false,
+				'message' => 'Did not receive valid base 64 encoded data'
+			]);
+		}
+
+		$orderDeliveryDetails = $service->create($request->input());
 
 		return response()->json([
 			'success' => true,

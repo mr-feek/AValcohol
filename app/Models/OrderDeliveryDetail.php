@@ -25,8 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $photo_path
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail wherePhotoPath($value)
  */
 class OrderDeliveryDetail extends Model
 {
-
+	protected $fillable = ['signature', 'order_id'];
+	protected $hidden = ['photo_path'];
 }
