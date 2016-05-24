@@ -35,7 +35,8 @@ class OrdersTableSeeder extends Seeder
 					'vendor_id' => $p->vendor_id
 				]);
 
-				$o->amount += $p->sale_price;
+				$o->full_charge_amount += $p->sale_price;
+				$o->vendor_charge_amount += $p->vendor_price;
 			}
 
 			// need to create default status record entry...

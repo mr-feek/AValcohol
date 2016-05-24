@@ -41,7 +41,8 @@ class AdminControllerTest extends TestCase
 			'orders' => [
 				'*' => [
 					'id',
-					'amount',
+					'full_charge_amount',
+					'vendor_charge_amount',
 					'note',
 					'user' => [
 						'profile' => [

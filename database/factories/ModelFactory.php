@@ -72,7 +72,8 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 	}
 
 	return [
-		'amount' => $faker->randomNumber(2),
+		'full_charge_amount' => $faker->randomNumber(2),
+		'vendor_charge_amount' => $faker->randomNumber(2),
 		'user_id' => $user->id,
 		'user_address_id' => $u->address->id,
 		'vendor_id' => 1 // temp

@@ -35,6 +35,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property integer $vendor_id
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereVendorId($value)
+ * @property float $full_charge_amount
+ * @property float $vendor_charge_amount
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereFullChargeAmount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereVendorChargeAmount($value)
  */
 class Order extends Model
 {
