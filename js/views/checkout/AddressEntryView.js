@@ -70,7 +70,7 @@ define([
 		},
 
 		modelSaveSuccess: function(response) {
-			this.parent.showNext();
+			this.parent.trigger('show:next');
 		}
 	});
 

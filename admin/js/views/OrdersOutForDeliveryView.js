@@ -4,12 +4,14 @@
 define([
 	'marionette',
 	'backbone.poller',
+	'util/Vent',
 	'collections/Orders',
 	'views/OrderOutForDeliveryView',
 	'behaviors/CollectionLoading'
 ], function (
 	Mn,
 	BackbonePoller,
+	Vent,
 	Orders,
 	OrderOutForDeliveryView,
 	CollectionLoadingIndicator
@@ -37,6 +39,12 @@ define([
 			};
 
 			this.poller = BackbonePoller.get(this.collection, options);
+
+			// when a signature and picture is collected the order is essentially  delivered, 
+			// we need to remove it from this collection to update the ui
+			this.listenTo(Vent, 'ordersOutForDeliveryCollection:remove', this.removeModelFromCollection); 
+			
+			_.bindAll(this, 'removeModelFromCollection');
 		},
 
 		onShow: function() {
@@ -45,6 +53,10 @@ define([
 
 		onBeforeDestroy: function() {
 			this.poller.destroy();
+		},
+		
+		removeModelFromCollection: function(id) {
+			this.collection.remove(id);
 		}
 	});
 

@@ -1,8 +1,7 @@
 vendor/
 node_modules/
 css/
-sass/.sass-cache/
-vendors/sass/.sass-cache/
+.sass-cache/
 .idea/
 local/
 composer.lock
@@ -15,4 +14,5 @@ _ide_helper_models.php
 .phpstorm.meta.php
 storage/
 composer-setup.php
+nbproject/
 clover.xml

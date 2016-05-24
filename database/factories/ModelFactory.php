@@ -118,3 +118,10 @@ $factory->define(\App\Models\DeliveryZone::class, function(\Faker\Generator $fak
 		]
 	];
 });
+
+$factory->define(\App\Models\OrderDeliveryDetail::class, function(\Faker\Generator $faker) {
+	return [
+		'photo_path' => $faker->imageUrl(),
+		'signature' => $faker->image()
+	];
+});

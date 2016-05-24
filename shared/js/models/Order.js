@@ -4,13 +4,15 @@ define([
 	'../../../shared/js/models/Product',
 	'../../../shared/js/models/OrderStatus',
 	'../../../shared/js/models/UserAddress',
+	'../../../shared/js/models/OrderDeliveryDetails',
 	'backboneRelational'
 ], function (
 	Backbone,
 	User,
 	Product,
 	OrderStatus,
-	UserAddress
+	UserAddress,
+	DeliveryDetails
 ) {
 	var Order = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order',
@@ -44,13 +46,25 @@ define([
 				relatedModel: UserAddress,
 				includeInJSON: true
 			},
+			{
+				type: Backbone.HasOne,
+				key: 'delivery_details',
+				relatedModel: DeliveryDetails,
+				includeInJSON: false,
+				reverseRelation: {
+					key: 'order',
+					type: Backbone.HasOne,
+					includeInJSON: 'id'
+				}
+			}
 		],
 
 		defaults: {
 			products: null,
 			user: null,
 			stripe_token: null,
-			note: null
+			note: null,
+			delivery_details: null
 		},
 
 		parse: function(response, xhr) {

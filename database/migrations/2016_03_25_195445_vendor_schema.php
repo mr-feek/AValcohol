@@ -112,12 +112,12 @@ class VendorSchema extends Migration
 
 		Schema::create('order_delivery_details', function(Blueprint $table) {
 			$table->unsignedInteger('order_id');
-			$table->string('picture_url');
-			$table->string('signature'); // probably gonna mess around with this...
+			$table->string('photo_path');
+			$table->text('signature');
 			$table->timestamps();
 
 			$table->foreign('order_id')
-				->references('id')->on('users')
+				->references('id')->on('orders')
 				->onDelete('cascade');
 		});
     }

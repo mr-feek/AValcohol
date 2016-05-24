@@ -3,11 +3,17 @@
  */
 define([
 	'marionette',
+	'../../../shared/js/models/OrderDeliveryDetails',
 	'views/ProductView',
+	'views/CustomerInfoCollection/ParentView',
+	'App',
 	'tpl!templates/order-out-for-delivery.html'
 ], function (
 	Mn,
+	OrderDeliveryDetails,
 	ProductView,
+	CustomerInfoCollectionParentView,
+	app,
 	tpl
 ) {
 	var view = Mn.CompositeView.extend({
@@ -47,8 +53,11 @@ define([
 		},
 
 		showDeliveryView: function(e) {
-			e.preventDefault();
-			alert('will begin collecting signature and picture here');
+			app.rootView.getRegion('modalRegion').show(new CustomerInfoCollectionParentView({
+				model: OrderDeliveryDetails.findOrCreate({
+					order: this.model
+				})
+			}));
 		}
 	});
 

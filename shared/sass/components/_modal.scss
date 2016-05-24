@@ -39,6 +39,16 @@ $contentPadding: 1rem;
 		z-index: 999;
 		position: relative;
 
+		.title {
+			font-size: 1.25rem;
+			border-bottom: 2px solid $dark-text-color;
+			padding-bottom: 1rem;
+		}
+
+		.main-content {
+			padding-top: 2rem;
+		}
+
 		.actions {
 			border-top: 2px solid $dark-text-color;
 			padding-top: $contentPadding;

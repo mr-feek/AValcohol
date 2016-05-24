@@ -19,7 +19,11 @@ define([
 		regions: {
 			header: 'header',
 			main: '#main',
-			modalRegion: '.modal-region'
+			modalRegion: '.modal-mount-point'
+		},
+		
+		ui: {
+			'modalWrapper' : '.modal-region'
 		},
 
 		initialize: function (options) {
