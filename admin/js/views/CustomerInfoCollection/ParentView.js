@@ -1,5 +1,7 @@
 define([
 	'marionette',
+	'App',
+	'util/Vent',
 	'behaviors/Modal',
 	'behaviors/StateManager',
 	'views/CustomerInfoCollection/SignatureCollectionView',
@@ -7,6 +9,8 @@ define([
 	'tpl!templates/CustomerInfoCollection/parent.html'
 ], function(
 	Mn,
+	app,
+	Vent,
 	Modal,
 	StateManager,
 	SignatureView,
@@ -50,10 +54,20 @@ define([
 
 		submitDeliveryDetails: function() {
 			this.model.save().done(function(response) {
-				debugger;
+				this.modelSaved();
 			}.bind(this)).fail(function(response) {
 				alert('Something went wrong with saving the signature and photo, please try again. If the problem continues, contact your manager ASAP to report the issue to the development team.');
 			}.bind(this));
+		},
+
+		modelSaved: function() {
+			this.$el.html('<h1 class="text-center">Nice!</h1>');
+			window.navigator.vibrate(200); // vibrate phone
+			setTimeout(function() {
+				app.rootView.ui.modalWrapper.fadeOut()
+				this.destroy();
+				Vent.trigger('ordersOutForDeliveryCollection:remove', this.model.id);
+			}.bind(this), 500);
 		}
 	});
 

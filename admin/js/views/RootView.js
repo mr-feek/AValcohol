@@ -21,6 +21,10 @@ define([
 			main: '#main',
 			modalRegion: '.modal-mount-point'
 		},
+		
+		ui: {
+			'modalWrapper' : '.modal-region'
+		},
 
 		initialize: function (options) {
 			Vent.on('modal:close', this.closeModal, this);
