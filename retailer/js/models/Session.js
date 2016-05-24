@@ -55,6 +55,8 @@ define([
 					password: data.password
 				},
 				function(result) {
+					// fetch vendor details
+					
 					this.onLoginSuccess(result.token);
 				}.bind(this)
 			).fail(function(result) {

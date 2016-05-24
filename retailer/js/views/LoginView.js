@@ -35,8 +35,7 @@ define([
 			this.listenTo(this.model, "invalid", this.validationError);
 
 			_.bindAll(this, 'passwordCharacterTyped');
-
-			Vent.on('vendor:authenticated', this.onLoginSuccess);
+			this.listenTo(Vent, 'vendor:authenticated', this.onLoginSuccess);
 		},
 
 		passwordCharacterTyped: function(evt) {
@@ -50,6 +49,7 @@ define([
 		 * submits a login request with supplied email and password
 		 */
 		login: function() {
+			// only setting these to piggyback the validation
 			this.model.set('email', this.ui.email.val());
 			this.model.set('password', this.ui.password.val());
 
@@ -92,7 +92,10 @@ define([
 		},
 
 		onLoginSuccess: function() {
-			app.router.navigate('retailer/dashboard', {trigger: true});
+			// we need to now fetch the vendor info
+			this.model.fetch().done(function() {
+				app.router.navigate('retailer/dashboard', {trigger: true});
+			});
 		}
 	});
 

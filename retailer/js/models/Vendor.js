@@ -7,15 +7,18 @@ define([
 	Backbone
 ) {
 	var Vendor = Backbone.Model.extend({
-		urlRoot: '/api/vendor/',
+		urlRoot: '/api/vendor',
 
 		parse: function(response, xhr) {
 			return response.vendor;
 		},
 
+		/**
+		 * This should be updated. These are user table props, not vendor table props. Use backbone relational to fix
+		 */
 		defaults: {
 			email: null,
-			name: 'Vendor Name',
+			name: null,
 			password: null,
 			autoAcceptOrders: true
 		},

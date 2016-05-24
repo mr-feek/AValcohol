@@ -40,6 +40,7 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 // jwt-auth === UserAuthenticatedMiddleware
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
+	$app->get('', 'VendorController@get');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
