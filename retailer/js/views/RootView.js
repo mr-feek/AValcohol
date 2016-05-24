@@ -3,12 +3,12 @@
  */
 define([
 	'marionette',
-	'views/VendorSettingsView',
+	//'views/VendorSettingsView',
 	'../../../shared/js/util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
-	VendorSettingsView,
+	//VendorSettingsView,
 	Vent,
 	tpl
 ) {
@@ -26,16 +26,18 @@ define([
 
 		initialize: function (options) {
 			Vent.on('modal:close', this.closeModal, this);
-			Vent.on('settings:show', this.showSettings, this);
+			//Vent.on('settings:show', this.showSettings, this);
 		},
 
 		closeModal: function() {
 			this.getRegion('modalRegion').empty();
 		},
 
+		/*
 		showSettings: function() {
 			this.getRegion('modalRegion').show(new VendorSettingsView());
 		}
+		*/
 	});
 
 	return RootView;
