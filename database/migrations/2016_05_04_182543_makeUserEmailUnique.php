@@ -12,9 +12,12 @@ class MakeUserEmailUnique extends Migration
      */
     public function up()
     {
+	    /*
+	     * commenting out cause for mvp we don't have accounts and emails don't need to be unique
         Schema::table('users', function(Blueprint $table) {
 			$table->unique('email');
 		});
+	    */
     }
 
     /**
