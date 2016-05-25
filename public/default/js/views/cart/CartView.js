@@ -1,11 +1,13 @@
 define([
 	'marionette',
 	'views/cart/CartProductView',
+	'views/cart/EmptyCartView',
 	'App',
 	'tpl!templates/cart/cart.html'
 ], function (
 	Mn,
 	CartProductView,
+	EmptyCartView,
 	App,
 	tpl
 ) {
@@ -15,6 +17,7 @@ define([
 		className: 'cart-sidebar',
 		childView: CartProductView,
 		childViewContainer: '.products',
+		emptyView: EmptyCartView,
 
 		templateHelpers: function() {
 			return {

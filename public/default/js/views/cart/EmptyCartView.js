@@ -8,7 +8,7 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'empty',
 
 		templateHelpers: function() {
 			var view = this;
