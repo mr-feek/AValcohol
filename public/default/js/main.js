@@ -76,14 +76,17 @@ require([
 	app.on('start', function() {
 		app.rootView = new RootView();
 
+		app.cart = new Cart();
+		app.user = User.findOrCreate({});
+		app.rootView.render();
+
 		var controller = new Controller({
 			rootView: app.rootView
 		});
 
-		app.cart = new Cart();
-		app.user = User.findOrCreate({});
-		app.rootView.render();
-		app.router = new Router({ controller: controller });
+		app.router = new Router({
+			controller: controller
+		});
 	});
 
 	// screw it, we're waiting for config to fetch before starting app

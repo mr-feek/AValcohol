@@ -7,13 +7,15 @@ define([
 	'views/landing/HeaderView',
 	'views/landing/MVPHomeView',
 	'views/user-home/UserHomeView',
-	'views/checkout/CheckoutView'
+	'views/checkout/CheckoutView',
+	'App'
 ], function (
 	Marionette,
 	HeaderView,
 	MVPHomeView,
 	UserHomeView,
-	CheckoutView
+	CheckoutView,
+	app
 ) {
 	var Controller = Marionette.Object.extend({
 		rootView: null,
@@ -21,7 +23,7 @@ define([
 		initialize: function(options) {
 			this.rootView = options.rootView;
 
-			_.bindAll(this, 'showHome');
+			_.bindAll(this, 'showHome', 'showCheckout');
 		},
 
 		showHome: function() {
@@ -40,6 +42,11 @@ define([
 		},
 
 		showCheckout: function() {
+			if (app.cart.length == 0) {
+				alert('You don\'t have any items in your cart! Let\'s change that.');
+				app.router.navigate('', {trigger: true});
+				return;
+			}
 			var region = this.rootView.getRegion('main');
 			region.show(new CheckoutView({	region: region }));
 		}
