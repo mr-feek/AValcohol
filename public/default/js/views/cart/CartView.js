@@ -39,8 +39,8 @@ define([
 		},
 
 		collectionEvents: {
-			'update' : 'updateTotals',
-			'change:quantity' : 'updateTotals'
+			'update' : 'collectionChanged',
+			'change:quantity' : 'collectionChanged'
 		},
 
 		/**
@@ -51,6 +51,15 @@ define([
 			this.collection = options.collection;
 		},
 
+		collectionChanged: function() {
+			if (this.collection.length == 0) {
+				this.ui.checkout.addClass('disabled');
+			} else {
+				this.ui.checkout.removeClass('disabled');
+			}
+			this.updateTotals();
+		},
+
 		updateTotals: function() {
 			var subtotal = App.cart.calculateSubtotal();
 			this.ui.subTotal.html('$' + subtotal);
@@ -58,6 +67,9 @@ define([
 
 		showCheckout: function(e) {
 			e.preventDefault();
+			if (this.ui.checkout.hasClass('disabled')) {
+				return;
+			}
 			App.rootView.closeOffCanvas(true); // clean up this view
 			App.router.navigate('checkout', {trigger: true});
 		},
