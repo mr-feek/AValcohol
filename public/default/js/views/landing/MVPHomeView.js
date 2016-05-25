@@ -18,14 +18,12 @@ define([
 
 		events: {
 			'click @ui.submitAddress' : 'addressSubmitted',
-			'keydown @ui.streetAddress' : 'addressSubmitted',
-			'click @ui.skipEntry' : 'showUserHome'
+			'keydown @ui.streetAddress' : 'addressSubmitted'
 		},
 
 		ui: {
 			'streetAddress' : '.street-address',
 			'submitAddress' : '.submit-address',
-			'skipEntry' : '.skip-entry',
 			'alertArea' : '.alert-area'
 		},
 
