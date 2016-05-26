@@ -31,7 +31,11 @@ define([
 			header: 'header',
 			main: '#main',
 			rightOffCanvas: '.right-off-canvas-menu',
-			modalRegion: '.modal-region'
+			modalRegion: '.modal-mount-point'
+		},
+
+		ui: {
+			'modalWrapper' : '.modal-region'
 		},
 
 		initialize: function (options) {

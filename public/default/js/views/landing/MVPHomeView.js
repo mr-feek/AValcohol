@@ -1,6 +1,7 @@
 define([
 	'marionette',
 	'App',
+	'views/landing/CannotDeliverView',
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
 	'tpl!templates/landing/mvp-home.html',
@@ -8,6 +9,7 @@ define([
 ], function (
 	Mn,
 	app,
+	CannotDeliverView,
 	UserAddress,
 	ModelValidation,
 	tpl
@@ -61,12 +63,7 @@ define([
 		},
 
 		/**
-		 * Parses the autocomplete info and stores it in a UserAddressModel as well as persists
-		 * in local storage for the next time the user visits. Will need to be modified soon!
-		 *
-		 * Will *not* support a user having multiple addresses
-		 *
-		 * HAS NOT BEEN TESTED to see what happens if autocomplete is not used. Will need to provide support for that
+		 * Parses the autocomplete info and stores it in a UserAddressModel
 		 */
 		updateUserAddress: function() {
 			var place = this.autocomplete.getPlace();
@@ -85,18 +82,24 @@ define([
 				});
 			});
 
-			this.address.set('street', place.name);
-			this.address.set('city', place.vicinity);
-			this.address.set('state', state);
-			this.address.set('zipcode', zip);
-			this.address.set('location', {
-				'longitude': place.geometry.location.lng(),
-				'latitude': place.geometry.location.lat()
+			this.address.set({
+				'street' : place.name,
+				'city' : place.vicinity,
+				'state' : state,
+				'zipcode' : zip,
+				'location' : {
+					'longitude' : place.geometry.location.lng(),
+					'latitude' : place.geometry.location.lat()
+				}
 			});
 
 			if (this.address.isValid()) {
-				this.address.getDeliveryZone().done(function() {
-					this.showUserHome();
+				this.address.getDeliveryZone().done(function(resp) {
+					if (resp.success) {
+						this.showUserHome();
+					} else {
+						this.showCannotDeliverView();
+					}
 				}.bind(this));
 			}
 		},
@@ -106,6 +109,10 @@ define([
 		 */
 		showUserHome: function() {
 			this.router.navigate('#home', {trigger: true});
+		},
+
+		showCannotDeliverView: function() {
+			app.rootView.getRegion('modalRegion').show(new CannotDeliverView());
 		}
 	});
 

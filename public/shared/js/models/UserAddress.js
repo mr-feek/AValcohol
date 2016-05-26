@@ -81,13 +81,6 @@ define([
 				}
 			});
 
-			if (!attrs.zipcode || (attrs.zipcode !== 16801 && attrs.zipcode !== "16801")) {
-				errors.push({
-					attribute: 'zipcode',
-					message: "We're sorry, but at this time we can only deliver to the 16801 area"
-				});
-			}
-
 			return errors.length > 0 ? errors : null;
 		},
 
@@ -103,7 +96,9 @@ define([
 				}
 			);
 			promise.done(function(resp) {
-				this.set('delivery_zone_id', resp.delivery_zone_id);
+				if (resp.delivery_zone_id) {
+					this.set('delivery_zone_id', resp.delivery_zone_id);
+				}
 			}.bind(this));
 			return promise;
 		}

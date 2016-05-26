@@ -67,6 +67,8 @@ $app->get('/stripe/key', function() use ($app) {
 	]); // should i do this via config() helper?
 });
 
+$app->post('/email/collect', 'UserController@lazySubmitToMailChimp');
+
 if ($app->environment() !== 'production') {
 	$app->group(['prefix' => 'logs', 'namespace' => '\Rap2hpoutre\LaravelLogViewer'], function ($app) {
 		$app->get('', 'LogViewerController@index');

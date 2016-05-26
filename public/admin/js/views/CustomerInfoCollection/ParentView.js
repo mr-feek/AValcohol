@@ -64,7 +64,7 @@ define([
 			this.$el.html('<h1 class="text-center">Nice!</h1>');
 			window.navigator.vibrate(200); // vibrate phone
 			setTimeout(function() {
-				app.rootView.ui.modalWrapper.fadeOut()
+				app.rootView.ui.modalWrapper.fadeOut();
 				this.destroy();
 				Vent.trigger('ordersOutForDeliveryCollection:remove', this.model.id);
 			}.bind(this), 500);

@@ -61,10 +61,16 @@ class AddressController extends Controller
 
 		$deliveryZoneId = $service->getDeliveryZoneID($data);
 
-		return response()->json([
-			'success' => true,
-			'delivery_zone_id' => $deliveryZoneId
-		]);
+		if ($deliveryZoneId > 0) {
+			return response()->json([
+				'success' => true,
+				'delivery_zone_id' => $deliveryZoneId
+			]);
+		}
 
+		return response()->json([
+			'success' => false,
+			'message' => 'Address not in any delivery zone'
+		]);
 	}
 }
