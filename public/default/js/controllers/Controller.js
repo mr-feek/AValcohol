@@ -32,6 +32,11 @@ define([
 		},
 
 		showUserHome: function(endpoint) {
+			if (!app.user.get('address').get('delivery_zone_id')) {
+				app.router.navigate('', {trigger: true});
+				return;
+			}
+
 			var region = this.rootView.getRegion('main');
 			// if we already have a userhomeview rendered, just swap out the products view
 			if (!region.currentView || !(region.currentView instanceof UserHomeView)) {
