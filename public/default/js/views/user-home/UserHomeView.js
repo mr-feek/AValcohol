@@ -53,11 +53,17 @@ define([
 		onBeforeShow: function() {
 			App.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('products').show(new ProductsView());
-			App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
 		},
 
 		openCart: function(e) {
-			e.preventDefault();
+			if (e) {
+				e.preventDefault();
+			}
+
+			if (! App.rootView.getRegion('rightOffCanvas').hasView()) {
+				App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
+			}
+			
 			App.rootView.openOffCanvas();
 		},
 

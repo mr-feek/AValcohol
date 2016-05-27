@@ -68,7 +68,7 @@ define([
 				App.cart.push(this.model);
 			}.bind(this), 300);
 
-			App.rootView.openOffCanvas(); // show the cart
+			App.rootView.getRegion('main').currentView.openCart();
 		},
 
 		/**

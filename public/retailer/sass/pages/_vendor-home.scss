@@ -14,7 +14,7 @@ $sidebarWidth: 110px;
 	margin-top: $headerHeight;
 	margin-left: $sidebarWidth;
 	padding: 1rem;
-	background-color: white;
+	background-color: $light-text-color;
 }
 
 @media #{$small-only} {

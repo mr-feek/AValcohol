@@ -10,7 +10,7 @@ define([
 		model: Product,
 
 		initialize: function() {
-			_.bindAll(this, 'calculateSubtotal');
+			_.bindAll(this, 'calculateSubtotal', 'calculateTax', 'calculateDeliveryFee', 'calculateTotal');
 		},
 
 		/**
@@ -48,6 +48,20 @@ define([
 
 			return Number(total).toFixed(2);
 		},
+
+		calculateTax: function() {
+			var tax = this.calculateSubtotal() * .06;
+			return Number(tax).toFixed(2);
+		},
+
+		calculateDeliveryFee: function() {
+			return Number(5).toFixed(2);
+		},
+
+		calculateTotal: function() {
+			var total = Number(this.calculateSubtotal()) + Number(this.calculateTax()) + Number(this.calculateDeliveryFee());
+			return Number(total).toFixed(2);
+		}
 	});
 
 	return Cart;

@@ -22,7 +22,10 @@ define([
 		templateHelpers: function() {
 			return {
 				number: App.cart.models.length,
-				subtotal: App.cart.calculateSubtotal
+				subtotal: App.cart.calculateSubtotal,
+				tax: App.cart.calculateTax,
+				deliveryFee: App.cart.calculateDeliveryFee,
+				total: App.cart.calculateTotal
 			}
 		},
 
@@ -51,18 +54,25 @@ define([
 			this.collection = options.collection;
 		},
 
-		collectionChanged: function() {
+		onRender: function() {
+			this.checkIfCartShouldBeDisabled();
+		},
+
+		checkIfCartShouldBeDisabled: function() {
 			if (this.collection.length == 0) {
 				this.ui.checkout.addClass('disabled');
 			} else {
 				this.ui.checkout.removeClass('disabled');
 			}
+		},
+
+		collectionChanged: function() {
+			this.checkIfCartShouldBeDisabled();
 			this.updateTotals();
 		},
 
 		updateTotals: function() {
-			var subtotal = App.cart.calculateSubtotal();
-			this.ui.subTotal.html('$' + subtotal);
+			this.render();
 		},
 
 		showCheckout: function(e) {
