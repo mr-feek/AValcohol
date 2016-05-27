@@ -71,9 +71,12 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 		dd('all users in db are apparently vendors');
 	}
 
+	$fullChargeAmount = $faker->randomNumber(2);
+
 	return [
-		'full_charge_amount' => $faker->randomNumber(2),
-		'vendor_charge_amount' => $faker->randomNumber(2),
+		'full_charge_amount' => $fullChargeAmount,
+		'vendor_charge_amount' => $fullChargeAmount, // will be properly calculated in seed
+		'tax_charge_amount' => $fullChargeAmount, // will be properly calculated in seedg
 		'user_id' => $user->id,
 		'user_address_id' => $u->address->id,
 		'vendor_id' => 1 // temp
