@@ -1,11 +1,5 @@
-@import '../../shared/sass/variables';
-@import '../../shared/sass/_settings.scss';
-@import '../../vendor/foundation/scss/foundation';
-@import '../../vendor/foundation-icon-fonts/foundation-icons';
-@import '../../shared/sass/utils';
+@import '../../shared/sass/global';
 @import '../../shared/sass/components/doorbell';
-@import '../../shared/sass/components/header';
-@import '../../shared/sass/components/modal';
 @import 'pages/login';
 @import 'pages/vendor-home';
 @import 'components/sidebar';
