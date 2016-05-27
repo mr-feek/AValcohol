@@ -1,12 +1,4 @@
-@import '../../shared/sass/variables';
-// for use in _settings.scss
-// FOUNDATION
-@import '../../shared/sass/_settings.scss';
-@import '../../vendor/foundation/scss/foundation';
-@import '../../vendor/foundation-icon-fonts/foundation-icons';
-//
-@import '../../shared/sass/utils';
-@import '../../shared/sass/components/header';
+@import '../../shared/sass/global';
 @import 'pages/home';
 @import 'components/footer';
 @import 'pages/user-home';
@@ -14,7 +6,6 @@
 @import 'components/product';
 @import 'components/loading';
 @import '../../shared/sass/components/doorbell';
-@import '../../shared/sass/components/modal';
 @import 'pages/checkout';
 
 @import '../../vendor/pikaday/css/pikaday.css';

@@ -27,7 +27,8 @@
     "moment": "^2.12.0",
     "pikaday": "^1.4.0",
     "jSignature": "^2.0.2",
-    "UsefulMarionetteViewBehaviors": "useful-marionette-view-behaviors#latest"
+    "UsefulMarionetteViewBehaviors": "useful-marionette-view-behaviors#latest",
+    "nprogress": "^0.2.0"
   },
   "resolutions": {
     "backbone": "~1.2.2"

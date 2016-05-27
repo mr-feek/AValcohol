@@ -18,7 +18,8 @@ require.config({
 		'moment':				basePath + 'moment/moment',
 		'pickaday':				basePath + 'pikaday/pikaday',
 		'behaviors':			basePath + 'UsefulMarionetteViewBehaviors',
-		'shared':				'../../shared'
+		'shared':				'../../shared',
+		'nprogress':			basePath + 'nprogress/nprogress'
 	},
 	shim: {
 		underscore: {
