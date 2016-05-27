@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $vendor_charge_amount
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereFullChargeAmount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereVendorChargeAmount($value)
+ * @property float $tax_charge_amount
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTaxChargeAmount($value)
  */
 class Order extends Model
 {
