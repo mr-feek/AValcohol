@@ -4,6 +4,7 @@ define([
 	'views/user-home/ProductCategoriesView',
 	'views/user-home/ProductsView',
 	'views/cart/CartView',
+	'views/user-home/StoreClosedView',
 	'App',
 	'tpl!templates/user-home/user-home.html'
 ], function (
@@ -12,7 +13,8 @@ define([
 	ProductCategoriesView,
 	ProductsView,
 	CartView,
-	App,
+	StoreClosedView,
+	app,
 	tpl
 ) {
 	var UserHomeView = Mn.LayoutView.extend({
@@ -35,10 +37,10 @@ define([
 		templateHelpers: function() {
 			return {
 				numProducts: function() {
-					return App.cart.length;
+					return app.cart.length;
 				},
 
-				blastMessage: App.config.get('blastMessage')
+				blastMessage: app.config.get('blastMessage')
 			}
 		},
 
@@ -47,12 +49,16 @@ define([
 		 * @param options
 		 */
 		initialize: function (options) {
-			App.cart.on('update', this.updateNumProducts, this);
+			app.cart.on('update', this.updateNumProducts, this);
 		},
 
 		onBeforeShow: function() {
-			App.rootView.getRegion('header').show(new UserHomeHeaderView());
+			app.rootView.getRegion('header').show(new UserHomeHeaderView());
 			this.getRegion('products').show(new ProductsView());
+
+			if (app.config.get('isClosed')) {
+				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
+			}
 		},
 
 		openCart: function(e) {
@@ -60,8 +66,8 @@ define([
 				e.preventDefault();
 			}
 
-			if (! App.rootView.getRegion('rightOffCanvas').hasView()) {
-				App.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : App.cart }));
+			if (! app.rootView.getRegion('rightOffCanvas').hasView()) {
+				app.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : app.cart }));
 			}
 			
 			App.rootView.openOffCanvas();
@@ -69,7 +75,7 @@ define([
 
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
-			$(this.ui.cart).find('i').html(App.cart.length);
+			$(this.ui.cart).find('i').html(app.cart.length);
 		}
 	});
 

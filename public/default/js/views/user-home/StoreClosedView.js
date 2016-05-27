@@ -1,8 +1,13 @@
+/**
+ * Created by Feek on 5/27/16.
+ */
 define([
 	'marionette',
-	'tpl!templates/'
+	'behaviors/Modal',
+	'tpl!templates/user-home/store-closed.html'
 ], function(
 	Mn,
+	Modal,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({

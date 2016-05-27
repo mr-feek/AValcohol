@@ -22,13 +22,16 @@ class ConfigController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getConfig(Request $request) {
-		if ($this->isOpenNow()) {
+		$isOpen = $this->isOpenNow();
+
+		if ($isOpen) {
 			$blastMessage = 'Ready to crack some brews? Order now to receive within the hour!';
 		} else {
 			$blastMessage = 'We are not currently accepting new orders. Our current hours are 6PM to 2AM';
 		}
 
 		return response()->json([
+			'isClosed' => !$isOpen,
 			'blastMessage' => $blastMessage
 		]);
 	}

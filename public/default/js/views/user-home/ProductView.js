@@ -6,7 +6,7 @@ define([
 ], function (
 	Mn,
 	Cart,
-	App,
+	app,
 	tpl
 ) {
 	var ProductView = Mn.ItemView.extend({
@@ -58,6 +58,10 @@ define([
 		},
 
 		addToCart: function() {
+			if (app.config.get('isClosed')) {
+				return;
+			}
+			
 			this.model.set('inCart', true);
 
 			/**
@@ -65,10 +69,10 @@ define([
 			 * showing the cart. not ideal but it'll do for now
 			 */
 			_.delay(function() {
-				App.cart.push(this.model);
+				app.cart.push(this.model);
 			}.bind(this), 300);
 
-			App.rootView.getRegion('main').currentView.openCart();
+			app.rootView.getRegion('main').currentView.openCart();
 		},
 
 		/**
