@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\APIException;
-use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Http\Services\OrderService;
 use Illuminate\Http\Request;

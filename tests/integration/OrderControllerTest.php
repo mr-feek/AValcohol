@@ -29,6 +29,19 @@ class OrderControllerTest extends TestCase
 		$this->verifyFullOrderInDatabase($response, $products);
 	}
 
+	public function testCreateOrderWithExistingUserWithQuantities() {
+		$this->withoutMiddleware();
+
+		$products = $this->getProductsToBuy(3); // 3 quantity for each
+		$address = $this->getAddress();
+		$user = User::find(1);
+		$token = $this->createFakeToken();
+
+		$response = $this->createOrder($products, $address, $user, $token);
+
+		$this->verifyFullOrderInDatabase($response, $products);
+	}
+
 	public function testCreateOrderFailsWithInvalidUserID() {
 		$this->withoutMiddleware();
 		$products = $this->getProductsToBuy();
@@ -86,10 +99,7 @@ class OrderControllerTest extends TestCase
 
 		// now lets do the same with a bad vendor id
 		$products = $this->getProductsToBuy();
-		$fake_product = new Product();
-		$fake_product->id = 1;
-		$fake_product->vendor_id = 0;
-		$products[] = $fake_product;
+		$products[1]->pivot->vendor_id = 0;
 
 		$this->createOrder($products, $address, $user, $token);
 		$this->verifyOrderNotCreated();
@@ -132,9 +142,12 @@ class OrderControllerTest extends TestCase
 		$this->seeJson(['success' => false]);
 	}
 
-	protected function getProductsToBuy() {
+	protected function getProductsToBuy($quantity = 1) {
 		$vendor = Vendor::find(1);
 		$products = $vendor->products()->take(3)->get();
+		foreach ($products as $p) {
+			$p->quantity = $quantity;
+		}
 		return $products;
 	}
 
@@ -149,6 +162,10 @@ class OrderControllerTest extends TestCase
 	 * @return \Stripe\Token token guaranteed to authenticate
 	 */
 	protected function createFakeToken() {
+		if (env('OFFLINE_MODE') === true) {
+			return 'fake-token-due-to-offline-mode-enabled';
+		}
+
 		\Stripe\Stripe::setApiKey(Dotenv::findEnvironmentVariable('STRIPE_KEY'));
 
 		return \Stripe\Token::create(array(
@@ -175,8 +192,10 @@ class OrderControllerTest extends TestCase
 		$vendorAmount = 0;
 
 		foreach ($products as $product) {
-			$amount += $product->pivot->sale_price;
-			$vendorAmount += $product->pivot->vendor_price;
+			for ($i = 0; $i < $product->quantity; $i++) {
+				$amount += $product->pivot->sale_price;
+				$vendorAmount += $product->pivot->vendor_price;
+			}
 		}
 
 		//dd($amount, $vendorAmount);
@@ -231,7 +250,7 @@ class OrderControllerTest extends TestCase
 	 */
 	protected function createOrder($products, $address, $user, $token, $note = null) {
 		$data = [
-			'products' => $products,
+			'products' => $products->toArray(),
 			'address' => $address->toArray(),
 			'user' => $user->toArray(),
 			'stripe_token' => $token,

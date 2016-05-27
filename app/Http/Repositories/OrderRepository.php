@@ -77,6 +77,10 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @return \Stripe\Charge
 	 */
 	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
+		if (env('OFFLINE_MODE') === true) {
+			return;
+		}
+
 		$amount = $order->full_charge_amount * 100; // charge amount needs to be converted to pennies
 
 		$options = [
@@ -109,7 +113,13 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			)
 		];
 
-		$charge = $order->user->charge($amount, $options);
+		if (env('OFFLINE_MODE') === true) {
+			$charge = new \stdClass();
+			$charge->id = 'offline-mode-set';
+		} else {
+			// normal op
+			$charge = $order->user->charge($amount, $options);
+		}
 
 		$order->status()->update([
 			'charge_id' => $charge->id,
