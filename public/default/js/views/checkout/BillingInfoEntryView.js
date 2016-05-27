@@ -1,14 +1,14 @@
 define([
 	'marionette',
 	'App',
-	'stripe',
+	//'stripe', offline mode
 	'shared/js/models/Card',
 	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	App,
-	Stripe,
+	//Stripe,
 	Card,
 	ModelSaveAnimation,
 	tpl
@@ -52,6 +52,8 @@ define([
 
 		getStripeToken: function(evt) {
 			evt.preventDefault();
+			/*
+			offline mode
 
 			// fake a request so that our behavior will show a loading view
 			this.model.trigger('request');
@@ -66,6 +68,8 @@ define([
 			// Disable the submit button to prevent repeated clicks
 			this.disableSaveButton();
 			Stripe.card.createToken($form.context, this.stripeResponseHandler.bind(this));
+			*/
+			this.parent.trigger('show:next');
 		},
 
 		/**
