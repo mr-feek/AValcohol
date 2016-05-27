@@ -22,7 +22,8 @@ require.config({
 		'backbone.poller':		'../../vendor/backbone-poller/backbone.poller',
 		'moment':				'../../vendor/moment/moment',
 		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors',
-		'shared':				'../../shared'
+		'shared':				'../../shared',
+		'nprogress':			'../../vendor/nprogress/nprogress'
 	},
 	shim: {
 		underscore: {
