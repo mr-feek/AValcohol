@@ -67,6 +67,10 @@ define([
 			delivery_details: null
 		},
 
+		initialize: function () {
+			_.bindAll(this, 'calculateVendorOrderTotal');
+		},
+
 		parse: function(response, xhr) {
 			// if this is a request made for a singular model, the model will be stored in this location
 			if (response.order) {
@@ -76,6 +80,15 @@ define([
 			// otherwise it's part of a collection, and just return response so it doesn't break backbone relational
 			return response;
 		},
+
+		/**
+		 * returns the total amount the vendor will be paid for this order
+		 * @returns {number}
+		 */
+		calculateVendorOrderTotal: function() {
+			var total = Number(this.get('vendor_charge_amount')) + Number(this.get('tax_charge_amount'));
+			return total;
+		}
 	});
 
 	return Order;
