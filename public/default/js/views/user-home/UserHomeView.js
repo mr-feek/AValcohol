@@ -70,7 +70,7 @@ define([
 				app.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : app.cart }));
 			}
 			
-			App.rootView.openOffCanvas();
+			app.rootView.openOffCanvas();
 		},
 
 		updateNumProducts: function() {
