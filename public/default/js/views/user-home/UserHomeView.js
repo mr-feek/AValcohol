@@ -61,6 +61,12 @@ define([
 			}
 		},
 
+		onRender: function() {
+			if (app.config.get('isClosed') === true) {
+				this.ui.cart.hide();
+			}
+		},
+
 		openCart: function(e) {
 			if (e) {
 				e.preventDefault();

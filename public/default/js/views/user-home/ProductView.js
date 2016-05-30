@@ -2,7 +2,8 @@ define([
 	'marionette',
 	'collections/Cart',
 	'App',
-	'tpl!templates/user-home/product.html'
+	'tpl!templates/user-home/product.html',
+	'foundationTooltip'
 ], function (
 	Mn,
 	Cart,
@@ -76,11 +77,21 @@ define([
 		},
 
 		/**
-		 * add in-cart clsss to show whether or not an item is currently in the cart
+		 * add in-cart class to show whether or not an item is currently in the cart
+		 *
+		 * add disabled class to add to cart button if store is closed
 		 */
 		onRender: function() {
 			if (this.model.get('inCart')) {
 				this.$el.addClass('in-cart');
+			}
+
+			if (app.config.get('isClosed')) {
+				this.ui.addToCart.addClass('disabled');
+				this.ui.addToCart.html(
+					'<span data-tooltip title="Sorry, our store is currently closed.">Add To Cart</span>'
+				);
+				$(document).foundation('tooltip', 'reflow');
 			}
 		}
 	});

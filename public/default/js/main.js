@@ -10,6 +10,7 @@ require.config({
 		'foundation' : 			basePath + 'foundation/js/foundation',
 		'foundationEqualizer' : basePath + 'foundation/js/foundation/foundation.equalizer',
 		'foundationOffCanvas': 	basePath + 'foundation/js/foundation/foundation.offcanvas',
+		'foundationTooltip':	basePath + 'foundation/js/foundation/foundation.tooltip',
 		'modernizr' : 			basePath + 'modernizr/modernizr',
 		'text': 				basePath + 'requirejs-text/text',
 		'tpl': 					basePath + 'requirejs-tpl/tpl',
