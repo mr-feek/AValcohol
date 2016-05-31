@@ -30,7 +30,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
-	$app->put('status/{id}', ['uses' => 'OrderStatusController@update']);
+	$app->put('status/{id}', ['uses' => 'OrderStatusController@update', 'middleware' => 'jwt-auth']);
 });
 
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {

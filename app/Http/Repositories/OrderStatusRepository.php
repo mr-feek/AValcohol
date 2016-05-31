@@ -20,10 +20,9 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusInterfa
 
 	/**
 	 * @param $data
-	 * @return OrderStatus
+	 * @return bool
 	 */
-	public function update($data) {
-		$this->model->find($data['order_id'])->update($data);
-		return $this->model;
+	public function update(array $data) {
+		return $this->model->find($data['order_id'])->update($data);
 	}
 }

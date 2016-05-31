@@ -20,8 +20,8 @@ class OrderStatusService extends BaseService
 	/**
 	 * @param $data
 	 */
-	public function update($data) {
-		$status = $this->repo->update($data);
-		return $status;
+	public function update(array $data) {
+		$success = $this->repo->update($data);
+		return $success;
 	}
 }

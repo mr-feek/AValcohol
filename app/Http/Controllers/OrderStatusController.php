@@ -23,10 +23,8 @@ class OrderStatusController extends Controller
 			'order_id' => 'required'
 		]);
 
-		$orderStatus = $service->update($request->input());
+		$success = $service->update($request->input());
 
-		return response()->json([
-			'order_status' => $orderStatus
-		]);
+		return response()->json(compact('success'));
 	}
 }
