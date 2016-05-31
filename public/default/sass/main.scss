@@ -1,0 +1,54 @@
+@import '../../shared/sass/global';
+@import 'pages/home';
+@import 'components/footer';
+@import 'pages/user-home';
+@import 'components/cart';
+@import 'components/product';
+@import 'components/loading';
+@import '../../shared/sass/components/doorbell';
+@import 'pages/checkout';
+
+@import '../../vendor/pikaday/css/pikaday.css';
+
+.button.secondary-dark {
+	background-color: $secondary-dark-button-color;
+
+	&:hover {
+		background-color: lighten($secondary-dark-button-color, 10%);
+	}
+}
+
+// some global styles...
+
+#main-wrapper {
+	min-height: 100%;
+	margin-bottom: -1 * $footerHeight;
+
+	&:after {
+		content: "";
+		display: block;
+		height: $footerHeight;
+	}
+}
+
+p {
+	color: $dark-text-color;
+}
+
+// code container stuff in styleguide
+
+pre code {
+	display: block;
+	padding: 0.5em;
+	background: #FAFAFA;
+	color: #333;
+}
+
+
+.code-container {
+	margin: 10px 0px;
+	padding: 5px;
+	overflow-x: auto;
+	line-height: 1.3rem;
+	font-weight: normal;
+}

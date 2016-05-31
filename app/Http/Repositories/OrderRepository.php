@@ -31,7 +31,9 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @return Order
 	 */
 	public function createOrder(User $user, UserAddress $address, $products, $data) {
-		$this->model->amount = 0;
+		$this->model->full_charge_amount = 0;
+		$this->model->vendor_charge_amount = 0;
+		$this->model->tax_charge_amount = 0;
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
@@ -44,8 +46,10 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			$order->save(); // save first so that we can attach relations
 
 			$amount = 0;
+			$vendorAmount = 0;
 			foreach ($products as $p) {
 				$amount += $p->pivot->sale_price;
+				$vendorAmount += $p->pivot->vendor_price;
 
 				// create order_product record
 				$order->products()->attach($p->id, [
@@ -55,8 +59,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 				]);
 			}
 
+			$taxAmount = 0.06 * $vendorAmount;
+
 			// update the order record with the proper price
-			$order->amount = $amount;
+			$order->full_charge_amount = $amount;
+			$order->vendor_charge_amount = $vendorAmount;
+			$order->tax_charge_amount = $taxAmount;
 			$order->save();
 
 			$order->status()->save(new OrderStatus());
@@ -73,7 +81,11 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @return \Stripe\Charge
 	 */
 	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
-		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
+		if (env('OFFLINE_MODE') === true) {
+			return;
+		}
+
+		$amount = $order->full_charge_amount * 100; // charge amount needs to be converted to pennies
 
 		$options = [
 			'currency' => 'usd',
@@ -91,7 +103,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 	public function authorizeChargeOnCard(Order $order, $stripe_token)
 	{
-		$amount = $order->amount * 100; // charge amount needs to be converted to pennies
+		$amount = $order->full_charge_amount * 100; // charge amount needs to be converted to pennies
 
 		$options = [
 			'currency' => 'usd',
@@ -105,7 +117,13 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			)
 		];
 
-		$charge = $order->user->charge($amount, $options);
+		if (env('OFFLINE_MODE') === true) {
+			$charge = new \stdClass();
+			$charge->id = 'offline-mode-set';
+		} else {
+			// normal op
+			$charge = $order->user->charge($amount, $options);
+		}
 
 		$order->status()->update([
 			'charge_id' => $charge->id,

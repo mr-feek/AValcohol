@@ -13,7 +13,7 @@ use DateTime;
 
 trait DeliveryHoursTrait
 {
-	protected $closedMessage = "Sorry! At this time we can only accept orders from 6PM to 2AM.";
+	protected $closedMessage = "Sorry! At this time our delivery service is from 6PM to 2AM.";
 
 	public $openTime = "18:00"; // 6 pm
 	public $closeTime = "01:59"; // 2 am

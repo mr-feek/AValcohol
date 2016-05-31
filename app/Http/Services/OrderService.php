@@ -34,14 +34,16 @@ class OrderService extends BaseService
 	 * @param $data
 	 * @return mixed
 	 */
-	public function create($data) {
+	public function create(array $data) {
 		$user = $this->userService->getUser($data['user']['id']);
 		$address = $this->addressService->get($data['address']['id']);
 
 		$products = [];
-		foreach($data['products'] as $product) {
-			$product = $this->vendorService->getProduct($product['pivot']['vendor_id'], $product['id']);
-			$products[] = $product;
+		foreach ($data['products'] as $p) {
+			$product = $this->vendorService->getProduct($p['pivot']['vendor_id'], $p['id']);
+			for ($i = 0; $i < $p['quantity']; $i++) {
+				$products[] = $product;
+			}
 		}
 
 		$order = $this->repo->createOrder($user, $address, $products, $data);

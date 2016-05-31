@@ -78,4 +78,25 @@ class UserRepository extends BaseRepository implements UserInterface
 			'status' => 'subscribed'
 		]);
 	}
+
+	/**
+	 * lazy way to add people signing up for news
+	 * @param $name
+	 * @param $email
+	 * @return array|false
+	 */
+	public function basicAddToMailChimp($name, $email) {
+		$result = $this->mailchimp->post('lists/' . self::LIST_ID . '/members', [
+			'email_address' => $email,
+			'merge_fields' => [
+				'FIRST_NAME' => $name
+			],
+			'interests' => [
+				self::SOFT_LAUNCH_INTEREST_ID => true // soft launch
+			],
+			'status' => 'subscribed'
+		]);
+
+		return $result;
+	}
 }

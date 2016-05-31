@@ -71,8 +71,12 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 		dd('all users in db are apparently vendors');
 	}
 
+	$fullChargeAmount = $faker->randomNumber(2);
+
 	return [
-		'amount' => $faker->randomNumber(2),
+		'full_charge_amount' => $fullChargeAmount,
+		'vendor_charge_amount' => $fullChargeAmount, // will be properly calculated in seed
+		'tax_charge_amount' => $fullChargeAmount, // will be properly calculated in seedg
 		'user_id' => $user->id,
 		'user_address_id' => $u->address->id,
 		'vendor_id' => 1 // temp
@@ -116,5 +120,12 @@ $factory->define(\App\Models\DeliveryZone::class, function(\Faker\Generator $fak
 			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude),
 			new \App\Models\DeliveryZone\Point($faker->latitude, $faker->longitude)
 		]
+	];
+});
+
+$factory->define(\App\Models\OrderDeliveryDetail::class, function(\Faker\Generator $faker) {
+	return [
+		'photo_path' => $faker->imageUrl(),
+		'signature' => $faker->image()
 	];
 });

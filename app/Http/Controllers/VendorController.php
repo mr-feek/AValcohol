@@ -63,4 +63,13 @@ class VendorController extends Controller
 
 		return response()->json(['vendor' => $vendor]);
 	}
+
+	/**
+	 * this call happens after they logged in, so just parse from token and return
+	 * @param Request $request
+	 */
+	public function get(Request $request) {
+		$user = $request->user();
+		return response()->json(['vendor' => $user->vendor]);
+	}
 }

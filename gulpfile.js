@@ -18,11 +18,8 @@ gulp.task('deploy', function() {
 		'api/**',
 		'app/**',
 		'bootstrap/**',
-		'css/**',
 		'database/**',
-		'fonts/**',
-		'img/**',
-		'js/**',
+		'public/**',
 		'resources/**',
 		'storage/**',
 	];

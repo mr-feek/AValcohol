@@ -86,16 +86,21 @@ class UserAddressService extends BaseService
 	/**
 	 * returns the delivery zone for the supplied [NESTED UNDER LOCATION KEY] longitude and latitude
 	 * @param $data
-	 * @return the id of the available delivery zone
+	 * @return the id of the available delivery zone or 0 if not in a zone
 	 */
-	public function getDeliveryZoneID($data) {
+	public function getDeliveryZoneID(array $data) {
 		$point = new Point($data['location']['latitude'], $data['location']['longitude']);
 		$zones = DeliveryZone::getZonesContainingPoint($point);
 		// this should only ever be one zone.
-		$filtered = $zones->where('name', 'State College'); // default to state college instead of rando ones for testing purposes
-		if ($filtered->count() >= 1) {
-			return $filtered->first()->id;
+		if (app()->environment('local')) {
+			$filtered = $zones->where('name', 'State College'); // default to state college instead of rando ones for testing purposes
+			if ($filtered->count() >= 1) {
+				return $filtered->first()->id;
+			}
 		}
-		return $zones->first()->id;
+
+		$zone = $zones->first();
+
+		return ($zone ? $zone->id : 0);
 	}
 }

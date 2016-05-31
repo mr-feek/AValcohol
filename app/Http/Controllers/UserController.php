@@ -13,7 +13,11 @@ use App\Http\Services\UserService;
 
 class UserController extends Controller
 {
-
+	/**
+	 * @param Request $request
+	 * @param UserService $service
+	 * @return mixed
+	 */
 	public function create(Request $request, UserService $service) {
 		$this->validate($request, [
 			'email' => 'required|email',
@@ -32,6 +36,11 @@ class UserController extends Controller
 		]);
 	}
 
+	/**
+	 * @param Request $request
+	 * @param UserService $service
+	 * @return mixed
+	 */
 	public function update(Request $request, UserService $service) {
 		$this->validate($request, [
 			'email' => 'email',
@@ -45,6 +54,29 @@ class UserController extends Controller
 		return response() ->json([
 			'success' => true,
 			'user' => $user
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @param UserService $service
+	 * @return mixed
+	 * @internal param UserRepository $repo
+	 */
+	public function lazySubmitToMailChimp(Request $request, UserService $service) {
+		$this->validate($request, [
+			'email' => 'email',
+			'name' => 'required'
+		]);
+
+		$result = null;
+		// only add to mailchimp on production
+		if (app()->environment('production')) {
+			$result = $service->basicAddToMailChimp($request->input());
+		}
+
+		return response()->json([
+			'result' => $result
 		]);
 	}
 }

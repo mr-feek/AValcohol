@@ -1,0 +1,44 @@
+<div class="top">
+	<div class="text-center actions">
+		<a href="#" class="button secondary-dark back-to-shopping">
+			<i class="fi-arrow-left"></i>
+			Continue Shopping
+		</a>
+		<a href="#" class="button go-to-checkout disabled">
+			Checkout
+			<i class="fi-arrow-right"></i>
+		</a>
+	</div>
+
+	<div class="products"></div>
+</div>
+
+<div class="footer">
+	<div class="num-products"><%= number %> Items</div>
+	<div class="divider"></div>
+	<div class="totals">
+		<div class="clearfix total">
+			<span class="left">Subtotal</span>
+			<span class="right subtotal">$<%= subtotal() %></span>
+		</div>
+		<div class="clearfix total">
+			<span class="left">Tax</span>
+			<span class="right">$<%= tax() %></span>
+		</div>
+		<div class="clearfix total">
+			<span class="left">Delivery Fee</span>
+			<span class="right">$<%= deliveryFee() %></span>
+		</div>
+		<div class="clearfix total">
+			<strong>
+				<span class="left">Total</span>
+				<span class="right">$<%= total() %></span>
+			</strong>
+		</div>
+	</div>
+
+	<a href="#" class="button go-to-checkout disabled">
+		Checkout
+		<i class="fi-arrow-right">
+	</a>
+</div>

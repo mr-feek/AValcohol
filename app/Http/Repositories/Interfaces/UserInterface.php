@@ -16,4 +16,5 @@ interface UserInterface
 	public function create($data);
 	public function attachProfile(User $user, $data);
 	public function addToMailChimp(User $user);
+	public function basicAddToMailChimp($name, $email);
 }

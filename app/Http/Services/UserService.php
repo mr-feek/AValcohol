@@ -24,10 +24,19 @@ class UserService extends BaseService
 		$this->repo = $userRepo;
 	}
 
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
 	public function getUser($id) {
 		return $this->repo->getUserById($id);
 	}
 
+	/**
+	 * @param $data
+	 * @param bool $withUserProfile
+	 * @return mixed
+	 */
 	public function create($data, $withUserProfile = true) {
 		$user = $this->repo->create($data);
 		if ($withUserProfile) {
@@ -41,8 +50,20 @@ class UserService extends BaseService
 		return $user;
 	}
 
+	/**
+	 * @param $data
+	 * @return mixed
+	 */
 	public function update($data) {
 		$user = $this->getUser($data['id']);
 		return $this->repo->update($user, $data);
+	}
+
+	/**
+	 * @param $data
+	 * @return mixed
+	 */
+	public function basicAddToMailChimp($data) {
+		return $this->repo->basicAddToMailChimp($data['name'], $data['email']);
 	}
 }

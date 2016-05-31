@@ -40,12 +40,14 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 // jwt-auth === UserAuthenticatedMiddleware
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
+	$app->get('', 'VendorController@get');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
 	$app->post('vendor', 'VendorController@create');
+	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -64,6 +66,8 @@ $app->get('/stripe/key', function() use ($app) {
 		'key' => Dotenv::findEnvironmentVariable('STRIPE_KEY')
 	]); // should i do this via config() helper?
 });
+
+$app->post('/email/collect', 'UserController@lazySubmitToMailChimp');
 
 if ($app->environment() !== 'production') {
 	$app->group(['prefix' => 'logs', 'namespace' => '\Rap2hpoutre\LaravelLogViewer'], function ($app) {

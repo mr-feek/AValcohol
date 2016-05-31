@@ -1,0 +1,45 @@
+@import '../../shared/sass/global';
+@import '../../shared/sass/components/doorbell';
+@import 'pages/login';
+@import 'pages/vendor-home';
+@import 'components/sidebar';
+@import 'components/header';
+@import 'components/footer';
+@import 'components/order';
+
+// some global styles...
+
+#main-wrapper {
+	min-height: 100%;
+
+	#main-wrapper {
+		margin-bottom: -1 * $footerHeight;
+	}
+	#main-wrapper:after {
+		content: "";
+		display: block;
+		height: $footerHeight;
+	}
+}
+
+p {
+	color: $dark-text-color;
+}
+
+// code container stuff in styleguide
+
+pre code {
+	display: block;
+	padding: 0.5em;
+	background: #FAFAFA;
+	color: #333;
+}
+
+
+.code-container {
+	margin: 10px 0px;
+	padding: 5px;
+	overflow-x: auto;
+	line-height: 1.3rem;
+	font-weight: normal;
+}
