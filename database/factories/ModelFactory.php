@@ -84,9 +84,21 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
+	$vendorStatus = $faker->boolean() === true ? 'pending' : 'accepted';
+	$deliveryStatus = 'pending';
+
+	if ($vendorStatus === 'accepted') {
+		$rand = $faker->randomDigitNotNull;
+		if ($rand > 6) {
+			$deliveryStatus = 'delivered';
+		} else if ($rand > 3) {
+			$deliveryStatus = 'out-for-delivery';
+		}
+	}
+
 	return [
-		'vendor_status' => $faker->boolean() === true ? 'pending' : 'accepted',
-		'delivery_status' => $faker->boolean() === true ? 'pending' : 'out-for-delivery',
+		'vendor_status' => $vendorStatus,
+		'delivery_status' => $deliveryStatus,
 		'charge_id' => uniqid(),
 		'charge_authorized' => $faker->boolean(90),
 		'charge_captured' => $faker->boolean()
