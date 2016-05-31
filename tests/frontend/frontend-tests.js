@@ -5,10 +5,14 @@ var enterAddress = require('./integration/EnterAddressTest.js');
 var addProducts = require('./integration/AddProductsToCartTest.js');
 var navigation = require('./integration/navigation');
 
-var numTests = enterAddress.numTests + addProducts.numTests;
+var numTests = enterAddress.numTests;// + addProducts.numTests;
 
 casper.test.begin('Testing Avalcohol', numTests, function(test) {
 	casper.options.viewportSize = { width: 1280, height: 720 };
+
+	casper.on('remote.message', function(msg) {
+		this.echo('Browser: ' + msg);
+	});
 
 	//casper.options.verbose = true;
 	casper.options.logLevel = "debug";
@@ -18,7 +22,7 @@ casper.test.begin('Testing Avalcohol', numTests, function(test) {
 		enterAddress.runTest(test);
 	});
 	casper.then(function() {
-		addProducts.runTest(test);
+	//	addProducts.runTest(test);
 	});
 
 	casper.run(function() {
