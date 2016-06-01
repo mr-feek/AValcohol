@@ -4,9 +4,13 @@ server {
     server_name avalcohol.app;
     root "/home/vagrant/Code/avalcohol/public";
 
-    index /default/index.html 404;
+    index index.html index.php;
 
     charset utf-8;
+
+    location = / {
+        try_files /default/index.html 404;
+    }
 
     location / {
         try_files $uri $uri/ /default/index.html?$query_string;
@@ -47,4 +51,3 @@ server {
 
     ssl_certificate     /etc/nginx/ssl/avalcohol.app.crt;
     ssl_certificate_key /etc/nginx/ssl/avalcohol.app.key;
-}                                         1,1           All
