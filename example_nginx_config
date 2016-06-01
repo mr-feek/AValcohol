@@ -16,6 +16,14 @@ server {
         try_files $uri $uri/ /default/index.html?$query_string;
     }
 
+    location /retailer/ {
+        try_files $uri $uri/ /retailer/index.html?$query_string;
+    }
+
+    location /admin/ {
+        try_files $uri $uri/ /admin/index.html?$query_string;
+    }
+
     location /api/ {
         try_files $uri $uri/ /api/index.php?$query_string;
     }
@@ -43,6 +51,9 @@ server {
         fastcgi_connect_timeout 300;
         fastcgi_send_timeout 300;
         fastcgi_read_timeout 300;
+                                                                                   12,1          Top
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
     }
 
     location ~ /\.ht {
@@ -51,3 +62,4 @@ server {
 
     ssl_certificate     /etc/nginx/ssl/avalcohol.app.crt;
     ssl_certificate_key /etc/nginx/ssl/avalcohol.app.key;
+}
