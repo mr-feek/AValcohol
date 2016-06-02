@@ -10,10 +10,16 @@ class VendorService extends BaseService
 {
 	protected $userService;
 
-	public function __construct(VendorInterface $vendorRepo, UserService $userService)
+	/**
+	 * @var OrderStatusService
+	 */
+	private $orderStatusService;
+
+	public function __construct(VendorInterface $vendorRepo, UserService $userService, OrderStatusService $orderStatusService)
 	{
 		$this->repo = $vendorRepo;
 		$this->userService = $userService;
+		$this->orderStatusService = $orderStatusService;
 	}
 
 	public function create($data) {
@@ -60,5 +66,33 @@ class VendorService extends BaseService
 	public function getPendingOrders($vendor) {
 		$vendor = $this->repo->getById($vendor['id']);
 		return $this->repo->getAllPendingOrders($vendor);
+	}
+
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function vendorRejectOrder(array $data) {
+		return $this->updateVendorStatusOnOrder($data);
+		// to do: delete user's charge authorization
+		// to do: email customer saying charge was declined for whatever reason
+	}
+
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function vendorAcceptOrder(array $data) {
+		return $this->updateVendorStatusOnOrder($data);
+		// to do: capture users charge authorization
+		// to do: email customer with receipt and that vendor accepted order
+	}
+
+	/**
+	 * @param array $data
+	 * @return bool success
+	 */
+	private function updateVendorStatusOnOrder(array $data) {
+		return $this->orderStatusService->update($data);
 	}
 }

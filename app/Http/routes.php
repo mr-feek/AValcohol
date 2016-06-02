@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 $app->get('/', function () use ($app) {
     return 'sup pluto';
 });
@@ -30,17 +19,17 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
-	$app->put('status/{id}', ['uses' => 'OrderStatusController@update', 'middleware' => 'jwt-auth']);
 });
 
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
 });
-// jwt-auth === UserAuthenticatedMiddleware
+
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 	$app->get('', 'VendorController@get');
+	$app->patch('order/{order}/status', 'VendorController@updateOrderStatus');
 });
 
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -63,8 +52,8 @@ $app->get('/environment', function() use ($app) {
 
 $app->get('/stripe/key', function() use ($app) {
 	return response()->json([
-		'key' => Dotenv::findEnvironmentVariable('STRIPE_KEY')
-	]); // should i do this via config() helper?
+		'key' => env('STRIPE_KEY')
+	]);
 });
 
 $app->post('/email/collect', 'UserController@lazySubmitToMailChimp');

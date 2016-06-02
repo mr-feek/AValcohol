@@ -27,7 +27,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <!-- my custom overrides since I'm running vagrant and want to run phpunit from my desktop -->
+        <!-- my custom overrides since I'm running vagrant and want to run phpunit from my desktop-->
         <env name="DB_HOST" value="192.168.10.10"/>
         <env name="DB_DATABASE" value="avalcohol"/>
         <env name="DB_USERNAME" value="homestead"/>

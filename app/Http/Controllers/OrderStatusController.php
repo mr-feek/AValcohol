@@ -13,18 +13,5 @@ use Illuminate\Http\Request;
 
 class OrderStatusController extends Controller
 {
-	/**
-	 * @param Request $request
-	 * @param OrderStatusService $service
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function update(Request $request, OrderStatusService $service) {
-		$this->validate($request, [
-			'order_id' => 'required'
-		]);
-
-		$success = $service->update($request->input());
-
-		return response()->json(compact('success'));
-	}
+	
 }

@@ -8,9 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\APIException;
 use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class VendorController extends Controller
 {
@@ -71,5 +71,29 @@ class VendorController extends Controller
 	public function get(Request $request) {
 		$user = $request->user();
 		return response()->json(['vendor' => $user->vendor]);
+	}
+
+	/**
+	 * this is a patch method. only the changed attributes will be passed into the request parameters
+	 * @param Request $request
+	 * @param $orderId
+	 * @param VendorService $service
+	 * @return mixed
+	 * @throws APIException
+	 */
+	public function updateOrderStatus(Request $request, VendorService $service, $orderId) {
+		$data = $request->input();
+		$data['order_id'] = $orderId;
+		$vendorStatus = $data['vendor_status'];
+
+		if ($vendorStatus === 'accepted') {
+			$success = $service->vendorAcceptOrder($data);
+		} else if ($vendorStatus === 'rejected') {
+			$success = $service->vendorRejectOrder($data);
+		} else {
+			throw new APIException('incorrect vendor status supplied');
+		}
+
+		return response()->json(compact('success'));
 	}
 }

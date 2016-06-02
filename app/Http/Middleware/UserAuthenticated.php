@@ -29,8 +29,7 @@ class UserAuthenticated extends BaseMiddleware
 			// no token found
 			throw new UnauthorizedHttpException('UserAuthenticated', $e->getMessage(), $e, 401); // 401 === unauthorized
 		}
-
-
+		
 		return $next($request);
 	}
 }

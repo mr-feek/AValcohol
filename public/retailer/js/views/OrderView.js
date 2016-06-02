@@ -42,14 +42,16 @@ define([
 
 		initialize: function (options) {
 			this.collection = this.model.get('products');
-			_.bindAll(this, 'modelSaveSuccess');
+			_.bindAll(this, 'modelAcceptedSuccess', 'modelRejectedSuccess', 'slideOutView');
 		},
 
 		rejectOrder: function(e) {
 			e.preventDefault();
-			this.model.get('status').set('vendor_status', 'rejected');
-			this.model.get('status').save([], {
-				success: this.modelSaveSuccess,
+			this.model.get('status').save({
+				vendor_status : 'rejected'
+			}, {
+				patch: true,
+				success: this.modelRejectedSuccess,
 				error: function(model, response, options) {
 					alert('something went wrong rejecting this order. Please let AValcohol know ASAP');
 				}
@@ -58,6 +60,27 @@ define([
 
 		acceptOrder: function(e) {
 			e.preventDefault();
+			this.model.get('status').save({
+				vendor_status : 'accepted'
+			}, {
+				patch: true,
+				success: this.modelAcceptedSuccess,
+				error: function(model, response, options) {
+					alert('something went wrong rejecting this order. Please let AValcohol know ASAP');
+				}
+			});
+		},
+
+		modelAcceptedSuccess: function() {
+			this.ui.footer.hide();
+			this.$el.find(this.childViewContainer).html('<h3 class="text-center">Order Accepted</h3>');
+			setTimeout(this.slideOutView, 2000);
+		},
+
+		slideOutView: function() {
+			this.$el.slideUp(400, function() {
+				this.destroy();
+			}.bind(this));
 		},
 
 		/**
@@ -66,14 +89,10 @@ define([
 		 * @param response
 		 * @param options
 		 */
-		modelSaveSuccess: function(model, response, options) {
+		modelRejectedSuccess: function(model, response, options) {
 			this.ui.footer.hide();
 			this.$el.find(this.childViewContainer).html('<h3 class="text-center">Order Rejected</h3>');
-			setTimeout(function() {
-				this.$el.slideUp(400, function() {
-					this.destroy();
-				}.bind(this));
-			}.bind(this), 2000);
+			setTimeout(this.slideOutView, 2000);
 		}
 	});
 
