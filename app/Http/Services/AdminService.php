@@ -23,4 +23,8 @@ class AdminService extends BaseService
 	public function getOrdersOutForDelivery() {
 		return $this->repo->getOrdersOutForDelivery();
 	}
+
+	public function getAllOrders() {
+		return $this->repo->getAllOrders();
+	}
 }

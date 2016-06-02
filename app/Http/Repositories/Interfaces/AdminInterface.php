@@ -12,4 +12,5 @@ interface AdminInterface
 {
 	public function getOrdersReadyToBePickedUp();
 	public function getOrdersOutForDelivery();
+	public function getAllOrders();
 }

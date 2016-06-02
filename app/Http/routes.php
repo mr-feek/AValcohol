@@ -35,6 +35,7 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'A
 $app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
 	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
+	$app->get('orders/all', 'AdminController@getAllOrders');
 	$app->post('vendor', 'VendorController@create');
 	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
 });

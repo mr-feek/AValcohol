@@ -50,4 +50,13 @@ class AdminRepository extends BaseRepository implements AdminInterface
 
 		return $orders;
 	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public function getAllOrders()
+	{
+		$orders = Order::with(['status', 'user.profile', 'products', 'address'])->get();
+		return $orders;
+	}
 }

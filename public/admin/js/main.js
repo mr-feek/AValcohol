@@ -23,6 +23,7 @@ require.config({
 		'moment':				'../../vendor/moment/moment',
 		'jSignature':			'../../vendor/jSignature/libs/jSignature.min',
 		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors',
+		'nprogress':			'../../vendor/nprogress/nprogress',
 		'shared':				'../../shared'
 	},
 	shim: {

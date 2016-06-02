@@ -11,6 +11,11 @@ namespace App\Http\Controllers;
 use App\Http\Services\AdminService;
 use Illuminate\Http\Request;
 
+/**
+ * This controller services all requests made from the admin for now
+ * Class AdminController
+ * @package App\Http\Controllers
+ */
 class AdminController extends Controller
 {
 	/**
@@ -33,5 +38,16 @@ class AdminController extends Controller
 	public function getOrdersOutForDelivery(Request $request, AdminService $service) {
 		$orders = $service->getOrdersOutForDelivery();
 		return response()->json(['orders' => $orders]);
+	}
+
+	/**
+	 * Returns all orders???
+	 * @param Request $request
+	 * @param AdminService $service
+	 * @return mixed
+	 */
+	public function getAllOrders(Request $request, AdminService $service) {
+		$orders = $service->getAllOrders();
+		return response()->json(compact('orders'));
 	}
 }

@@ -17,13 +17,15 @@ define([
 		className: '',
 
 		events: {
-			'click @ui.ready' : 'showReadyOrders',
-			'click @ui.outForDelivery' : 'showOutForDeliveryOrders'
+			'click @ui.ready' 			: 'showReadyOrders',
+			'click @ui.outForDelivery' 	: 'showOutForDeliveryOrders',
+			'click @ui.allOrders' 		: 'showAllOrders'
 		},
 
 		ui: {
-			ready :'.ready',
-			outForDelivery : '.out-for-delivery'
+			ready 			: '.ready',
+			outForDelivery 	: '.out-for-delivery',
+			allOrders 		: '.all-orders'
 		},
 
 		initialize: function (options) {
@@ -32,6 +34,10 @@ define([
 		onShow: function() {
 
 		},
+
+		/**
+		 * NEED TO OPTIMIZE THIS SHIT AND FIX IT
+		 */
 
 		showReadyOrders: function() {
 			this.ui.ready.addClass('active');
@@ -44,6 +50,12 @@ define([
 			this.ui.ready.removeClass('active');
 			App.router.navigate('admin/dashboard/out', {trigger: true});
 		},
+
+		showAllOrders: function() {
+			this.ui.allOrders.addClass('active');
+			this.ui.ready.removeClass('active');
+			App.router.navigate('admin/dashboard/all', {trigger: true});
+		}
 	});
 
 	return view;

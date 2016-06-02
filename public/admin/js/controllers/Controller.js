@@ -7,14 +7,16 @@ define([
 	'views/HeaderView',
 	'views/HomeRootView',
 	'views/ReadyOrdersView',
-	'views/OrdersOutForDeliveryView'
+	'views/OrdersOutForDeliveryView',
+	'views/AllOrdersView'
 ], function (
 	Marionette,
 	LoginView,
 	HeaderView,
 	HomeRootView,
 	ReadyOrdersView,
-	OrdersOutForDeliveryView
+	OrdersOutForDeliveryView,
+	AllOrdersView
 ) {
 	var Controller = Marionette.Object.extend({
 		initialize: function(options) {
@@ -40,6 +42,11 @@ define([
 		showReadyOrders: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new ReadyOrdersView());
+		},
+
+		showAllOrders: function() {
+			this._showDashboard();
+			this._getHomeView().getRegion('main').show(new AllOrdersView());
 		},
 
 		_authorize: function() {
