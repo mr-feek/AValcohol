@@ -6,17 +6,17 @@ define([
 	'backbone.poller',
 	'collections/Orders',
 	'views/ReadyOrderView', // temp
-	'tpl!templates/PastOrdersView.html'
+	'tpl!templates/all-orders.html'
 ], function (
 	Mn,
 	BackbonePoller,
 	Orders,
-	PastOrderView,
+	ReadyOrderView,
 	tpl
 ) {
 	var AllOrdersView = Mn.CollectionView.extend({
 		template: tpl,
-		childView: PastOrderView,
+		childView: ReadyOrderView,
 
 		templateHelpers: function () {
 			return {}
@@ -36,7 +36,7 @@ define([
 		},
 
 		initialize: function (options) {
-			this.collection = new Orders([], {	endpoint: '/all'	});
+			this.collection = new Orders([], {	endpoint: 'all'	});
 
 			var options = {
 				delay: 30000 // 30 seconds

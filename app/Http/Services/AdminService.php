@@ -16,15 +16,7 @@ class AdminService extends BaseService
 		$this->repo = $adminRepo;
 	}
 
-	public function getOrdersReadyToBePickedUp() {
-		return $this->repo->getOrdersReadyToBePickedUp();
-	}
-
-	public function getOrdersOutForDelivery() {
-		return $this->repo->getOrdersOutForDelivery();
-	}
-
-	public function getAllOrders() {
-		return $this->repo->getAllOrders();
+	public function getOrders(array $data) {
+		return $this->repo->searchOrders($data);
 	}
 }

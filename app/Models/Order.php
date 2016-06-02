@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -44,6 +45,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+	use Filterable;
+	
 	public function products() {
 		return $this->belongsToMany('App\Models\Product')->withPivot(['product_vendor_price', 'product_sale_price']);
 	}

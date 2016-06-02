@@ -10,7 +10,5 @@ namespace App\Http\Repositories\Interfaces;
 
 interface AdminInterface
 {
-	public function getOrdersReadyToBePickedUp();
-	public function getOrdersOutForDelivery();
-	public function getAllOrders();
+	public function searchOrders(array $filters);
 }

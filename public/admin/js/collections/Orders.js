@@ -10,13 +10,13 @@ define([
 ) {
 	var collection = Backbone.Collection.extend({
 		model: Order,
+
 		/**
 		 * to support the likes of 'orders/pending' query
-		 * @param endpoint
 		 * @returns {string}
 		 */
-		url: function(endpoint) {
-			return '/api/admin/orders' + this.endpoint;
+		url: function() {
+			return '/api/admin/orders?' + this.endpoint;
 		},
 
 		/**
