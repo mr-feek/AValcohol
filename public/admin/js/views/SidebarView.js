@@ -23,38 +23,49 @@ define([
 		},
 
 		ui: {
+			allLinks 		: '.icon',
 			ready 			: '.ready',
 			outForDelivery 	: '.out-for-delivery',
 			allOrders 		: '.all-orders'
 		},
 
-		initialize: function (options) {
+		initialize: function() {
+			this.listenTo(this, 'showing', this.switchActiveLink);
 		},
-
-		onShow: function() {
-
-		},
-
-		/**
-		 * NEED TO OPTIMIZE THIS SHIT AND FIX IT
-		 */
 
 		showReadyOrders: function() {
-			this.ui.ready.addClass('active');
-			this.ui.outForDelivery.removeClass('active');
 			App.router.navigate('admin/dashboard/ready', {trigger: true});
 		},
 
 		showOutForDeliveryOrders: function() {
-			this.ui.outForDelivery.addClass('active');
-			this.ui.ready.removeClass('active');
 			App.router.navigate('admin/dashboard/out', {trigger: true});
 		},
 
 		showAllOrders: function() {
-			this.ui.allOrders.addClass('active');
-			this.ui.ready.removeClass('active');
 			App.router.navigate('admin/dashboard/all', {trigger: true});
+		},
+
+		/**
+		 * removes the current active and adds active to the passed in element
+		 * @param toBeActive
+		 */
+		switchActiveLink: function(key) {
+			var toBeActive;
+
+			switch (key) {
+				case 'out' :
+					toBeActive = this.ui.outForDelivery;
+					break;
+				case 'ready' :
+					toBeActive = this.ui.ready;
+					break;
+				case 'all' :
+					toBeActive = this.ui.allOrders;
+					break;
+			}
+
+			this.ui.allLinks.removeClass('active');
+			toBeActive.addClass('active');
 		}
 	});
 

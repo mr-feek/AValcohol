@@ -37,16 +37,19 @@ define([
 		showOrdersOutForDelivery: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new OrdersOutForDeliveryView());
+			this._getSidebarView().trigger('showing', 'out');
 		},
 
 		showReadyOrders: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new ReadyOrdersView());
+			this._getSidebarView().trigger('showing', 'ready');
 		},
 
 		showAllOrders: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new AllOrdersView());
+			this._getSidebarView().trigger('showing', 'all');
 		},
 
 		_authorize: function() {
@@ -58,6 +61,14 @@ define([
 				this.home = new HomeRootView();
 			}
 			return this.home;
+		},
+
+		_getSidebarView: function() {
+			if (!this.sidebarView) {
+				this.sidebarView = this._getHomeView().getRegion('sidebar').currentView;
+			}
+
+			return this.sidebarView;
 		},
 
 		_getHeaderView: function() {
