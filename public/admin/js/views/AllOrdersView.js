@@ -3,54 +3,128 @@
  */
 define([
 	'marionette',
-	'backbone.poller',
+	'backgrid',
+	'backgrid-paginator',
 	'collections/Orders',
-	'views/ReadyOrderView', // temp
+	'behaviors/CollectionLoading',
 	'tpl!templates/all-orders.html'
 ], function (
 	Mn,
-	BackbonePoller,
+	Backgrid,
+	BackgridPaginator,
 	Orders,
-	ReadyOrderView,
+	CollectionLoading,
 	tpl
 ) {
-	var AllOrdersView = Mn.CollectionView.extend({
+	var AllOrdersView = Mn.ItemView.extend({
 		template: tpl,
-		childView: ReadyOrderView,
 
 		templateHelpers: function () {
 			return {}
 		},
-		 /*
+
 		behaviors: {
-			Modal: {
-				behaviorClass: Modal
+			CollectionLoading: {
+				behaviorClass: CollectionLoading
 			},
 		},
-		*/
+
 
 		events: {
+			'click @ui.orderShowDetails' : 'showOrderDetails'
 		},
 
 		ui: {
+			grid: '.grid',
+			paginator: '.paginator',
+			filter: '.filter',
+			orderShowDetails: '.details'
 		},
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: 'all'	});
+			this.triggerMethod('setCollection', this.collection);
 
-			var options = {
-				delay: 30000 // 30 seconds
-			};
+			this.pageableGrid = new Backgrid.Grid({
+				columns: [
+					{
+						name: 'id',
+						label: 'Order ID',
+						editable: false,
+						cell: Backgrid.IntegerCell.extend({
+							orderSeparator: ''
+						})
+					},
+					{
+						label: 'Customer Name',
+						editable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html(this.model.get('user').get('profile').getFullName());
+								return this;
+							}
+						})
+					},
+					{
+						name: 'full_charge_amount',
+						label: 'Order Total',
+						editable: false,
+						cell: Backgrid.NumberCell
+					},
+					{
+						label: 'Vendor Status',
+						editable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html(this.model.get('status').get('vendor_status'));
+								return this;
+							}
+						})
+					},
+					{
+						label: 'Delivery Status',
+						editable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html(this.model.get('status').get('delivery_status'));
+								return this;
+							}
+						})
+					},
+					{
+						name: 'created_at',
+						label: 'Date Placed',
+						editable: false,
+						cell: Backgrid.DateCell
+					},
+					{
+						editable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html('<a class="details" data-id="' + this.model.id + '">Details</a>');
+								return this;
+							}
+						})
+					},
+				],
+				collection: this.collection
+			});
 
-			this.poller = BackbonePoller.get(this.collection, options);
+			this.paginator = new Backgrid.Extension.Paginator({
+				collection: this.collection
+			});
 		},
 
-		onShow: function() {
-			this.poller.start();
+		onRender: function() {
+			this.collection.getFirstPage({reset: true});
+			this.ui.grid.html(this.pageableGrid.render().el);
+			this.ui.paginator.html(this.paginator.render().el);
 		},
 
-		onBeforeDestroy: function() {
-			this.poller.destroy();
+		showOrderDetails: function(evt) {
+			evt.preventDefault();
+			var orderId = $(evt.target).data('id');
+			console.log('yo ' + orderId);
 		}
 	});
 

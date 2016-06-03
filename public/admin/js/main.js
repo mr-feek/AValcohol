@@ -24,6 +24,9 @@ require.config({
 		'jSignature':			'../../vendor/jSignature/libs/jSignature.min',
 		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors',
 		'nprogress':			'../../vendor/nprogress/nprogress',
+		'backgrid':				'../../vendor/backgrid/lib/backgrid',
+		'backgrid-paginator':	'../../vendor/backgrid-paginator/backgrid-paginator',
+		'backbone.paginator':	'../../vendor/backbone.paginator/lib/backbone.paginator',
 		'shared':				'../../shared'
 	},
 	shim: {

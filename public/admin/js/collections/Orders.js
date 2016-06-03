@@ -3,13 +3,20 @@
  */
 define([
 	'backbone',
-	'shared/js/models/Order'
+	'shared/js/models/Order',
+	'backbone.paginator'
 ], function (
 	Backbone,
 	Order
 ) {
-	var collection = Backbone.Collection.extend({
+	var collection = Backbone.PageableCollection.extend({
 		model: Order,
+
+		state: {
+			pageSize: 15
+		},
+
+		mode: 'server',
 
 		/**
 		 * to support the likes of 'orders/pending' query

@@ -28,7 +28,9 @@
     "pikaday": "^1.4.0",
     "jSignature": "^2.0.2",
     "UsefulMarionetteViewBehaviors": "useful-marionette-view-behaviors#latest",
-    "nprogress": "^0.2.0"
+    "nprogress": "^0.2.0",
+    "backgrid": "^0.3.7",
+    "backgrid-paginator": "^0.3.9"
   },
   "resolutions": {
     "backbone": "~1.2.2"

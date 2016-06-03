@@ -2,12 +2,14 @@ define([
 	'backbone',
 	'backboneRelational',
 	'shared/js/models/UserAddress',
+	'shared/js/models/UserProfile',
 	'shared/js/models/Card',
 	'moment'
 ], function (
 	Backbone,
 	BackboneRelational,
 	UserAddress,
+	UserProfile,
 	Card,
 	moment
 ) {
@@ -15,6 +17,12 @@ define([
 		urlRoot: '/api/user',
 
 		relations: [
+			{
+				type: Backbone.HasOne,
+				key: 'profile',
+				relatedModel: UserProfile,
+				includeInJSON: false
+			},
 			{
 				type: Backbone.HasOne,
 				key: 'address',
@@ -40,10 +48,6 @@ define([
 
 		defaults: {
 			email: null,
-			first_name: null,
-			last_name: null,
-			phone_number: null,
-			date_of_birth: null,
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
