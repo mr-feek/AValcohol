@@ -43,6 +43,7 @@ use Sofa\Eloquence\Eloquence;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereVendorChargeAmount($value)
  * @property float $tax_charge_amount
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTaxChargeAmount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order filter($filters)
  */
 class Order extends Model
 {

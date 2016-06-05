@@ -10,25 +10,17 @@ use Illuminate\Support\Facades\Gate;
  */
 class OrderPolicyTest extends TestCase
 {
-	protected $utils;
-
-	public function setUp()
-	{
-		parent::setUp();
-		$this->utils = new Utils();
-	}
 
 	public function testVendorGetOrderAccess() {
-		$user = \App\Models\User::find(1);
-		$badUser = \App\Models\User::find(2);
-
+		$user = \App\Models\Vendor::find(1)->user;
+		$badUser = \App\Models\Vendor::find(2)->user;
 		$orders = $user->vendor->orders;
 
 		foreach($orders as $order) {
-			$res = Gate::forUser($user)->allows('vendorGetOrder', $order);
+			$res = Gate::forUser($user)->allows('get', $order);
 			$this->assertTrue($res);
 
-			$badRes = Gate::forUser($badUser)->allows('vendorGetOrder', $order);
+			$badRes = Gate::forUser($badUser)->allows('get', $order);
 			$this->assertFalse($badRes);
 		}
 	}

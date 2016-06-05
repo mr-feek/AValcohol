@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Created by PhpStorm.
  * User: Feek
@@ -9,15 +12,15 @@
 class AdminControllerTest extends TestCase
 {
 	protected $user;
-	protected $token;
-	protected $authHeader;
-	protected $utils;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->user = \App\Models\User::find(1);
-		$this->utils = new Utils();
+
+		$this->user = User::whereHas('roles', function($query) {
+			$query->where('role_id', 1);
+		})->first();
+
 		$this->token = $this->utils->generateTokenForUser($this->user);
 		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
 	}
