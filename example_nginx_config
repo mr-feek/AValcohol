@@ -51,9 +51,6 @@ server {
         fastcgi_connect_timeout 300;
         fastcgi_send_timeout 300;
         fastcgi_read_timeout 300;
-                                                                                   12,1          Top
-        fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;
     }
 
     location ~ /\.ht {
