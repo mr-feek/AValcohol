@@ -114,8 +114,44 @@ define([
 				collection: this.collection
 			});
 
-			this.paginator = new Backgrid.Extension.Paginator({
-				collection: this.collection
+			/**
+			 * to do: migrate to new file when want to reuse
+			 */
+			var backgridPaginator = Backgrid.Extension.Paginator.extend({
+				className: "pagination-centered",
+
+				render: function() {
+					this.$el.empty();
+
+					var totalPages = this.collection.state.totalPages;
+
+					// Don't render if collection is empty
+					if(this.renderMultiplePagesOnly && totalPages <= 1) {
+						return this;
+					}
+
+					if (this.handles) {
+						for (var i = 0, l = this.handles.length; i < l; i++) {
+							this.handles[i].remove();
+						}
+					}
+
+					var handles = this.handles = this.makeHandles();
+
+					var ul = document.createElement("ul");
+					ul.className = 'pagination';
+					for (var i = 0; i < handles.length; i++) {
+						ul.appendChild(handles[i].render().el);
+					}
+
+					this.el.appendChild(ul);
+
+					return this;
+				}
+			});
+
+			this.paginator = new backgridPaginator({
+				collection: this.collection,
 			});
 		},
 
