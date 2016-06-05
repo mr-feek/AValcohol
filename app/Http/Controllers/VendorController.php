@@ -14,14 +14,6 @@ use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
-/*
-	public function getAllOrders(Request $request, VendorService $service) {
-		// to do: migrate to service
-		$orders = Order::with(['products', 'user.profile', 'address'])->get();
-		return response()->json(['orders' => $orders]);
-	}
-*/
-
 	/**
 	 * Gets all orders that we have submitted to a vendor, awaiting their response
 	 * @param Request $request
@@ -29,7 +21,6 @@ class VendorController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getAllPendingOrders(Request $request, VendorService $service) {
-		//$user = JWTAuth::parseToken()->authenticate();
 		$user = $request->user();
 		$vendor = $user->vendor->toArray();
 		$orders = $service->getPendingOrders($vendor); // pull vendor id from token

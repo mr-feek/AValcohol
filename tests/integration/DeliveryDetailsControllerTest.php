@@ -9,13 +9,20 @@ use App\Models\Order;
  */
 class DeliveryDetailsControllerTest extends TestCase
 {
+	public function setUp() {
+		parent::setUp();
+
+		$this->token = $this->utils->generateTokenForUser(\App\Models\User::find(1));
+		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+	}
+
 	public function testCreateOrderDeliveryDetails() {
 		$order = Order::orderByRaw('RAND()')->first();
 		$data['photoData'] = $this->getBase64Data();
 		$data['signature'] = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj';
 		$data['order_id'] = $order->id;
 
-		$this->post("admin/order/{$order->id}/delivery-details", $data);
+		$this->post("admin/order/{$order->id}/delivery-details", $data, $this->authHeader);
 
 		$this->seeJson([
 			'success' => true
@@ -38,7 +45,7 @@ class DeliveryDetailsControllerTest extends TestCase
 		$data['signature'] = 'D94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj'; // invalid base 64 cause of length
 		$data['order_id'] = $order->id;
 
-		$this->post("admin/order/{$order->id}/delivery-details", $data);
+		$this->post("admin/order/{$order->id}/delivery-details", $data, $this->authHeader);
 
 		$this->seeJson([
 			'success' => false

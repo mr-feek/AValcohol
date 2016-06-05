@@ -11,15 +11,11 @@ class VendorControllerTest extends TestCase
 {
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
-	protected $utils;
 	protected $vendor;
-	protected $token;
-	protected $authHeader;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->utils = new Utils();
 		$this->vendor = Vendor::find(1);
 		$this->token = $this->utils->generateTokenForUser($this->vendor->user);
 		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
@@ -36,7 +32,7 @@ class VendorControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 
-		$this->post('/admin/vendor', $data);
+		$this->post('/admin/vendor', $data, $this->authHeader);
 
 		$this->seeJsonStructure([
 			'vendor' => [

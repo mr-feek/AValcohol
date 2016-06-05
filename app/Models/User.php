@@ -63,6 +63,13 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 		return $this->hasOne('App\Models\Vendor');
 	}
 
+	public function isAdmin() {
+		// todo
+		if ($this->id === 1) {
+			return true;
+		}
+	}
+
 	public function isVendor() {
 		if(is_null($this->vendor)) {
 			return false;

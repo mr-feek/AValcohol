@@ -8,8 +8,23 @@
  */
 class AdminControllerTest extends TestCase
 {
+	protected $user;
+	protected $token;
+	protected $authHeader;
+	protected $utils;
+
+	public function setUp()
+	{
+		parent::setUp();
+		$this->user = \App\Models\User::find(1);
+		$this->utils = new Utils();
+		$this->token = $this->utils->generateTokenForUser($this->user);
+		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+	}
+
 	public function testGetOrdersReadyToBePickedUp() {
-		$this->get('/admin/orders/ready');
+		$this->refreshApplication();
+		$this->get('/admin/orders?ready', $this->authHeader);
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
@@ -23,7 +38,8 @@ class AdminControllerTest extends TestCase
 	}
 
 	public function testGetOrdersOutForDelivery() {
-		$this->get('/admin/orders/out');
+		$this->refreshApplication();
+		$this->get('/admin/orders?out', $this->authHeader);
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {

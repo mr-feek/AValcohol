@@ -32,7 +32,7 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'A
 	$app->patch('order/{order}/status', 'VendorController@updateOrderStatus');
 });
 
-$app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders', 'AdminController@getOrders');
 	$app->post('vendor', 'VendorController@create');
 	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
