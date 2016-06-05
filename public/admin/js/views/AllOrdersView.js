@@ -7,6 +7,8 @@ define([
 	'backgrid-paginator',
 	'collections/Orders',
 	'behaviors/CollectionLoading',
+	'views/OrderDetailView',
+	'App',
 	'tpl!templates/all-orders.html'
 ], function (
 	Mn,
@@ -14,6 +16,8 @@ define([
 	BackgridPaginator,
 	Orders,
 	CollectionLoading,
+	OrderDetailView,
+	app,
 	tpl
 ) {
 	var AllOrdersView = Mn.ItemView.extend({
@@ -124,7 +128,8 @@ define([
 		showOrderDetails: function(evt) {
 			evt.preventDefault();
 			var orderId = $(evt.target).data('id');
-			console.log('yo ' + orderId);
+
+			app.rootView.getRegion('modalRegion').show(new OrderDetailView({	model:	this.collection.get(orderId)	}));
 		}
 	});
 
