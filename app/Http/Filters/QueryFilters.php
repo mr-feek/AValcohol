@@ -10,6 +10,7 @@ namespace App\Http\Filters;
  */
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class QueryFilters
 {
@@ -25,6 +26,12 @@ abstract class QueryFilters
 	 */
 	protected $builder;
 
+	/**
+	 * The model instance
+	 * @var Model
+	 */
+	protected $model;
+
 	public function __construct(array $filters)
 	{
 		$this->filters = $filters;
@@ -33,11 +40,13 @@ abstract class QueryFilters
 	/**
 	 * Apply the filters to the builder.
 	 *
+	 * @param Model $model
 	 * @param  Builder $builder
 	 * @return Builder
 	 */
-	public function apply(Builder $builder)
+	public function apply(Model $model, Builder $builder)
 	{
+		$this->model = $model;
 		$this->builder = $builder;
 
 		foreach ($this->filters as $name => $value) {

@@ -5,6 +5,7 @@ define([
 	'marionette',
 	'backgrid',
 	'backgrid-paginator',
+	'backgrid-filter',
 	'collections/Orders',
 	'behaviors/CollectionLoading',
 	'views/OrderDetailView',
@@ -14,6 +15,7 @@ define([
 	Mn,
 	Backgrid,
 	BackgridPaginator,
+	BackgridFilter,
 	Orders,
 	CollectionLoading,
 	OrderDetailView,
@@ -35,10 +37,13 @@ define([
 
 
 		events: {
-			'click @ui.orderShowDetails' : 'showOrderDetails'
+			'click @ui.orderShowDetails' : 'showOrderDetails',
+			'click @ui.submitSearch' : 'submitSearch'
 		},
 
 		ui: {
+			search: '.search',
+			submitSearch: '.submit-search',
 			grid: '.grid',
 			paginator: '.paginator',
 			filter: '.filter',
@@ -158,12 +163,27 @@ define([
 			this.paginator = new backgridPaginator({
 				collection: this.collection,
 			});
+
+			this.filter = new Backgrid.Extension.ServerSideFilter({
+				collection: this.collection,
+				name: 'q',
+				placeholder: 'ex: user.profile.email:suresh@avalcohol.com',
+				/** @property {function(Object, ?Object=): string} template */
+				template: function (data) {
+					return '<input type="search" ' + (data.placeholder ? 'placeholder="' + data.placeholder + '"' : '') + ' name="' + data.name + '" ' + (data.value ? 'value="' + data.value + '"' : '') + '/><a class="clear text-center" style="display:block;" data-backgrid-action="clear" href="#">clear search terms</a>';
+				},
+			});
 		},
 
 		onRender: function() {
 			this.collection.getFirstPage({reset: true});
+			this.ui.search.html(this.filter.render().el);
 			this.ui.grid.html(this.pageableGrid.render().el);
 			this.ui.paginator.html(this.paginator.render().el);
+		},
+
+		submitSearch: function() {
+			this.filter.search();
 		},
 
 		showOrderDetails: function(evt) {

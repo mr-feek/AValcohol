@@ -9,11 +9,13 @@
 namespace App\Http\Filters;
 
 use App\Http\Traits\PaginationFilters;
+use App\Http\Traits\SearchFilters;
 
 class AdminOrderFilters extends QueryFilters
 {
 	use PaginationFilters;
-	
+	use SearchFilters;
+
 	/**
 	 * filters based on orders ready to be picked up by drivers
 	 * @return \Illuminate\Database\Eloquent\Builder|static

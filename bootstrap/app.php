@@ -95,6 +95,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // 3rd party
 $app->register(\Laravel\Cashier\CashierServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Sofa\Eloquence\ServiceProvider::class);
 // commenting this out for now cause it does NOT work with lumen 5.2 (there is a fix in the issues though)
 //$app->register(Rdehnhardt\MaintenanceMode\Providers\MaintenanceModeServiceProvider::class);
 

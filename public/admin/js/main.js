@@ -27,6 +27,7 @@ require.config({
 		'backgrid':				'../../vendor/backgrid/lib/backgrid',
 		'backgrid-paginator':	'../../vendor/backgrid-paginator/backgrid-paginator',
 		'backbone.paginator':	'../../vendor/backbone.paginator/lib/backbone.paginator',
+		'backgrid-filter':		'../../vendor/backgrid-filter/backgrid-filter',
 		'shared':				'../../shared'
 	},
 	shim: {

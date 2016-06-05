@@ -10,6 +10,7 @@ namespace App\Models;
 
 use App\Http\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
 
 /**
  * App\Models\Order
@@ -46,6 +47,13 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
 	use Filterable;
+	use Eloquence;
+
+	public $searchableFields = [
+		'id' => 'id',
+		'email' => 'user.email',
+		'last_name' => 'user.profile.last_name'
+	];
 	
 	public function products() {
 		return $this->belongsToMany('App\Models\Product')->withPivot(['product_vendor_price', 'product_sale_price']);
