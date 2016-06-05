@@ -13,7 +13,9 @@ define([
 		model: Order,
 
 		state: {
-			pageSize: 15
+			pageSize: 15,
+			sortKey: 'created_at',
+			order: 1
 		},
 
 		mode: 'server',

@@ -6,3 +6,11 @@
 		@include pagination-current-item;
 	}
 }
+
+.ascending:after {
+	content: '\25B2';
+}
+
+.descending:after {
+	content: '\25BC';
+}

@@ -62,6 +62,7 @@ define([
 					{
 						label: 'Customer Name',
 						editable: false,
+						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
 								this.$el.html(this.model.get('user').get('profile').getFullName());
@@ -78,6 +79,7 @@ define([
 					{
 						label: 'Vendor Status',
 						editable: false,
+						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
 								this.$el.html(this.model.get('status').get('vendor_status'));
@@ -88,6 +90,7 @@ define([
 					{
 						label: 'Delivery Status',
 						editable: false,
+						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
 								this.$el.html(this.model.get('status').get('delivery_status'));
@@ -102,7 +105,9 @@ define([
 						cell: Backgrid.DateCell
 					},
 					{
+						label: '',
 						editable: false,
+						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
 								this.$el.html('<a class="details" data-id="' + this.model.id + '">Details</a>');

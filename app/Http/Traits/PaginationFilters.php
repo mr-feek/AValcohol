@@ -13,6 +13,8 @@ use App\Exceptions\APIException;
 trait PaginationFilters {
 	protected $pageNumber;
 	protected $recordsPerPage;
+	protected $sortByField;
+	protected $order;
 
 	/**
 	 * @param $number
@@ -35,5 +37,19 @@ trait PaginationFilters {
 
 		$offset = ($this->pageNumber - 1) * $this->recordsPerPage;
 		return $this->builder->offset($offset)->take($this->recordsPerPage);
+	}
+
+	public function sort_by($field) {
+		$this->sortByField = $field;
+	}
+
+	public function order($direction) {
+		$this->order = $direction;
+
+		if (!$this->sortByField) {
+			throw new APIException('The sort)by parameter needs to be sent before order');
+		}
+
+		return $this->builder->orderBy($this->sortByField, $this->order);
 	}
 }
