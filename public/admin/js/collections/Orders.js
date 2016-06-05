@@ -18,6 +18,10 @@ define([
 
 		mode: 'server',
 
+		parseState: function (resp, queryParams, state, options) {
+			return {totalRecords: resp.total_count};
+		},
+
 		/**
 		 * to support the likes of 'orders/pending' query
 		 * @returns {string}
@@ -34,7 +38,7 @@ define([
 			this.endpoint = (options && options.endpoint) ? options.endpoint : '';
 		},
 
-		parse: function(response, xhr) {
+		parseRecords: function(response, xhr) {
 			return response.orders;
 		}
 	});

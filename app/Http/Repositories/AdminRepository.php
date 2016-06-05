@@ -8,7 +8,6 @@
 
 namespace App\Http\Repositories;
 
-
 use App\Http\Filters\AdminOrderFilters;
 use App\Http\Repositories\Interfaces\AdminInterface;
 use App\Models\Order;
@@ -26,5 +25,9 @@ class AdminRepository extends BaseRepository implements AdminInterface
 		$filters = new AdminOrderFilters($data);
 		$orders = Order::filter($filters)->with(['status', 'user.profile', 'products', 'address'])->get();
 		return $orders;
+	}
+
+	public function getTotalNumberOfOrdersPlacedToDate() {
+		return Order::count();
 	}
 }

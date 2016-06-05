@@ -20,6 +20,11 @@ class AdminController extends Controller
 {
 	public function getOrders(Request $request, AdminService $service) {
 		$orders = $service->getOrders($request->input());
-		return compact('orders');
+		$count = $service->getTotalNumberOfOrdersPlacedToDate();
+
+		return response()->json([
+			'orders' => $orders,
+			'total_count' => $count
+		]);
 	}
 }

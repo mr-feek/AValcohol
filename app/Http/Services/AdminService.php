@@ -19,4 +19,8 @@ class AdminService extends BaseService
 	public function getOrders(array $data) {
 		return $this->repo->searchOrders($data);
 	}
+
+	public function getTotalNumberOfOrdersPlacedToDate() {
+		return $this->repo->getTotalNumberOfOrdersPlacedToDate();
+	}
 }
