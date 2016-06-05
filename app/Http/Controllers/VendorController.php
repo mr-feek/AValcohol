@@ -25,12 +25,7 @@ class VendorController extends Controller
 		$vendor = $user->vendor->toArray();
 		$orders = $service->getPendingOrders($vendor); // pull vendor id from token
 
-		if (!$orders->isEmpty()) {
-			// TODO: do we only need to check the first one?
-			foreach($orders as $order) {
-				$this->authorize('vendorGetOrder', $order);
-			}
-		}
+		$this->authorize('get', $orders);
 
 		return response()->json(['orders' => $orders]);
 	}

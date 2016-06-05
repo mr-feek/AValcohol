@@ -22,12 +22,7 @@ class AdminController extends Controller
 		$orders = $service->getOrders($request->input());
 		$count = $service->getTotalNumberOfOrdersPlacedToDate();
 
-		if (!$orders->isEmpty()) {
-			// TODO: do we only need to check the first one?
-			foreach($orders as $order) {
-				$this->authorize('get', $order);
-			}
-		}
+		$this->authorize('get', $orders);
 
 		return response()->json([
 			'orders' => $orders,
