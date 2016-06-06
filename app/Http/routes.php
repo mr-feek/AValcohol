@@ -27,14 +27,14 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->get('', ['middleware' => 'jwt-auth', 'uses' => 'UserController@getFromToken']);
 });
 
-// to do: vendor middleware asserting user is vendor before doing request
+// todo: vendor middleware asserting user is vendor before doing request
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 	$app->get('', 'VendorController@get');
 	$app->patch('order/{order}/status', 'VendorController@updateOrderStatus');
 });
 
-// to do: admin middleware asserting user has role before doing request
+// todo: admin middleware asserting user has role before doing request
 $app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders', 'AdminController@getOrders');
 	$app->post('vendor', 'VendorController@create');

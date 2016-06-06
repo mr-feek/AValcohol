@@ -19,14 +19,16 @@ define([
 		events: {
 			'click @ui.ready' 			: 'showReadyOrders',
 			'click @ui.outForDelivery' 	: 'showOutForDeliveryOrders',
-			'click @ui.allOrders' 		: 'showAllOrders'
+			'click @ui.allOrders' 		: 'showAllOrders',
+			'click @ui.factory'			: 'showFactory'
 		},
 
 		ui: {
 			allLinks 		: '.icon',
 			ready 			: '.ready',
 			outForDelivery 	: '.out-for-delivery',
-			allOrders 		: '.all-orders'
+			allOrders 		: '.all-orders',
+			factory 		: '.factory'
 		},
 
 		initialize: function() {
@@ -45,6 +47,10 @@ define([
 			App.router.navigate('admin/dashboard/all', {trigger: true});
 		},
 
+		showFactory: function() {
+			App.router.navigate('admin/dashboard/factory', {trigger: true});
+		},
+
 		/**
 		 * removes the current active and adds active to the passed in element
 		 * @param toBeActive
@@ -61,6 +67,9 @@ define([
 					break;
 				case 'all' :
 					toBeActive = this.ui.allOrders;
+					break;
+				case 'factory' :
+					toBeActive = this.ui.factory;
 					break;
 			}
 

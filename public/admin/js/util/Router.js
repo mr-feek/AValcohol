@@ -16,7 +16,8 @@ define([
 			'admin/dashboard' 		: 'showReadyOrders',
 			'admin/dashboard/ready' : 'showReadyOrders',
 			'admin/dashboard/out' 	: 'showOrdersOutForDelivery',
-			'admin/dashboard/all' 	: 'showAllOrders'
+			'admin/dashboard/all' 	: 'showAllOrders',
+			'admin/dashboard/factory': 'showFactory'
 		}
 	});
 

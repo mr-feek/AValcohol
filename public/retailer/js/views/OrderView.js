@@ -20,8 +20,8 @@ define([
 		templateHelpers: function() {
 			var user = this.model.get('user');
 			return {
-				userName: user.get('profile').first_name + ' ' + user.get('profile').last_name,
-				dob: user.get('profile').date_of_birth,
+				userName: user.get('profile').getFullName(),
+				dob: user.get('profile').getDateOfBirth(),
 				orderNumber: this.model.get('id'),
 				timePlaced: this.model.get('created_at'),
 				vendorOrderTotal: this.model.calculateVendorOrderTotal,

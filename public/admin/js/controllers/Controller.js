@@ -9,6 +9,7 @@ define([
 	'views/ReadyOrdersView',
 	'views/OrdersOutForDeliveryView',
 	'views/AllOrdersView',
+	'views/factory/FactoryView',
 	'App'
 ], function (
 	Marionette,
@@ -18,6 +19,7 @@ define([
 	ReadyOrdersView,
 	OrdersOutForDeliveryView,
 	AllOrdersView,
+	FactoryView,
 	app
 ) {
 	var Controller = Marionette.Object.extend({
@@ -36,6 +38,11 @@ define([
 			}
 		},
 
+		// this class needs to be refactored so badly
+
+
+
+
 		showOrdersOutForDelivery: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new OrdersOutForDeliveryView());
@@ -52,6 +59,12 @@ define([
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new AllOrdersView());
 			this._getSidebarView().trigger('showing', 'all');
+		},
+
+		showFactory: function() {
+			this._showDashboard();
+			this._getHomeView().getRegion('main').show(new FactoryView());
+			this._getSidebarView().trigger('showing', 'factory');
 		},
 
 		/**

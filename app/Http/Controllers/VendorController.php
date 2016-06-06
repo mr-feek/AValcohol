@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 class VendorController extends Controller
 {
 	/**
+	 * to do: migrate to filters
 	 * Gets all orders that we have submitted to a vendor, awaiting their response
 	 * @param Request $request
 	 * @param VendorService $service
