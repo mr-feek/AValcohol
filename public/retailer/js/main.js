@@ -91,7 +91,7 @@ require([
 		app.session = new Session();
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
-
+		
 		// subscribe to error codes
 		$.ajaxSetup({
 			statusCode: {

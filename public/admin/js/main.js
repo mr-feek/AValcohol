@@ -101,10 +101,10 @@ require([
 		$.ajaxSetup({
 			statusCode: {
 				401 : function() {
-					app.router.navigate('retailer/login', { trigger: true });
+					app.router.navigate('admin/login', { trigger: true });
 				},
 				403 : function() {
-					app.router.navigate('retailer/login', { trigger: true });
+					app.router.navigate('admin/login', { trigger: true });
 				}
 			}
 		});
