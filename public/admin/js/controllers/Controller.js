@@ -8,7 +8,8 @@ define([
 	'views/HomeRootView',
 	'views/ReadyOrdersView',
 	'views/OrdersOutForDeliveryView',
-	'views/AllOrdersView'
+	'views/AllOrdersView',
+	'App'
 ], function (
 	Marionette,
 	LoginView,
@@ -16,7 +17,8 @@ define([
 	HomeRootView,
 	ReadyOrdersView,
 	OrdersOutForDeliveryView,
-	AllOrdersView
+	AllOrdersView,
+	app
 ) {
 	var Controller = Marionette.Object.extend({
 		initialize: function(options) {
@@ -24,14 +26,14 @@ define([
 		},
 
 		showLogin: function() {
-			// if logged in already, just show the dashboard instead
-			this.rootView.getRegion('main').show(new LoginView());
+			this.rootView.getRegion('main').show(new LoginView({	model: app.user 	}));
 		},
 
 		_showDashboard: function() {
-			this._authorize();
-			this.rootView.getRegion('header').show(this._getHeaderView());
-			this.rootView.getRegion('main').show(this._getHomeView());
+			if (this.authorize()) {
+				this.rootView.getRegion('header').show(this._getHeaderView());
+				this.rootView.getRegion('main').show(this._getHomeView());
+			}
 		},
 
 		showOrdersOutForDelivery: function() {
@@ -52,8 +54,16 @@ define([
 			this._getSidebarView().trigger('showing', 'all');
 		},
 
-		_authorize: function() {
-			// if the model isn't logged in, redirect to login
+		/**
+		 * If the user is not logged in, redirect to login
+		 * @return boolean whether or not authorized
+		 */
+		authorize: function() {
+			if (!app.session.get('token')) {
+				app.router.navigate('admin/login', {trigger: true});
+				return false;
+			}
+			return true;
 		},
 
 		_getHomeView: function() {

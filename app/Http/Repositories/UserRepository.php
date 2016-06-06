@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
 	public function getUserById($id)
 	{
-		return $this->model = User::findOrFail($id);
+		return $this->model = User::with(['profile', 'roles'])->findOrFail($id);
 	}
 
 	/**

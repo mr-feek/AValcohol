@@ -4,6 +4,7 @@ define([
 	'shared/js/models/UserAddress',
 	'shared/js/models/UserProfile',
 	'shared/js/models/Card',
+	'shared/js/models/Role',
 	'moment'
 ], function (
 	Backbone,
@@ -11,6 +12,7 @@ define([
 	UserAddress,
 	UserProfile,
 	Card,
+	Role,
 	moment
 ) {
 	var User = Backbone.RelationalModel.extend({
@@ -38,6 +40,12 @@ define([
 				type: Backbone.HasOne,
 				key: 'card',
 				relatedModel: Card,
+				includeInJSON: false
+			},
+			{
+				type: Backbone.HasMany,
+				key: 'roles',
+				relatedModel: Role,
 				includeInJSON: false
 			}
 		],
@@ -125,6 +133,14 @@ define([
 			var now = moment();
 			var twentyOneToday = now.subtract(21, 'years');
 			return dob.isSameOrBefore(twentyOneToday);
+		},
+
+		isAdmin: function() {
+			var roles = this.get('roles');
+			if (roles && roles.find({	name : 'administrator'	})) {
+				return true;
+			}
+			return false;
 		}
 	});
 

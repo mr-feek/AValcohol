@@ -65,7 +65,7 @@ require([
 	'controllers/Controller',
 	'util/Router',
 	'models/Vendor',
-	'models/Session',
+	'shared/js/models/Session',
 	'shared/js/models/Config',
 	'foundation'
 ], function (

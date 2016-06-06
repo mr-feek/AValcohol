@@ -35,7 +35,7 @@ define([
 			this.listenTo(this.model, "invalid", this.validationError);
 
 			_.bindAll(this, 'passwordCharacterTyped');
-			this.listenTo(Vent, 'vendor:authenticated', this.onLoginSuccess);
+			this.listenTo(Vent, 'user:authenticated', this.onLoginSuccess);
 		},
 
 		passwordCharacterTyped: function(evt) {
@@ -91,9 +91,12 @@ define([
 		},
 
 		onLoginSuccess: function() {
-			// we need to now fetch the vendor info
-			this.model.fetch().done(function() {
-				app.router.navigate('retailer/dashboard', {trigger: true});
+			this.model.fetch().done(function(response) {
+				if (response.vendor) {
+					app.router.navigate('retailer/dashboard', {trigger: true});
+				} else {
+					alert('It seems as if you are not a vendor. If this is a mistake please contact us.');
+				}
 			});
 		}
 	});

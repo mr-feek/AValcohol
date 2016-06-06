@@ -68,6 +68,8 @@ require([
 	'backbone',
 	'views/RootView',
 	'controllers/Controller',
+	'shared/js/models/User',
+	'shared/js/models/Session',
 	'util/Router',
 	'shared/js/models/Config',
 	'foundation'
@@ -76,6 +78,8 @@ require([
 	Backbone,
 	RootView,
 	Controller,
+	User,
+	Session,
 	Router,
 	Config
 ) {
@@ -83,6 +87,8 @@ require([
 
 	app.on('start', function() {
 		app.rootView = new RootView();
+		app.session = new Session();
+		app.user = User.findOrCreate({});
 
 		var controller = new Controller({
 			rootView: app.rootView

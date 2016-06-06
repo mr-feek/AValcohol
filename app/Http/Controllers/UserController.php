@@ -13,6 +13,13 @@ use App\Http\Services\UserService;
 
 class UserController extends Controller
 {
+
+	public function getFromToken(Request $request, UserService $userService) {
+		$user = $request->user();
+		$user = $userService->getUser($user->id);
+		return compact('user');
+	}
+
 	/**
 	 * @param Request $request
 	 * @param UserService $service
