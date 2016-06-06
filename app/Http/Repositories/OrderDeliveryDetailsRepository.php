@@ -15,7 +15,7 @@ use App\Models\OrderDeliveryDetail;
 class OrderDeliveryDetailsRepository extends BaseRepository implements OrderDeliveryDetailsInterface
 {
 	private $photoBaseDir;
-	private $whitelistedExtensions = ['.jpg', '.png'];
+	private $whitelistedExtensions = ['.jpg', '.jpeg', '.png'];
 
 	public function __construct(OrderDeliveryDetail $model)
 	{

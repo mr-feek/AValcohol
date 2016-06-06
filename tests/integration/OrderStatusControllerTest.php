@@ -76,8 +76,8 @@ class OrderStatusControllerTest extends TestCase
 	}
 
 	public function testDriverDeliverOrder() {
-		// i think this is handled in delivery details, check later
-		$this->fail();
+		// this is handled in delivery details
+		//$this->fail();
 	}
 
 	/**
