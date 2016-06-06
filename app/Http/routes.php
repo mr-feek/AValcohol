@@ -19,6 +19,11 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
+	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
+});
+
+$app->group(['prefix' => 'orders', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('pending', ['middleware' => 'jwt-auth', 'uses' => 'VendorController@getAllPendingOrders']);
 });
 
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -29,9 +34,7 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 
 // todo: vendor middleware asserting user is vendor before doing request
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 	$app->get('', 'VendorController@get');
-	$app->patch('order/{order}/status', 'VendorController@updateOrderStatus');
 });
 
 // todo: admin middleware asserting user has role before doing request

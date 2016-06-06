@@ -18,10 +18,30 @@ class OrderStatusService extends BaseService
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
+	 * @return bool
 	 */
+	public function vendorRejectOrder(array $data) {
+		return $this->repo->update($data);
+		// to do: delete user's charge authorization
+		// to do: email customer saying charge was declined for whatever reason
+	}
+
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function vendorAcceptOrder(array $data) {
+		return $this->repo->update($data);
+		// to do: capture users charge authorization
+		// to do: email customer with receipt and that vendor accepted order
+	}
+
+	public function driverPickUpOrder(array $data) {
+		return $this->repo->update($data);
+	}
+
 	public function update(array $data) {
-		$success = $this->repo->update($data);
-		return $success;
+		$this->repo->update($data);
 	}
 }

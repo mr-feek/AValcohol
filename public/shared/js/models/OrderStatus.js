@@ -8,11 +8,14 @@ define([
 	Backbone
 ) {
 	var OrderStatus = Backbone.RelationalModel.extend({
-		urlRoot: '/api/',
+		urlRoot: function() {
+			return '/api/order/';
+		},
+
 		idAttribute: 'order_id',
 
 		url: function() {
-			return '/api/vendor/order/' + this.get('order').get('id') + '/status';
+			return this.urlRoot() + this.get('order').get('id') + '/status';
 		},
 
 		defaults: {

@@ -49,7 +49,11 @@ define([
 		acceptOrder: function(e) {
 			e.preventDefault();
 
-			this.model.get('status').set('delivery_status', 'out-for-delivery').save().done(function() {
+			this.model.get('status').save({
+				'delivery_status': 'out-for-delivery'
+			}, {
+				patch: true
+			}).done(function() {
 				this.$el.slideUp(400, function() {
 					this.collection.remove(this.model);
 					this.destroy();

@@ -79,7 +79,7 @@ class VendorControllerTest extends TestCase
 
 	public function testGetPendingOrdersForVendor() {
 		$this->refreshApplication(); // if this is not called, there is a nasty bug where the wrong request object is sent to jwt
-		$this->get('vendor/orders/pending', $this->authHeader);
+		$this->get('orders/pending', $this->authHeader);
 		$this->verifyOrderJsonStructure();
 
 		$orders = json_decode($this->response->getContent())->orders;
@@ -124,55 +124,5 @@ class VendorControllerTest extends TestCase
 				],
 			]
 		]);
-	}
-
-	public function testVendorAcceptOrder() {
-		$order = $this->fetchPendingOrder();
-		$data = [
-			'vendor_status' => 'accepted'
-		];
-
-		$this->patch("vendor/order/{$order->id}/status", $data, $this->authHeader);
-
-		$this->seeJson(['success' => true]);
-
-		$this->seeInDatabase('order_statuses', [
-			'vendor_status' => 'accepted'
-		]);
-
-		// to do: verify charge captured
-		// to do: verify email sent
-	}
-
-	public function testVendorRejectOrder() {
-		$order = $this->fetchPendingOrder();
-		$data = [
-			'vendor_status' => 'rejected'
-		];
-
-		$this->patch("vendor/order/{$order->id}/status", $data, $this->authHeader);
-
-		$this->seeJson(['success' => true]);
-
-		$this->seeInDatabase('order_statuses', [
-			'vendor_status' => 'rejected'
-		]);
-
-		// to do: verify charge deleted
-		// to do: verify email sent
-	}
-
-	/**
-	 * returns an order with vendor status === pending
-	 * @return mixed
-	 */
-	private function fetchPendingOrder() {
-		$order = \App\Models\Order::where([
-			'vendor_id' => $this->vendor->id,
-		])->with(['status' => function($query) {
-			$query->where('vendor_status', 'pending');
-		}])->first();
-
-		return $order;
 	}
 }
