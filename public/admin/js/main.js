@@ -88,7 +88,7 @@ require([
 	app.on('start', function() {
 		app.rootView = new RootView();
 		app.session = new Session();
-		app.user = User.findOrCreate({});
+		app.user = User.findOrCreate({}, { useStorage: true });
 
 		var controller = new Controller({
 			rootView: app.rootView

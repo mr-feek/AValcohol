@@ -59,11 +59,11 @@ define([
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
-		initialize: function() {
+		initialize: function(options) {
 			this.on('change:phone_number', this.stripPhoneNumber);
 
 			// attach relation
-			this.set('address', UserAddress.findOrCreate({}));
+			this.set('address', UserAddress.findOrCreate({}, options));
 		},
 
 		/**

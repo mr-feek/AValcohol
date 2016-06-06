@@ -60,6 +60,7 @@ define([
 		],
 
 		defaults: {
+			address: null,
 			products: null,
 			user: null,
 			stripe_token: null,
