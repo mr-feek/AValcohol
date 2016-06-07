@@ -35,6 +35,7 @@ class PhotoManager implements PhotoManagerInterface
 	}
 
 	/**
+	 * Persists the supplied base64 encoded image data
 	 * @param the|string $data the base64 encoded picture data IE data:image/png;base64,iVBORw0KGgoA...
 	 * @return string the fully quantified path to the saved photo
 	 * @throws APIException if picture could not be saved
@@ -89,11 +90,10 @@ class PhotoManager implements PhotoManagerInterface
 	}
 
 	/**
-	 * should this be a hash of order id and something instead?
-	 * @return mixed
+	 * @return string random filename
 	 */
 	private function generateFilename() {
-		return uniqid('', true);
+		return md5(uniqid(rand(), true));
 	}
 
 	/**
