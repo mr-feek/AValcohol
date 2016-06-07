@@ -51,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
 			return $age >= 21;
 		}, 'You must be 21 in order to create an account');
 
+	    $this->app->singleton('filesystem', function ($app) {
+		    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+	    });
+
 		$this->app->bind('App\Http\Repositories\Interfaces\UserInterface', function($app)
 		{
 			return new UserRepository(new User(), new MailChimp(env('MAILCHIMP_KEY')));

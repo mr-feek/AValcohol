@@ -1,5 +1,6 @@
 <?php
 use App\Models\Order;
+use \Illuminate\Support\Facades\Storage;
 
 /**
  * Created by PhpStorm.
@@ -16,6 +17,9 @@ class DeliveryDetailsControllerTest extends TestCase
 		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
 	}
 
+	/**
+	 *
+	 */
 	public function testCreateOrderDeliveryDetails() {
 		$order = Order::orderByRaw('RAND()')->first();
 		$data['photoData'] = $this->getBase64Data();
@@ -37,6 +41,17 @@ class DeliveryDetailsControllerTest extends TestCase
 			'delivery_status' => 'delivered',
 			'order_id' => $data['order_id']
 		]);
+
+		$details = \App\Models\OrderDeliveryDetail::find($data['order_id']);
+
+		// temp: make this cleaner
+		$sentData = $data['photoData'];
+		list($type, $sentData) = explode(';', $sentData);
+		list(, $sentData) = explode(',', $sentData);
+		$sentData = base64_decode($sentData);
+		$retrievedData = Storage::disk('s3')->get($details->photo_path);
+
+		$this->assertEquals($retrievedData, $sentData);
 	}
 
 	public function testCreateOrderDeliveryDetailsFailsWithInvalidSignatureBase64() {
