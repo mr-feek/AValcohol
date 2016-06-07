@@ -87,9 +87,10 @@ class OrderStatusControllerTest extends TestCase
 	private function fetchVendorPendingOrder() {
 		$order = \App\Models\Order::where([
 			'vendor_id' => $this->vendor->id,
-		])->with(['status' => function($query) {
+		])->whereHas('status', function($query) {
 			$query->where('vendor_status', 'pending');
-		}])->first();
+			$query->where('delivery_status', 'pending');
+		})->first();
 
 		return $order;
 	}
