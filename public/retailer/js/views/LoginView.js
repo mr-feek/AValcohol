@@ -50,9 +50,9 @@ define([
 		 */
 		login: function() {
 			// only setting these to piggyback the validation
-			this.model.set('email', this.ui.email.val());
-			this.model.set('password', this.ui.password.val());
-			if (this.model.isValid()) {
+			app.session.set('email', this.ui.email.val());
+			app.session.set('password', this.ui.password.val());
+			if (app.session.isValid()) {
 				this.clearValidationErrors();
 				app.session.login({
 					email: this.ui.email.val(),

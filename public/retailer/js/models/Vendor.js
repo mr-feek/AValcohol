@@ -13,14 +13,10 @@ define([
 			return response.vendor;
 		},
 
-		/**
-		 * This should be updated. These are user table props, not vendor table props. Use backbone relational to fix
-		 */
 		defaults: {
-			email: null,
 			name: null,
-			password: null,
-			autoAcceptOrders: true
+			address: null,
+			phone_number: null
 		},
 
 		initialize: function() { },
