@@ -24,7 +24,12 @@ define([
 				key: 'order',
 				keyDestination: 'order_id',
 				relatedModel: Order,
-				includeInJSON: Backbone.Model.prototype.idAttribute
+				includeInJSON: Backbone.Model.prototype.idAttribute,
+				reverseRelation: {
+					key: 'delivery_details',
+					type: Backbone.HasOne,
+					includeInJSON: false
+				}
 			}
 		],
         

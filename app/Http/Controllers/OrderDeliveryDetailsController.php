@@ -41,6 +41,11 @@ class OrderDeliveryDetailsController extends Controller
 	}
 
 	public function get(Request $request, OrderDeliveryDetailsService $service, $id) {
-		return $service->get($id);
+		$orderDeliveryDetails = $service->get($id);
+
+		return response()->json([
+			'success' => true,
+			'delivery_details' => $orderDeliveryDetails
+		]);
 	}
 }

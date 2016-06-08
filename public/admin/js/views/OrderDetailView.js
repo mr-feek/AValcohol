@@ -38,7 +38,8 @@ define([
 		templateHelpers: function() {
 			var user = this.model.get('user');
 			var address = this.model.get('address');
-			
+			var deliveryDetails = this.model.get('delivery_details');
+
 			return {
 				userName: user.get('profile').getFullName(),
 				dob: user.get('profile').getDateOfBirth(),
@@ -46,7 +47,8 @@ define([
 				timePlaced: this.model.get('created_at'),
 				vendorOrderTotal: this.model.get('vendor_order_total'),
 				status: this.model.get('status').get('vendor_status'),
-				address: address.getDisplayableAddress()
+				address: address.getDisplayableAddress(),
+				photoData: deliveryDetails ? deliveryDetails.get('photo_data') : ''
 			}
 		},
 
@@ -55,18 +57,22 @@ define([
 		},
 
 		/**
-		 * gets the photo / signature
+		 * gets the photo / signature and rerenders
 		 */
 		fetchDeliveryDetails: function() {
-			// i think we should be able to use getAsync here, but idk how.. so hacky i never want to look at this again
-			var details = DeliveryDetails.findOrCreate({ id: this.model.id });
-			if (details.isNew()) {
-				details.set('order', this.model);
-				details.fetch().done(function(a, b, c) {
-					debugger;
-				});
+			// i think we should be able to use getAsync here, but idk how..
+			// so hacky i never want to look at this again. probably gonna cause trouble down the line oops
+			if (this.model.get('delivery_details')) {
+				return;
 			}
-		}
+
+			var details = DeliveryDetails.findOrCreate({ id: this.model.id });
+			this.model.set('delivery_details', details);
+
+			details.fetch().done(function(response) {
+				this.render();
+			}.bind(this));
+		},
 	});
 
 	return OrderDetailView;
