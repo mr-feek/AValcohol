@@ -72,7 +72,6 @@ class Order extends Model
 		return $this->hasOne('App\Models\OrderStatus');
 	}
 
-	// signature, picture, etc.
 	public function deliveryDetails() {
 		return $this->hasOne('App\Models\OrderDeliveryDetail');
 	}

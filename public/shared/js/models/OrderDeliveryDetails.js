@@ -30,8 +30,7 @@ define([
         
         defaults: {
             signature: null, // svg data
-			photoData: null,
-			order: null
+			photoData: null
         },
 
 		parse: function(response, xhr) {

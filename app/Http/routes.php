@@ -19,6 +19,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
+	// admin or vendor
 	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
 });
 
@@ -32,16 +33,17 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->get('', ['middleware' => 'jwt-auth', 'uses' => 'UserController@getFromToken']);
 });
 
-// todo: vendor middleware asserting user is vendor before doing request
+// todo: vendor middleware asserting user is vendor before doing request. this should happen before production? maybe? idk might be good
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'VendorController@get');
 });
 
-// todo: admin middleware asserting user has role before doing request
+// todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
 $app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('orders', 'AdminController@getOrders');
 	$app->post('vendor', 'VendorController@create');
 	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
+	$app->get('order/{id}/delivery-details', 'OrderDeliveryDetailsController@get');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {

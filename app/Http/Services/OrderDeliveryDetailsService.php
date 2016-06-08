@@ -41,4 +41,8 @@ class OrderDeliveryDetailsService extends BaseService
 	    });
 		return $deliveryDetails;
     }
+
+	public function get($id) {
+		return $this->repo->get($id);
+	}
 }

@@ -10,12 +10,18 @@ namespace App\Http\Domain\OrderDeliveryDetails;
 
 use App\Exceptions\APIException;
 use App\Http\Domain\OrderDeliveryDetails\Interfaces\PhotoManagerInterface;
+use App\Models\OrderDeliveryDetail;
 use Illuminate\Support\Facades\Storage;
 
 class PhotoManager implements PhotoManagerInterface
 {
+	/**
+	 * @var \Tymon\JWTAuth\Contracts\Providers\Storage
+	 */
 	private $disk;
+
 	private $photoBaseDir;
+
 	private $whitelistedExtensions = ['.jpg', '.jpeg', '.png'];
 
 	public function __construct()
@@ -108,8 +114,25 @@ class PhotoManager implements PhotoManagerInterface
 		return $directory;
 	}
 
-	public function get()
+	/**
+	 * retrieves the given photo from storage
+	 * @param OrderDeliveryDetail $model
+	 * @return string base64 of image
+	 */
+	public function get(OrderDeliveryDetail $model)
 	{
-		// TODO: Implement get() method.
+		$imageData = $this->disk->get($model->photo_path);
+		$type = pathinfo($model->photo_path, PATHINFO_EXTENSION);
+		return $this->encodeImageData($imageData, $type);
+	}
+
+	/*
+	 * uhhhh
+	 * @param string $data
+	 * @return string base64
+	 */
+	private function encodeImageData(string $data, $type) {
+		$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+		return $base64;
 	}
 }

@@ -8,7 +8,7 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Domain\OrderDeliveryDetails\PhotoManager;
+use App\Http\Domain\OrderDeliveryDetails\Interfaces\PhotoManagerInterface;
 use App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface;
 use App\Models\OrderDeliveryDetail;
 
@@ -20,10 +20,10 @@ class OrderDeliveryDetailsRepository extends BaseRepository implements OrderDeli
 	 */
 	private $photoManager;
 
-	public function __construct(OrderDeliveryDetail $model)
+	public function __construct(OrderDeliveryDetail $model, PhotoManagerInterface $photoManager)
 	{
 		$this->model = $model;
-		$this->photoManager = new PhotoManager();
+		$this->photoManager = $photoManager;
 	}
 
 	/**
@@ -37,5 +37,9 @@ class OrderDeliveryDetailsRepository extends BaseRepository implements OrderDeli
 		$this->model->photo_path = $this->photoManager->put($data['photoData']);
 		$this->model->save();
 		return $this->model;
+	}
+
+	public function get(int $id) {
+		return $this->model->find($id);
 	}
 }

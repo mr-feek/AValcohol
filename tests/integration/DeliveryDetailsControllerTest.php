@@ -10,6 +10,8 @@ use \Illuminate\Support\Facades\Storage;
  */
 class DeliveryDetailsControllerTest extends TestCase
 {
+	//use \Laravel\Lumen\Testing\DatabaseTransactions;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -17,16 +19,12 @@ class DeliveryDetailsControllerTest extends TestCase
 		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
 	}
 
-	/**
-	 *
-	 */
 	public function testCreateOrderDeliveryDetails() {
-		$order = Order::orderByRaw('RAND()')->first();
 		$data['photoData'] = $this->getBase64Data();
 		$data['signature'] = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj';
-		$data['order_id'] = $order->id;
+		$data['order_id'] = Order::orderByRaw('RAND()')->has('deliveryDetails', '<', 1)->first()->id;
 
-		$this->post("admin/order/{$order->id}/delivery-details", $data, $this->authHeader);
+		$this->post("admin/order/{$data['order_id']}/delivery-details", $data, $this->authHeader);
 
 		$this->seeJson([
 			'success' => true
@@ -42,28 +40,44 @@ class DeliveryDetailsControllerTest extends TestCase
 			'order_id' => $data['order_id']
 		]);
 
-		$details = \App\Models\OrderDeliveryDetail::find($data['order_id']);
+		$orderDetails = \App\Models\OrderDeliveryDetail::find($data['order_id']);
 
-		// temp: make this cleaner
+		// temp: make this cleaner. but for now were making sure all the correct data got sent to the disk
 		$sentData = $data['photoData'];
 		list($type, $sentData) = explode(';', $sentData);
 		list(, $sentData) = explode(',', $sentData);
 		$sentData = base64_decode($sentData);
-		$retrievedData = Storage::disk('s3')->get($details->photo_path);
+		$retrievedData = Storage::disk('s3')->get($orderDetails->photo_path);
 
 		$this->assertEquals($retrievedData, $sentData);
+
+		return $data['order_id'];
 	}
 
 	public function testCreateOrderDeliveryDetailsFailsWithInvalidSignatureBase64() {
-		$order = Order::orderByRaw('RAND()')->first();
 		$data['photoData'] = $this->getBase64Data();
 		$data['signature'] = 'D94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj'; // invalid base 64 cause of length
-		$data['order_id'] = $order->id;
+		$data['order_id'] = $this->order->id;
 
-		$this->post("admin/order/{$order->id}/delivery-details", $data, $this->authHeader);
+		$this->post("admin/order/{$this->order->id}/delivery-details", $data, $this->authHeader);
 
 		$this->seeJson([
 			'success' => false
+		]);
+	}
+
+	/**
+	 * @depends testCreateOrderDeliveryDetails
+	 */
+	public function testGetOrderDeliveryDetails($id) {
+		$expected = \App\Models\OrderDeliveryDetail::find($id)->toArray();
+		$this->get("admin/order/{$id}/delivery-details", $this->authHeader);
+
+		$this->seeJson([
+			'delivery-details' => [
+				'signature' => $expected['signature'],
+				'photo_data' => $this->getBase64Data()
+			]
 		]);
 	}
 

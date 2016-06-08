@@ -11,4 +11,5 @@ namespace App\Http\Repositories\Interfaces;
 interface OrderDeliveryDetailsInterface
 {
 	public function create(array $data);
+	public function get(int $id);
 }

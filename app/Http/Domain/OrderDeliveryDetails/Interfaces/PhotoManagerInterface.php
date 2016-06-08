@@ -8,8 +8,10 @@
 
 namespace App\Http\Domain\OrderDeliveryDetails\Interfaces;
 
+use App\Models\OrderDeliveryDetail;
+
 interface PhotoManagerInterface
 {
 	public function put(string $data);
-	public function get();
+	public function get(OrderDeliveryDetail $model);
 }

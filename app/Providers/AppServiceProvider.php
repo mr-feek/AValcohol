@@ -2,32 +2,27 @@
 
 namespace App\Providers;
 
-use App\Http\Repositories\OrderDeliveryDetailsRepository;
-use App\Models\OrderDeliveryDetail;
-use App\Models\OrderStatus;
+use App\Http\Domain\OrderDeliveryDetails\PhotoManager;
+
 use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
-use App\Models\Vendor;
-use App\Http\Repositories\VendorRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 use App\Http\Repositories\UserRepository;
+use App\Http\Repositories\VendorRepository;
 use App\Http\Repositories\UserAddressRepository;
 use App\Http\Repositories\BlacklistedAddressRepository;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\AdminRepository;
 use App\Http\Repositories\OrderStatusRepository;
+use App\Http\Repositories\OrderDeliveryDetailsRepository;
 
-use App\Http\Services\UserService;
-use App\Http\Services\UserAddressService;
-use App\Http\Services\BlacklistedAddressService;
-use App\Http\Services\OrderService;
-use App\Http\Services\ProductService;
-use App\Http\Services\AdminService;
-use App\Http\Services\OrderStatusService;
-
+use App\Models\Vendor;
+use App\Models\OrderDeliveryDetail;
+use App\Models\OrderStatus;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\BlacklistedAddress;
@@ -43,6 +38,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+	    /*
+	    |--------------------------------------------------------------------------
+	    | validators
+	    |--------------------------------------------------------------------------
+	    |
+	    | validators to be utilized throughout our app
+	    |
+	    */
 		Validator::extend('isTwentyOne', function($attribute, $value, $parameters, $validator) {
 			$from = new DateTime($value);
 			$to   = new DateTime('today');
@@ -51,9 +54,40 @@ class AppServiceProvider extends ServiceProvider
 			return $age >= 21;
 		}, 'You must be 21 in order to create an account');
 
+	    /*
+	    |--------------------------------------------------------------------------
+	    | singleton bindings
+	    |--------------------------------------------------------------------------
+	    |
+	    | dope context
+	    |
+	    */
+
 	    $this->app->singleton('filesystem', function ($app) {
 		    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
 	    });
+
+	    /*
+	    |--------------------------------------------------------------------------
+	    | misc
+	    |--------------------------------------------------------------------------
+	    |
+	    | change when we have more in here...
+	    |
+	    */
+
+	    $this->app->bind('App\Http\Domain\OrderDeliveryDetails\Interfaces\PhotoManagerInterface', function($app) {
+		    return new PhotoManager();
+	    });
+
+	    /*
+        |--------------------------------------------------------------------------
+        | repository bindings
+        |--------------------------------------------------------------------------
+        |
+        | dope context
+        |
+        */
 
 		$this->app->bind('App\Http\Repositories\Interfaces\UserInterface', function($app)
 		{
@@ -97,7 +131,7 @@ class AppServiceProvider extends ServiceProvider
 
 		$this->app->bind('App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface', function($app)
 		{
-			return new OrderDeliveryDetailsRepository(new OrderDeliveryDetail());
+			return new OrderDeliveryDetailsRepository(new OrderDeliveryDetail(), $app->make('App\Http\Domain\OrderDeliveryDetails\Interfaces\PhotoManagerInterface'));
 		});
 	}
 }

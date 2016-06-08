@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\APIException;
 use App\Http\Services\OrderDeliveryDetailsService;
+use App\Models\OrderDeliveryDetail;
 use App\Models\OrderIdentity;
 use Illuminate\Http\Request;
 
@@ -37,5 +38,9 @@ class OrderDeliveryDetailsController extends Controller
 			'success' => true,
 			'delivery_details' => $orderDeliveryDetails
 		]);
+	}
+
+	public function get(Request $request, OrderDeliveryDetailsService $service, $id) {
+		return $service->get($id);
 	}
 }
