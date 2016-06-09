@@ -25,7 +25,8 @@ class OrderDeliveryDetailsController extends Controller
 		$signatureData = $request->input('signature');
 
 		// check for valid base64
-		if (base64_encode(base64_decode($signatureData, true)) !== $signatureData){
+		$encodedData = explode(',', $signatureData)[1];
+		if (base64_encode(base64_decode($encodedData, true)) !== $encodedData){
 			return response()->json([
 				'success' => false,
 				'message' => 'Did not receive valid base 64 encoded data'

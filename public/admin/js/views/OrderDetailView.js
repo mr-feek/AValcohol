@@ -28,7 +28,7 @@ define([
 		},
 
 		ui: {
-			'showPictureAndSignature' : '.show-picture-and-signature'
+			'showPictureAndSignature' 	: '.show-picture-and-signature',
 		},
 
 		events: {
@@ -48,7 +48,8 @@ define([
 				vendorOrderTotal: this.model.get('vendor_order_total'),
 				status: this.model.get('status').get('vendor_status'),
 				address: address.getDisplayableAddress(),
-				photoData: deliveryDetails ? deliveryDetails.get('photo_data') : ''
+				photoData: deliveryDetails ? deliveryDetails.get('photo_data') : '',
+				signatureData: deliveryDetails ? deliveryDetails.get('signature') : ''
 			}
 		},
 
@@ -72,7 +73,7 @@ define([
 			details.fetch().done(function(response) {
 				this.render();
 			}.bind(this));
-		},
+		}
 	});
 
 	return OrderDetailView;
