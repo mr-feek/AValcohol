@@ -32,7 +32,7 @@
     "backgrid": "^0.3.7",
     "backgrid-paginator": "^0.3.9",
     "backgrid-filter": "^0.3.7",
-    "jquery": "^2.0.0"
+    "jquery": "^2"
   },
   "resolutions": {
     "backbone": "~1.2.2"
