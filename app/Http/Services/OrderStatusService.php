@@ -16,14 +16,6 @@ use Illuminate\Support\Facades\Mail;
 class OrderStatusService extends BaseService
 {
 	/**
-	 * @var UserRepository
-	 */
-	private $userRepository;
-	/**
-	 * @var OrderRepository
-	 */
-	private $orderRepository;
-	/**
 	 * @var OrderService
 	 */
 	private $orderService;
