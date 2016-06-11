@@ -21,7 +21,7 @@ class DeliveryDetailsControllerTest extends TestCase
 
 	public function testCreateOrderDeliveryDetails() {
 		$data['photoData'] = $this->getBase64Data();
-		$data['signature'] = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj';
+		$data['signature'] = 'data:image/png;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj';
 		$data['order_id'] = Order::orderByRaw('RAND()')->has('deliveryDetails', '<', 1)->first()->id;
 
 		$this->post("admin/order/{$data['order_id']}/delivery-details", $data, $this->authHeader);
@@ -54,12 +54,15 @@ class DeliveryDetailsControllerTest extends TestCase
 		return $data['order_id'];
 	}
 
-	public function testCreateOrderDeliveryDetailsFailsWithInvalidSignatureBase64() {
+	/**
+	 * @depends testCreateOrderDeliveryDetails
+	 */
+	public function testCreateOrderDeliveryDetailsFailsWithInvalidSignatureBase64($id) {
 		$data['photoData'] = $this->getBase64Data();
-		$data['signature'] = 'D94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj'; // invalid base 64 cause of length
-		$data['order_id'] = $this->order->id;
+		$data['signature'] = 'data:image/png;base64,D94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTkkgiIHN0YW5kYWxvbmU9Im5vIj'; // invalid base 64 cause of length
+		$data['order_id'] = $id;
 
-		$this->post("admin/order/{$this->order->id}/delivery-details", $data, $this->authHeader);
+		$this->post("admin/order/{$data['order_id']}/delivery-details", $data, $this->authHeader);
 
 		$this->seeJson([
 			'success' => false
@@ -72,11 +75,17 @@ class DeliveryDetailsControllerTest extends TestCase
 	public function testGetOrderDeliveryDetails($id) {
 		$expected = \App\Models\OrderDeliveryDetail::find($id)->toArray();
 		$this->get("admin/order/{$id}/delivery-details", $this->authHeader);
+		$result = json_decode($this->response->getContent());
 
-		$this->seeJson([
-			'delivery-details' => [
-				'signature' => $expected['signature'],
-				'photo_data' => $this->getBase64Data()
+		$this->assertEquals($result->delivery_details->order_id, $id);
+		$this->assertEquals($result->delivery_details->signature, $expected['signature']);
+		$this->assertEquals($result->delivery_details->photo_data, $this->getBase64Data());
+		$this->seeJsonStructure([
+			'success',
+			'delivery_details' => [
+				'order_id',
+				'signature',
+				'photo_data'
 			]
 		]);
 	}

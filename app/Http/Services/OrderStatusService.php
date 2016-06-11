@@ -9,22 +9,54 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\OrderStatusInterface;
+use App\Http\Repositories\OrderRepository;
+use App\Http\Repositories\UserRepository;
+use Illuminate\Support\Facades\Mail;
 
 class OrderStatusService extends BaseService
 {
-	public function __construct(OrderStatusInterface $repo)
+	/**
+	 * @var UserRepository
+	 */
+	private $userRepository;
+	/**
+	 * @var OrderRepository
+	 */
+	private $orderRepository;
+	/**
+	 * @var OrderService
+	 */
+	private $orderService;
+	/**
+	 * @var UserService
+	 */
+	private $userService;
+
+	public function __construct(OrderStatusInterface $repo, UserService $userService, OrderService $orderService)
 	{
 		$this->repo = $repo;
+		$this->orderService = $orderService;
+		$this->userService = $userService;
 	}
 
 	/**
 	 * @param array $data
-	 * @return bool
+	 * @return \App\Models\OrderStatus
 	 */
 	public function vendorRejectOrder(array $data) {
-		return $this->repo->update($data);
+		$success = $this->repo->update($data);
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+
 		// to do: delete user's charge authorization
-		// to do: email customer saying charge was declined for whatever reason
+
+		Mail::setQueue(app('queue.connection'))->queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Unfortunately Your Order Was Not Accepted :(');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
 	/**

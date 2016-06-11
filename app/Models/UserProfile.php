@@ -33,4 +33,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserProfile extends Model
 {
 	protected $fillable = ['first_name', 'last_name', 'phone_number', 'date_of_birth'];
+
+	public function fullName() {
+		return "{$this->first_name} {$this->last_name}";
+	}
 }

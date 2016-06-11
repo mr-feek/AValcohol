@@ -90,7 +90,7 @@ class OrderStatusControllerTest extends TestCase
 		])->whereHas('status', function($query) {
 			$query->where('vendor_status', 'pending');
 			$query->where('delivery_status', 'pending');
-		})->first();
+		})->firstOrFail();
 
 		return $order;
 	}
