@@ -25,6 +25,10 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'accepted'
 		];
 
+		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function($view, $viewParams) {
+			$this->assertEquals('emails.order-accepted', $view['text']);
+		});
+
 		$this->patch("order/{$order->id}/status", $data, $this->authHeader);
 
 		$this->seeJson(['success' => true]);
@@ -59,8 +63,7 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'rejected'
 		]);
 
-		// to do: verify charge deleted
-		// to do: verify email sent
+		// todo: verify charge deleted
 	}
 
 	public function testDriverPickupOrder() {

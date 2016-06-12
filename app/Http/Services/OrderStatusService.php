@@ -41,7 +41,7 @@ class OrderStatusService extends BaseService
 		$user = $this->userService->getUser($order->user_id);
 
 		// todo: delete user's charge authorization
-		
+
 		app('queue.connection'); // Just to initialize binding
 		Mail::queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
 			$message->to($user->email, $user->profile->fullName());
@@ -57,9 +57,20 @@ class OrderStatusService extends BaseService
 	 * @return bool
 	 */
 	public function vendorAcceptOrder(array $data) {
-		return $this->repo->update($data);
-		// to do: capture users charge authorization
-		// to do: email customer with receipt and that vendor accepted order
+		$success = $this->repo->update($data);
+		// todo: capture users charge authorization
+
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.order-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Your Order Has Been Accepted!');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
 	public function driverPickUpOrder(array $data) {
