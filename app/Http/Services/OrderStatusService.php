@@ -40,9 +40,10 @@ class OrderStatusService extends BaseService
 		$order = $this->orderService->getByOrderId($data['order_id']);
 		$user = $this->userService->getUser($order->user_id);
 
-		// to do: delete user's charge authorization
-
-		Mail::setQueue(app('queue.connection'))->queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+		// todo: delete user's charge authorization
+		
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
 			$message->to($user->email, $user->profile->fullName());
 			$message->subject('Unfortunately Your Order Was Not Accepted :(');
 			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');

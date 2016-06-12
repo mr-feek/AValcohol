@@ -45,6 +45,10 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'rejected'
 		];
 
+		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function($view, $viewParams) {
+			$this->assertEquals('emails.order-not-accepted', $view['text']);
+		});
+
 		$this->patch("order/{$order->id}/status", $data, $this->authHeader);
 
 		$this->seeJson(['success' => true]);
