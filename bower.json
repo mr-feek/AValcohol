@@ -15,7 +15,6 @@
   ],
   "dependencies": {
     "backbone": "~1.2.2",
-    "foundation": "~5.5.2",
     "foundation-icon-fonts": "*",
     "marionette": "~2.4.2",
     "requirejs": "~2.1.20",
@@ -32,7 +31,8 @@
     "backgrid": "^0.3.7",
     "backgrid-paginator": "^0.3.9",
     "backgrid-filter": "^0.3.7",
-    "jquery": "^2"
+    "jquery": "^2",
+    "animate.css": "^3.5.2"
   },
   "resolutions": {
     "backbone": "~1.2.2"
