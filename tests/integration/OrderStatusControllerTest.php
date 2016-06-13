@@ -25,9 +25,7 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'accepted'
 		];
 
-		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function($view, $viewParams) {
-			$this->assertEquals('emails.order-accepted', $view['text']);
-		});
+		$this->expectEmailWithViewNamed('order-accepted');
 
 		$this->patch("order/{$order->id}/status", $data, $this->authHeader);
 
@@ -39,8 +37,7 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'accepted'
 		]);
 
-		// to do: verify charge captured
-		// to do: verify email sent
+		// todo: verify charge captured
 	}
 
 	public function testVendorRejectOrder() {
@@ -49,9 +46,7 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'rejected'
 		];
 
-		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function($view, $viewParams) {
-			$this->assertEquals('emails.order-not-accepted', $view['text']);
-		});
+		$this->expectEmailWithViewNamed('order-not-accepted');
 
 		$this->patch("order/{$order->id}/status", $data, $this->authHeader);
 
@@ -71,6 +66,9 @@ class OrderStatusControllerTest extends TestCase
 		$data = [
 			'delivery_status' => 'out-for-delivery'
 		];
+
+		$this->expectEmailWithViewNamed('out-for-delivery');
+
 		$this->patch("order/{$order->id}/status", $data, $this->authHeader);
 
 		$this->seeJson(['success' => true]);
@@ -109,5 +107,12 @@ class OrderStatusControllerTest extends TestCase
 		})->first();
 
 		return $order;
+	}
+
+	private function expectEmailWithViewNamed(string $name)
+	{
+		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function ($view, $viewParams) use($name) {
+			$this->assertEquals("emails.{$name}", $view['text']);
+		});
 	}
 }

@@ -73,10 +73,28 @@ class OrderStatusService extends BaseService
 		return $success;
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	public function driverPickUpOrder(array $data) {
-		return $this->repo->update($data);
+		$success = $this->repo->update($data);
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+		
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.out-for-delivery'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Woohoo your order is on its way!');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
+	/**
+	 * @param array $data
+	 */
 	public function update(array $data) {
 		$this->repo->update($data);
 	}
