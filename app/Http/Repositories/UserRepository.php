@@ -25,6 +25,11 @@ class UserRepository extends BaseRepository implements UserInterface
 		$this->mailchimp = $mailchimp;
 	}
 
+	/**
+	 * returns user with profile and roles preloaded
+	 * @param $id
+	 * @return User
+	 */
 	public function getUserById($id)
 	{
 		return $this->model = User::with(['profile', 'roles'])->findOrFail($id);

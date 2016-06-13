@@ -23,6 +23,14 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	}
 
 	/**
+	 * @param $order_id
+	 * @return Order
+	 */
+	public function getByOrderId($order_id) {
+		return $this->model->findOrFail($order_id);
+	}
+
+	/**
 	 * Create order
 	 * @param User $user
 	 * @param UserAddress $address
