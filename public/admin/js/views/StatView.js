@@ -3,24 +3,24 @@
  */
 define([
 	'marionette',
+	'behaviors/CollectionLoading',
+	'models/stats',
 	'tpl!templates/dashboard.html'
 ], function (
 	Mn,
+	CollectionLoading,
+	StatsModel,
 	tpl
 ) {
 	var StatView = Mn.ItemView.extend({
 		template: tpl,
+		className: 'row',
 
-		templateHelpers: function () {
-			return {}
-		},
-		 /*
 		behaviors: {
-			Modal: {
-				behaviorClass: Modal
+			CollectionLoading: {
+				behaviorClass: CollectionLoading
 			},
 		},
-		*/
 
 		events: {
 		},
@@ -29,6 +29,12 @@ define([
 		},
 
 		initialize: function( options) {
+			this.model = new StatsModel();
+			this.triggerMethod('setCollection', this.model);
+		},
+
+		onShow: function() {
+			this.model.fetch().done(this.render.bind(this));
 		}
 	});
 
