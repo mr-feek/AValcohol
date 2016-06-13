@@ -17,6 +17,7 @@ define([
 		className: '',
 
 		events: {
+			'click @ui.stat' 			: 'showStats',
 			'click @ui.ready' 			: 'showReadyOrders',
 			'click @ui.outForDelivery' 	: 'showOutForDeliveryOrders',
 			'click @ui.allOrders' 		: 'showAllOrders',
@@ -25,6 +26,7 @@ define([
 
 		ui: {
 			allLinks 		: '.icon',
+			stat			: '.stat',
 			ready 			: '.ready',
 			outForDelivery 	: '.out-for-delivery',
 			allOrders 		: '.all-orders',
@@ -33,6 +35,10 @@ define([
 
 		initialize: function() {
 			this.listenTo(this, 'showing', this.switchActiveLink);
+		},
+
+		showStats: function() {
+			App.router.navigate('admin/dashboard/stats', {trigger: true});
 		},
 
 		showReadyOrders: function() {
@@ -59,6 +65,9 @@ define([
 			var toBeActive;
 
 			switch (key) {
+				case 'stat' :
+					toBeActive = this.ui.stat;
+					break;
 				case 'out' :
 					toBeActive = this.ui.outForDelivery;
 					break;

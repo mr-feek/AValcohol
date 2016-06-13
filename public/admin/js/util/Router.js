@@ -13,7 +13,8 @@ define([
 		appRoutes: {
 			'admin/' 				: 'showLogin',
 			'admin/login' 			: 'showLogin',
-			'admin/dashboard' 		: 'showReadyOrders',
+			'admin/dashboard' 		: 'showStatView',
+			'admin/dashboard/stats' : 'showStatView',
 			'admin/dashboard/ready' : 'showReadyOrders',
 			'admin/dashboard/out' 	: 'showOrdersOutForDelivery',
 			'admin/dashboard/all' 	: 'showAllOrders',

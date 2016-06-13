@@ -6,6 +6,7 @@ define([
 	'views/LoginView',
 	'views/HeaderView',
 	'views/HomeRootView',
+	'views/StatView',
 	'views/ReadyOrdersView',
 	'views/OrdersOutForDeliveryView',
 	'views/AllOrdersView',
@@ -16,6 +17,7 @@ define([
 	LoginView,
 	HeaderView,
 	HomeRootView,
+	StatView,
 	ReadyOrdersView,
 	OrdersOutForDeliveryView,
 	AllOrdersView,
@@ -42,6 +44,11 @@ define([
 
 
 
+		showStatView: function() {
+			this._showDashboard();
+			this._getHomeView().getRegion('main').show(new StatView());
+			this._getSidebarView().trigger('showing', 'stat');
+		},
 
 		showOrdersOutForDelivery: function() {
 			this._showDashboard();
