@@ -10,5 +10,5 @@ namespace App\Http\Repositories\Interfaces;
 
 interface OrderStatusInterface
 {
-	public function update(array $data);
+	public function update(array $data) : bool;
 }
