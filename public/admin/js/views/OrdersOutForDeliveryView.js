@@ -32,7 +32,7 @@ define([
 		ui: {},
 
 		initialize: function (options) {
-			this.collection = new Orders([], {	endpoint: '/out'	});
+			this.collection = new Orders([], {	endpoint: 'out'	});
 
 			var options = {
 				delay: 30000 // 30 seconds

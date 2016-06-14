@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -41,10 +42,11 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCardLastFour($value)
  * @mixin \Eloquent
  * @property-read \App\Models\UserAddress $address
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
  */
 class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
 {
-	use Billable;
+	use Billable, HasRoles;
 
 	protected $hidden = ['password'];
 
@@ -63,12 +65,17 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 		return $this->hasOne('App\Models\Vendor');
 	}
 
+	public function isAdmin() {
+		return $this->hasRole('administrator');
+	}
+
+	// this is not part of the roles table
 	public function isVendor() {
-		if(is_null($this->vendor)) {
+		if (is_null($this->vendor)) {
 			return false;
-		} else {
-			return true;
 		}
+
+		return true;
 	}
 
 	/**

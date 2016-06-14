@@ -9,16 +9,13 @@ use App\Models\Vendor;
  */
 class VendorControllerTest extends TestCase
 {
-	protected $utils;
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+
 	protected $vendor;
-	protected $token;
-	protected $authHeader;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->withoutMiddleware();
-		$this->utils = new Utils();
 		$this->vendor = Vendor::find(1);
 		$this->token = $this->utils->generateTokenForUser($this->vendor->user);
 		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
@@ -35,7 +32,7 @@ class VendorControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 
-		$this->post('/admin/vendor', $data);
+		$this->post('/admin/vendor', $data, $this->authHeader);
 
 		$this->seeJsonStructure([
 			'vendor' => [
@@ -82,8 +79,8 @@ class VendorControllerTest extends TestCase
 
 	public function testGetPendingOrdersForVendor() {
 		$this->refreshApplication(); // if this is not called, there is a nasty bug where the wrong request object is sent to jwt
-		$this->get('vendor/orders/pending', $this->authHeader);
-		$this->verifyJsonStructure();
+		$this->get('orders/pending', $this->authHeader);
+		$this->verifyOrderJsonStructure();
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
@@ -93,7 +90,7 @@ class VendorControllerTest extends TestCase
 		}
 	}
 
-	protected function verifyJsonStructure() {
+	protected function verifyOrderJsonStructure() {
 		$this->seeJsonStructure([
 			'orders' => [
 				'*' => [
@@ -128,6 +125,4 @@ class VendorControllerTest extends TestCase
 			]
 		]);
 	}
-
-
 }

@@ -9,28 +9,35 @@ define([
 		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id'], // properties that will be saved in session storage
 
 		defaults: {
-			city: undefined,
-			street: undefined,
-			state: undefined,
-			zipcode: undefined,
+			city: null,
+			street: null,
+			state: null,
+			zipcode: null,
 			location: {
-				latitude: undefined,
-				longitude: undefined
+				latitude: null,
+				longitude: null
 			},
-			delivery_zone_id: undefined
+			delivery_zone_id: null
 		},
 
 		parse: function(response, xhr) {
 			return response.address;
 		},
 
-		initialize: function() {
+		initialize: function(options) {
 			_.bindAll(this, 'getDeliveryZone');
-			this.loadFromStorage();
-			_.each(this.propertiesToPersist, function(key) {
-				this.on('change:' + key, this.attributeChanged, this);
-			}, this)
-			//this.on('change', this.persist, this); // whenever an attribute is changed throughout the app, persist
+
+			// flag for if this address should be stored / load from storage. IE this should only be used for the local user, not for loading addresses in orders
+			if (options.useStorage) {
+				this.loadFromStorage();
+				_.each(this.propertiesToPersist, function(key) {
+					this.on('change:' + key, this.attributeChanged, this);
+				}, this)
+			}
+		},
+
+		getDisplayableAddress: function() {
+			return this.get('street') + ' ' + this.get('city') + ' ' + this.get('zipcode');
 		},
 
 		/**

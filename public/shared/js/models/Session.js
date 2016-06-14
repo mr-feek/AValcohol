@@ -13,7 +13,8 @@ define([
 	 */
 	var model = Backbone.Model.extend({
 		defaults: {
-			currentRoute: null,
+			email: null,
+			password: null,
 			loggedIn: false,
 			token: null
 		},
@@ -21,6 +22,27 @@ define([
 		initialize: function() {
 			this.setDefaultsFromStorage();
 			this.setTokenOnRequests();
+		},
+
+		validate: function(attrs, options) {
+			var errors = [];
+			var defaultMessage = "This field is required";
+
+			if (!attrs.password) {
+				errors.push({
+					attribute: 'password',
+					message: defaultMessage
+				})
+			}
+
+			if (!attrs.email) {
+				errors.push({
+					attribute: 'email',
+					message: 'please enter a valid email address'
+				});
+			}
+
+			return errors.length > 0 ? errors : null;
 		},
 
 		/**
@@ -55,8 +77,6 @@ define([
 					password: data.password
 				},
 				function(result) {
-					// fetch vendor details
-					
 					this.onLoginSuccess(result.token);
 				}.bind(this)
 			).fail(function(result) {
@@ -71,7 +91,7 @@ define([
 		onLoginSuccess: function(token) {
 			this.set('token', token);
 			this.persist('token', token);
-			Vent.trigger('vendor:authenticated');
+			Vent.trigger('user:authenticated');
 		},
 
 		/**

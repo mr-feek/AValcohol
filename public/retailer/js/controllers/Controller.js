@@ -20,7 +20,6 @@ define([
 		},
 
 		showLogin: function() {
-			// if logged in already, just show the dashboard instead
 			this.rootView.getRegion('main').show(new LoginView({	model: app.vendor }));
 		},
 

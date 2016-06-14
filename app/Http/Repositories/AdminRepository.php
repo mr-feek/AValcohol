@@ -8,46 +8,26 @@
 
 namespace App\Http\Repositories;
 
-
+use App\Http\Filters\AdminOrderFilters;
 use App\Http\Repositories\Interfaces\AdminInterface;
 use App\Models\Order;
 
 class AdminRepository extends BaseRepository implements AdminInterface
 {
-
-	/*
-	 * todo: optimize
-	 * this could be optimized by querying order table directly
+	/**
+	 * Applies the given array as filters to the order query
+	 * @param array $data
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 * @internal param array $filters
 	 */
-	public function getOrdersReadyToBePickedUp()
+	public function searchOrders(array $data)
 	{
-		$orders = Order::whereHas('status', function($query) {
-			$query->where([
-				['vendor_status', 'accepted'],
-				['delivery_status', 'pending'],
-				['charge_authorized', true],
-				['charge_captured', true]
-			]);
-		})->with(['status', 'user.profile', 'products', 'address'])->get();
-
+		$filters = new AdminOrderFilters($data);
+		$orders = Order::filter($filters)->with(['status', 'user.profile', 'products', 'address'])->get();
 		return $orders;
 	}
 
-	/*
-	 * todo: optimize
-	 * this could be optimized by querying order table directly
-	 */
-	public function getOrdersOutForDelivery()
-	{
-		$orders = Order::whereHas('status', function($query) {
-			$query->where([
-				['vendor_status', 'accepted'],
-				['delivery_status', 'out-for-delivery'],
-				['charge_authorized', true],
-				['charge_captured', true]
-			]);
-		})->with(['status', 'user.profile', 'products', 'address'])->get();
-
-		return $orders;
+	public function getTotalNumberOfOrdersPlacedToDate() {
+		return Order::count();
 	}
 }

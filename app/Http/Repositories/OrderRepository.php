@@ -23,6 +23,14 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	}
 
 	/**
+	 * @param $order_id
+	 * @return Order
+	 */
+	public function getByOrderId($order_id) {
+		return $this->model->findOrFail($order_id);
+	}
+
+	/**
 	 * Create order
 	 * @param User $user
 	 * @param UserAddress $address
@@ -33,6 +41,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	public function createOrder(User $user, UserAddress $address, $products, $data) {
 		$this->model->full_charge_amount = 0;
 		$this->model->vendor_charge_amount = 0;
+		$this->model->tax_charge_amount = 0;
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
@@ -58,9 +67,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 				]);
 			}
 
+			$taxAmount = 0.06 * $vendorAmount;
+
 			// update the order record with the proper price
 			$order->full_charge_amount = $amount;
 			$order->vendor_charge_amount = $vendorAmount;
+			$order->tax_charge_amount = $taxAmount;
 			$order->save();
 
 			$order->status()->save(new OrderStatus());

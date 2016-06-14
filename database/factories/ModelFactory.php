@@ -71,9 +71,12 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 		dd('all users in db are apparently vendors');
 	}
 
+	$fullChargeAmount = $faker->randomNumber(2);
+
 	return [
-		'full_charge_amount' => $faker->randomNumber(2),
-		'vendor_charge_amount' => $faker->randomNumber(2),
+		'full_charge_amount' => $fullChargeAmount,
+		'vendor_charge_amount' => $fullChargeAmount, // will be properly calculated in seed
+		'tax_charge_amount' => $fullChargeAmount, // will be properly calculated in seedg
 		'user_id' => $user->id,
 		'user_address_id' => $u->address->id,
 		'vendor_id' => 1 // temp
@@ -81,9 +84,21 @@ $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\OrderStatus::class, function(\Faker\Generator $faker) {
+	$vendorStatus = $faker->boolean() === true ? 'pending' : 'accepted';
+	$deliveryStatus = 'pending';
+
+	if ($vendorStatus === 'accepted') {
+		$rand = $faker->randomDigitNotNull;
+		if ($rand > 6) {
+			$deliveryStatus = 'delivered';
+		} else if ($rand > 3) {
+			$deliveryStatus = 'out-for-delivery';
+		}
+	}
+
 	return [
-		'vendor_status' => $faker->boolean() === true ? 'pending' : 'accepted',
-		'delivery_status' => $faker->boolean() === true ? 'pending' : 'out-for-delivery',
+		'vendor_status' => $vendorStatus,
+		'delivery_status' => $deliveryStatus,
 		'charge_id' => uniqid(),
 		'charge_authorized' => $faker->boolean(90),
 		'charge_captured' => $faker->boolean()

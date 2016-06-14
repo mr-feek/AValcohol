@@ -2,19 +2,29 @@ define([
 	'backbone',
 	'backboneRelational',
 	'shared/js/models/UserAddress',
+	'shared/js/models/UserProfile',
 	'shared/js/models/Card',
+	'shared/js/models/Role',
 	'moment'
 ], function (
 	Backbone,
 	BackboneRelational,
 	UserAddress,
+	UserProfile,
 	Card,
+	Role,
 	moment
 ) {
 	var User = Backbone.RelationalModel.extend({
 		urlRoot: '/api/user',
 
 		relations: [
+			{
+				type: Backbone.HasOne,
+				key: 'profile',
+				relatedModel: UserProfile,
+				includeInJSON: false
+			},
 			{
 				type: Backbone.HasOne,
 				key: 'address',
@@ -31,6 +41,12 @@ define([
 				key: 'card',
 				relatedModel: Card,
 				includeInJSON: false
+			},
+			{
+				type: Backbone.HasMany,
+				key: 'roles',
+				relatedModel: Role,
+				includeInJSON: false
 			}
 		],
 
@@ -40,18 +56,14 @@ define([
 
 		defaults: {
 			email: null,
-			first_name: null,
-			last_name: null,
-			phone_number: null,
-			date_of_birth: null,
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
-		initialize: function() {
+		initialize: function(options) {
 			this.on('change:phone_number', this.stripPhoneNumber);
 
 			// attach relation
-			this.set('address', UserAddress.findOrCreate({}));
+			this.set('address', UserAddress.findOrCreate({}, options));
 		},
 
 		/**
@@ -121,6 +133,14 @@ define([
 			var now = moment();
 			var twentyOneToday = now.subtract(21, 'years');
 			return dob.isSameOrBefore(twentyOneToday);
+		},
+
+		isAdmin: function() {
+			var roles = this.get('roles');
+			if (roles && roles.find({	name : 'administrator'	})) {
+				return true;
+			}
+			return false;
 		}
 	});
 

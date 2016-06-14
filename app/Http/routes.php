@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 $app->get('/', function () use ($app) {
     return 'sup pluto';
 });
@@ -30,24 +19,32 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
-	$app->put('status/{id}', ['uses' => 'OrderStatusController@update']);
+	// admin or vendor
+	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
+});
+
+$app->group(['prefix' => 'orders', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('pending', ['middleware' => 'jwt-auth', 'uses' => 'VendorController@getAllPendingOrders']);
 });
 
 $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'UserController@create');
 	$app->put('{id}', 'UserController@update');
+	$app->get('', ['middleware' => 'jwt-auth', 'uses' => 'UserController@getFromToken']);
 });
-// jwt-auth === UserAuthenticatedMiddleware
+
+// todo: vendor middleware asserting user is vendor before doing request. this should happen before production? maybe? idk might be good
 $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('orders/pending', 'VendorController@getAllPendingOrders');
 	$app->get('', 'VendorController@get');
 });
 
-$app->group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->get('orders/ready', 'AdminController@getOrdersReadyToBePickedUp');
-	$app->get('orders/out', 'AdminController@getOrdersOutForDelivery');
+// todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
+$app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('stats', 'StatController@getStats');
+	$app->get('orders', 'AdminController@getOrders');
 	$app->post('vendor', 'VendorController@create');
 	$app->post('order/{id}/delivery-details', 'OrderDeliveryDetailsController@create');
+	$app->get('order/{id}/delivery-details', 'OrderDeliveryDetailsController@get');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
@@ -63,8 +60,8 @@ $app->get('/environment', function() use ($app) {
 
 $app->get('/stripe/key', function() use ($app) {
 	return response()->json([
-		'key' => Dotenv::findEnvironmentVariable('STRIPE_KEY')
-	]); // should i do this via config() helper?
+		'key' => env('STRIPE_KEY')
+	]);
 });
 
 $app->post('/email/collect', 'UserController@lazySubmitToMailChimp');

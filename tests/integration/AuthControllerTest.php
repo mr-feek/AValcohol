@@ -10,10 +10,14 @@ class AuthControllerTest extends TestCase
 {
 	protected $vendor;
 	protected $vendorRawPassword;
-
+	
 	function setUp()
 	{
 		parent::setUp();
+
+		$this->token = $this->utils->generateTokenForUser(\App\Models\User::find(1));
+		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+
 		$faker = \Faker\Factory::create();
 		$data = [
 			'email' => $faker->email,
@@ -24,7 +28,7 @@ class AuthControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 		$this->vendorRawPassword = $data['password'];
-		$this->post('/admin/vendor', $data);
+		$this->post('/admin/vendor', $data, $this->authHeader);
 		$this->vendor = \App\Models\User::whereEmail($data['email'])->with('vendor')->first();
 	}
 
@@ -40,5 +44,16 @@ class AuthControllerTest extends TestCase
 			'token'
 		]);
 
+	}
+
+	function testIncorrectLoginFails() {
+		$this->post('auth/login', [
+			'email' => $this->vendor->email,
+			'password' => 'asdfdasdfea'
+		]);
+
+		$this->seeJson([
+			'user_not_found'
+		]);
 	}
 }

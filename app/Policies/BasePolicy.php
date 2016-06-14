@@ -12,6 +12,10 @@ use App\Exceptions\ForbiddenAPIException;
 
 class BasePolicy
 {
+	// give admins super powers
+	public function before($user) {
+		if ($user->isAdmin()) return true;
+	}
 
 	public function after($user, $ability, $result) {
 		if ($result !== true) {

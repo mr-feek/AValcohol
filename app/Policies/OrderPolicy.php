@@ -13,14 +13,11 @@ use App\Models\User;
  */
 class OrderPolicy extends BasePolicy
 {
-	public function vendorGetOrder(User $user, Order $order) {
-		return $user->vendor->id === $order->vendor_id;
-		/*
-		if ($user->vendor->id === $order->vendor_id) {
-			return true;
+	public function get(User $user, Order $order) {
+		if ($user->isVendor()) {
+			return $user->vendor->id === $order->vendor_id;
 		}
 
-		throw new ForbiddenAPIException();
-		*/
+		return $user->id === $order->user_id;
 	}
 }

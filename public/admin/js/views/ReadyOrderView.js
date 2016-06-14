@@ -22,8 +22,8 @@ define([
 			var address = this.model.get('address');
 
 			return {
-				userName: user.get('profile').first_name + ' ' + user.get('profile').last_name,
-				dob: user.get('profile').date_of_birth,
+				userName: user.get('profile').getFullName(),
+				dob: user.get('profile').getDateOfBirth(),
 				orderNumber: this.model.get('id'),
 				timePlaced: this.model.get('created_at'),
 				vendorOrderTotal: this.model.get('vendor_order_total'),
@@ -49,7 +49,11 @@ define([
 		acceptOrder: function(e) {
 			e.preventDefault();
 
-			this.model.get('status').set('delivery_status', 'out-for-delivery').save().done(function() {
+			this.model.get('status').save({
+				'delivery_status': 'out-for-delivery'
+			}, {
+				patch: true
+			}).done(function() {
 				this.$el.slideUp(400, function() {
 					this.collection.remove(this.model);
 					this.destroy();

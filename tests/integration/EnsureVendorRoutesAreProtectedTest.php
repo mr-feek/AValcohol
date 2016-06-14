@@ -18,7 +18,7 @@ class EnsureVendorRoutesAreProtectedTest extends TestCase
 
 		$this->routes = [
 			'get' => [
-				'vendor/orders/pending'
+				'orders/pending'
 			],
 			// synax == route name -> data
 			'post' => [

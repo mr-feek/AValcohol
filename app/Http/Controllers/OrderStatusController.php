@@ -14,19 +14,35 @@ use Illuminate\Http\Request;
 class OrderStatusController extends Controller
 {
 	/**
+	 * this is a patch method. only the changed attributes will be passed into the request parameters
 	 * @param Request $request
-	 * @param OrderStatusService $service
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @param VendorService|OrderStatusService $service
+	 * @param $orderId
+	 * @return mixed
+	 * @throws APIException
 	 */
-	public function update(Request $request, OrderStatusService $service) {
-		$this->validate($request, [
-			'order_id' => 'required'
-		]);
+	public function updateOrderStatus(Request $request, OrderStatusService $service, $orderId) {
+		$data = $request->input();
+		$data['order_id'] = $orderId;
 
-		$orderStatus = $service->update($request->input());
+		if ($vendorStatus = $request->input('vendor_status')) {
+			if ($vendorStatus === 'accepted') {
+				$success = $service->vendorAcceptOrder($data);
+			} else if ($vendorStatus === 'rejected') {
+				$success = $service->vendorRejectOrder($data);
+			} else {
+				throw new APIException('incorrect vendor status supplied');
+			}
+		}
 
-		return response()->json([
-			'order_status' => $orderStatus
-		]);
+		if ($deliveryStatus = $request->input('delivery_status')) {
+			if ($deliveryStatus === 'out-for-delivery') {
+				$success = $service->driverPickupOrder($data);
+			} else {
+				throw new APIException('incorrect delivery status supplied');
+			}
+		}
+
+		return response()->json(compact('success'));
 	}
 }

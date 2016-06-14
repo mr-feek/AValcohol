@@ -6,13 +6,15 @@
  * Date: 5/22/16
  * Time: 4:44 PM
  */
-class OrderDeliveryDetailsServiceTest extends TestCase
+class PhotoManagerTest extends TestCase
 {
-	protected $service;
+
+	protected $manager;
+
 	public function setUp()
 	{
 		parent::setUp();
-		$this->service = $this->app['App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface'];
+		$this->manager = new \App\Http\Domain\OrderDeliveryDetails\PhotoManager();
 	}
 
 	public function testCannotSaveImageWithInvalidExtension() {
@@ -20,7 +22,7 @@ class OrderDeliveryDetailsServiceTest extends TestCase
 		
 		$exception = null;
 		try {
-			$this->service->savePhoto($invalidBase64Data);
+			$this->manager->put($invalidBase64Data);
 		} catch (\App\Exceptions\APIException $e) {
 			$exception = $e;
 		}

@@ -23,6 +23,11 @@ require.config({
 		'moment':				'../../vendor/moment/moment',
 		'jSignature':			'../../vendor/jSignature/libs/jSignature.min',
 		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors',
+		'nprogress':			'../../vendor/nprogress/nprogress',
+		'backgrid':				'../../vendor/backgrid/lib/backgrid',
+		'backgrid-paginator':	'../../vendor/backgrid-paginator/backgrid-paginator',
+		'backbone.paginator':	'../../vendor/backbone.paginator/lib/backbone.paginator',
+		'backgrid-filter':		'../../vendor/backgrid-filter/backgrid-filter',
 		'shared':				'../../shared'
 	},
 	shim: {
@@ -63,6 +68,8 @@ require([
 	'backbone',
 	'views/RootView',
 	'controllers/Controller',
+	'shared/js/models/User',
+	'shared/js/models/Session',
 	'util/Router',
 	'shared/js/models/Config',
 	'foundation'
@@ -71,6 +78,8 @@ require([
 	Backbone,
 	RootView,
 	Controller,
+	User,
+	Session,
 	Router,
 	Config
 ) {
@@ -78,6 +87,8 @@ require([
 
 	app.on('start', function() {
 		app.rootView = new RootView();
+		app.session = new Session();
+		app.user = User.findOrCreate({}, { useStorage: true });
 
 		var controller = new Controller({
 			rootView: app.rootView
@@ -85,6 +96,18 @@ require([
 
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
+
+		// subscribe to error codes
+		$.ajaxSetup({
+			statusCode: {
+				401 : function() {
+					app.router.navigate('admin/login', { trigger: true });
+				},
+				403 : function() {
+					app.router.navigate('admin/login', { trigger: true });
+				}
+			}
+		});
 	});
 
 	// screw it, we're waiting for config to fetch before starting app

@@ -16,7 +16,7 @@ define([
 		 * @returns {string}
 		 */
 		url: function(endpoint) {
-			return '/api/vendor/orders' + this.endpoint;
+			return '/api/orders' + this.endpoint;
 		},
 
 		/**

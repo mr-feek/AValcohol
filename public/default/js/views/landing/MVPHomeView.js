@@ -68,6 +68,11 @@ define([
 		updateUserAddress: function() {
 			/* offline mode
 			var place = this.autocomplete.getPlace();
+			
+			if (!place) {
+				return;
+			}
+
 			var state, zip;
 
 			// bruteforce to find which element of the array is tha state / zip

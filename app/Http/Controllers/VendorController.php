@@ -8,38 +8,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\APIException;
 use App\Http\Services\VendorService;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class VendorController extends Controller
 {
-/*
-	public function getAllOrders(Request $request, VendorService $service) {
-		// to do: migrate to service
-		$orders = Order::with(['products', 'user.profile', 'address'])->get();
-		return response()->json(['orders' => $orders]);
-	}
-*/
-
 	/**
+	 * to do: migrate to filters
 	 * Gets all orders that we have submitted to a vendor, awaiting their response
 	 * @param Request $request
 	 * @param VendorService $service
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getAllPendingOrders(Request $request, VendorService $service) {
-		//$user = JWTAuth::parseToken()->authenticate();
 		$user = $request->user();
 		$vendor = $user->vendor->toArray();
 		$orders = $service->getPendingOrders($vendor); // pull vendor id from token
 
-		if (!$orders->isEmpty()) {
-			// TODO: do we only need to check the first one?
-			foreach($orders as $order) {
-				$this->authorize('vendorGetOrder', $order);
-			}
-		}
+		$this->authorize('get', $orders);
 
 		return response()->json(['orders' => $orders]);
 	}

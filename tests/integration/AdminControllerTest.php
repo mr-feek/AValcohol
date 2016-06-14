@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Created by PhpStorm.
  * User: Feek
@@ -8,8 +11,23 @@
  */
 class AdminControllerTest extends TestCase
 {
+	protected $user;
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->user = User::whereHas('roles', function($query) {
+			$query->where('role_id', 1);
+		})->first();
+
+		$this->token = $this->utils->generateTokenForUser($this->user);
+		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+	}
+
 	public function testGetOrdersReadyToBePickedUp() {
-		$this->get('/admin/orders/ready');
+		$this->refreshApplication();
+		$this->get('/admin/orders?ready', $this->authHeader);
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
@@ -23,7 +41,8 @@ class AdminControllerTest extends TestCase
 	}
 
 	public function testGetOrdersOutForDelivery() {
-		$this->get('/admin/orders/out');
+		$this->refreshApplication();
+		$this->get('/admin/orders?out', $this->authHeader);
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
