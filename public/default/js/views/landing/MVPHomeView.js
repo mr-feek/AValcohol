@@ -5,7 +5,7 @@ define([
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
 	'tpl!templates/landing/mvp-home.html',
-	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
+	//'async!https://maps.googleapis.com/maps/api/js?libraries=places' offline mode
 ], function (
 	Mn,
 	app,
@@ -47,7 +47,7 @@ define([
 			var options = {
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
-			this.autocomplete = new google.maps.places.Autocomplete(input, options);
+			//this.autocomplete = new google.maps.places.Autocomplete(input, options); offline mode
 		},
 
 		/**
@@ -66,6 +66,7 @@ define([
 		 * Parses the autocomplete info and stores it in a UserAddressModel
 		 */
 		updateUserAddress: function() {
+			/* offline mode
 			var place = this.autocomplete.getPlace();
 			
 			if (!place) {
@@ -107,6 +108,21 @@ define([
 					}
 				}.bind(this));
 			}
+			*/
+
+
+			this.address.set({
+				'street' : '810 walnut street',
+				'city' : 'state college',
+				'state' : 'pa',
+				'zipcode' : 16801,
+				'location' : {
+					'longitude' : 0,
+					'latitude' : 0
+				},
+				'delivery_zone_id': 1
+			});
+			this.showUserHome();
 		},
 
 		/**

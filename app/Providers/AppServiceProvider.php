@@ -67,6 +67,11 @@ class AppServiceProvider extends ServiceProvider
 		    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
 	    });
 
+	    $this->app->singleton('mailer', function ($app) {
+		    $app->configure('services');
+		    return $app->loadComponent('mail', 'Illuminate\Mail\MailServiceProvider', 'mailer');
+	    });
+
 	    /*
 	    |--------------------------------------------------------------------------
 	    | misc

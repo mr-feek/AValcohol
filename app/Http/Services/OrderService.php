@@ -10,6 +10,7 @@ namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\OrderInterface;
 use App\Events\OrderWasSubmitted;
+use App\Models\Order;
 use Illuminate\Support\Facades\Event;
 
 class OrderService extends BaseService
@@ -27,6 +28,14 @@ class OrderService extends BaseService
 		$this->addressService = $addressService;
 		$this->productService = $productService;
 		$this->vendorService = $vendorService;
+	}
+
+	/**
+	 * @param $id
+	 * @return Order
+	 */
+	public function getByOrderId($id) {
+		return $this->repo->getByOrderId($id);
 	}
 
 	/**

@@ -9,22 +9,47 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\OrderStatusInterface;
+use App\Http\Repositories\OrderRepository;
+use App\Http\Repositories\UserRepository;
+use Illuminate\Support\Facades\Mail;
 
 class OrderStatusService extends BaseService
 {
-	public function __construct(OrderStatusInterface $repo)
+	/**
+	 * @var OrderService
+	 */
+	private $orderService;
+	/**
+	 * @var UserService
+	 */
+	private $userService;
+
+	public function __construct(OrderStatusInterface $repo, UserService $userService, OrderService $orderService)
 	{
 		$this->repo = $repo;
+		$this->orderService = $orderService;
+		$this->userService = $userService;
 	}
 
 	/**
 	 * @param array $data
-	 * @return bool
+	 * @return \App\Models\OrderStatus
 	 */
 	public function vendorRejectOrder(array $data) {
-		return $this->repo->update($data);
-		// to do: delete user's charge authorization
-		// to do: email customer saying charge was declined for whatever reason
+		$success = $this->repo->update($data);
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+
+		// todo: delete user's charge authorization
+
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Unfortunately Your Order Was Not Accepted :(');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
 	/**
@@ -32,15 +57,44 @@ class OrderStatusService extends BaseService
 	 * @return bool
 	 */
 	public function vendorAcceptOrder(array $data) {
-		return $this->repo->update($data);
-		// to do: capture users charge authorization
-		// to do: email customer with receipt and that vendor accepted order
+		$success = $this->repo->update($data);
+		// todo: capture users charge authorization
+
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.order-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Your Order Has Been Accepted!');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	public function driverPickUpOrder(array $data) {
-		return $this->repo->update($data);
+		$success = $this->repo->update($data);
+		$order = $this->orderService->getByOrderId($data['order_id']);
+		$user = $this->userService->getUser($order->user_id);
+		
+		app('queue.connection'); // Just to initialize binding
+		Mail::queue(['text' => 'emails.out-for-delivery'], ['user' => $user, 'order' => $order], function($message) use ($user) {
+			$message->to($user->email, $user->profile->fullName());
+			$message->subject('Woohoo your order is on its way!');
+			$message->from('no-reply@avalcohol.com', 'Aqua Vitae');
+		});
+
+		return $success;
 	}
 
+	/**
+	 * @param array $data
+	 */
 	public function update(array $data) {
 		$this->repo->update($data);
 	}
