@@ -7,10 +7,13 @@ require.config({
 		'backbone.wreqr': 		basePath + 'backbone.wreqr/lib/backbone.wreqr.min',
 		'backboneRelational':	basePath + 'backbone-relational/backbone-relational',
 		'marionette': 			basePath + 'marionette/lib/backbone.marionette',
-		'foundation' : 			basePath + 'foundation/js/foundation',
-		'foundationEqualizer' : basePath + 'foundation/js/foundation/foundation.equalizer',
-		'foundationOffCanvas': 	basePath + 'foundation/js/foundation/foundation.offcanvas',
-		'foundationTooltip':	basePath + 'foundation/js/foundation/foundation.tooltip',
+		'foundation' : 			basePath + 'foundation-sites/js/foundation.core',
+		'foundationMediaQuery':	basePath + 'foundation-sites/js/foundation.util.mediaQuery',
+		'foundationEqualizer' : basePath + 'foundation-sites/js/foundation.equalizer',
+		'foundationOffCanvas': 	basePath + 'foundation-sites/js/foundation.offcanvas',
+		'foundationTooltip':	basePath + 'foundation-sites/js/foundation.tooltip',
+		'foundationTriggers':	basePath + 'foundation-sites/js/foundation.util.triggers',
+		'foundationMotion':		basePath + 'foundation-sites/js/foundation.util.motion',
 		'modernizr' : 			basePath + 'modernizr/modernizr',
 		'text': 				basePath + 'requirejs-text/text',
 		'tpl': 					basePath + 'requirejs-tpl/tpl',
@@ -42,12 +45,24 @@ require.config({
 			deps: ['jquery', 'modernizr'],
 			exports: 'Foundation'
 		},
-		foundationEqualizer: {
+		foundationMediaQuery: {
 			deps: ['foundation']
+		},
+		foundationMotion: {
+			deps: ['foundation']
+		},
+		foundationTriggers: {
+			deps: ['foundation']
+		},
+		foundationEqualizer: {
+			deps: ['foundationMediaQuery']
 		},
 		foundationOffCanvas: {
-			deps: ['foundation']
+			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
+		foundationTooltip: {
+			deps: ['foundationMediaQuery']
+		}
 	},
 	deps: ['jquery', 'underscore']
 });
@@ -73,7 +88,7 @@ require([
 	User,
 	Config
 ) {
-	$(document).foundation();
+	//$(document).foundation();
 
 	app.on('start', function() {
 		app.rootView = new RootView();

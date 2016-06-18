@@ -20,10 +20,11 @@ define([
 
 		childEvents: {
 			// every time a view is shown inside a region we need to make sure foundation listeners are applied
+			//todo: do we need this to happen or should we not be lazy and only call these when necessary? depends how expensive this ends up being
 			show: function() {
-				$(document).foundation();
-				$(document).foundation('offcanvas', 'reflow');
-				$(document).foundation('alert', 'reflow');
+				$(document).foundation(); // move to mainjs app start? probably
+				//Foundation.reInit('offcanvas');
+				//Foundation.reInit('alert');
 			}
 		},
 
@@ -59,7 +60,7 @@ define([
 				this.$offCanvasWrap = $('.off-canvas-wrap')
 			}
 
-			this.$offCanvasWrap.foundation('offcanvas', 'hide', 'move-left');
+			//this.$offCanvasWrap.foundation('close');
 
 			if (cleanup) {
 				// race condition for one second.
@@ -73,11 +74,12 @@ define([
 			this.getRegion('modalRegion').empty();
 		},
 
-		openOffCanvas: function() {
+		openOffCanvas: function(evt) {
 			if (!this.$offCanvasWrap) {
 				this.$offCanvasWrap = $('.off-canvas-wrap')
 			}
-			this.$offCanvasWrap.foundation('offcanvas', 'show', 'move-left');
+			//debugger;
+			//this.$offCanvasWrap.foundation('open', evt, evt.trigger);
 		}
 	});
 

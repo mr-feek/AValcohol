@@ -20,10 +20,9 @@ define([
 		tagName: 'ul',
 		className: 'row small-block-grid-1 medium-block-grid-3 large-block-grid-4',
 		emptyView: EmptyView,
-
 		attributes: {
 			'data-equalizer' : '',
-			'data-options' : 'equalize_on_stack: true'
+			'data-options' : 'equalize_on_stack: true' // needed?
 		},
 
 		events: {},
@@ -51,16 +50,8 @@ define([
 			// for some reason onAddChild doesn't seem to be called after re-rendering
 		},
 
-		onShow: function() {
-			$(document).foundation({
-				equalizer: {
-					equalize_on_stack: true
-				}
-			});
-		},
-
 		reflowEqualizer: function() {
-			$(document).foundation('equalizer', 'reflow');
+			Foundation.reInit('equalizer');
 		},
 
 		/**

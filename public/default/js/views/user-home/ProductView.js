@@ -14,7 +14,6 @@ define([
 		template: tpl,
 		tagName: 'li',
 		className: 'product',
-
 		attributes: {
 			'data-equalizer-watch' : ''
 		},
@@ -91,7 +90,7 @@ define([
 				this.ui.addToCart.html(
 					'<span data-tooltip title="Sorry, our store is currently closed.">Add To Cart</span>'
 				);
-				$(document).foundation('tooltip', 'reflow');
+				Foundation.reInit('tooltip');
 			}
 		}
 	});
