@@ -1,7 +1,10 @@
 // global includes
 @import 'variables';
 @import 'settings.scss';
+
 @import '../../vendor/foundation-sites/scss/foundation';
+@include foundation-everything; // temp. probably ok if we use uncss
+
 @import '../../vendor/foundation-icon-fonts/foundation-icons';
 @import 'components/nprogress';
 @import 'components/modal';

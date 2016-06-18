@@ -9,6 +9,7 @@ define([
 ) {
 	var HeaderView = Mn.ItemView.extend({
 		template: tpl,
+		className: 'top-bar',
 
 		events: {
 			'click @ui.scrollLink' : 'scrollLinkClicked',
