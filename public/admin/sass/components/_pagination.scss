@@ -1,9 +1,9 @@
 .pagination {
-	@include pagination;
+	@include pagination-container;
 
 	// backgrid paginator uses .active instead of current, so pull in the mixin here
 	.active {
-		@include pagination-current-item;
+		@include pagination-item-current;
 	}
 }
 
