@@ -1,11 +1,40 @@
-.fullWidth {
-	width: 100%;
-	margin: auto;
-	max-width: initial;
+/*
+|--------------------------------------------------------------------------
+| mixins
+|--------------------------------------------------------------------------
+|
+| i like them.
+|
+*/
+@mixin screen {
+	//@include grid-col;
+	//@include grid-row;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+
+	.content {
+		max-width: $grid-row-width;
+		margin: auto;
+		height: 100%;
+	}
 }
 
-.section {
-	min-height: 85%;
+/*
+|--------------------------------------------------------------------------
+| util classes
+|--------------------------------------------------------------------------
+|
+| dope context
+|
+*/
+.screen {
+	@include screen;
+	height: 100vh;
+}
+
+.screen.first {
+	@include screen;
+	height: calc(100vh - #{$headerHeight});
 }
 
 .stick {

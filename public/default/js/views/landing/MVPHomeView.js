@@ -17,6 +17,7 @@ define([
 	var MVPHomeView = Mn.ItemView.extend({
 		template: tpl,
 		modelsToValidate: [],
+		className: 'class row expanded collapse',
 
 		events: {
 			'click @ui.submitAddress' : 'addressSubmitted',
