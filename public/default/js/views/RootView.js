@@ -1,13 +1,13 @@
 define([
 	'marionette',
 	'views/landing/HeaderView',
-	'views/landing/MVPHomeView',
+	'views/landing/LandingView',
 	'shared/js/util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
 	HeaderView,
-	MVPHomeView,
+	LandingView,
 	Vent,
 	tpl
 ) {

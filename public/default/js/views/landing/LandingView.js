@@ -4,7 +4,7 @@ define([
 	'views/landing/CannotDeliverView',
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
-	'tpl!templates/landing/mvp-home.html',
+	'tpl!templates/landing/landing.html',
 	//'async!https://maps.googleapis.com/maps/api/js?libraries=places' offline mode
 ], function (
 	Mn,
@@ -14,20 +14,24 @@ define([
 	ModelValidation,
 	tpl
 ) {
-	var MVPHomeView = Mn.ItemView.extend({
+	var LandingView = Mn.ItemView.extend({
 		template: tpl,
 		modelsToValidate: [],
 		className: 'class row expanded collapse',
 
 		events: {
-			'click @ui.submitAddress' : 'addressSubmitted',
+			'click @ui.orderNow' 		: 'showAddressForm',
+			'click @ui.submitAddress' 	: 'addressSubmitted',
 			'keydown @ui.streetAddress' : 'addressSubmitted'
 		},
 
 		ui: {
+			'tagline'		: '.info',
+			'addressArea'	: '.address-form',
+			'orderNow' 		: '.order-now',
 			'streetAddress' : '.street-address',
 			'submitAddress' : '.submit-address',
-			'alertArea' : '.alert-area'
+			'alertArea' 	: '.alert-area'
 		},
 
 		behaviors: {
@@ -135,8 +139,16 @@ define([
 
 		showCannotDeliverView: function() {
 			app.rootView.getRegion('modalRegion').show(new CannotDeliverView());
+		},
+
+		showAddressForm: function(evt) {
+			evt.preventDefault();
+			this.ui.tagline.animateCss('fadeOut', function() {
+				this.ui.tagline.remove();
+				this.ui.addressArea.animateCss('fadeIn');
+			}.bind(this));
 		}
 	});
 
-	return MVPHomeView;
+	return LandingView;
 });

@@ -1,4 +1,7 @@
 .sections {
+	h1, h2 {
+		color: white;
+	}
 
 	.begin {
 		background-color: $red;
@@ -11,36 +14,51 @@
 			}
 		}
 
-		.info {
-			margin-top: 4rem;
+		.content {
+			.right {
+				margin-top: 4rem;
 
-			h1 {
-				font-weight: bolder;
-				text-transform: uppercase;
-				color: white;
-				line-height: 5rem;
+				.info {
+					h1 {
+						font-weight: bolder;
+						text-transform: uppercase;
+						line-height: 5rem;
 
-				span {
-					display: block;
+						span {
+							display: block;
+						}
+
+						.top {
+							font-size: 4rem;
+						}
+
+						.bottom {
+							font-size: 6rem;
+							margin-bottom: 5rem;
+						}
+					}
+
+					h2 {
+						color: $yellow;
+						text-transform: uppercase;
+					}
+
+					.button {
+						margin-top: 2rem;
+					}
 				}
 
-				.top {
-					font-size: 4rem;
+				.address-form {
+					opacity: 0;
+
+					h2 {
+						margin: 2rem 0;
+					}
+
+					.street-address {
+						margin-bottom: 0; // fix button alignment
+					}
 				}
-
-				.bottom {
-					font-size: 6rem;
-					margin-bottom: 5rem;
-				}
-			}
-
-			h2 {
-				color: $yellow;
-				text-transform: uppercase;
-			}
-
-			.button {
-				margin-top: 2rem;
 			}
 		}
 	}

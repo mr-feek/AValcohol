@@ -5,14 +5,14 @@
 define([
 	'marionette',
 	'views/landing/HeaderView',
-	'views/landing/MVPHomeView',
+	'views/landing/LandingView',
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',
 	'App'
 ], function (
 	Marionette,
 	HeaderView,
-	MVPHomeView,
+	LandingView,
 	UserHomeView,
 	CheckoutView,
 	app
@@ -28,7 +28,7 @@ define([
 
 		showHome: function() {
 			var region = this.rootView.getRegion('main');
-			region.show(new MVPHomeView());
+			region.show(new LandingView());
 		},
 
 		showUserHome: function(endpoint) {

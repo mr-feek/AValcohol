@@ -88,7 +88,23 @@ require([
 	User,
 	Config
 ) {
-	//$(document).foundation();
+	$(document).foundation();
+
+	// add animatecss function to jquery
+	$.fn.extend({
+		animateCss: function (animationName, callback, removeAnimateClass) {
+			var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+			$(this).addClass('animated ' + animationName).one(animationEnd, function() {
+				if (removeAnimateClass) {
+					$(this).removeClass('animated ' + animationName);
+				}
+
+				if (callback) {
+					callback();
+				}
+			});
+		}
+	});
 
 	app.on('start', function() {
 		app.rootView = new RootView();
