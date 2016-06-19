@@ -4,7 +4,7 @@
 
 define([
 	'marionette',
-	'views/landing/HeaderView',
+	'views/HeaderView',
 	'views/landing/LandingView',
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',

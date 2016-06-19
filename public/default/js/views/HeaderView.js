@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'App',
-	'tpl!templates/user-home/user-home-header.html'
+	'tpl!templates/header.html'
 ], function (
 	Mn,
 	App,
@@ -10,7 +10,7 @@ define([
 	var UserHomeHeaderView = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'top-bar',
 
 		events: {
 			'click @ui.logo' : 'goHome'

@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'views/user-home/UserHomeHeaderView',
+	'views/HeaderView',
 	'views/user-home/ProductCategoriesView',
 	'views/user-home/ProductsView',
 	'views/cart/CartView',
@@ -9,7 +9,7 @@ define([
 	'tpl!templates/user-home/user-home.html'
 ], function (
 	Mn,
-	UserHomeHeaderView,
+	HeaderView,
 	ProductCategoriesView,
 	ProductsView,
 	CartView,
@@ -53,7 +53,7 @@ define([
 		},
 
 		onBeforeShow: function() {
-			app.rootView.getRegion('header').show(new UserHomeHeaderView());
+			app.rootView.getRegion('header').show(new HeaderView());
 			this.getRegion('products').show(new ProductsView());
 
 			if (app.config.get('isClosed')) {

@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'views/landing/HeaderView',
+	'views/HeaderView',
 	'views/landing/LandingView',
 	'shared/js/util/Vent',
 	'tpl!templates/root.html'
