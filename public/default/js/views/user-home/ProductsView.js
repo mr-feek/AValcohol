@@ -18,12 +18,13 @@ define([
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
 		tagName: 'ul',
-		className: 'row small-block-grid-1 medium-block-grid-3 large-block-grid-4',
+		className: 'row small-up-1 medium-up-3 large-up-4',
 		emptyView: EmptyView,
 		attributes: {
 			'data-equalizer' : '',
 			'data-options' : 'equalize_on_stack: true' // needed?
 		},
+		equalizerInitialized: false,
 
 		events: {},
 
@@ -51,7 +52,17 @@ define([
 		},
 
 		reflowEqualizer: function() {
-			Foundation.reInit('equalizer');
+			//Foundation.reInit('equalizer');
+			Foundation.reInit(this.$el);
+		},
+
+		onRender: function() {
+			if (this.equalizerInitialized) {
+				return;
+			}
+
+			var elem = new Foundation.Equalizer(this.$el);
+			this.equalizerInitialized = true;
 		},
 
 		/**

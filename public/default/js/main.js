@@ -14,6 +14,7 @@ require.config({
 		'foundationTooltip':	basePath + 'foundation-sites/js/foundation.tooltip',
 		'foundationTriggers':	basePath + 'foundation-sites/js/foundation.util.triggers',
 		'foundationMotion':		basePath + 'foundation-sites/js/foundation.util.motion',
+		'foundationTimerAndImageLoader': basePath + 'foundation-sites/js/foundation.util.timerAndImageLoader',
 		'modernizr' : 			basePath + 'modernizr/modernizr',
 		'text': 				basePath + 'requirejs-text/text',
 		'tpl': 					basePath + 'requirejs-tpl/tpl',
@@ -54,8 +55,11 @@ require.config({
 		foundationTriggers: {
 			deps: ['foundation']
 		},
+		foundationTimerAndImageLoader: {
+			deps: ['foundation']
+		},
 		foundationEqualizer: {
-			deps: ['foundationMediaQuery']
+			deps: ['foundationMediaQuery', 'foundationTimerAndImageLoader']
 		},
 		foundationOffCanvas: {
 			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']

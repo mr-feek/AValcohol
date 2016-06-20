@@ -1,4 +1,6 @@
 .product {
+	background-color: white;
+	list-style: none;
 	border: 1px solid $light-gray;
 	position: relative; // so that the button can be absolutely positioned to the bottom of the container
 
