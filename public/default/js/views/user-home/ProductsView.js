@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
-	'views/user-home/NoFeaturedProductsView',
+	'views/user-home/NoProductsView',
 	'collections/Products',
 	'behaviors/CollectionLoading',
 	'App'
