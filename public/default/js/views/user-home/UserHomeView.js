@@ -5,6 +5,8 @@ define([
 	'views/user-home/ProductsView',
 	'views/cart/CartView',
 	'views/user-home/StoreClosedView',
+	'views/user-home/SidebarView',
+	'foundationEqualizer',
 	'App',
 	'tpl!templates/user-home/user-home.html'
 ], function (
@@ -14,6 +16,8 @@ define([
 	ProductsView,
 	CartView,
 	StoreClosedView,
+	SidebarView,
+	FoundationEqualizer,
 	app,
 	tpl
 ) {
@@ -26,7 +30,8 @@ define([
 		},
 
 		ui: {
-			'cart' : '#cart'
+			'equalizerWrapper' 	: '#equalizer-wrapper',
+			'cart' 				: '#cart'
 		},
 
 		regions: {
@@ -55,16 +60,33 @@ define([
 		onBeforeShow: function() {
 			app.rootView.getRegion('header').show(new HeaderView());
 			this.getRegion('products').show(new ProductsView());
+			this.getRegion('sidebar').show(new SidebarView());
 
 			if (app.config.get('isClosed')) {
 				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
 			}
 		},
 
+		onShow: function() {
+			this.reflowEqualizer();
+		},
+
+		reflowEqualizer: function() {
+			//Foundation.reInit('equalizer');
+			Foundation.reInit(this.ui.equalizerWrapper);
+		},
+
 		onRender: function() {
 			if (app.config.get('isClosed') === true) {
 				this.ui.cart.hide();
 			}
+
+			if (this.equalizerInitialized) {
+				return;
+			}
+
+			var elem = new Foundation.Equalizer(this.ui.equalizerWrapper);
+			this.equalizerInitialized = true;
 		},
 
 		openCart: function(e) {
