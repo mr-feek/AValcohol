@@ -57,7 +57,8 @@ define([
 		initialize: function (options) {
 		},
 
-		addToCart: function() {
+		addToCart: function(e) {
+			e.preventDefault();
 			if (app.config.get('isClosed')) {
 				return;
 			}
@@ -72,7 +73,7 @@ define([
 				app.cart.push(this.model);
 			}.bind(this), 300);
 
-			app.rootView.getRegion('main').currentView.openCart();
+			app.rootView.getRegion('main').currentView.openCart(e);
 		},
 
 		/**

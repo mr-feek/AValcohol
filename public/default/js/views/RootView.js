@@ -72,11 +72,32 @@ define([
 
 		openOffCanvas: function(evt) {
 			if (!this.$offCanvasWrap) {
-				// init off canvas
-				this.$offCanvasWrap = $('.off-canvas-wrapper');
-				var elem = new Foundation.OffCanvas(this.$offCanvasWrap);
+				this.initializeOffCanvas();
 			}
+
 			this.$offCanvasWrap.foundation('open', evt, evt.trigger);
+		},
+
+		initializeOffCanvas: function() {
+			this.$offCanvasWrap = $('.off-canvas-wrapper');
+			
+			var elem = new Foundation.OffCanvas(this.$offCanvasWrap, {
+				'forceTop' : false
+			});
+
+			this.$offCanvasWrap.on('opened.zf.offcanvas', function() {
+				$('#all-wrapper').css({
+					'overflow' : 'hidden',
+					'height' : '100vh'
+				});
+			});
+
+			this.$offCanvasWrap.on('closed.zf.offcanvas', function() {
+				$('#all-wrapper').css({
+					'overflow' : 'initial',
+					'height' : 'initial'
+				});
+			})
 		}
 	});
 
