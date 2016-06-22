@@ -21,8 +21,8 @@ define([
 		className: 'row small-up-1 medium-up-3 large-up-4',
 		emptyView: EmptyView,
 		attributes: {
-			'data-equalizer' : '',
-			'data-options' : 'equalize_on_stack: true' // needed?
+			'data-equalizer' 		: '',
+			'data-equalize-by-row'	: 'true'
 		},
 		equalizerInitialized: false,
 
@@ -43,7 +43,7 @@ define([
 		initialize: function (options) {
 			this.collection = new Products();
 			// pass the collection to the loading indicator
-			this.triggerMethod("setCollection", this.collection);
+			this.triggerMethod('setCollection', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
 			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
 
