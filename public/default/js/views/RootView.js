@@ -31,7 +31,7 @@ define([
 		regions: {
 			header: 'header',
 			main: '#main',
-			rightOffCanvas: '.right-off-canvas-menu',
+			offCanvas: '.off-canvas',
 			modalRegion: '.modal-mount-point'
 		},
 
@@ -40,7 +40,6 @@ define([
 		},
 
 		initialize: function (options) {
-			Vent.on('root:scrollTo', this.scrollTo);
 			Vent.on('modal:close', this.closeModal, this);
 		},
 
@@ -57,17 +56,14 @@ define([
 			var view = this;
 
 			if (!this.$offCanvasWrap) {
-				this.$offCanvasWrap = $('.off-canvas-wrap')
+				this.$offCanvasWrap = $('.off-canvas-wrapper');
 			}
 
-			//this.$offCanvasWrap.foundation('close');
-
-			if (cleanup) {
-				// race condition for one second.
-				setTimeout(function() {
-					view.getRegion('rightOffCanvas').empty();
-				}, 1000);
-			}
+			this.$offCanvasWrap.foundation('close', function() {
+				if (cleanup) {
+					view.getRegion('offCanvas').empty();
+				}
+			});
 		},
 
 		closeModal: function() {
@@ -76,10 +72,11 @@ define([
 
 		openOffCanvas: function(evt) {
 			if (!this.$offCanvasWrap) {
-				this.$offCanvasWrap = $('.off-canvas-wrap')
+				// init off canvas
+				this.$offCanvasWrap = $('.off-canvas-wrapper');
+				var elem = new Foundation.OffCanvas(this.$offCanvasWrap);
 			}
-			//debugger;
-			//this.$offCanvasWrap.foundation('open', evt, evt.trigger);
+			this.$offCanvasWrap.foundation('open', evt, evt.trigger);
 		}
 	});
 

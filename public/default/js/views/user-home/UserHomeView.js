@@ -98,11 +98,11 @@ define([
 				e.preventDefault();
 			}
 
-			if (! app.rootView.getRegion('rightOffCanvas').hasView()) {
-				app.rootView.getRegion('rightOffCanvas').show(new CartView({ collection : app.cart }));
+			if (! app.rootView.getRegion('offCanvas').hasView()) {
+				app.rootView.getRegion('offCanvas').show(new CartView({ collection : app.cart }));
 			}
 			
-			app.rootView.openOffCanvas();
+			app.rootView.openOffCanvas(e);
 		},
 
 		updateNumProducts: function() {
