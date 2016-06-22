@@ -37,10 +37,15 @@
 	border-bottom: 1px solid $light-gray;
 
 	h5 {
-		margin-bottom: 0;
 		padding: .25rem;
+		margin-bottom: 0;
+
 		span {
 			font-size: 1rem;
+		}
+
+		a {
+			margin-bottom: 0;
 		}
 	}
 }

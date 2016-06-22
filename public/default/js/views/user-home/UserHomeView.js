@@ -26,12 +26,14 @@ define([
 		className: '',
 
 		events: {
-			'click @ui.cart' : 'openCart'
+			'click @ui.cart' 			: 'openCart',
+			'click @ui.changeAddress' 	: 'changeAddress'
 		},
 
 		ui: {
 			'equalizerWrapper' 	: '#equalizer-wrapper',
-			'cart' 				: '#cart'
+			'cart' 				: '#cart',
+			'changeAddress'		: '.change-address'
 		},
 
 		regions: {
@@ -106,6 +108,15 @@ define([
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
 			$(this.ui.cart).find('i').html(app.cart.length);
+		},
+
+		/**
+		 * todo: reset user address to a fresh user address
+		 *
+		 * for now just redirects back to home so they can change it there
+		 */
+		changeAddress: function() {
+			app.router.navigate('/', {trigger: true});
 		}
 	});
 
