@@ -35,16 +35,18 @@ define([
 		},
 
 		regions: {
-			sidebar : '#sidebar',
-			products : '#products'
+			sidebar 		: '#sidebar',
+			products 		: '#products'
 		},
 
 		templateHelpers: function() {
 			return {
+				address: function() {
+					return app.user.get('address').getDisplayableAddress();
+				},
 				numProducts: function() {
 					return app.cart.length;
 				},
-
 				blastMessage: app.config.get('blastMessage')
 			}
 		},
