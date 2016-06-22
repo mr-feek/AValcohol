@@ -1,6 +1,7 @@
 /**
  * Created by Feek on 3/16/16.
  */
+var basePath = '../../vendor/';
 
 require.config({
 	paths: {
@@ -10,10 +11,14 @@ require.config({
 		'backbone.wreqr': 		'../../vendor/backbone.wreqr/lib/backbone.wreqr.min',
 		'backboneRelational':	'../../vendor/backbone-relational/backbone-relational',
 		'marionette': 			'../../vendor/marionette/lib/backbone.marionette',
-		'foundation' : 			'../../vendor/foundation/js/foundation',
-		'foundationEqualizer' : '../../vendor/foundation/js/foundation/foundation.equalizer',
-		'foundationOffCanvas': 	'../../vendor/foundation/js/foundation/foundation.offcanvas',
-		'foundationTooltip': 	'../../vendor/foundation/js/foundation/foundation.tooltip',
+		'foundation' : 			basePath + 'foundation-sites/js/foundation.core',
+		'foundationMediaQuery':	basePath + 'foundation-sites/js/foundation.util.mediaQuery',
+		'foundationEqualizer' : basePath + 'foundation-sites/js/foundation.equalizer',
+		'foundationOffCanvas': 	basePath + 'foundation-sites/js/foundation.offcanvas',
+		'foundationTooltip':	basePath + 'foundation-sites/js/foundation.tooltip',
+		'foundationTriggers':	basePath + 'foundation-sites/js/foundation.util.triggers',
+		'foundationMotion':		basePath + 'foundation-sites/js/foundation.util.motion',
+		'foundationTimerAndImageLoader': basePath + 'foundation-sites/js/foundation.util.timerAndImageLoader',
 		'modernizr' : 			'../../vendor/modernizr/modernizr',
 		'text': 				'../../vendor/requirejs-text/text',
 		'tpl': 					'../../vendor/requirejs-tpl/tpl',
@@ -45,14 +50,26 @@ require.config({
 			deps: ['jquery', 'modernizr'],
 			exports: 'Foundation'
 		},
-		foundationEqualizer: {
+		foundationMediaQuery: {
 			deps: ['foundation']
+		},
+		foundationMotion: {
+			deps: ['foundation']
+		},
+		foundationTriggers: {
+			deps: ['foundation']
+		},
+		foundationTimerAndImageLoader: {
+			deps: ['foundation']
+		},
+		foundationEqualizer: {
+			deps: ['foundationMediaQuery', 'foundationTimerAndImageLoader']
 		},
 		foundationOffCanvas: {
-			deps: ['foundation']
+			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
 		foundationTooltip: {
-			deps: ['foundation']
+			deps: ['foundationMediaQuery']
 		}
 	},
 	deps: ['jquery', 'underscore']
@@ -67,7 +84,8 @@ require([
 	'models/Vendor',
 	'shared/js/models/Session',
 	'shared/js/models/Config',
-	'foundation'
+	'foundation',
+	'foundationMediaQuery'
 ], function (
 	app,
 	Backbone,
