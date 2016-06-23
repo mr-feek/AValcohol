@@ -11,7 +11,8 @@ define([
 	tpl
 ) {
 	var HeaderView = Mn.ItemView.extend({
-		template: tpl
+		template: tpl,
+		className: 'top-bar'
 	});
 
 	return HeaderView;
