@@ -1,19 +1,25 @@
-<div class="row expanded collapse">
-	<main class="small-12 columns">
-		<div id="all-wrapper">
+<div class="row expanded off-canvas-wrapper collapse">
+	<main class="off-canvas-wrapper-inner small-12 columns" data-off-canvas-wrapper>
+		<div class="off-canvas position-left" id="offCanvas" data-off-canvas></div>
+		<div id="all-wrapper" class="off-canvas-content" data-off-canvas-content>
 			<div id="main-wrapper">
 				<div class="modal-region">
 					<div class="modal">
-						<a class="close">&#10006;</a>
-						<div class="modal-mount-point"></div>
-						<div class="background"></div>
+						<div class="row">
+							<div class="content columns small-10, medium-6 small-centered">
+								<a class="close">&#10006;</a>
+								<div class="modal-mount-point"></div>
+							</div>
+							<div class="background"></div>
+						</div>
 					</div>
 				</div>
 				<header></header>
-				<div id="main" class="row"></div>
+				<div id="main" class="class row expanded"></div>
 			</div>
 
-			<footer></footer>
+			<footer>
+			</footer>
 		</div>
 	</main>
 </div>

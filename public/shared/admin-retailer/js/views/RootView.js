@@ -5,16 +5,24 @@ define([
 	'marionette',
 	'shared/js/views/FooterView',
 	'shared/js/util/Vent',
-	'tpl!../templates/root.html'
+	'tpl!../templates/root.html',
+	'behaviors/FoundationOffCanvas',
 ], function (
 	Mn,
 	FooterView,
 	Vent,
-	tpl
+	tpl,
+	FoundationOffCanvas
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: '#mount-point',
+
+		behaviors: {
+			FoundationOffCanvas: {
+				behaviorClass: FoundationOffCanvas
+			}
+		},
 
 		events: {},
 
@@ -22,6 +30,7 @@ define([
 			header		: 'header',
 			main		: '#main',
 			modalRegion	: '.modal-mount-point',
+			offCanvas	: '.off-canvas',
 			footer		: 'footer'
 		},
 

@@ -4,19 +4,26 @@ define([
 	'shared/js/views/FooterView',
 	'views/landing/LandingView',
 	'shared/js/util/Vent',
-	'tpl!templates/root.html'
+	'tpl!templates/root.html',
+	'behaviors/FoundationOffCanvas'
 ], function (
 	Mn,
 	HeaderView,
 	FooterView,
 	LandingView,
 	Vent,
-	tpl
+	tpl,
+	FoundationOffCanvas
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: '#mount-point',
-		$offCanvasWrap: null,
+
+		behaviors: {
+			FoundationOffCanvas: {
+				behaviorClass: FoundationOffCanvas
+			}
+		},
 
 		events: {},
 
@@ -52,56 +59,8 @@ define([
 			this.getRegion('footer').show(new FooterView());
 		},
 
-		/**
-		 * closes the off canvas
-		 * @param bool cleanup, whether or not to empty the off canvas region
-		 */
-		closeOffCanvas: function(cleanup) {
-			var view = this;
-
-			if (!this.$offCanvasWrap) {
-				this.$offCanvasWrap = $('.off-canvas-wrapper');
-			}
-
-			this.$offCanvasWrap.foundation('close', function() {
-				if (cleanup) {
-					view.getRegion('offCanvas').empty();
-				}
-			});
-		},
-
 		closeModal: function() {
 			this.getRegion('modalRegion').empty();
-		},
-
-		openOffCanvas: function(evt) {
-			if (!this.$offCanvasWrap) {
-				this.initializeOffCanvas();
-			}
-
-			this.$offCanvasWrap.foundation('open', evt, evt.trigger);
-		},
-
-		initializeOffCanvas: function() {
-			this.$offCanvasWrap = $('.off-canvas-wrapper');
-			
-			var elem = new Foundation.OffCanvas(this.$offCanvasWrap, {
-				'forceTop' : false
-			});
-
-			this.$offCanvasWrap.on('opened.zf.offcanvas', function() {
-				$('#all-wrapper').css({
-					'overflow' : 'hidden',
-					'height' : '100vh'
-				});
-			});
-
-			this.$offCanvasWrap.on('closed.zf.offcanvas', function() {
-				$('#all-wrapper').css({
-					'overflow' : 'initial',
-					'height' : 'initial'
-				});
-			})
 		}
 	});
 

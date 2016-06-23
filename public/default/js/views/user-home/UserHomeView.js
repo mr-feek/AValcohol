@@ -102,7 +102,7 @@ define([
 				app.rootView.getRegion('offCanvas').show(new CartView({ collection : app.cart }));
 			}
 			
-			app.rootView.openOffCanvas(e);
+			app.rootView.trigger('openOffCanvas', e);
 		},
 
 		updateNumProducts: function() {
