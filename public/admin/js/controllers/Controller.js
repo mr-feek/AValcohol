@@ -5,6 +5,7 @@ define([
 	'marionette',
 	'shared/admin-retailer/js/views/LoginView',
 	'views/HeaderView',
+	'views/SidebarView',
 	'views/HomeRootView',
 	'views/StatView',
 	'views/ReadyOrdersView',
@@ -16,6 +17,7 @@ define([
 	Marionette,
 	LoginView,
 	HeaderView,
+	SidebarView,
 	HomeRootView,
 	StatView,
 	ReadyOrdersView,
@@ -46,6 +48,7 @@ define([
 			if (this.authorize()) {
 				this.rootView.getRegion('header').show(this._getHeaderView());
 				this.rootView.getRegion('main').show(this._getHomeView());
+				this.rootView.getRegion('offCanvas').show(this._getSidebarView());
 			}
 		},
 
@@ -104,7 +107,7 @@ define([
 
 		_getSidebarView: function() {
 			if (!this.sidebarView) {
-				this.sidebarView = this._getHomeView().getRegion('sidebar').currentView;
+				this.sidebarView = new SidebarView();
 			}
 
 			return this.sidebarView;
