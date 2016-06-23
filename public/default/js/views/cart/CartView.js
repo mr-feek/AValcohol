@@ -80,7 +80,7 @@ define([
 			if (this.ui.checkout.hasClass('disabled')) {
 				return;
 			}
-			App.rootView.closeOffCanvas(true); // clean up this view
+			App.rootView.trigger('closeOffCanvas', true); // clean up this view
 			App.router.navigate('checkout', {trigger: true});
 		},
 
