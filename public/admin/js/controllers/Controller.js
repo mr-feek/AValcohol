@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'views/LoginView',
+	'shared/admin-retailer/js/views/LoginView',
 	'views/HeaderView',
 	'views/HomeRootView',
 	'views/StatView',
@@ -30,7 +30,16 @@ define([
 		},
 
 		showLogin: function() {
-			this.rootView.getRegion('main').show(new LoginView({	model: app.user 	}));
+			this.rootView.getRegion('main').show(new LoginView({
+				model: app.user,
+				loginSuccessCallback: function(response) {
+					if (app.user.isAdmin()) {
+						app.router.navigate('admin/dashboard', {trigger: true});
+					} else {
+						alert('it seems as if you are not an admin. If this is incorrect, please let someone know.');
+					}
+				}
+			}));
 		},
 
 		_showDashboard: function() {

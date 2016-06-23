@@ -5,7 +5,7 @@ define([
 	'marionette',
 	'shared/js/util/Vent',
 	'App',
-	'tpl!templates/login.html'
+	'tpl!../../js/templates/login.html'
 ], function (
 	Mn,
 	Vent,
@@ -31,8 +31,12 @@ define([
 		},
 
 		initialize: function (options) {
+			if (!options.loginSuccessCallback) {
+				console.error('it is required to pass a login success callback to the login view');
+				return;
+			}
 			this.model = options.model;
-			this.listenTo(this.model, "invalid", this.validationError);
+			this.listenTo(this.model, 'invalid', this.validationError);
 
 			_.bindAll(this, 'passwordCharacterTyped');
 			this.listenTo(Vent, 'user:authenticated', this.onLoginSuccess);
@@ -49,9 +53,9 @@ define([
 		 * submits a login request with supplied email and password
 		 */
 		login: function() {
+			// only setting these to piggyback the validation
 			app.session.set('email', this.ui.email.val());
 			app.session.set('password', this.ui.password.val());
-			
 			if (app.session.isValid()) {
 				this.clearValidationErrors();
 				app.session.login({
@@ -91,13 +95,10 @@ define([
 		},
 
 		onLoginSuccess: function() {
+			var callback = this.getOption('loginSuccessCallback');
 			this.model.fetch().done(function(response) {
-				if (this.isAdmin()) {
-					app.router.navigate('admin/dashboard', {trigger: true});
-				} else {
-					alert('it seems as if you are not an admin. If this is incorrect, please let someone know.');
-				}
-			}.bind(this.model));
+				callback(response);
+			});
 		}
 	});
 

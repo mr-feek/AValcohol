@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'views/LoginView',
+	'shared/admin-retailer/js/views/LoginView',
 	'views/HeaderView',
 	'views/VendorHomeRootView',
 	'App'
@@ -20,7 +20,16 @@ define([
 		},
 
 		showLogin: function() {
-			this.rootView.getRegion('main').show(new LoginView({	model: app.vendor }));
+			this.rootView.getRegion('main').show(new LoginView({
+				model: app.vendor,
+				loginSuccessCallback: function(response) {
+					if (response.vendor) {
+						app.router.navigate('retailer/dashboard', {trigger: true});
+					} else {
+						alert('It seems as if you are not a vendor. If this is a mistake please contact us.');
+					}
+				}
+			}));
 		},
 
 		showDashboard: function() {
