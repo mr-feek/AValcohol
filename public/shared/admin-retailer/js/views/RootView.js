@@ -3,10 +3,12 @@
  */
 define([
 	'marionette',
+	'shared/js/views/FooterView',
 	'shared/js/util/Vent',
-	'tpl!templates/root.html'
+	'tpl!../templates/root.html'
 ], function (
 	Mn,
+	FooterView,
 	Vent,
 	tpl
 ) {
@@ -17,17 +19,19 @@ define([
 		events: {},
 
 		regions: {
-			header: 'header',
-			main: '#main',
-			modalRegion: '.modal-mount-point'
-		},
-		
-		ui: {
-			'modalWrapper' : '.modal-region'
+			header		: 'header',
+			main		: '#main',
+			modalRegion	: '.modal-mount-point',
+			footer		: 'footer'
 		},
 
 		initialize: function (options) {
 			Vent.on('modal:close', this.closeModal, this);
+			//Vent.on('settings:show', this.showSettings, this);
+		},
+
+		onRender: function() {
+			this.getRegion('footer').show(new FooterView());
 		},
 
 		closeModal: function() {

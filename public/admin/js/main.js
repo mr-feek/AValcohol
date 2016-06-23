@@ -82,7 +82,7 @@ require.config({
 require([
 	'App',
 	'backbone',
-	'views/RootView',
+	'shared/admin-retailer/js/views/RootView',
 	'controllers/Controller',
 	'shared/js/models/User',
 	'shared/js/models/Session',

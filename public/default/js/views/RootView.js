@@ -1,12 +1,14 @@
 define([
 	'marionette',
 	'views/HeaderView',
+	'shared/js/views/FooterView',
 	'views/landing/LandingView',
 	'shared/js/util/Vent',
 	'tpl!templates/root.html'
 ], function (
 	Mn,
 	HeaderView,
+	FooterView,
 	LandingView,
 	Vent,
 	tpl
@@ -29,10 +31,11 @@ define([
 		},
 
 		regions: {
-			header: 'header',
-			main: '#main',
-			offCanvas: '.off-canvas',
-			modalRegion: '.modal-mount-point'
+			header		: 'header',
+			main		: '#main',
+			offCanvas	: '.off-canvas',
+			modalRegion	: '.modal-mount-point',
+			footer		: 'footer'
 		},
 
 		ui: {
@@ -46,6 +49,7 @@ define([
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
 			// main region is populated by the router
+			this.getRegion('footer').show(new FooterView());
 		},
 
 		/**
