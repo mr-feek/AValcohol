@@ -38,14 +38,8 @@
 	}
 }
 
-@media #{$small-only} {
-	.icon {
-		display: inline-block;
-
-		&.active {
-			background-color: $light-text-color;
-			border-top: 5px solid $red;
-			border-left: none !important;
-		}
+@include breakpoint(large only) {
+	.js-off-canvas-exit {
+		display: none !important;
 	}
 }

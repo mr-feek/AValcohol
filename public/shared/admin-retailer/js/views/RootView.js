@@ -20,7 +20,11 @@ define([
 
 		behaviors: {
 			FoundationOffCanvas: {
-				behaviorClass: FoundationOffCanvas
+				behaviorClass: FoundationOffCanvas,
+				isRevealed: true,
+				revealOn: 'large',
+				forceTop: false,
+				disableScrollWhileOpen: false
 			}
 		},
 
@@ -44,6 +48,10 @@ define([
 
 		onRender: function() {
 			this.getRegion('footer').show(new FooterView());
+
+			if (Foundation.MediaQuery.atLeast('large')) {
+				this.triggerMethod('openOffCanvas', {});
+			}
 		},
 
 		closeModal: function() {
