@@ -48,7 +48,8 @@ define([
 			if (this.authorize()) {
 				this.rootView.getRegion('header').show(this._getHeaderView());
 				this.rootView.getRegion('main').show(this._getHomeView());
-				this.rootView.getRegion('offCanvas').show(this._getSidebarView());
+				this.rootView.getRegion('sidebar').show(new SidebarView());
+				this.rootView.getRegion('offCanvas').show(new SidebarView());
 			}
 		},
 
@@ -59,31 +60,31 @@ define([
 		showStatView: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new StatView());
-			this._getSidebarView().trigger('showing', 'stat');
+			this.updateSidebars('showing', 'stat');
 		},
 
 		showOrdersOutForDelivery: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new OrdersOutForDeliveryView());
-			this._getSidebarView().trigger('showing', 'out');
+			this.updateSidebars('showing', 'out');
 		},
 
 		showReadyOrders: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new ReadyOrdersView());
-			this._getSidebarView().trigger('showing', 'ready');
+			this.updateSidebars('showing', 'ready');
 		},
 
 		showAllOrders: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new AllOrdersView());
-			this._getSidebarView().trigger('showing', 'all');
+			this.updateSidebars('showing', 'all');
 		},
 
 		showFactory: function() {
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new FactoryView());
-			this._getSidebarView().trigger('showing', 'factory');
+			this.updateSidebars('showing', 'factory');
 		},
 
 		/**
@@ -105,20 +106,17 @@ define([
 			return this.home;
 		},
 
-		_getSidebarView: function() {
-			if (!this.sidebarView) {
-				this.sidebarView = new SidebarView();
-			}
-
-			return this.sidebarView;
-		},
-
 		_getHeaderView: function() {
 			if (!this.headerView) {
 				this.headerView = new HeaderView();
 			}
 			return this.headerView;
 		},
+
+		updateSidebars: function(action, name) {
+			this.rootView.getRegion('sidebar').currentView.trigger(action, name);
+			this.rootView.getRegion('offCanvas').currentView.trigger(action, name);
+		}
 	});
 
 	return Controller;

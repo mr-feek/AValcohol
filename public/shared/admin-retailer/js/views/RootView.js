@@ -7,18 +7,22 @@ define([
 	'shared/js/views/FooterView',
 	'shared/js/util/Vent',
 	'tpl!../templates/root.html',
+	'behaviors/FoundationOffCanvas'
 ], function (
 	Mn,
 	SidebarView,
 	FooterView,
 	Vent,
-	tpl
+	tpl,
+	FoundationOffCanvas
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: '#mount-point',
 
-		events: {},
+		events: { },
+
+		ui: { },
 
 		regions: {
 			header		: 'header',
@@ -29,8 +33,17 @@ define([
 			footer		: 'footer'
 		},
 
+		behaviors: {
+			FoundationOffCanvas: {
+				behaviorClass: FoundationOffCanvas,
+				forceTop: false,
+				disableScrollWhileOpen: false
+			}
+		},
+
 		/**
-		 * optional sidebarView class
+		 * this class has a sidebar loaded in sidebar region and off canvas. in large viewports, sidebar is shown.
+		 * on smaller, off canvas is used
 		 * @param options
 		 */
 		initialize: function (options) {
@@ -38,9 +51,8 @@ define([
 		},
 
 		onRender: function() {
+			// rest populated by controller
 			this.getRegion('footer').show(new FooterView());
-			this.getRegion('sidebar').show(new SidebarView());
-			this.getRegion('offCanvas').show(new SidebarView());
 		},
 
 		closeModal: function() {
