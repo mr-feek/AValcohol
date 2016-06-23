@@ -5,12 +5,14 @@ define([
 	'marionette',
 	'shared/admin-retailer/js/views/LoginView',
 	'views/HeaderView',
+	'views/SidebarView',
 	'views/VendorHomeRootView',
 	'App'
 ], function (
 	Marionette,
 	LoginView,
 	HeaderView,
+	SidebarView,
 	VendorHomeRootView,
 	app
 ) {
@@ -36,6 +38,7 @@ define([
 			if (this.authorize()) {
 				this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
 				this.rootView.getRegion('main').show(new VendorHomeRootView());
+				this.rootView.getRegion('offCanvas').show(new SidebarView());
 			}
 		},
 

@@ -34,13 +34,20 @@ define([
 			footer		: 'footer'
 		},
 
+		/**
+		 * optional sidebarView class
+		 * @param options
+		 */
 		initialize: function (options) {
 			Vent.on('modal:close', this.closeModal, this);
-			//Vent.on('settings:show', this.showSettings, this);
 		},
 
 		onRender: function() {
 			this.getRegion('footer').show(new FooterView());
+
+			setTimeout(function() {
+				this.trigger('openOffCanvas', {trigger:null});
+			}.bind(this), 1000)
 		},
 
 		closeModal: function() {

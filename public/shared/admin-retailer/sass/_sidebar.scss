@@ -1,7 +1,7 @@
-#sidebar {
-	// position controlled in vendor home.scss
+.sidebar {
 	background-color: $dark-text-color;
 	text-align: center;
+	height: 100%;
 
 	.icon {
 		padding: 1rem;

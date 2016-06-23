@@ -3,12 +3,10 @@
  */
 define([
 	'marionette',
-	'views/SidebarView',
 	'views/OrdersView',
 	'tpl!templates/vendor-home.html'
 ], function (
 	Mn,
-	SidebarView,
 	OrdersView,
 	tpl
 ) {
@@ -18,7 +16,6 @@ define([
 		className: '',
 
 		regions: {
-			sidebar: '#sidebar',
 			main : '#content'
 		},
 
@@ -26,7 +23,6 @@ define([
 		},
 
 		onRender: function() {
-			this.getRegion('sidebar').show(new SidebarView());
 			this.getRegion('main').show(new OrdersView());
 		}
 	});
