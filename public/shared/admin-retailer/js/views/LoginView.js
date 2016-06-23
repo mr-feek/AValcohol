@@ -4,11 +4,13 @@
 define([
 	'marionette',
 	'shared/js/util/Vent',
+	'behaviors/CollectionLoading',
 	'App',
 	'tpl!../../js/templates/login.html'
 ], function (
 	Mn,
 	Vent,
+	CollectionLoading,
 	app,
 	tpl
 ) {
@@ -16,6 +18,12 @@ define([
 		template: tpl,
 		tagName: 'div',
 		className: 'login',
+
+		behaviors: {
+			CollectionLoading: {
+				behaviorClass: CollectionLoading
+			}
+		},
 
 		ui: {
 			email: '.email',
@@ -37,6 +45,9 @@ define([
 			}
 			this.model = options.model;
 			this.listenTo(this.model, 'invalid', this.validationError);
+
+			this.triggerMethod('setCollection', app.session);
+			this.triggerMethod('setCollection', this.model);
 
 			_.bindAll(this, 'passwordCharacterTyped');
 			this.listenTo(Vent, 'user:authenticated', this.onLoginSuccess);
