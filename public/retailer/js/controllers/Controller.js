@@ -39,6 +39,7 @@ define([
 				this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
 				this.rootView.getRegion('main').show(new VendorHomeRootView());
 				this.rootView.getRegion('offCanvas').show(new SidebarView());
+				this.rootView.getRegion('sidebar').show(new SidebarView());
 			}
 		},
 
@@ -52,6 +53,11 @@ define([
 				return false;
 			}
 			return true;
+		},
+
+		updateSidebars: function(action, name) {
+			this.rootView.getRegion('sidebar').currentView.trigger(action, name);
+			this.rootView.getRegion('offCanvas').currentView.trigger(action, name);
 		}
 	});
 
