@@ -3,30 +3,20 @@
  */
 define([
 	'marionette',
+	'views/SidebarView',
 	'shared/js/views/FooterView',
 	'shared/js/util/Vent',
 	'tpl!../templates/root.html',
-	'behaviors/FoundationOffCanvas',
 ], function (
 	Mn,
+	SidebarView,
 	FooterView,
 	Vent,
-	tpl,
-	FoundationOffCanvas
+	tpl
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: '#mount-point',
-
-		behaviors: {
-			FoundationOffCanvas: {
-				behaviorClass: FoundationOffCanvas,
-				isRevealed: true,
-				revealOn: 'large',
-				forceTop: false,
-				disableScrollWhileOpen: false
-			}
-		},
 
 		events: {},
 
@@ -35,6 +25,7 @@ define([
 			main		: '#main',
 			modalRegion	: '.modal-mount-point',
 			offCanvas	: '.off-canvas',
+			sidebar		: '.sidebar-region',
 			footer		: 'footer'
 		},
 
@@ -48,10 +39,8 @@ define([
 
 		onRender: function() {
 			this.getRegion('footer').show(new FooterView());
-
-			if (Foundation.MediaQuery.atLeast('large')) {
-				this.triggerMethod('openOffCanvas', {});
-			}
+			this.getRegion('sidebar').show(new SidebarView());
+			this.getRegion('offCanvas').show(new SidebarView());
 		},
 
 		closeModal: function() {
