@@ -44,10 +44,6 @@ define([
 
 		onRender: function() {
 			this.getRegion('footer').show(new FooterView());
-
-			setTimeout(function() {
-				this.trigger('openOffCanvas', {trigger:null});
-			}.bind(this), 1000)
 		},
 
 		closeModal: function() {
