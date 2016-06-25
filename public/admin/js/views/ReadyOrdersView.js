@@ -31,7 +31,8 @@ define([
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: 'ready'	});
-
+			this.triggerMethod('setCollection', this.collection);
+			
 			var options = {
 				delay: 30000 // 30 seconds
 			};
