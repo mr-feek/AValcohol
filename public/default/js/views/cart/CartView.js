@@ -89,7 +89,7 @@ define([
 		 * @param e
 		 */
 		hideCart: function(e) {
-			App.rootView.closeOffCanvas(false); // don't clean up this view, just hide it
+			App.rootView.trigger('closeOffCanvas', false); // don't clean up this view, just hide it
 		}
 	});
 
