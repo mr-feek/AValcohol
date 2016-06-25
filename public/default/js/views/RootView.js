@@ -21,7 +21,10 @@ define([
 
 		behaviors: {
 			FoundationOffCanvas: {
-				behaviorClass: FoundationOffCanvas
+				behaviorClass: FoundationOffCanvas,
+				canvasOptions: {
+					position: 'right'
+				}
 			}
 		},
 
