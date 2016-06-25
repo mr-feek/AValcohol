@@ -4,7 +4,7 @@ define([
 	'views/user-home/ProductView',
 	'views/user-home/NoProductsView',
 	'collections/Products',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'App'
 ], function (
 	Mn,
@@ -43,7 +43,7 @@ define([
 		initialize: function (options) {
 			this.collection = new Products();
 			// pass the collection to the loading indicator
-			this.triggerMethod('setCollection', this.collection);
+			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
 			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
 

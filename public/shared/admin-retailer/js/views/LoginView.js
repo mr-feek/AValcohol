@@ -4,7 +4,7 @@
 define([
 	'marionette',
 	'shared/js/util/Vent',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'App',
 	'tpl!../../js/templates/login.html'
 ], function (
@@ -46,8 +46,8 @@ define([
 			this.model = options.model;
 			this.listenTo(this.model, 'invalid', this.validationError);
 
-			this.triggerMethod('setCollection', app.session);
-			this.triggerMethod('setCollection', this.model);
+			this.triggerMethod('setListener', app.session);
+			this.triggerMethod('setListener', this.model);
 
 			_.bindAll(this, 'passwordCharacterTyped');
 			this.listenTo(Vent, 'user:authenticated', this.onLoginSuccess);

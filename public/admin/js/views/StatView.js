@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'models/stats',
 	'tpl!templates/dashboard.html'
 ], function (
@@ -30,7 +30,7 @@ define([
 
 		initialize: function( options) {
 			this.model = new StatsModel();
-			this.triggerMethod('setCollection', this.model);
+			this.triggerMethod('setListener', this.model);
 		},
 
 		onShow: function() {

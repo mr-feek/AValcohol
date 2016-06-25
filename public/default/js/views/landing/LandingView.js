@@ -4,7 +4,7 @@ define([
 	'views/landing/CannotDeliverView',
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'tpl!templates/landing/landing.html',
 	//'async!https://maps.googleapis.com/maps/api/js?libraries=places' offline mode
 ], function (
@@ -49,7 +49,7 @@ define([
 			this.router = app.router;
 			this.user = app.user;
 			this.address = this.user.get('address');
-			this.triggerMethod('setCollection', this.address);
+			this.triggerMethod('setListener', this.address);
 			this.modelsToValidate.push(this.user, this.address); // dont think we need to listen to user, but why not..
 		},
 

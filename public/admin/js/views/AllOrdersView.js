@@ -7,7 +7,7 @@ define([
 	'backgrid-paginator',
 	'backgrid-filter',
 	'collections/Orders',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'views/OrderDetailView',
 	'App',
 	'tpl!templates/all-orders.html'
@@ -52,7 +52,7 @@ define([
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: 'all'	});
-			this.triggerMethod('setCollection', this.collection);
+			this.triggerMethod('setListener', this.collection);
 
 			this.pageableGrid = new Backgrid.Grid({
 				columns: [
