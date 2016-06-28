@@ -5,7 +5,7 @@ define([
 	'marionette',
 	'behaviors/LoadingIndicator',
 	'models/stats',
-	'tpl!templates/dashboard.html'
+	'tpl!templates/stat.html'
 ], function (
 	Mn,
 	CollectionLoading,
