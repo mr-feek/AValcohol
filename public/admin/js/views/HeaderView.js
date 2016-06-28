@@ -4,11 +4,13 @@
 define([
 	'marionette',
 	'shared/js/util/Vent',
+	'models/SiteStatusModel',
 	'App',
 	'tpl!templates/header.html'
 ], function (
 	Mn,
 	Vent,
+	SiteStatusModel,
 	app,
 	tpl
 ) {
@@ -16,12 +18,26 @@ define([
 		template: tpl,
 		className: 'top-bar',
 
+		templateHelpers: function() {
+			return {
+				status: this.model.get('status')
+			}
+		},
+
 		events: {
 			'click @ui.hamburger' : 'toggleOffCanvas'
 		},
 
 		ui: {
-			hamburger : '.menu-icon'
+			hamburger : '.menu-icon',
+			siteStatus : '.site-status'
+		},
+
+		initialize: function(options) {
+			this.model = new SiteStatusModel();
+			this.model.fetch().done(function() {
+				this.render();
+			}.bind(this));
 		},
 
 		onRender: function() {
@@ -37,6 +53,18 @@ define([
 					this.ui.hamburger.show();
 				}
 			}.bind(this)));
+
+			this.updateSiteStatusColor();
+		},
+
+		updateSiteStatusColor: function () {
+			if (this.model.isOnline()) {
+				this.ui.siteStatus.removeClass('off');
+				this.ui.siteStatus.addClass('on');
+			} else {
+				this.ui.siteStatus.addClass('off');
+				this.ui.siteStatus.removeClass('on');
+			}
 		},
 
 		toggleOffCanvas: function(evt) {

@@ -1,0 +1,11 @@
+.site-status {
+	text-transform: uppercase;
+
+	&.on {
+		color: lime;
+	}
+
+	&.off {
+		color: #ff2222;
+	}
+}

@@ -51,6 +51,10 @@ $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('login', 'AuthController@login');
 });
 
+$app->group(['prefix' => 'site/status', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('', 'SiteStatusController@get');
+});
+
 $app->get('/config', 'ConfigController@getConfig');
 
 // To Do: ADMIN AUTH
