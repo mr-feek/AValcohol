@@ -8,10 +8,6 @@ define([
 			online: null
 		},
 
-		parse: function(response) {
-			return response.status;
-		},
-
 		isOnline: function() {
 			if (this.get('online') === 1) {
 				return true;

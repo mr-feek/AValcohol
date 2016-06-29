@@ -3,18 +3,20 @@
 /**
  * Created by PhpStorm.
  * User: Feek
- * Date: 1/16/16
- * Time: 6:47 PM
+ * Date: 6/29/16
+ * Time: 12:09 PM
  */
-class MiddlewareTest extends TestCase
+class SiteStatusTest extends TestCase
 {
-	protected $storeOpen;
+	protected $repo;
 
-	public function setUp() {
-		$this->storeOpen = new \App\Http\Middleware\StoreOpen();
+	public function setUp()
+	{
+		parent::setUp();
+		$this->repo = app()->make('App\Http\Repositories\Interfaces\SiteStatusInterface');
 	}
 
-	public function testIsBetween() {
+	public function testRepoDeliveryHours() {
 		$this->shouldDeliver('00:01', true);
 		$this->shouldDeliver('01:00', true);
 		$this->shouldDeliver('01:59', true);
@@ -43,7 +45,7 @@ class MiddlewareTest extends TestCase
 	}
 
 	protected function shouldDeliver($time, $expected) {
-		$response = $this->storeOpen->isOpenAt($time);
+		$response = $this->repo->isOpenAt($time);
 
 		$this->assertEquals($expected, $response);
 	}

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Domain\OrderDeliveryDetails\PhotoManager;
 
+use App\Http\Repositories\SiteStatusRepository;
 use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
@@ -133,6 +134,11 @@ class AppServiceProvider extends ServiceProvider
 		{
 			return new OrderStatusRepository(new OrderStatus());
 		});
+
+	    $this->app->bind('App\Http\Repositories\Interfaces\SiteStatusInterface', function($app)
+	    {
+		    return new SiteStatusRepository();
+	    });
 
 		$this->app->bind('App\Http\Repositories\Interfaces\OrderDeliveryDetailsInterface', function($app)
 		{

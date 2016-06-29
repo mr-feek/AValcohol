@@ -8,30 +8,25 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Http\Traits\DeliveryHoursTrait;
+use App\Http\Services\SiteStatusService;
 use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {
-	use DeliveryHoursTrait;
-
 	/**
 	 * expose info to front end
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function getConfig(Request $request) {
-		$isOpen = $this->isOpenNow();
-
-		if ($isOpen) {
-			$blastMessage = 'Ready to crack some brews? Order now to receive within the hour!';
-		} else {
-			$blastMessage = 'We are not currently accepting new orders. Our current hours are 6PM to 2AM';
+	public function getConfig(Request $request, SiteStatusService $service) {
+		$blastMessage = ''; // default is in front end right now.
+		$isClosed = !$service->isOpenNow();
+		if ($isClosed) {
+			$blastMessage = $service->reasonForStoreClosure();
 		}
 
 		return response()->json([
-			'isClosed' => !$isOpen,
+			'isClosed' => $isClosed,
 			'blastMessage' => $blastMessage
 		]);
 	}
