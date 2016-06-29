@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\APIException;
 use App\Http\Traits\DeliveryHoursTrait;
+use App\Models\SiteStatus;
 use Closure;
 
-class DeliveryHours
+class StoreOpen
 {
 	use DeliveryHoursTrait;
 
@@ -19,6 +20,13 @@ class DeliveryHours
 	 */
     public function handle($request, Closure $next)
     {
+	    // check if admin has turned store off
+	    $status = SiteStatus::all()->first();
+	    if (!$status->online) {
+		    throw new APIException('Sorry! Due to unforeseen circumstances our store has been temporarily closed. Please check back soon.');
+	    }
+
+	    // delivery hours trait (obv should be refactored)
 		if (!$this->isOpenNow()) {
 			throw new APIException($this->closedMessage);
 		}

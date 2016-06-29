@@ -18,7 +18,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 });
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
+	$app->post('', ['middleware' => 'store-open', 'uses' => 'OrderController@createOrder']);
 	// admin or vendor
 	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
 });

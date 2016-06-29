@@ -8,6 +8,8 @@
  */
 class SiteStatusControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+	
 	public function setUp()
 	{
 		parent::setUp();

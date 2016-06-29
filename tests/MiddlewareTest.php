@@ -8,10 +8,10 @@
  */
 class MiddlewareTest extends TestCase
 {
-	protected $deliveryHours;
+	protected $storeOpen;
 
 	public function setUp() {
-		$this->deliveryHours = new \App\Http\Middleware\DeliveryHours();
+		$this->storeOpen = new \App\Http\Middleware\StoreOpen();
 	}
 
 	public function testIsBetween() {
@@ -43,7 +43,7 @@ class MiddlewareTest extends TestCase
 	}
 
 	protected function shouldDeliver($time, $expected) {
-		$response = $this->deliveryHours->isOpenAt($time);
+		$response = $this->storeOpen->isOpenAt($time);
 
 		$this->assertEquals($expected, $response);
 	}
