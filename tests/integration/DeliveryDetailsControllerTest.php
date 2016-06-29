@@ -47,7 +47,13 @@ class DeliveryDetailsControllerTest extends TestCase
 		list($type, $sentData) = explode(';', $sentData);
 		list(, $sentData) = explode(',', $sentData);
 		$sentData = base64_decode($sentData);
-		$retrievedData = Storage::disk('s3')->get($orderDetails->photo_path);
+
+		$disk = Storage::disk('s3');
+		if (env('OFFLINE_MODE') === true) {
+			$disk = Storage::disk('local');
+		}
+
+		$retrievedData = $disk->get($orderDetails->photo_path);
 
 		$this->assertEquals($retrievedData, $sentData);
 
