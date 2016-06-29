@@ -51,8 +51,8 @@ $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('login', 'AuthController@login');
 });
 
-// ToDo: ADMIN AUTH
-$app->group(['prefix' => 'site/status', 'namespace' => 'App\Http\Controllers'], function($app) {
+// todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
+$app->group(['prefix' => 'site/status', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'SiteStatusController@get');
 	$app->post('', 'SiteStatusController@save');
 });

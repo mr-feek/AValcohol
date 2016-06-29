@@ -8,8 +8,14 @@
  */
 class SiteStatusControllerTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->prepareRequestsWithAdminPrivileges();
+	}
+
 	public function testTurnStoreOffline() {
-		$this->post('site/status', ['online' => 0]);
+		$this->post('site/status', ['online' => 0], $this->authHeader);
 		$this->seeInDatabase('site_status', ['online' => 0]);
 		$this->seeJsonStructure([
 			'status' => [
@@ -21,7 +27,7 @@ class SiteStatusControllerTest extends TestCase
 	}
 
 	public function testTurnStoreOnline() {
-		$this->post('site/status', ['online' => 1]);
+		$this->post('site/status', ['online' => 1], $this->authHeader);
 		$this->seeInDatabase('site_status', ['online' => 1]);
 		$this->seeJsonStructure([
 			'status' => [
