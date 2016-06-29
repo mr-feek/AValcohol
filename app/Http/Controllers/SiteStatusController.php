@@ -9,7 +9,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\SiteStatusService;
-use App\Models\SiteStatus;
 use Illuminate\Http\Request;
 
 class SiteStatusController extends Controller
@@ -28,14 +27,22 @@ class SiteStatusController extends Controller
 
 	/**
 	 * @param Request $request
-	 * @return mixed
+	 * @return mixed whether or not the store is now online
 	 */
-	public function save(Request $request) {
-		$model = SiteStatus::all()->first();
-		$model->online = $request->input('online');
-		$model->save();
+	public function save(Request $request, SiteStatusService $service) {
+		$this->validate($request, [
+			'online' => 'required|bool'
+		]);
+
+		$service->setStatus($request->input());
+
+		// lets return whether or not the store is online. An admin can set the store as online, but it will still
+		// not be online if it is outside of delivery hours. essentially this power is just so that an admin can turn off
+		// the store during "open hours" in case of emergency. An admin cannot turn on a store outside of "open hours"
+
 		return response()->json([
-			'status' => $model
+			'online' => $service->isOpenNow(),
+			'updatable' => $service->adminCanUpdate()
 		]);
 	}
 }

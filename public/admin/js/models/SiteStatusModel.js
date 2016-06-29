@@ -5,11 +5,12 @@ define([
 		urlRoot: '/api/site/status',
 
 		defaults: {
-			online: null
+			online: null,
+			updatable: false
 		},
 
 		isOnline: function() {
-			if (this.get('online') === 1) {
+			if (this.get('online') == true) {
 				return true;
 			}
 
@@ -22,6 +23,10 @@ define([
 
 		setOffline: function() {
 			this.set('online', 0);
+		},
+
+		adminCanUpdate: function() {
+			return this.get('updatable');
 		}
 	});
 

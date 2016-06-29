@@ -24,6 +24,15 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	}
 
 	/**
+	 * @param bool $online
+	 * @return mixed
+	 */
+	public function setStoreStatus(bool $online) {
+		$this->model->online = $online;
+		return $this->model;
+	}
+
+	/**
 	 * developers can force the store to be open for testing purposes, so check env and toggle
 	 * @return bool
 	 */

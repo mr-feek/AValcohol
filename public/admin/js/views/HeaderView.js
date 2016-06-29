@@ -58,22 +58,35 @@ define([
 			this.updateSiteStatusDisplay();
 		},
 
+		/**
+		 * an admin can only update if we are within "open hours"
+		 */
 		updateSiteStatusDisplay: function () {
 			if (this.model.isOnline()) {
 				this.ui.siteStatus.prop('checked', true);
 			} else {
 				this.ui.siteStatus.prop('checked', false);
 			}
+
+			if (!this.model.adminCanUpdate()) {
+				this.ui.siteStatus.prop('disabled', true);
+			}
 		},
 
 		siteStatusClicked: function(evt) {
+			var confirmed = confirm('Only use this toggle in case of emergency. If the store is currently open (within delivery hours) you can force it to be turned off now. If you proceed, you MUST remember to turn the store back on, or else it will remain off indefinitely (including tomorrow)');
+			if (!confirmed) { return; }
+
 			if (this.ui.siteStatus.prop('checked')) {
 				this.model.setOnline();
 			}
 			else {
 				this.model.setOffline();
 			}
-			this.model.save();
+
+			this.model.save().done(function(response) {
+				this.render();
+			}.bind(this));
 		},
 
 		toggleOffCanvas: function(evt) {
