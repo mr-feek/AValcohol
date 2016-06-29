@@ -8,6 +8,11 @@ $app->group(['prefix' => 'product', 'namespace' => 'App\Http\Controllers'], func
 	$app->get('', 'ProductController@getAllProductsForAddress');
 });
 
+// public (dont require vendor auth)
+$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('{vendorId}/product/{productId}', 'VendorController@getProduct');
+});
+
 $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', 'AddressController@create');
 	// for now, because we don't have user accounts and can't enforce security,

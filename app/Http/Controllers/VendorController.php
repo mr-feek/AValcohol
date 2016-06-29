@@ -59,4 +59,11 @@ class VendorController extends Controller
 		$user = $request->user();
 		return response()->json(['vendor' => $user->vendor]);
 	}
+
+	public function getProduct(Request $request, VendorService $service, $vendorId, $productId) {
+		$product = $service->getProduct($vendorId, $productId);
+		return response()->json([
+			'product' => $product
+		]);
+	}
 }

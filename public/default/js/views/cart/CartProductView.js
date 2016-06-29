@@ -90,8 +90,7 @@ define([
 		},
 
 		increaseQuantity: function() {
-			var quantity = this.model.get('quantity');
-			this.model.set('quantity', quantity + 1);
+			App.cart.add(this.model, {}); // let cart handle this logic
 		}
 	});
 
