@@ -5,11 +5,15 @@ define([
 		urlRoot: '/api/site/status',
 
 		defaults: {
-			status: null
+			online: null
+		},
+
+		parse: function(response) {
+			return response.status;
 		},
 
 		isOnline: function() {
-			if (this.get('status') === 'online') {
+			if (this.get('online') === 1) {
 				return true;
 			}
 
@@ -17,11 +21,11 @@ define([
 		},
 
 		setOnline: function() {
-			this.set('status', 'online');
+			this.set('online', 1);
 		},
 
 		setOffline: function() {
-			this.set('status', 'offline');
+			this.set('online', 0);
 		}
 	});
 

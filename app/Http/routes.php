@@ -51,13 +51,15 @@ $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('login', 'AuthController@login');
 });
 
+// ToDo: ADMIN AUTH
 $app->group(['prefix' => 'site/status', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'SiteStatusController@get');
+	$app->post('', 'SiteStatusController@save');
 });
 
 $app->get('/config', 'ConfigController@getConfig');
 
-// To Do: ADMIN AUTH
+// ToDo: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();
 });
