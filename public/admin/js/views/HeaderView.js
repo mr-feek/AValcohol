@@ -25,7 +25,8 @@ define([
 		},
 
 		events: {
-			'click @ui.hamburger' : 'toggleOffCanvas'
+			'click @ui.hamburger' : 'toggleOffCanvas',
+			'click @ui.siteStatus' : 'siteStatusClicked'
 		},
 
 		ui: {
@@ -54,17 +55,25 @@ define([
 				}
 			}.bind(this)));
 
-			this.updateSiteStatusColor();
+			this.updateSiteStatusDisplay();
 		},
 
-		updateSiteStatusColor: function () {
+		updateSiteStatusDisplay: function () {
 			if (this.model.isOnline()) {
-				this.ui.siteStatus.removeClass('off');
-				this.ui.siteStatus.addClass('on');
+				this.ui.siteStatus.prop('checked', true);
 			} else {
-				this.ui.siteStatus.addClass('off');
-				this.ui.siteStatus.removeClass('on');
+				this.ui.siteStatus.prop('checked', false);
 			}
+		},
+
+		siteStatusClicked: function(evt) {
+			if (this.ui.siteStatus.prop('checked')) {
+				this.model.setOnline();
+			}
+			else {
+				this.model.setOffline();
+			}
+			this.model.save();
 		},
 
 		toggleOffCanvas: function(evt) {

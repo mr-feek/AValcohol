@@ -1,11 +1,13 @@
-.site-status {
-	text-transform: uppercase;
-
-	&.on {
-		color: lime;
+header {
+	.menu-icon {
+		margin-right: 1rem;
 	}
 
-	&.off {
-		color: #ff2222;
+	span {
+		vertical-align: top;
+	}
+
+	.switch {
+		margin-left: 1rem;
 	}
 }
