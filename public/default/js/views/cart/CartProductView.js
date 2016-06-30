@@ -80,13 +80,7 @@ define([
 		},
 
 		decreaseQuantity: function() {
-			var quantity = this.model.get('quantity');
-			if (quantity > 1) {
-				this.model.set('quantity', quantity - 1);
-			} else {
-				// 0 quantity, remove from cart
-				this.removeFromCart();
-			}
+			App.cart.remove(this.model, {}); // let cart handle this logic
 		},
 
 		increaseQuantity: function() {
