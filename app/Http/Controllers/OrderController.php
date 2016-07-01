@@ -21,7 +21,8 @@ class OrderController extends Controller
 			'products' => 'required',
 			'user' => 'required',
 			'address' => 'required',
-			'stripe_token' => 'required'
+			'stripe_token' => 'required',
+			'terms_and_conditions' => 'accepted'
 		]);
 
 		$order = $service->create($request->input());

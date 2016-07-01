@@ -57,9 +57,10 @@ define([
 		},
 
 		ui: {
-			edit : '.edit',
+			edit 		: '.edit',
 			submitOrder : '.button.order',
-			note : '.note'
+			note 		: '.note',
+			terms 		: '#terms'
 		},
 
 		initialize: function (options) {
@@ -109,6 +110,13 @@ define([
 		 * @param token verified stripe token
 		 */
 		submitOrder: function(token) {
+			var termsAccepted = this.ui.terms.is(':checked');
+			if (!termsAccepted) {
+				// todo: highlight as required
+				alert('you must accept the terms and conditions in order to request your order.');
+				return;
+			}
+
 			// get note
 			var note = this.ui.note.val();
 
@@ -118,7 +126,8 @@ define([
 				user: App.user,
 				address: App.user.get('address'),
 				stripe_token: App.user.get('card').get('token'),
-				note: note
+				note: note,
+				terms_and_conditions: termsAccepted
 			});
 
 			this.model.save()
@@ -126,7 +135,6 @@ define([
 					Vent.trigger('order:submitted', this.model);
 				}.bind(this))
 				.fail(function (result) {
-					debugger;
 					alert("Sorry, but something went wrong with creating your order, please let us know" +
 						" by clicking on the feedback button at the bottom of this page. Don't worry," +
 						" we did NOT charge your credit card!");
