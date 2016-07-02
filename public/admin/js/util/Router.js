@@ -11,14 +11,15 @@ define([
 		},
 
 		appRoutes: {
-			'admin/' 				: 'showLogin',
-			'admin/login' 			: 'showLogin',
-			'admin/dashboard' 		: 'showStatView',
-			'admin/dashboard/stats' : 'showStatView',
-			'admin/dashboard/ready' : 'showReadyOrders',
-			'admin/dashboard/out' 	: 'showOrdersOutForDelivery',
-			'admin/dashboard/all' 	: 'showAllOrders',
-			'admin/dashboard/factory': 'showFactory'
+			'admin/' 					: 'showLogin',
+			'admin/login' 				: 'showLogin',
+			'admin/dashboard' 			: 'showStatView',
+			'admin/dashboard/stats' 	: 'showStatView',
+			'admin/dashboard/ready' 	: 'showReadyOrders',
+			'admin/dashboard/out' 		: 'showOrdersOutForDelivery',
+			'admin/dashboard/all' 		: 'showAllOrders',
+			'admin/dashboard/vendors' 	: 'showVendors',
+			'admin/dashboard/factory'	: 'showFactory'
 		}
 	});
 

@@ -43,6 +43,11 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'A
 	$app->get('', 'VendorController@get');
 });
 
+// todo: admin middleware
+$app->group(['prefix' => 'vendors', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('', 'VendorsController@get');
+});
+
 // todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
 $app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('stats', 'StatController@getStats');

@@ -11,6 +11,7 @@ define([
 	'views/ReadyOrdersView',
 	'views/OrdersOutForDeliveryView',
 	'views/AllOrdersView',
+	'views/VendorsView',
 	'views/factory/FactoryView',
 	'App'
 ], function (
@@ -23,6 +24,7 @@ define([
 	ReadyOrdersView,
 	OrdersOutForDeliveryView,
 	AllOrdersView,
+	VendorsView,
 	FactoryView,
 	app
 ) {
@@ -79,6 +81,12 @@ define([
 			this._showDashboard();
 			this._getHomeView().getRegion('main').show(new AllOrdersView());
 			this.updateSidebars('showing', 'all');
+		},
+
+		showVendors: function() {
+			this._showDashboard();
+			this._getHomeView().getRegion('main').show(new VendorsView());
+			this.updateSidebars('showing', 'vendor');
 		},
 
 		showFactory: function() {

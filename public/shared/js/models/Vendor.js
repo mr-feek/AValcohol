@@ -10,7 +10,10 @@ define([
 		urlRoot: '/api/vendor',
 
 		parse: function(response, xhr) {
-			return response.vendor;
+			if (response.vendor) {
+				return response.vendor;
+			}
+			return response;
 		},
 
 		defaults: {
