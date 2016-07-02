@@ -12,6 +12,8 @@ use App\Models\User;
 class UserControllerTest extends TestCase
 {
 	public function testCreateUser() {
+		// Resolve the dispatcher even though we aren't using it. https://github.com/laravel/lumen-framework/issues/416#issuecomment-230099777
+		app('Illuminate\Contracts\Bus\Dispatcher');
 		$this->expectsJobs(\App\Jobs\Mailchimp\AddUserToMailchimp::class);
 
 		$user = factory(User::class)->make();
