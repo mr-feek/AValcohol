@@ -8,6 +8,7 @@ define([
 	'views/landing/LandingView',
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',
+	'views/misc/TermsAndConditionsView',
 	'App'
 ], function (
 	Marionette,
@@ -15,6 +16,7 @@ define([
 	LandingView,
 	UserHomeView,
 	CheckoutView,
+	TermsAndConditionsView,
 	app
 ) {
 	var Controller = Marionette.Object.extend({
@@ -54,6 +56,11 @@ define([
 			}
 			var region = this.rootView.getRegion('main');
 			region.show(new CheckoutView({	region: region }));
+		},
+
+		showTermsAndConditions: function() {
+			var region = this.rootView.getRegion('main');
+			region.show(new TermsAndConditionsView());
 		}
 	});
 
