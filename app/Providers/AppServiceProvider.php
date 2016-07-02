@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Http\Domain\OrderDeliveryDetails\PhotoManager;
 
 use App\Http\Repositories\SiteStatusRepository;
-use DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
 
@@ -97,7 +96,7 @@ class AppServiceProvider extends ServiceProvider
 
 		$this->app->bind('App\Http\Repositories\Interfaces\UserInterface', function($app)
 		{
-			return new UserRepository(new User(), new MailChimp(env('MAILCHIMP_KEY')));
+			return new UserRepository(new User());
 		});
 
 		$this->app->bind('App\Http\Repositories\Interfaces\UserAddressInterface', function($app)

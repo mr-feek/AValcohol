@@ -12,6 +12,8 @@ use App\Models\User;
 class UserControllerTest extends TestCase
 {
 	public function testCreateUser() {
+		$this->expectsJobs(\App\Jobs\Mailchimp\AddUserToMailchimp::class);
+
 		$user = factory(User::class)->make();
 		$profile = factory(UserProfile::class)->make();
 
