@@ -81,7 +81,7 @@ require([
 	'shared/admin-retailer/js/views/RootView',
 	'controllers/Controller',
 	'util/Router',
-	'models/Vendor',
+	'shared/js/models/Vendor',
 	'shared/js/models/Session',
 	'shared/js/models/Config',
 	'foundation',

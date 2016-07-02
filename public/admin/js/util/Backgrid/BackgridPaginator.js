@@ -11,10 +11,6 @@ define([
 	var backgridPaginator = Backgrid.Extension.Paginator.extend({
 		className: 'pagination-centered',
 
-		initialize: function(collection) {
-			this.collection = collection;
-		},
-
 		render: function () {
 			this.$el.empty();
 
