@@ -7,7 +7,7 @@ define([
 ) {
 	var NoProductsView = Mn.ItemView.extend({
 		template: tpl,
-		className: 'text-center',
+		className: 'text-center no-products',
 
 		events: {},
 
@@ -15,6 +15,10 @@ define([
 
 		initialize: function (options) {
 		},
+
+		onShow: function() {
+			this.$el.animateCss('jello');
+		}
 	});
 
 	return NoProductsView;
