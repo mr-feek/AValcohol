@@ -72,9 +72,10 @@ define([
 			*/
 
 			var viewsToShow = [
+				new BillingInfoEntryView({	parent:	this }),
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
-				new BillingInfoEntryView({	parent:	this }),
+
 				new OrderReviewView({	parent: this })
 			];
 
