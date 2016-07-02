@@ -1,5 +1,7 @@
 /**
  * Created by Feek on 6/2/16.
+ *
+ * todo: UTILIZE THE NEW BACKGRIDBEHAVIOR TO GET DUPLICATED LOGIC OUT OF HERE
  */
 define([
 	'marionette',
