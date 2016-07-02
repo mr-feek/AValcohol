@@ -149,9 +149,9 @@ define([
 
 		showAddressForm: function(evt) {
 			evt.preventDefault();
-			this.ui.tagline.animateCss('fadeOut', function() {
+			this.ui.tagline.animateCss('fadeOutDown', function() {
 				this.ui.tagline.remove();
-				this.ui.addressArea.animateCss('fadeIn');
+				this.ui.addressArea.animateCss('fadeInDown');
 			}.bind(this));
 		}
 	});
