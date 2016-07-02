@@ -59,7 +59,6 @@ define([
 				},
 
 				dob: function() {
-					debugger;
 					if (!view.model || !view.model.get('profile')) {	return;	}
 					var val = view.model.get('profile').getDateOfBirth();
 					return val ? val : ''
