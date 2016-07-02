@@ -96,15 +96,16 @@ require([
 
 	// add animatecss function to jquery
 	$.fn.extend({
-		animateCss: function (animationName, callback, removeAnimateClass) {
+		animateCss: function (animationName, options) {
+			var options = options || {};
 			var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 			$(this).addClass('animated ' + animationName).one(animationEnd, function() {
-				if (removeAnimateClass) {
+				if (options.removeAnimateClass) {
 					$(this).removeClass('animated ' + animationName);
 				}
 
-				if (callback) {
-					callback();
+				if (options.callback) {
+					options.callback();
 				}
 			});
 		}

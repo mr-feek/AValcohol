@@ -28,6 +28,7 @@ define([
 		},
 
 		ui: {
+			'logo'			: '.logo',
 			'tagline'		: '.info',
 			'addressArea'	: '.address-form',
 			'orderNow' 		: '.order-now',
@@ -59,6 +60,9 @@ define([
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
 			//this.autocomplete = new google.maps.places.Autocomplete(input, options); offline mode
+
+			this.ui.tagline.animateCss('fadeIn', {removeAnimateClass: true});
+			this.ui.logo.animateCss('pulse');
 		},
 
 		/**
@@ -149,10 +153,11 @@ define([
 
 		showAddressForm: function(evt) {
 			evt.preventDefault();
-			this.ui.tagline.animateCss('fadeOutDown', function() {
+
+			this.ui.tagline.animateCss('fadeOutDown', {callback: function() {
 				this.ui.tagline.remove();
 				this.ui.addressArea.animateCss('fadeInDown');
-			}.bind(this));
+			}.bind(this)});
 		}
 	});
 
