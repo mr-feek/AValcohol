@@ -265,6 +265,7 @@ class OrderControllerTest extends TestCase
 	 * @param $user model
 	 * @param $token stripe token
 	 * @param null $note
+	 * @param bool $termsAccepted
 	 * @return mixed response content
 	 */
 	protected function createOrder($products, $address, $user, $token, $note = null, $termsAccepted = true) {
@@ -274,7 +275,7 @@ class OrderControllerTest extends TestCase
 			'user' => $user->toArray(),
 			'stripe_token' => $token,
 			'note' => $note,
-			'terms_accepted' => $termsAccepted
+			'terms_and_conditions' => $termsAccepted
 		];
 
 		$this->post('/order', $data);
