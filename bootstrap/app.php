@@ -74,7 +74,8 @@ $app->singleton(
 // these can be called by specific routes
 $app->routeMiddleware([
 	'store-open' => App\Http\Middleware\StoreOpen::class,
-	'jwt-auth' => \App\Http\Middleware\UserAuthenticated::class
+	'jwt-auth' => \App\Http\Middleware\UserAuthenticated::class,
+	'has-role' => \App\Http\Middleware\HasRole::class
 ]);
 
 /*

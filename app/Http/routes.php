@@ -24,7 +24,7 @@ $app->group(['prefix' => 'address', 'namespace' => 'App\Http\Controllers'], func
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('', ['middleware' => 'store-open', 'uses' => 'OrderController@createOrder']);
-	// admin or vendor
+	// admin or vendor so jwt-auth will work for mvp launch
 	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
 });
 
@@ -38,23 +38,19 @@ $app->group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers'], functio
 	$app->get('', ['middleware' => 'jwt-auth', 'uses' => 'UserController@getFromToken']);
 });
 
-// todo: vendor middleware asserting user is vendor before doing request. this should happen before production? maybe? idk might be good
-$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'VendorController@get');
 });
 
-// todo: admin middleware
-$app->group(['prefix' => 'vendors', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'vendors', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'VendorsController@get');
 });
 
-// todo: admin middleware
-$app->group(['prefix' => 'admin/vendor/login', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'admin/vendor/login', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('{id}', 'AdminController@getLoginTokenForVendor');
 });
 
-// todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
-$app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('stats', 'StatController@getStats');
 	$app->get('orders', 'AdminController@getOrders');
 	$app->post('vendor', 'VendorController@create');
@@ -66,15 +62,13 @@ $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], functio
 	$app->post('login', 'AuthController@login');
 });
 
-// todo: admin middleware asserting user has role before doing request. THIS NEEDS TO HAPPEN BEFORE PRODUCTION
-$app->group(['prefix' => 'site/status', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'site/status', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'SiteStatusController@get');
 	$app->post('', 'SiteStatusController@save');
 });
 
 $app->get('/config', 'ConfigController@getConfig');
 
-// ToDo: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();
 });
