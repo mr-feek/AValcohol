@@ -224,7 +224,7 @@ class OrderControllerTest extends TestCase
 			'tax_charge_amount' => $taxChargeAmount,
 			'user_id' => $response->order->user_id,
 			'user_address_id' => $response->order->user_address_id,
-			'terms_accepted' => true
+			'terms_and_conditions' => true
 		]);
 
 		// ensure default order statuses created

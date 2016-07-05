@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $order_id
  * @property string $signature
  * @property string $photo_path when being saved
- * @property  photo_data when being retrieved
+ * @property photo_data when being retrieved
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail whereOrderId($value)
@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderDeliveryDetail wherePhotoPath($value)
+ * @property-read \App\Models\Order $order
  */
 class OrderDeliveryDetail extends Model
 {

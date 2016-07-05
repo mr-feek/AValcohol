@@ -45,6 +45,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
+		$this->model->terms_and_conditions = $data['terms_and_conditions']; // should be true due to controller validation
 		$this->model->vendor_id = $products[0]->pivot->vendor_id; // TEMP!!! to do: remove vendor id from orders table
 		$order = $this->model;
 		$stripe_token = $data['stripe_token'];

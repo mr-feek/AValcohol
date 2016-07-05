@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Vendor;
 /**
  * Created by PhpStorm.
@@ -23,6 +24,13 @@ class VendorControllerTest extends TestCase
 
 	public function testCreateVendor() {
 		$faker = \Faker\Factory::create();
+
+		$admin = User::whereHas('roles', function($query) {
+			$query->where('role_id', 1);
+		})->first();
+		$token = $this->utils->generateTokenForUser($admin);
+		$adminHeader = ['Authorization' => 'Bearer ' . $token];
+
 		$data = [
 			'email' => $faker->email(),
 			'password' => $faker->password(),
@@ -32,7 +40,7 @@ class VendorControllerTest extends TestCase
 			'delivery_zone_id' => '1'
 		];
 
-		$this->post('/admin/vendor', $data, $this->authHeader);
+		$this->post('/admin/vendor', $data, $adminHeader);
 
 		$this->seeJsonStructure([
 			'vendor' => [

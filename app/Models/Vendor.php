@@ -36,6 +36,7 @@ use Sofa\Eloquence\Eloquence;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property integer $delivery_zone_id
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereDeliveryZoneId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor filter($filters)
  */
 class Vendor extends Model
 {
