@@ -20,11 +20,8 @@ class SiteStatusControllerTest extends TestCase
 		$this->post('site/status', ['online' => 0], $this->authHeader);
 		$this->seeInDatabase('site_status', ['online' => 0]);
 		$this->seeJsonStructure([
-			'status' => [
-				'created_at',
-				'updated_at',
-				'online'
-			]
+			'online',
+			'updatable'
 		]);
 	}
 
@@ -32,11 +29,8 @@ class SiteStatusControllerTest extends TestCase
 		$this->post('site/status', ['online' => 1], $this->authHeader);
 		$this->seeInDatabase('site_status', ['online' => 1]);
 		$this->seeJsonStructure([
-			'status' => [
-				'created_at',
-				'updated_at',
-				'online'
-			]
+			'online',
+			'updatable'
 		]);
 	}
 }

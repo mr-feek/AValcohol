@@ -29,6 +29,7 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	 */
 	public function setStoreStatus(bool $online) {
 		$this->model->online = $online;
+		$this->model->save();
 		return $this->model;
 	}
 
