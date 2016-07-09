@@ -46,6 +46,7 @@ use Sofa\Eloquence\Eloquence;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order filter($filters)
  * @property boolean $terms_and_conditions
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTermsAndConditions($value)
+ * @property-read \App\Models\Vendor $vendor
  */
 class Order extends Model
 {

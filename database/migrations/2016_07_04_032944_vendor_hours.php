@@ -18,6 +18,7 @@ class VendorHours extends Migration
 	        $table->integer('day_of_week');
 	        $table->time('open_time');
 	        $table->time('close_time');
+	        $table->timestamps();
 
 	        $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
         });
@@ -31,6 +32,7 @@ class VendorHours extends Migration
 		    $table->time('alternate_open_time');
 		    $table->time('alternate_close_time');
 		    $table->boolean('closed'); // if not open at all on this day
+		    $table->timestamps();
 
 		    $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
 	    });

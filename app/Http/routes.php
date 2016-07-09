@@ -58,6 +58,10 @@ $app->group(['prefix' => 'admin', 'middleware' => 'jwt-auth|has-role:administrat
 	$app->get('order/{id}/delivery-details', 'OrderDeliveryDetailsController@get');
 });
 
+$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->post('{id}/hours', 'VendorHoursController@create');
+});
+
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->post('login', 'AuthController@login');
 });
