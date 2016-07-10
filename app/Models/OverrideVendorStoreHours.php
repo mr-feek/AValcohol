@@ -34,4 +34,5 @@ use Illuminate\Database\Eloquent\Model;
 class OverrideVendorStoreHours extends Model
 {
 	protected $table = 'vendor_hours_overrides';
+	protected $guarded = [];
 }

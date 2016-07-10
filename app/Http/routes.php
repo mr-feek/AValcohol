@@ -62,6 +62,8 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:administra
 	$app->get('{vendor_id}/hours', 'VendorHoursController@getWeeklyHours');
 	$app->post('{vendor_id}/hours', 'VendorHoursController@create');
 	$app->put('{vendor_id}/hours/{day_of_week}/id/{store_hours_id}', 'VendorHoursController@update');
+
+	$app->post('{vendor_id}/hours/override', 'VendorOverrideHoursController@create');
 });
 
 $app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
