@@ -62,4 +62,12 @@ class Vendor extends Model
 	public function orders() {
 		return $this->hasMany('App\Models\Order');
 	}
+
+	public function hours() {
+		return $this->hasMany('App\Models\VendorStoreHours');
+	}
+
+	public function overrideHours() {
+		return $this->hasMany('App\Models\OverrideVendorStoreHours');
+	}
 }

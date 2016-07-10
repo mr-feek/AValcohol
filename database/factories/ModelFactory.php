@@ -141,3 +141,23 @@ $factory->define(\App\Models\OrderDeliveryDetail::class, function(\Faker\Generat
 		'signature' => $faker->image()
 	];
 });
+
+$factory->define(\App\Models\VendorStoreHours::class, function(\Faker\Generator $faker) {
+	return [
+		'vendor_id' => 1,
+		'day_of_week' => $faker->randomDigit(), // todo: should be 0 - 6 only
+		'open_time' => $faker->time(),
+		'close_time' => $faker->time()
+	];
+});
+
+$factory->define(\App\Models\OverrideVendorStoreHours::class, function(\Faker\Generator $faker) {
+	return [
+		'vendor_id' => 1,
+		'day_of_week' => $faker->randomDigit(), // todo: should be 0 - 6 only
+		'override_start_date' => $faker->date(),
+		'override_end_date' => $faker->date(),
+		'alternate_open_time' => $faker->time(),
+		'alternate_close_time' => $faker->time()
+	];
+});
