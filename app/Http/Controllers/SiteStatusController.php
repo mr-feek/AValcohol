@@ -36,9 +36,9 @@ class SiteStatusController extends Controller
 
 		$service->setStatus($request->input());
 
-		// lets return whether or not the store is online. An admin can set the store as online, but it will still
-		// not be online if it is outside of delivery hours. essentially this power is just so that an admin can turn off
-		// the store during "open hours" in case of emergency. An admin cannot turn on a store outside of "open hours"
+		// lets return whether or not the store is online. An admin can set the store as online, but it will still not be
+		// online if it is outside of delivery hours. essentially this power is just so that an admin can turn off the
+		// store during "open hours" in case of emergency. An admin cannot turn on a store outside of "open hours"
 
 		return response()->json([
 			'online' => $service->isOpenNow(),

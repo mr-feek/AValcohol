@@ -60,6 +60,7 @@ class VendorHoursControllerTest extends TestCase
 		$this->put("vendor/{$vendor_id}/hours/{$dayOfWeek}/id/{$storeHoursId}", $data, $this->authHeader);
 
 		$this->seeInDatabase('vendor_hours', $data);
+		$data['deleted_at'] = null; // hack but whatever
 		$this->checkJson($data);
 	}
 
