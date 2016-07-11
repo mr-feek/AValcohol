@@ -27,4 +27,9 @@ class VendorOverrideHoursController extends Controller
 
 		return response()->json(['override_vendor_store_hours' => $model]);
 	}
+
+	public function delete(Request $request, int $vendorId, int $modelId) {
+		$deleted = OverrideVendorStoreHours::find($modelId)->delete();
+		return response()->json(['deleted' => $deleted]);
+	}
 }

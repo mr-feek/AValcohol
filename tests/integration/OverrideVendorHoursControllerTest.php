@@ -9,7 +9,7 @@ use App\Models\VendorStoreHours;
  */
 class OverrideVendorHoursControllerTest extends TestCase
 {
-	use \Laravel\Lumen\Testing\DatabaseTransactions;
+	//use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 	public function __construct()
 	{
@@ -33,6 +33,19 @@ class OverrideVendorHoursControllerTest extends TestCase
 		$this->post("vendor/{$vendor_id}/hours/override", $data, $this->authHeader);
 		$this->seeInDatabase('vendor_hours_overrides', $data);
 		$this->checkJson($data);
+	}
+
+	public function testDeleteOverrideVendorHours() {
+		$model = \App\Models\OverrideVendorStoreHours::first();
+		$vendorId = $model->vendor_id;
+		$id = $model->id;
+
+		$this->delete("vendor/{$vendorId}/hours/override/{$id}", [], $this->authHeader);
+
+		$this->notSeeInDatabase('vendor_hours_overrides', [
+			'id' => $id,
+			'deleted_at' => NULL
+		]);
 	}
 
 	private function checkJson(array $data)

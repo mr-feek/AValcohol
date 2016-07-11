@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\OverrideVendorStoreHours
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OverrideVendorStoreHours extends Model
 {
+	use SoftDeletes;
+	
 	protected $table = 'vendor_hours_overrides';
 	protected $guarded = [];
 }
