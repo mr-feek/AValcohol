@@ -37,6 +37,8 @@ use Sofa\Eloquence\Eloquence;
  * @property integer $delivery_zone_id
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor whereDeliveryZoneId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor filter($filters)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\VendorStoreHours[] $hours
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OverrideVendorStoreHours[] $overrideHours
  */
 class Vendor extends Model
 {

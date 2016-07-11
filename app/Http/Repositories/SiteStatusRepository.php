@@ -24,11 +24,19 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	}
 
 	/**
-	 * @param bool $online
 	 * @return mixed
 	 */
-	public function setStoreStatus(bool $online) {
-		$this->model->online = $online;
+	public function get() {
+		return $this->model;
+	}
+
+	/**
+	 * @param bool $b
+	 * @return mixed
+	 * @internal param bool $online
+	 */
+	public function closeStore(bool $b) {
+		$this->model->admin_force_offline = $b;
 		$this->model->save();
 		return $this->model;
 	}

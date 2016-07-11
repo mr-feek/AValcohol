@@ -5,19 +5,23 @@ define([
 		urlRoot: '/api/site/status',
 
 		defaults: {
-			force_offline : null
+			admin_force_offline : null
 		},
 
 		isForcedClosed: function() {
-			return this.get('force_offline');
+			return this.get('admin_force_offline');
 		},
 
 		forceStoreClosed: function() {
-			this.set('force_offline', 1);
+			this.set('admin_force_offline', 1);
 		},
 
 		removeForceStoreClosed: function() {
-			this.set('force_offline', 0);
+			this.set('admin_force_offline', 0);
+		},
+
+		parse: function(response) {
+			return response.site_status;
 		}
 	});
 

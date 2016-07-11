@@ -13,5 +13,6 @@ interface SiteStatusInterface
 	public function devForcedOpen();
 	public function checkIfAdminHasClosedStore();
 	public function checkDeliveryHours();
-	public function setStoreStatus(bool $online);
+	public function closeStore(bool $online);
+	public function get();
 }

@@ -19,27 +19,23 @@ class SiteStatusService extends BaseService
 	}
 
 	/**
-	 * if we are within delivery hours, then the admin can update. otherwise they cannot
-	 * @return bool
+	 * @return mixed
 	 */
-	public function adminCanUpdate() {
-		return $this->repo->checkDeliveryHours();
+	public function get() {
+		return $this->repo->get();
 	}
 
 	/**
 	 * @param array $data
 	 * @return mixed
 	 */
-	public function setStatus(array $data) {
-		if (!$this->adminCanUpdate()) {
-			return;
-		}
-		return $this->repo->setStoreStatus($data['online']);
+	public function setForceOffline(array $data) {
+		return $this->repo->closeStore($data['admin_force_offline']);
 	}
 
 	/**
-	 * determines whether or not the store is open for orders.
-	 * Admin CANNOT force the online store to be open if there are no open vendors (to do)
+	 * determines whether or not the store is open for orders. Admin CANNOT
+	 * force the online store to be open if there are no open vendors
 	 * @return bool
 	 */
 	public function isOpenNow() {

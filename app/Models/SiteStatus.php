@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\SiteStatus
  *
  * @property integer $id
- * @property boolean $online
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SiteStatus whereId($value)
@@ -22,6 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SiteStatus whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\SiteStatus whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property boolean $admin_force_offline
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\SiteStatus whereAdminForceOffline($value)
  */
 class SiteStatus extends Model
 {

@@ -31,6 +31,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereAlternateOpenTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereAlternateCloseTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereClosed($value)
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OverrideVendorStoreHours whereDeletedAt($value)
  */
 class OverrideVendorStoreHours extends Model
 {
