@@ -20,7 +20,8 @@ class ConfigController extends Controller
 	 */
 	public function getConfig(Request $request, SiteStatusService $service) {
 		$blastMessage = ''; // default is in front end right now.
-		$isClosed = !$service->isOpenNow();
+		$isClosed = !$service->isOpenNow($request->input());
+
 		if ($isClosed) {
 			$blastMessage = $service->reasonForStoreClosure();
 		}

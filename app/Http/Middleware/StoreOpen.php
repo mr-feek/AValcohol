@@ -21,7 +21,7 @@ class StoreOpen
     {
 	    $service = new SiteStatusService(app()->make('App\Http\Repositories\Interfaces\SiteStatusInterface'));
 
-		if (!$service->isOpenNow()) {
+		if (!$service->isOpenNow($request->input())) {
 			throw new APIException($service->reasonForStoreClosure());
 		}
 		

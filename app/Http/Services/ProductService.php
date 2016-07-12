@@ -37,13 +37,15 @@ class ProductService extends BaseService
 	/**
 	 * returns all products that are in stock at vendors for the given address
 	 *
-	 * TO DO: Filter to not have duplicate products from different vendors
+	 * TODO: Filter to not have duplicate products from different vendors
 	 * @param $address array with id
-	 * @return $products
+	 * 
+	 * @return array $products
 	 *
 	 */
 	public function getAllProductsForAddress($address) {
-		$vendors = $this->vendorService->getVendorsForAddress($address);
+		$vendors = $this->vendorService->getOpenVendorsForAddress($address);
+		//$vendors = $this->vendorService->getVendorsForAddress($address);
 
 		$products = [];
 		foreach($vendors as $vendor) {

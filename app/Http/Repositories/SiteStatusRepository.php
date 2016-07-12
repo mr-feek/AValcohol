@@ -15,8 +15,6 @@ use DateTime;
 class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 {
 	public $closedMessage = '';
-	public $openTime = "18:00"; // 6 pm
-	public $closeTime = "01:59"; // 2 am
 
 	public function __construct()
 	{
@@ -57,17 +55,29 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	 * @return bool
 	 */
 	public function checkIfAdminHasClosedStore() {
-		if (!$this->model->online) {
+		if ($this->model->admin_force_offline) {
 			$this->closedMessage = 'Due to unforeseen circumstances our store has been temporarily closed. Please check back soon.';
 			return true;
 		}
 		return false;
 	}
 
+	/*
+	|--------------------------------------------------------------------------
+	| DEPRECATED
+	|--------------------------------------------------------------------------
+	|
+	| no longer uses hard coded hours of 8 - 2AM or whatever. now each store has its own
+	| delivery hours which we will use to determine if the store is currently open.
+	|
+	*
+	public $openTime = "18:00"; // 6 pm
+	public $closeTime = "01:59"; // 2 am
+	 *
 	/**
 	 * checks against the default delivery hours if the store is open. returns true if store is open.
 	 * @return bool
-	 */
+	 *
 	public function checkDeliveryHours() {
 		$currentTime = date('G:i');
 		$open = $this->isOpenAt($currentTime);
@@ -80,7 +90,7 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	/**
 	 * @param $time formatted date('h:i');
 	 * @return bool
-	 */
+	 *
 	public function isOpenAt($time) {
 		return $this->isBetween($this->openTime, $this->closeTime, $time);
 	}
@@ -91,7 +101,7 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 	 * @param $till
 	 * @param $input
 	 * @return bool
-	 */
+	 *
 	private function isBetween($from, $till, $input) {
 		$f = DateTime::createFromFormat('!H:i', $from);
 		$t = DateTime::createFromFormat('!H:i', $till);
@@ -99,4 +109,5 @@ class SiteStatusRepository extends BaseRepository implements SiteStatusInterface
 		if ($f > $t) $t->modify('+1 day');
 		return ($f <= $i && $i <= $t) || ($f <= $i->modify('+1 day') && $i <= $t);
 	}
+	 * */
 }

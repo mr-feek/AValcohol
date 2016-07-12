@@ -5,15 +5,22 @@ namespace App\Http\Services;
 use App\Http\Repositories\Interfaces\UserAddressInterface;
 use App\Http\Repositories\Interfaces\UserInterface;
 use App\Http\Repositories\Interfaces\VendorInterface;
+use App\Models\DeliveryZone;
 
 class VendorService extends BaseService
 {
 	protected $userService;
 
-	public function __construct(VendorInterface $vendorRepo, UserService $userService)
+	/**
+	 * @var VendorHoursService
+	 */
+	private $vendorHoursService;
+
+	public function __construct(VendorInterface $vendorRepo, UserService $userService, VendorHoursService $vendorHoursService)
 	{
 		$this->repo = $vendorRepo;
 		$this->userService = $userService;
+		$this->vendorHoursService = $vendorHoursService;
 	}
 
 	public function create($data) {
@@ -22,8 +29,16 @@ class VendorService extends BaseService
 		return $vendor;
 	}
 
+	public function getOpenVendorsForAddress($address) {
+		$deliveryZoneId = $address['delivery_zone_id'];
+		$deliveryZone = DeliveryZone::find($deliveryZoneId);
+		
+		return $this->vendorHoursService->getOpenVendorsForDeliveryZone($deliveryZone);
+	}
+
 	/**
-	 * returns all vendors for the given delivery zone id
+	 * returns _ALL_ (including closed) vendors for the given delivery zone id, so this probably shouldn't be used.
+	 * Instead prefer getOpenVendorsForAddress as it filters for only vendors that are currently open.
 	 * @param $address array
 	 * @return array
 	 */

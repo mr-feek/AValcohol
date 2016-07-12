@@ -49,12 +49,12 @@ class VendorsTableSeeder extends \Illuminate\Database\Seeder
 			}
 
 			// create some hours entries
-			for ($i = 0; $i < 5; $i++) {
+			for ($i = 0; $i < 7; $i++) {
 				$vendor->hours()->save(factory(\App\Models\VendorStoreHours::class)->make());
 			}
 
 			// create some override hours entries
-			for ($i = 0; $i < 3; $i++) {
+			for ($i = 0; $i < 5; $i++) {
 				$vendor->overrideHours()->save(factory(\App\Models\OverrideVendorStoreHours::class)->make());
 			}
 

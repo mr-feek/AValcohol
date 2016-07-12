@@ -9,13 +9,20 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\SiteStatusInterface;
+use App\Models\DeliveryZone;
 
 class SiteStatusService extends BaseService
 {
 
-	public function __construct(SiteStatusInterface $repo)
+	/**
+	 * @var VendorHoursService
+	 */
+	private $vendorHoursService;
+
+	public function __construct(SiteStatusInterface $repo, VendorHoursService $vendorHoursService)
 	{
 		$this->repo = $repo;
+		$this->vendorHoursService = $vendorHoursService;
 	}
 
 	/**
@@ -34,11 +41,13 @@ class SiteStatusService extends BaseService
 	}
 
 	/**
-	 * determines whether or not the store is open for orders. Admin CANNOT
-	 * force the online store to be open if there are no open vendors
+	 * determines whether or not the store is open for orders.
+	 * Admin CANNOT force the online store to be open.
+	 *
+	 * @param array $data
 	 * @return bool
 	 */
-	public function isOpenNow() {
+	public function isOpenNow(array $data) {
 		if ($this->repo->devForcedOpen()) {
 			return true;
 		}
@@ -47,7 +56,16 @@ class SiteStatusService extends BaseService
 			return false;
 		}
 
-		return $this->repo->checkDeliveryHours();
+		// I don't think this will ever actually be included? this method is called
+		// by store open before an address is collected on the front end.
+		
+		if (array_key_exists('location', $data)) {
+			$deliveryZone = DeliveryZone::find(1); //todo
+
+			return $this->vendorHoursService->areOpenVendorsInDeliveryZone($deliveryZone);
+		}
+
+		return true;
 	}
 
 	public function reasonForStoreClosure() {

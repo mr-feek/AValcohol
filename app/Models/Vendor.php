@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use App\Http\Traits\Filterable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
 
@@ -71,5 +72,21 @@ class Vendor extends Model
 
 	public function overrideHours() {
 		return $this->hasMany('App\Models\OverrideVendorStoreHours');
+	}
+
+	/**
+	 * for now this does not factor in any overrides that may be set!
+	 *
+	 * @param Builder $query
+	 * @return Builder|static
+	 */
+	public function scopeIsOpen(Builder $query) {
+		return $query->whereHas('hours', function($query) {
+			$query->where([
+				['day_of_week', 'DAYOFWEEK(NOW())'], // filter for today
+				['open_time', '<', 'NOW()'], // opened before now
+				['close_time', '>', 'NOW()'] // closes after now
+			]);
+		});
 	}
 }
