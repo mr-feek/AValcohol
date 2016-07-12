@@ -115,12 +115,34 @@ define([
 						cell: Backgrid.IntegerCell
 					},
 					{
-						label: '',
+						name: 'store_status',
+						label: 'Status',
+						editable: false,
+						sortable: false,
+						cell: Backgrid.StringCell
+					},
+					{
+						label: 'Hours',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
-								this.$el.html('<a class="login-as-vendor button" data-id="' + this.model.id + '">Login</a>');
+								this.$el.html('' +
+									'<small><a class="manage-hours" data-id="' + this.model.id + '">Manage Hours</a></small>'
+								);
+								return this;
+							}
+						})
+					},
+					{
+						label: 'Login',
+						editable: false,
+						sortable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html('' +
+									'<a class="login-as-vendor button tiny" data-id="' + this.model.id + '">Login</a>'
+								);
 								return this;
 							}
 						})

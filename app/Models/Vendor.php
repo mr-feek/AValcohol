@@ -50,6 +50,8 @@ class Vendor extends Model
 
 	protected $fillable = ['name', 'address', 'phone_number', 'delivery_zone_id'];
 
+	protected $appends = ['store_status'];
+
 	public function user() {
 		return $this->belongsTo('App\Models\User');
 	}
@@ -74,6 +76,15 @@ class Vendor extends Model
 		return $this->hasMany('App\Models\OverrideVendorStoreHours');
 	}
 
+	/*
+	|--------------------------------------------------------------------------
+	| Scopes
+	|--------------------------------------------------------------------------
+	|
+	| scopey scopey scopey
+	|
+	*/
+
 	/**
 	 * for now this does not factor in any overrides that may be set!
 	 *
@@ -88,5 +99,36 @@ class Vendor extends Model
 				['close_time', '>', 'NOW()'] // closes after now
 			]);
 		});
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| accessors
+	|--------------------------------------------------------------------------
+	|
+	| woo
+	|
+	*/
+	public function getStoreStatusAttribute() {
+		$open = $this->isStoreOpen();
+		return $open ? 'open' : 'closed';
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Utils
+	|--------------------------------------------------------------------------
+	|
+	|
+	|
+	*/
+
+	/**
+	 * @return bool whether or not this store is currently open
+	 */
+	private function isStoreOpen() {
+		$res = self::isOpen()->whereId($this->id)->get();
+
+		return $res->count() == 1;
 	}
 }
