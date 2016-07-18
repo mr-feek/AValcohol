@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'App',
-	//'stripe', offline mode
+	'stripe',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
@@ -13,7 +13,7 @@ define([
 ], function (
 	Mn,
 	App,
-	//Stripe,
+	Stripe,
 	AddressEntryView,
 	BillingInfoEntryView,
 	UserInfoEntryView,
@@ -64,12 +64,9 @@ define([
 			this.region = options.region;
 			Vent.on('order:submitted', this.showOrderSubmittedView.bind(this));
 
-			/*
-			offline mode
 			$.get('/api/stripe/key', function(response) {
 				Stripe.setPublishableKey(response.key);
 			}.bind(this));
-			*/
 
 			var viewsToShow = [
 				new UserInfoEntryView({	parent:	this }),

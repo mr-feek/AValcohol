@@ -19,7 +19,7 @@ require.config({
 		'text': 				basePath + 'requirejs-text/text',
 		'tpl': 					basePath + 'requirejs-tpl/tpl',
 		'async': 				basePath + 'requirejs-plugins/src/async',
-		//'stripe':				'https://js.stripe.com/v2/?noext',
+		'stripe':				'https://js.stripe.com/v2/?noext',
 		'moment':				basePath + 'moment/moment',
 		'pickaday':				basePath + 'pikaday/pikaday',
 		'behaviors':			basePath + 'UsefulMarionetteViewBehaviors',
