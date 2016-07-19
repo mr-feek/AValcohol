@@ -164,12 +164,23 @@ define([
 		 * one model instance
 		 * @param models
 		 * @param options
+		 * 			- removeAll : force removal of all quantities
+		 *
 		 */
 		remove: function(model, options) {
 			this.removeProductFromLocalStorage(model);
 
 			var quantity = model.get('quantity') - 1;
 			model.set('quantity', quantity);
+
+			if (options.removeAll) {
+				model.set('quantity', 0);
+
+				// remove the rest of the quantities from storage
+				for (var i = 0; i < quantity; i++) {
+					this.removeProductFromLocalStorage(model);
+				}
+			}
 
 			if (model.get('quantity') > 0) {
 				return;

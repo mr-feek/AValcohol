@@ -75,7 +75,7 @@ define([
 			this.model.set('inCart', false);
 
 			this.$el.fadeOut('fast', function() {
-				App.cart.remove(view.model);
+				App.cart.remove(view.model, { removeAll: true }); // remove all quantities
 			});
 		},
 
