@@ -39,8 +39,8 @@ define([
 				user: App.user,
 				address: App.user.get('address'),
 				card: App.user.get('card'),
-				products: App.cart,
-				number: this.collection.length,
+				products: this.collection,
+				number: this.collection.getNumberOfItemsInCart(),
 				subtotal: this.collection.calculateSubtotal
 			}
 		},

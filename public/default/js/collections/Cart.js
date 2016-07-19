@@ -211,6 +211,16 @@ define([
 		calculateTotal: function() {
 			var total = Number(this.calculateSubtotal()) + Number(this.calculateTax()) + Number(this.calculateDeliveryFee());
 			return Number(total).toFixed(2);
+		},
+
+		getNumberOfItemsInCart() {
+			var total = 0;
+			
+			_.each(this.models, function(product) {
+				total += product.get('quantity');
+			});
+
+			return total;
 		}
 	});
 

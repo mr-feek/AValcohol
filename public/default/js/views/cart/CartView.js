@@ -21,7 +21,7 @@ define([
 
 		templateHelpers: function() {
 			return {
-				number: App.cart.models.length,
+				number: App.cart.getNumberOfItemsInCart(),
 				subtotal: App.cart.calculateSubtotal,
 				tax: App.cart.calculateTax,
 				deliveryFee: App.cart.calculateDeliveryFee,

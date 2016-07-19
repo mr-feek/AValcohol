@@ -47,7 +47,7 @@ define([
 					return app.user.get('address').getDisplayableAddress();
 				},
 				numProducts: function() {
-					return app.cart.length;
+					return app.cart.getNumberOfItemsInCart();
 				},
 				blastMessage: app.config.get('blastMessage')
 			}
@@ -59,6 +59,7 @@ define([
 		 */
 		initialize: function (options) {
 			app.cart.on('update', this.updateNumProducts, this);
+			app.cart.on('change:quantity', this.updateNumProducts, this);
 		},
 
 		onBeforeShow: function() {
@@ -107,7 +108,7 @@ define([
 
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
-			$(this.ui.cart).find('i').html(app.cart.length);
+			$(this.ui.cart).find('i').html(app.cart.getNumberOfItemsInCart());
 		},
 
 		/**
