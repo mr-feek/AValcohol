@@ -12,7 +12,7 @@ define([
 		},
 
 		defaults: {
-			quantity: 1, // for use in cart,
+			quantity: 0, // for use in cart,
 			inCart: false // if this product is in the cart or not
 		},
 

@@ -146,15 +146,10 @@ define([
 		 * 		- doNotPersistLocally to not persist this model into the local storage
 		 */
 		add: function(models, options) {
-			var origLength = this.length;
 			var model = Backbone.Collection.prototype.add.call(this, models, options);
-			var newLength = this.length;
 
-			if (origLength == newLength) {
-				// it was a dupe
-				var quantity = model.get('quantity') + 1;
-				model.set('quantity', quantity);
-			}
+			var quantity = model.get('quantity') + 1;
+			model.set('quantity', quantity);
 
 			if (!options.doNotPersistLocally) {
 				this.addProductToLocalStorage(model);
@@ -173,14 +168,15 @@ define([
 		remove: function(model, options) {
 			this.removeProductFromLocalStorage(model);
 
-			if (model.get('quantity') > 1) {
-				var quantity = model.get('quantity') - 1;
-				model.set('quantity', quantity);
+			var quantity = model.get('quantity') - 1;
+			model.set('quantity', quantity);
+
+			if (model.get('quantity') > 0) {
 				return;
 			}
 
 			model.set('inCart', false);
-			
+
 			Backbone.Collection.prototype.remove.call(this, model, options);
 		},
 
