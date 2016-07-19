@@ -7,6 +7,7 @@ define([
 	'views/checkout/UserInfoEntryView',
 	'views/checkout/OrderReviewView',
 	'views/checkout/OrderSubmittedView',
+	'views/user-home/UserHomeView',
 	'shared/js/util/Vent',
 	'behaviors/StateManager',
 	'tpl!templates/checkout/checkout.html'
@@ -19,6 +20,7 @@ define([
 	UserInfoEntryView,
 	OrderReviewView,
 	OrderSubmittedView,
+	UserHomeView,
 	Vent,
 	StateManager,
 	tpl
@@ -42,13 +44,15 @@ define([
 
 		events: {
 			'click @ui.statuses' 			: '_goToView', // allow to click back to active view
+			'click @ui.continueShopping'	: 'continueShopping'
 		},
 
 		ui: {
 			'statusArea' 		: '.status-area',
 			'statuses' 			: '.status',
 			'savedView' 		: '.submitted', // all views that have already been saved
-			'active' 			: '.active'
+			'active' 			: '.active',
+			'continueShopping'	: '.continue-shopping'
 		},
 
 		regions: {
@@ -119,6 +123,10 @@ define([
 		 */
 		showOrderSubmittedView: function(order) {
 			this.region.show(new OrderSubmittedView({ model: order }));
+		},
+
+		continueShopping: function() {
+			this.region.show(new UserHomeView());
 		},
 
 		/**
