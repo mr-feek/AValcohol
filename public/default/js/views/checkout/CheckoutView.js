@@ -41,8 +41,7 @@ define([
 		},
 
 		events: {
-			'click @ui.savedView' : '_goToView',
-			'click @ui.active' : '_goToView' // allow to click back to active view
+			'click @ui.statuses' : '_goToView', // allow to click back to active view
 		},
 
 		ui: {
@@ -105,8 +104,13 @@ define([
 		 * @private
 		 */
 		_removeActiveClass: function(currentIndex) {
-			var $status = $(this.ui.statuses[currentIndex]);
-			$status.removeClass('active');
+			if (currentIndex) {
+				var $status = $(this.ui.statuses[currentIndex]);
+				$status.removeClass('active');
+				return;
+			}
+
+			this.ui.statuses.removeClass('active');
 		},
 
 		/**
@@ -123,6 +127,10 @@ define([
 		 * @private
 		 */
 		_goToView: function(evt) {
+			if ($(evt.currentTarget).hasClass('disabled')) {
+				return;
+			}
+
 			this._removeActiveClass();
 			var indexToShow = null;
 
@@ -134,6 +142,8 @@ define([
 
 			// call behavior
 			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
 		}
 	});
 
