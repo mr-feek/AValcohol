@@ -101,8 +101,8 @@ define([
 					index = 2;
 					break;
 			}
-
-			this.parent.goToIndex(index);
+		
+			this.parent.goToViewBasedOnIndex(index);
 		},
 
 		/**

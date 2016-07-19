@@ -144,6 +144,14 @@ define([
 			this.triggerMethod('goToIndex', indexToShow);
 
 			this.beforeShowNext(indexToShow); // hack to update new active class
+		},
+
+		goToViewBasedOnIndex(indexToShow) {
+			this._removeActiveClass();
+			// call behavior
+			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
 		}
 	});
 
