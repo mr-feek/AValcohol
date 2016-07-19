@@ -24,9 +24,9 @@ define([
 			return response.address;
 		},
 
-		initialize: function(options) {
+		initialize: function(attributes, options) {
 			_.bindAll(this, 'getDeliveryZone');
-
+			
 			// flag for if this address should be stored / load from storage. IE this should only be used for the local user, not for loading addresses in orders
 			if (options.useStorage) {
 				this.loadFromStorage();

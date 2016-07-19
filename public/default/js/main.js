@@ -115,7 +115,13 @@ require([
 		app.rootView = new RootView();
 
 		app.cart = new Cart();
-		app.user = User.findOrCreate({});
+
+		var options = {
+			useStorage: true // save / load address from storage
+		}
+		
+		app.user = User.findOrCreate({}, options);
+
 		app.rootView.render();
 
 		var controller = new Controller({
