@@ -41,14 +41,14 @@ define([
 		},
 
 		events: {
-			'click @ui.statuses' : '_goToView', // allow to click back to active view
+			'click @ui.statuses' 			: '_goToView', // allow to click back to active view
 		},
 
 		ui: {
-			'statusArea' : '.status-area',
-			'statuses' : '.status',
-			'savedView' : '.submitted', // all views that have already been saved
-			'active' : '.active'
+			'statusArea' 		: '.status-area',
+			'statuses' 			: '.status',
+			'savedView' 		: '.submitted', // all views that have already been saved
+			'active' 			: '.active'
 		},
 
 		regions: {
