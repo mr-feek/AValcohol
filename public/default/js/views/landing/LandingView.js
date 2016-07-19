@@ -6,7 +6,7 @@ define([
 	'behaviors/ModelValidation',
 	'behaviors/LoadingIndicator',
 	'tpl!templates/landing/landing.html',
-	'async!https://maps.googleapis.com/maps/api/js?libraries=places'
+	'async!https://maps.googleapis.com/maps/api/js?key=AIzaSyBcB7pNSUkuNH6awEIE57njndRXQpQBsEI&libraries=places'
 ], function (
 	Mn,
 	app,
