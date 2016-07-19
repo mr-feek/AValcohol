@@ -59,8 +59,8 @@ define([
 				},
 
 				dob: function() {
-					if (!view.model) {	return;	}
-					var val = view.model.get('dob');
+					if (!view.model || !view.model.get('profile')) {	return;	}
+					var val = view.model.get('profile').getDateOfBirth();
 					return val ? val : ''
 				}
 			}
@@ -86,7 +86,8 @@ define([
 			var picker = new Pickaday({
 				field: this.ui.dob[0],
 				defaultDate: min,
-				maxDate: min
+				maxDate: min,
+				yearRange: 80 // assume people older than 100 wont use our service
 			});
 		}
 	});

@@ -71,16 +71,19 @@ define([
 		 * attempts to log in
 		 */
 		login: function(data) {
+			this.trigger('request');
 			$.post('/api/auth/login',
 				{
 					email: data.email,
 					password: data.password
 				},
 				function(result) {
+					this.trigger('sync');
 					this.onLoginSuccess(result.token);
 				}.bind(this)
 			).fail(function(result) {
 				// TODO
+				this.trigger('sync');
 				alert('incorrect login credentials');
 			}.bind(this));
 		},

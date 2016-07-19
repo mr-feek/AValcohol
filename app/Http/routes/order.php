@@ -7,7 +7,7 @@
  */
 
 $app->group(['prefix' => 'order', 'namespace' => 'App\Http\Controllers'], function($app) {
-	$app->post('', ['middleware' => 'delivery-hours', 'uses' => 'OrderController@createOrder']);
-	// admin or vendor
+	$app->post('', ['middleware' => 'store-open', 'uses' => 'OrderController@createOrder']);
+	// admin or vendor so jwt-auth will work for mvp launch
 	$app->patch('{order}/status', ['middleware' => 'jwt-auth', 'uses' => 'OrderStatusController@updateOrderStatus']);
 });

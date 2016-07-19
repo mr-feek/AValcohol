@@ -17,7 +17,7 @@ class VendorService extends BaseService
 	}
 
 	public function create($data) {
-		$user = $this->userService->create($data, false);
+		$user = $this->userService->create($data, false, false);
 		$vendor = $this->repo->create($user, $data);
 		return $vendor;
 	}

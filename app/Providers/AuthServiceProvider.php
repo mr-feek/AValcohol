@@ -3,14 +3,17 @@
 namespace App\Providers;
 
 use App\Models\Order;
+use App\Models\Vendor;
 use App\Policies\OrderPolicy;
+use App\Policies\VendorPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
 	protected $policies = [
-		Order::class => OrderPolicy::class
+		Order::class    => OrderPolicy::class,
+		Vendor::class   => VendorPolicy::class
 	];
 
 	/**

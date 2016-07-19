@@ -7,7 +7,7 @@ define([
 	'shared/js/util/Vent',
 	'collections/Orders',
 	'views/OrderOutForDeliveryView',
-	'behaviors/CollectionLoading'
+	'behaviors/LoadingIndicator'
 ], function (
 	Mn,
 	BackbonePoller,
@@ -33,7 +33,8 @@ define([
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: 'out'	});
-
+			this.triggerMethod('setListener', this.collection);
+			
 			var options = {
 				delay: 30000 // 30 seconds
 			};

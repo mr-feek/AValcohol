@@ -65,7 +65,8 @@ define([
 			user: null,
 			stripe_token: null,
 			note: null,
-			delivery_details: null
+			delivery_details: null,
+			terms_and_conditions: null
 		},
 
 		initialize: function () {

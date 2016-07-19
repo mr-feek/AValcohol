@@ -3,14 +3,16 @@
  */
 define([
 	'marionette',
-	'views/LoginView',
+	'shared/admin-retailer/js/views/LoginView',
 	'views/HeaderView',
+	'views/SidebarView',
 	'views/VendorHomeRootView',
 	'App'
 ], function (
 	Marionette,
 	LoginView,
 	HeaderView,
+	SidebarView,
 	VendorHomeRootView,
 	app
 ) {
@@ -20,13 +22,24 @@ define([
 		},
 
 		showLogin: function() {
-			this.rootView.getRegion('main').show(new LoginView({	model: app.vendor }));
+			this.rootView.getRegion('main').show(new LoginView({
+				model: app.vendor,
+				loginSuccessCallback: function(response) {
+					if (response.vendor) {
+						app.router.navigate('retailer/dashboard', {trigger: true});
+					} else {
+						alert('It seems as if you are not a vendor. If this is a mistake please contact us.');
+					}
+				}
+			}));
 		},
 
 		showDashboard: function() {
 			if (this.authorize()) {
 				this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
 				this.rootView.getRegion('main').show(new VendorHomeRootView());
+				this.rootView.getRegion('offCanvas').show(new SidebarView());
+				this.rootView.getRegion('sidebar').show(new SidebarView());
 			}
 		},
 
@@ -40,6 +53,11 @@ define([
 				return false;
 			}
 			return true;
+		},
+
+		updateSidebars: function(action, name) {
+			this.rootView.getRegion('sidebar').currentView.trigger(action, name);
+			this.rootView.getRegion('offCanvas').currentView.trigger(action, name);
 		}
 	});
 

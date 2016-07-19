@@ -12,7 +12,7 @@ define([
 	var view = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'sidebar',
 
 		templateHelpers: function() {
 			var view = this;

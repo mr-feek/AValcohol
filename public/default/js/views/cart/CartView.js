@@ -80,7 +80,7 @@ define([
 			if (this.ui.checkout.hasClass('disabled')) {
 				return;
 			}
-			App.rootView.closeOffCanvas(true); // clean up this view
+			App.rootView.trigger('closeOffCanvas', true); // clean up this view
 			App.router.navigate('checkout', {trigger: true});
 		},
 
@@ -89,7 +89,7 @@ define([
 		 * @param e
 		 */
 		hideCart: function(e) {
-			App.rootView.closeOffCanvas(false); // don't clean up this view, just hide it
+			App.rootView.trigger('closeOffCanvas', false); // don't clean up this view, just hide it
 		}
 	});
 

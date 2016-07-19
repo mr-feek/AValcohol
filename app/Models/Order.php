@@ -44,6 +44,8 @@ use Sofa\Eloquence\Eloquence;
  * @property float $tax_charge_amount
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTaxChargeAmount($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order filter($filters)
+ * @property boolean $terms_and_conditions
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTermsAndConditions($value)
  */
 class Order extends Model
 {
@@ -62,6 +64,10 @@ class Order extends Model
 
 	public function user() {
 		return $this->belongsTo('App\Models\User');
+	}
+
+	public function vendor() {
+		return $this->belongsTo('App\Models\Vendor');
 	}
 
 	public function address() {

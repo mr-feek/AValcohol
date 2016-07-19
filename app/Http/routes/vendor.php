@@ -6,7 +6,41 @@
  * Time: 12:14 PM
  */
 
-// todo: vendor middleware asserting user is vendor before doing request. this should happen before production? maybe? idk might be good
-$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+/*
+|--------------------------------------------------------------------------
+| public routes
+|--------------------------------------------------------------------------
+|
+| don't require vendor auth
+|
+*/
+
+$app->group(['prefix' => 'vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('{vendorId}/product/{productId}', 'VendorController@getProduct');
+});
+
+/*
+|--------------------------------------------------------------------------
+| vendor protected routes
+|--------------------------------------------------------------------------
+|
+| require vendor auth
+|
+*/
+
+$app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:vendor', 'namespace' => 'App\Http\Controllers'], function($app) {
 	$app->get('', 'VendorController@get');
+});
+
+/*
+|--------------------------------------------------------------------------
+| admin protected routes
+|--------------------------------------------------------------------------
+|
+| require admin auth
+|
+*/
+
+$app->group(['prefix' => 'vendors', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('', 'VendorsController@get');
 });

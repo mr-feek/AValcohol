@@ -1,8 +1,8 @@
 @import '../../shared/sass/global';
 @import '../../shared/sass/components/doorbell';
 @import 'pages/login';
-@import 'pages/vendor-home';
-@import 'components/sidebar';
+@import '../../shared/admin-retailer/sass/components/sidebar';
+@import '../../shared/admin-retailer/sass/pages/root';
 @import 'components/header';
 @import 'components/footer';
 @import 'components/order';

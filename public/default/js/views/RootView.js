@@ -1,37 +1,51 @@
 define([
 	'marionette',
-	'views/landing/HeaderView',
-	'views/landing/MVPHomeView',
+	'views/HeaderView',
+	'shared/js/views/FooterView',
+	'views/landing/LandingView',
 	'shared/js/util/Vent',
-	'tpl!templates/root.html'
+	'tpl!templates/root.html',
+	'behaviors/FoundationOffCanvas'
 ], function (
 	Mn,
 	HeaderView,
-	MVPHomeView,
+	FooterView,
+	LandingView,
 	Vent,
-	tpl
+	tpl,
+	FoundationOffCanvas
 ) {
 	var RootView = Mn.LayoutView.extend({
 		template: tpl,
 		el: '#mount-point',
-		$offCanvasWrap: null,
+
+		behaviors: {
+			FoundationOffCanvas: {
+				behaviorClass: FoundationOffCanvas,
+				canvasOptions: {
+					position: 'right'
+				}
+			}
+		},
 
 		events: {},
 
 		childEvents: {
 			// every time a view is shown inside a region we need to make sure foundation listeners are applied
+			//todo: do we need this to happen or should we not be lazy and only call these when necessary? depends how expensive this ends up being
 			show: function() {
-				$(document).foundation();
-				$(document).foundation('offcanvas', 'reflow');
-				$(document).foundation('alert', 'reflow');
+				//$(document).foundation(); // move to mainjs app start? probably
+				//Foundation.reInit('offcanvas');
+				//Foundation.reInit('alert');
 			}
 		},
 
 		regions: {
-			header: 'header',
-			main: '#main',
-			rightOffCanvas: '.right-off-canvas-menu',
-			modalRegion: '.modal-mount-point'
+			header		: 'header',
+			main		: '#main',
+			offCanvas	: '.off-canvas',
+			modalRegion	: '.modal-mount-point',
+			footer		: 'footer'
 		},
 
 		ui: {
@@ -39,45 +53,17 @@ define([
 		},
 
 		initialize: function (options) {
-			Vent.on('root:scrollTo', this.scrollTo);
 			Vent.on('modal:close', this.closeModal, this);
 		},
 
 		onRender: function () {
 			this.getRegion('header').show(new HeaderView());
 			// main region is populated by the router
-		},
-
-		/**
-		 * closes the off canvas
-		 * @param bool cleanup, whether or not to empty the off canvas region
-		 */
-		closeOffCanvas: function(cleanup) {
-			var view = this;
-
-			if (!this.$offCanvasWrap) {
-				this.$offCanvasWrap = $('.off-canvas-wrap')
-			}
-
-			this.$offCanvasWrap.foundation('offcanvas', 'hide', 'move-left');
-
-			if (cleanup) {
-				// race condition for one second.
-				setTimeout(function() {
-					view.getRegion('rightOffCanvas').empty();
-				}, 1000);
-			}
+			this.getRegion('footer').show(new FooterView());
 		},
 
 		closeModal: function() {
 			this.getRegion('modalRegion').empty();
-		},
-
-		openOffCanvas: function() {
-			if (!this.$offCanvasWrap) {
-				this.$offCanvasWrap = $('.off-canvas-wrap')
-			}
-			this.$offCanvasWrap.foundation('offcanvas', 'show', 'move-left');
 		}
 	});
 

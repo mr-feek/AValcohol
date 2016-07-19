@@ -43,7 +43,7 @@ define([
 
 		onShow: function() {
 			$(document).foundation();
-			$(document).foundation('tooltip', 'reflow');
+			Foundation.reInit('tooltip');
 		}
 	});
 

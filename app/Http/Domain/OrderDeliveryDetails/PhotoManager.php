@@ -35,7 +35,7 @@ class PhotoManager implements PhotoManagerInterface
 			$this->photoBaseDir = 'testing/customer_photos/';
 		}
 
-		if ($env === 'local') {
+		if ($env === 'local' || (env('OFFLINE_MODE') === true)) {
 			$this->disk = Storage::disk('local');
 		}
 	}

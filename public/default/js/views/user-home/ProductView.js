@@ -13,8 +13,7 @@ define([
 	var ProductView = Mn.ItemView.extend({
 		template: tpl,
 		tagName: 'li',
-		className: 'product',
-
+		className: 'product column',
 		attributes: {
 			'data-equalizer-watch' : ''
 		},
@@ -58,7 +57,8 @@ define([
 		initialize: function (options) {
 		},
 
-		addToCart: function() {
+		addToCart: function(e) {
+			e.preventDefault();
 			if (app.config.get('isClosed')) {
 				return;
 			}
@@ -73,7 +73,7 @@ define([
 				app.cart.push(this.model);
 			}.bind(this), 300);
 
-			app.rootView.getRegion('main').currentView.openCart();
+			app.rootView.getRegion('main').currentView.openCart(e);
 		},
 
 		/**
@@ -91,7 +91,7 @@ define([
 				this.ui.addToCart.html(
 					'<span data-tooltip title="Sorry, our store is currently closed.">Add To Cart</span>'
 				);
-				$(document).foundation('tooltip', 'reflow');
+				Foundation.reInit('tooltip');
 			}
 		}
 	});

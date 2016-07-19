@@ -1,8 +1,12 @@
 <?php
 
+$app->group(['prefix' => 'site/status', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
+	$app->get('', 'SiteStatusController@get');
+	$app->post('', 'SiteStatusController@save');
+});
+
 $app->get('/config', 'ConfigController@getConfig');
 
-// To Do: ADMIN AUTH
 $app->get('/environment', function() use ($app) {
 	return $app->environment();
 });

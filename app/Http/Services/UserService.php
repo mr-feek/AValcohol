@@ -37,13 +37,14 @@ class UserService extends BaseService
 	 * @param bool $withUserProfile
 	 * @return mixed
 	 */
-	public function create($data, $withUserProfile = true) {
+	public function create($data, $withUserProfile = true, $addToMailchimp = true) {
 		$user = $this->repo->create($data);
+		
 		if ($withUserProfile) {
 			$user = $this->repo->attachProfile($user, $data);
 		}
 
-		if (env('environment') === 'production') {
+		if ($addToMailchimp) {
 			$this->repo->addToMailChimp($user);
 		}
 

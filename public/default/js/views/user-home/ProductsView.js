@@ -2,9 +2,9 @@ define([
 	'marionette',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
-	'views/user-home/NoFeaturedProductsView',
+	'views/user-home/NoProductsView',
 	'collections/Products',
-	'behaviors/CollectionLoading',
+	'behaviors/LoadingIndicator',
 	'App'
 ], function (
 	Mn,
@@ -18,13 +18,13 @@ define([
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
 		tagName: 'ul',
-		className: 'row small-block-grid-1 medium-block-grid-3 large-block-grid-4',
+		className: 'row small-up-1 medium-up-3 large-up-4',
 		emptyView: EmptyView,
-
 		attributes: {
-			'data-equalizer' : '',
-			'data-options' : 'equalize_on_stack: true'
+			'data-equalizer' 		: '',
+			'data-equalize-by-row'	: 'true'
 		},
+		equalizerInitialized: false,
 
 		events: {},
 
@@ -43,7 +43,7 @@ define([
 		initialize: function (options) {
 			this.collection = new Products();
 			// pass the collection to the loading indicator
-			this.triggerMethod("setCollection", this.collection);
+			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
 			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
 
@@ -51,16 +51,18 @@ define([
 			// for some reason onAddChild doesn't seem to be called after re-rendering
 		},
 
-		onShow: function() {
-			$(document).foundation({
-				equalizer: {
-					equalize_on_stack: true
-				}
-			});
+		reflowEqualizer: function() {
+			//Foundation.reInit('equalizer');
+			Foundation.reInit(this.$el);
 		},
 
-		reflowEqualizer: function() {
-			$(document).foundation('equalizer', 'reflow');
+		onRender: function() {
+			if (this.equalizerInitialized) {
+				return;
+			}
+
+			var elem = new Foundation.Equalizer(this.$el);
+			this.equalizerInitialized = true;
 		},
 
 		/**

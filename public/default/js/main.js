@@ -7,10 +7,14 @@ require.config({
 		'backbone.wreqr': 		basePath + 'backbone.wreqr/lib/backbone.wreqr.min',
 		'backboneRelational':	basePath + 'backbone-relational/backbone-relational',
 		'marionette': 			basePath + 'marionette/lib/backbone.marionette',
-		'foundation' : 			basePath + 'foundation/js/foundation',
-		'foundationEqualizer' : basePath + 'foundation/js/foundation/foundation.equalizer',
-		'foundationOffCanvas': 	basePath + 'foundation/js/foundation/foundation.offcanvas',
-		'foundationTooltip':	basePath + 'foundation/js/foundation/foundation.tooltip',
+		'foundation' : 			basePath + 'foundation-sites/js/foundation.core',
+		'foundationMediaQuery':	basePath + 'foundation-sites/js/foundation.util.mediaQuery',
+		'foundationEqualizer' : basePath + 'foundation-sites/js/foundation.equalizer',
+		'foundationOffCanvas': 	basePath + 'foundation-sites/js/foundation.offcanvas',
+		'foundationTooltip':	basePath + 'foundation-sites/js/foundation.tooltip',
+		'foundationTriggers':	basePath + 'foundation-sites/js/foundation.util.triggers',
+		'foundationMotion':		basePath + 'foundation-sites/js/foundation.util.motion',
+		'foundationTimerAndImageLoader': basePath + 'foundation-sites/js/foundation.util.timerAndImageLoader',
 		'modernizr' : 			basePath + 'modernizr/modernizr',
 		'text': 				basePath + 'requirejs-text/text',
 		'tpl': 					basePath + 'requirejs-tpl/tpl',
@@ -42,12 +46,27 @@ require.config({
 			deps: ['jquery', 'modernizr'],
 			exports: 'Foundation'
 		},
-		foundationEqualizer: {
+		foundationMediaQuery: {
 			deps: ['foundation']
+		},
+		foundationMotion: {
+			deps: ['foundation']
+		},
+		foundationTriggers: {
+			deps: ['foundation']
+		},
+		foundationTimerAndImageLoader: {
+			deps: ['foundation']
+		},
+		foundationEqualizer: {
+			deps: ['foundationMediaQuery', 'foundationTimerAndImageLoader']
 		},
 		foundationOffCanvas: {
-			deps: ['foundation']
+			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
+		foundationTooltip: {
+			deps: ['foundationMediaQuery']
+		}
 	},
 	deps: ['jquery', 'underscore']
 });
@@ -75,6 +94,23 @@ require([
 ) {
 	$(document).foundation();
 
+	// add animatecss function to jquery
+	$.fn.extend({
+		animateCss: function (animationName, options) {
+			var options = options || {};
+			var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+			$(this).addClass('animated ' + animationName).one(animationEnd, function() {
+				if (options.removeAnimateClass) {
+					$(this).removeClass('animated ' + animationName);
+				}
+
+				if (options.callback) {
+					options.callback();
+				}
+			});
+		}
+	});
+
 	app.on('start', function() {
 		app.rootView = new RootView();
 
@@ -99,21 +135,6 @@ require([
 		Backbone.history.start({
 			pushState: true
 		});
-
-		// freeze scrolling of main content when offcanvas is open
-		$(document)
-			.on('open.fndtn.offcanvas', '[data-offcanvas]', function() {
-				$('#all-wrapper').css({
-					'overflow' : 'hidden',
-					'height' : '100vh'
-				});
-			})
-			.on('close.fndtn.offcanvas', '[data-offcanvas]', function() {
-				$('#all-wrapper').css({
-					'overflow' : 'initial',
-					'height' : 'initial'
-				});
-			})
 	}).error(function(response) {
 		if (response.status === 503) {
 			// api is down for maintenance

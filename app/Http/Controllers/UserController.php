@@ -34,7 +34,7 @@ class UserController extends Controller
 			'date_of_birth' => 'required|date|isTwentyOne',
 			//'password' => 'required'
 		]);
-
+		
 		$user = $service->create($request->input());
 
 		return response()->json([

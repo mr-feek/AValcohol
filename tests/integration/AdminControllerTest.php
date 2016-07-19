@@ -11,18 +11,11 @@ use Illuminate\Support\Facades\DB;
  */
 class AdminControllerTest extends TestCase
 {
-	protected $user;
-
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->user = User::whereHas('roles', function($query) {
-			$query->where('role_id', 1);
-		})->first();
-
-		$this->token = $this->utils->generateTokenForUser($this->user);
-		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+		$this->prepareRequestsWithAdminPrivileges();
 	}
 
 	public function testGetOrdersReadyToBePickedUp() {

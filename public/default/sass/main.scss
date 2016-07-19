@@ -1,10 +1,11 @@
 @import '../../shared/sass/global';
 @import 'pages/home';
-@import 'components/footer';
+@import '../../shared/sass/components/footer';
 @import 'pages/user-home';
 @import 'components/cart';
 @import 'components/product';
 @import 'components/loading';
+@import 'components/pikaday';
 @import '../../shared/sass/components/doorbell';
 @import 'pages/checkout';
 

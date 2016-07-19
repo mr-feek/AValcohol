@@ -82,6 +82,21 @@ class OrderControllerTest extends TestCase
 		]);
 	}
 
+	public function testCreateOrderFailsWithoutAcceptingTermsAndConditions() {
+		$this->withoutMiddleware();
+		$products = $this->getProductsToBuy();
+
+		$user = User::find(1);
+		$address = $this->getAddress();
+		$token = $this->createFakeToken();
+
+		$this->createOrder($products, $address, $user, $token, 'note here', false);
+
+		$this->seeJsonContains([
+			'terms_and_conditions' => ['The terms and conditions must be accepted.']
+		]);
+	}
+
 	public function testCreateOrderFailsWithInvalidProductID() {
 		$this->withoutMiddleware();
 		//$this->expectsEvents('connection.rollingBack');
@@ -208,7 +223,8 @@ class OrderControllerTest extends TestCase
 			'vendor_charge_amount' => $vendorAmount,
 			'tax_charge_amount' => $taxChargeAmount,
 			'user_id' => $response->order->user_id,
-			'user_address_id' => $response->order->user_address_id
+			'user_address_id' => $response->order->user_address_id,
+			'terms_and_conditions' => true
 		]);
 
 		// ensure default order statuses created
@@ -249,15 +265,17 @@ class OrderControllerTest extends TestCase
 	 * @param $user model
 	 * @param $token stripe token
 	 * @param null $note
+	 * @param bool $termsAccepted
 	 * @return mixed response content
 	 */
-	protected function createOrder($products, $address, $user, $token, $note = null) {
+	protected function createOrder($products, $address, $user, $token, $note = null, $termsAccepted = true) {
 		$data = [
 			'products' => $products->toArray(),
 			'address' => $address->toArray(),
 			'user' => $user->toArray(),
 			'stripe_token' => $token,
-			'note' => $note
+			'note' => $note,
+			'terms_and_conditions' => $termsAccepted
 		];
 
 		$this->post('/order', $data);

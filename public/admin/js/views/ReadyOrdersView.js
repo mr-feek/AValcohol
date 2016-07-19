@@ -6,7 +6,7 @@ define([
 	'backbone.poller',
 	'collections/Orders',
 	'views/ReadyOrderView',
-	'behaviors/CollectionLoading'
+	'behaviors/LoadingIndicator'
 ], function (
 	Mn,
 	BackbonePoller,
@@ -31,7 +31,8 @@ define([
 
 		initialize: function (options) {
 			this.collection = new Orders([], {	endpoint: 'ready'	});
-
+			this.triggerMethod('setListener', this.collection);
+			
 			var options = {
 				delay: 30000 // 30 seconds
 			};

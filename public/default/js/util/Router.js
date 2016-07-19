@@ -8,10 +8,11 @@ define([
 		},
 
 		appRoutes: {
-			'' : 'showHome',
-			'home' : 'showUserHome',
-			'home/:endpoint' : 'showUserHome',
-			'checkout' : 'showCheckout'
+			'' 				: 'showHome',
+			'home' 			: 'showUserHome',
+			'home/:endpoint': 'showUserHome',
+			'checkout' 		: 'showCheckout',
+			'terms' 		: 'showTermsAndConditions'
 		}
 	});
 

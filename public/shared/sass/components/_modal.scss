@@ -42,6 +42,7 @@ $contentPadding: 1rem;
 		background-color: white;
 		overflow-y: auto;
 		margin-top: 4rem; // moved to test
+		position: relative;
 
 		.header {
 			.title {

@@ -3,11 +3,9 @@
  */
 define([
 	'marionette',
-	'views/SidebarView',
 	'tpl!templates/vendor-home.html'
 ], function (
 	Mn,
-	SidebarView,
 	tpl
 ) {
 	var view = Mn.LayoutView.extend({
@@ -16,7 +14,6 @@ define([
 		className: '',
 
 		regions: {
-			sidebar: '#sidebar',
 			main : '#content'
 		},
 
@@ -24,7 +21,6 @@ define([
 		},
 
 		onRender: function() {
-			this.getRegion('sidebar').show(new SidebarView());
 			// main populated in controller
 		}
 	});

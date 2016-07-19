@@ -14,9 +14,7 @@ class AuthControllerTest extends TestCase
 	function setUp()
 	{
 		parent::setUp();
-
-		$this->token = $this->utils->generateTokenForUser(\App\Models\User::find(1));
-		$this->authHeader = ['Authorization' => 'Bearer ' . $this->token];
+		$this->prepareRequestsWithAdminPrivileges();
 
 		$faker = \Faker\Factory::create();
 		$data = [

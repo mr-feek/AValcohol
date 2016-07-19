@@ -1,0 +1,47 @@
+footer {
+	background-color: $dark-text-color;
+	padding: 2rem;
+	border-top: 1rem solid scale_color($dark-text-color, $lightness: 10%);
+
+	tbody {
+		background: transparent;
+		border: none;
+		width: 100%;
+
+		img {
+			height: 100px;
+			display: inline-block;
+		}
+
+		.company-tagline {
+			display: inline-block;
+			vertical-align: bottom;
+
+			h3 {
+				color: white;
+				font-size: rem-calc(16px);
+				line-height: 1;
+				margin-bottom: 2px;
+			}
+
+			p {
+				font-size: rem-calc(12px);
+				color: scale_color($dark-text-color, $lightness: 30%);
+			}
+		}
+
+		p {
+			color: white;
+		}
+		td {
+			vertical-align: baseline;
+		}
+		#right {
+			p {
+				font-size: rem-calc(14px);
+			}
+
+			text-align: right;
+		}
+	}
+}

@@ -11,8 +11,5 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\OrderWasSubmitted' => [
-            'App\Listeners\OrderWasSubmittedListener',
-        ],
     ];
 }

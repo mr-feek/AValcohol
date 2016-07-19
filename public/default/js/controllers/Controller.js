@@ -4,17 +4,19 @@
 
 define([
 	'marionette',
-	'views/landing/HeaderView',
-	'views/landing/MVPHomeView',
+	'views/HeaderView',
+	'views/landing/LandingView',
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',
+	'views/misc/TermsAndConditionsView',
 	'App'
 ], function (
 	Marionette,
 	HeaderView,
-	MVPHomeView,
+	LandingView,
 	UserHomeView,
 	CheckoutView,
+	TermsAndConditionsView,
 	app
 ) {
 	var Controller = Marionette.Object.extend({
@@ -28,7 +30,7 @@ define([
 
 		showHome: function() {
 			var region = this.rootView.getRegion('main');
-			region.show(new MVPHomeView());
+			region.show(new LandingView());
 		},
 
 		showUserHome: function(endpoint) {
@@ -54,6 +56,11 @@ define([
 			}
 			var region = this.rootView.getRegion('main');
 			region.show(new CheckoutView({	region: region }));
+		},
+
+		showTermsAndConditions: function() {
+			var region = this.rootView.getRegion('main');
+			region.show(new TermsAndConditionsView());
 		}
 	});
 
