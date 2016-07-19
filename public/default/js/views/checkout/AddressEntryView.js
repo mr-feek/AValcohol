@@ -57,9 +57,13 @@ define([
 			}
 		},
 
-		events: {},
+		events: {
+			'click @ui.back' : 'goBackOneViewInFlow'
+		},
 
-		ui: {},
+		ui: {
+			'back' : '.back'
+		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
@@ -71,6 +75,10 @@ define([
 
 		modelSaveSuccess: function(response) {
 			this.parent.trigger('show:next');
+		},
+
+		goBackOneViewInFlow: function() {
+			this.parent.goToViewBasedOnName('user');
 		}
 	});
 

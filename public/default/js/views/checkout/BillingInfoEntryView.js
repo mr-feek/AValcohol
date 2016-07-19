@@ -26,11 +26,13 @@ define([
 		},
 
 		ui: {
-			saveButton : '.save'
+			saveButton : '.save',
+			back : '.back'
 		},
 
 		events: {
-			'click @ui.saveButton' : 'getStripeToken'
+			'click @ui.saveButton' : 'getStripeToken',
+			'click @ui.back' : 'goBackOneViewInFlow'
 		},
 
 		initialize: function (options) {
@@ -92,6 +94,10 @@ define([
 				this.model.set('last_four', response.card.last4);
 				this.parent.trigger('show:next');
 			}
+		},
+
+		goBackOneViewInFlow: function() {
+			this.parent.goToViewBasedOnName('address');
 		}
 	});
 

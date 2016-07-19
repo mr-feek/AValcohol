@@ -152,6 +152,28 @@ define([
 			this.triggerMethod('goToIndex', indexToShow);
 
 			this.beforeShowNext(indexToShow); // hack to update new active class
+		},
+
+		goToViewBasedOnName(name) {
+			var indexToShow;
+			
+			switch(name) {
+				case 'user':
+					indexToShow = 0;
+					break;
+				case  'address':
+					indexToShow = 1;
+					break;
+				case 'billing':
+					indexToShow = 2;
+					break;
+			}
+
+			this._removeActiveClass();
+			// call behavior
+			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
 		}
 	});
 
