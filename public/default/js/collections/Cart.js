@@ -36,6 +36,7 @@ define([
 					id : p.product_id,
 					vendor_id : p.vendor_id
 				});
+				product.set('inCart', true);
 				product.fetch();
 				this.add(product, { doNotPersistLocally: true }); // don't add more ids to the local storage since they are already there
 			}, this);
@@ -178,6 +179,8 @@ define([
 				return;
 			}
 
+			model.set('inCart', false);
+			
 			Backbone.Collection.prototype.remove.call(this, model, options);
 		},
 
@@ -215,7 +218,7 @@ define([
 
 		getNumberOfItemsInCart() {
 			var total = 0;
-			
+
 			_.each(this.models, function(product) {
 				total += product.get('quantity');
 			});
