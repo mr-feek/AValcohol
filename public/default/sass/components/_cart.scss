@@ -60,6 +60,7 @@
 
 	.details {
 		padding: 0 1rem;
+		position: relative; // for absolute positioning close button
 
 		.name, .contains {
 			text-transform: uppercase;
