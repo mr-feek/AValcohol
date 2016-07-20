@@ -22,6 +22,7 @@ define([
 			return {
 				order: order,
 				user: user,
+				address: address,
 
 				getProductInfo: function() {
 					var html = '';
