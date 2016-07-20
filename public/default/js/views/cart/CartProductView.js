@@ -34,14 +34,15 @@ define([
 		ui: {
 			'remove' : '.remove',
 			'decreaseQuantity' : '.subtract',
-			'increaseQuantity' : '.add'
+			'increaseQuantity' : '.add',
+			'quantity' : '.quantity'
 		},
 
 		initialize: function (options) {
 		},
 
 		quantityChanged: function(model, quantity) {
-			this.render();
+			this.ui.quantity.html(quantity);
 		},
 
 		/**
