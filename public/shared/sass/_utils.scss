@@ -30,12 +30,12 @@
 */
 .screen {
 	@include screen;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 .screen.first {
 	@include screen;
-	height: calc(100vh - #{$headerHeight});
+	min-height: calc(100vh - #{$headerHeight});
 }
 
 .stick {
