@@ -81,7 +81,7 @@ define([
 			var deliveryFee = App.cart.calculateDeliveryFee();
 			var total = App.cart.calculateTotal();
 			
-			this.ui.subTotal.html('$' + total);
+			this.ui.subTotal.html('$' + subtotal);
 			this.ui.numProducts.html(numberOfItems + 'Items');
 			this.ui.tax.html('$' + tax);
 			this.ui.deliveryFee.html('$' + deliveryFee);
