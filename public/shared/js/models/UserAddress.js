@@ -6,7 +6,7 @@ define([
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/address',
-		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id'], // properties that will be saved in session storage
+		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id', 'location'], // properties that will be saved in session storage
 
 		defaults: {
 			city: null,
@@ -45,7 +45,21 @@ define([
 		 */
 		attributeChanged: function(model) {
 			_.each(model.changed, function(value, key) {
-				this.persist(key, value);
+				// only persist if this key is in the array of keys to persist
+				if (_.contains(this.propertiesToPersist, key)) {
+					// if its an object then change the key name so it can be properly persisted ( delimited by '.')
+					if (_.isObject(value)) {
+						// cycle through the keys of the supplied object so that they are all stored properly
+						_.each(_.keys(value), function(keyName) {
+							var nameToPersist = key + '.' + keyName;
+							var valueToPersist = value[keyName];
+							this.persist(nameToPersist, valueToPersist);
+						}, this);
+						return;
+					}
+
+					this.persist(key, value);
+				}
 			}, this);
 		},
 
@@ -64,6 +78,17 @@ define([
 		 * @return value
 		 */
 		retrieve: function(key) {
+			// location needs to be handled differently since it is an object
+			if (key === 'location') {
+				var longitude = window.sessionStorage.getItem('location.longitude');
+				var latitude = window.sessionStorage.getItem('location.latitude');
+
+				return {
+					longitude: longitude,
+					latitude: latitude
+				}
+			}
+
 			return window.sessionStorage.getItem(key);
 		},
 
