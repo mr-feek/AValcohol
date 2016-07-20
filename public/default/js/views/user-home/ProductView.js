@@ -73,7 +73,7 @@ define([
 				app.cart.push(this.model);
 			}.bind(this), 300);
 
-			app.rootView.getRegion('main').currentView.openCart(e);
+			app.rootView.getRegion('main').currentView.checkIfShouldOpenCart(e);
 		},
 
 		/**

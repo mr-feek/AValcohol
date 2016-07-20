@@ -24,6 +24,7 @@ define([
 	var UserHomeView = Mn.LayoutView.extend({
 		template: tpl,
 		className: '',
+		cartHasAlreadyOpened: false, // flag for knowing if we have already automatically opened the cart before. we only want to do this once.
 
 		events: {
 			'click @ui.cart' 			: 'openCart',
@@ -106,9 +107,21 @@ define([
 			app.rootView.trigger('openOffCanvas', e);
 		},
 
+		checkIfShouldOpenCart: function(evt) {
+			if (this.cartHasAlreadyOpened) {
+				return;
+			}
+
+			this.openCart(evt);
+			this.cartHasAlreadyOpened = true;
+		},
+
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
-			$(this.ui.cart).find('i').html(app.cart.getNumberOfItemsInCart());
+			var $cart = $(this.ui.cart).find('i');
+
+			$cart.animateCss('bounceInDown', {removeAnimateClass: true});
+			$cart.html(app.cart.getNumberOfItemsInCart());
 		},
 
 		/**
