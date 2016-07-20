@@ -30,13 +30,27 @@
 */
 .screen {
 	@include screen;
-	min-height: 100vh;
+	height: 100vh;
 }
 
 .screen.first {
 	@include screen;
-	min-height: calc(100vh - #{$headerHeight});
+	height: calc(100vh - #{$headerHeight});
 }
+
+@include breakpoint(small only) {
+	.screen {
+		min-height: 100vh;
+		height: auto;
+	}
+
+	.screen.first {
+		@include screen;
+		min-height: calc(100vh - #{$headerHeight});
+		height: auto;
+	}
+}
+
 
 .stick {
 	position: fixed;
