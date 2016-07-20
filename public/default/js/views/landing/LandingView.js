@@ -33,6 +33,7 @@ define([
 			'addressArea'	: '.address-form',
 			'orderNow' 		: '.order-now',
 			'streetAddress' : '.street-address',
+			'apartmentNumber': '.apartment',
 			'submitAddress' : '.submit-address',
 			'alertArea' 	: '.alert-area'
 		},
@@ -102,6 +103,8 @@ define([
 				});
 			});
 
+			var aptNumber = this.ui.apartmentNumber.val();
+
 			this.address.set({
 				'street' : place.name,
 				'city' : place.vicinity,
@@ -110,7 +113,8 @@ define([
 				'location' : {
 					'longitude' : place.geometry.location.lng(),
 					'latitude' : place.geometry.location.lat()
-				}
+				},
+				'apartment_number' : aptNumber
 			});
 
 			if (this.address.isValid()) {

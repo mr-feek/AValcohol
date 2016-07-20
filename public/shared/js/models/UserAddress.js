@@ -6,11 +6,12 @@ define([
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/address',
-		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id', 'location'], // properties that will be saved in session storage
+		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id', 'location', 'apartment_number'], // properties that will be saved in session storage
 
 		defaults: {
 			city: null,
 			street: null,
+			apartment_number: null,
 			state: null,
 			zipcode: null,
 			location: {
@@ -37,7 +38,13 @@ define([
 		},
 
 		getDisplayableAddress: function() {
-			return this.get('street') + ' ' + this.get('city') + ' ' + this.get('zipcode');
+			var apartmentNumberDisplay = this.get('apartment_number');
+
+			if (apartmentNumberDisplay) {
+				apartmentNumberDisplay = ' Apt. ' + apartmentNumberDisplay;
+			}
+
+			return this.get('street') + ' ' + this.get('city') + ' ' + this.get('zipcode') + apartmentNumberDisplay;
 		},
 
 		/**

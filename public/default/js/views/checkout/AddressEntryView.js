@@ -37,6 +37,12 @@ define([
 					return val ? val : '';
 				},
 
+				apartmentNumber: function() {
+					if (!view.model) {	return;	}
+					var val = view.model.get('apartment_number');
+					return val ? val : '';
+				},
+
 				city: function() {
 					if (!view.model) {	return;	}
 					var val = view.model.get('city');
