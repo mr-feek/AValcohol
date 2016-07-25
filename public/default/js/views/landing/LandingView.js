@@ -116,7 +116,7 @@ define([
 				},
 				'apartment_number' : aptNumber
 			});
-
+			
 			if (this.address.isValid()) {
 				this.address.getDeliveryZone().done(function(resp) {
 					if (resp.success) {

@@ -113,9 +113,15 @@ define([
 
 			_.each(this.required, function(attribute) {
 				if (!attrs[attribute]) {
+					var message = 'This field is required.';
+
+					if (attribute == 'zipcode') {
+						var message = 'A valid US zipcode is required to use our service.';
+					}
+
 					errors.push({
 						attribute: attribute,
-						message: "This field is required."
+						message: message
 					});
 				}
 			});
