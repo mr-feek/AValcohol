@@ -113,7 +113,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 
 	public function authorizeChargeOnCard(Order $order, $stripe_token)
 	{
-		$amount = $order->full_charge_amount * 100; // charge amount needs to be converted to pennies
+		$amount = $order->calculateChargeAmountForProcessor();
 
 		$options = [
 			'currency' => 'usd',

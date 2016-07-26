@@ -65,7 +65,7 @@ class OrdersTableSeeder extends Seeder
 				'capture' => $faker->boolean()
 			];
 
-			$charge = $o->user->charge($o->full_charge_amount, $options);
+			$charge = $o->user->charge($o->calculateChargeAmountForProcessor(), $options);
 
 			// need to create default status record entry...
 			$o->status()->save(factory(App\Models\OrderStatus::class)->make([

@@ -41,6 +41,7 @@ class OrderStatusControllerTest extends TestCase
 		\Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET'));
 		$charge = \Stripe\Charge::retrieve($order->status->charge_id);
 		$this->assertTrue($charge->captured, 'the charge does not seem to have been captured on stripe.');
+		$this->assertEquals($order->calculateChargeAmountForProcessor(), $charge->amount);
 	}
 
 	public function testVendorRejectOrder() {

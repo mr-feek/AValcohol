@@ -82,4 +82,12 @@ class Order extends Model
 	public function deliveryDetails() {
 		return $this->hasOne('App\Models\OrderDeliveryDetail');
 	}
+
+	/**
+	 * turns dollars into pennies since stripe requires pennies to be sent
+	 * @return float
+	 */
+	public function calculateChargeAmountForProcessor() {
+		return $this->full_charge_amount * 100;
+	}
 }
