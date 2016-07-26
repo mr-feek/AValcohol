@@ -19,8 +19,8 @@ class OrdersTableSeeder extends Seeder
 			while (count($products) < 3) {
 				// fetch a random product that a vendor has
 				$random = rand(1, 100);
-				$product = DB::table('vendor_product')->where('product_id', $random)->first();
-
+				$product = \App\Models\Vendor::find(1)->products()->where('product_id', $random)->first();
+				
 				if (!$product) {
 					continue;
 				}
@@ -29,19 +29,8 @@ class OrdersTableSeeder extends Seeder
 			}
 
 			// attach these products to the order
-			foreach($products as $p) {
-				$o->products()->attach($p->product_id, [
-					'product_vendor_price' => $p->vendor_price,
-					'product_sale_price' => $p->sale_price,
-					'vendor_id' => $p->vendor_id
-				]);
-
-				$o->full_charge_amount += $p->sale_price;
-				$o->vendor_charge_amount += $p->vendor_price;
-			}
-
-			$o->tax_charge_amount = $o->vendor_charge_amount * 0.06;
-
+			$o->addMultipleProducts($products);
+			
 			// create charge in stripe
 			\Stripe\Stripe::setApiKey(getenv('STRIPE_KEY'));
 			$token = \Stripe\Token::create(array(

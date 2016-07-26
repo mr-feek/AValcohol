@@ -215,7 +215,7 @@ class OrderControllerTest extends TestCase
 
 		$taxChargeAmount = 0.06 * $vendorAmount;
 
-		//dd($amount, $vendorAmount);
+		$amount += $taxChargeAmount;
 
 		$this->seeInDatabase('orders', [
 			'id' => $response->order->id,

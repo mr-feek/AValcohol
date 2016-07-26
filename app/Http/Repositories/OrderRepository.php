@@ -40,9 +40,6 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @return Order
 	 */
 	public function createOrder(User $user, UserAddress $address, $products, $data) {
-		$this->model->full_charge_amount = 0;
-		$this->model->vendor_charge_amount = 0;
-		$this->model->tax_charge_amount = 0;
 		$this->model->user_id = $user->id;
 		$this->model->user_address_id = $address->id;
 		$this->model->note = $data['note'];
@@ -54,29 +51,8 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		// start a transaction so that if something is incorrect, no data is saved
 		DB::transaction(function() use(&$order, $products, $user, $stripe_token) {
 			$order->save(); // save first so that we can attach relations
-
-			$amount = 0;
-			$vendorAmount = 0;
-			foreach ($products as $p) {
-				$amount += $p->pivot->sale_price;
-				$vendorAmount += $p->pivot->vendor_price;
-
-				// create order_product record
-				$order->products()->attach($p->id, [
-					'product_vendor_price' => $p->pivot->vendor_price,
-					'product_sale_price' => $p->pivot->sale_price,
-					'vendor_id' => $p->pivot->vendor_id
-				]);
-			}
-
-			$taxAmount = 0.06 * $vendorAmount;
-
-			// update the order record with the proper price
-			$order->full_charge_amount = $amount;
-			$order->vendor_charge_amount = $vendorAmount;
-			$order->tax_charge_amount = $taxAmount;
+			$order->addMultipleProducts($products);
 			$order->save();
-
 			$order->status()->save(new OrderStatus());
 		});
 
