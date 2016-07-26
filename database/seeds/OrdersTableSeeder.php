@@ -11,7 +11,8 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-		factory(App\Models\Order::class, 40)->create()->each(function(\App\Models\Order $o) {
+		factory(App\Models\Order::class, 20)->create()->each(function(\App\Models\Order $o) {
+			$faker = \Faker\Factory::create();
 			$products = [];
 
 			// fetch 3 products to add to this order
@@ -41,8 +42,37 @@ class OrdersTableSeeder extends Seeder
 
 			$o->tax_charge_amount = $o->vendor_charge_amount * 0.06;
 
+			// create charge in stripe
+			\Stripe\Stripe::setApiKey(getenv('STRIPE_KEY'));
+			$token = \Stripe\Token::create(array(
+				"card" => array(
+					"number" => "4242424242424242",
+					"exp_month" => 12,
+					"exp_year" => 2016,
+					"cvc" => "314"
+				)
+			));
+
+			$options = [
+				'currency' => 'usd',
+				'description' => 'test charge',
+				'source' => $token,
+				'receipt_email' => $o->user->email,
+				'metadata' => array(
+					'user_id' => $o->user->id,
+					'order_id' => $o->id
+				),
+				'capture' => $faker->boolean()
+			];
+
+			$charge = $o->user->charge($o->full_charge_amount, $options);
+
 			// need to create default status record entry...
-			$o->status()->save(factory(App\Models\OrderStatus::class)->make());
+			$o->status()->save(factory(App\Models\OrderStatus::class)->make([
+				'charge_id' => $charge->id,
+				'charge_captured' => $options['capture'],
+				'charge_authorized' => true
+			]));
 
 			$o->save();
 		});

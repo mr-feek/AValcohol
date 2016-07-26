@@ -37,7 +37,10 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'accepted'
 		]);
 
-		// todo: verify charge captured
+		// verify charge was captured
+		\Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET'));
+		$charge = \Stripe\Charge::retrieve($order->status->charge_id);
+		$this->assertTrue($charge->captured, 'the charge does not seem to have been captured on stripe.');
 	}
 
 	public function testVendorRejectOrder() {
@@ -58,7 +61,11 @@ class OrderStatusControllerTest extends TestCase
 			'vendor_status' => 'rejected'
 		]);
 
-		// todo: verify charge deleted
+		// verify charge deleted
+		\Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET'));
+		$charge = \Stripe\Charge::retrieve($order->status->charge_id);
+		$this->assertFalse($charge->captured, 'charge seems to be captured when it should not be.');
+		$this->assertTrue($charge->refunded, 'charge does not seem to have been refunded. Not a big deal, as it should cancel itself in 7 days anyway');
 	}
 
 	public function testDriverPickupOrder() {
@@ -101,7 +108,7 @@ class OrderStatusControllerTest extends TestCase
 	}
 
 	private function fetchDeliveryPendingOrder() {
-		$order = \App\Models\Order::whereHas('status', function($query) {
+		$order = \App\Models\Order::whereHas('status', function(\Illuminate\Database\Eloquent\Builder $query) {
 			$query->where('vendor_status', 'accepted');
 			$query->where('delivery_status', 'pending');
 		})->first();

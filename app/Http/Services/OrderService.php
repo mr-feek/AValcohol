@@ -64,4 +64,12 @@ class OrderService extends BaseService
 
 		return $order;
 	}
+
+	public function capturePreExistingCharge(Order $order) {
+		return $this->repo->capturePreExistingCharge($order);
+	}
+
+	public function deletePreExistingCharge(Order $order) {
+		return $this->repo->deletePreExistingCharge($order);
+	}
 }

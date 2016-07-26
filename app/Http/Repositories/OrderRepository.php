@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Http\Repositories\Interfaces\OrderInterface;
 use Illuminate\Support\Facades\DB;
+use Stripe\Charge;
 
 class OrderRepository extends BaseRepository implements OrderInterface
 {
@@ -88,7 +89,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 	 * @param Order $order
 	 * @param $stripe_token
 	 * @return \Stripe\Charge
-	 */
+	 *
 	public function chargeUserForOrder(User $user, Order $order, $stripe_token) {
 		if (env('OFFLINE_MODE') === true) {
 			return;
@@ -108,7 +109,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		];
 
 		return $user->charge($amount, $options);
-	}
+	} */
 
 	public function authorizeChargeOnCard(Order $order, $stripe_token)
 	{
@@ -141,5 +142,29 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		$order->save();
 
 		return $order;
+	}
+
+	/**
+	 * captures a pre existing authorized charge
+	 * @param Order $order
+	 * @return mixed
+	 */
+	public function capturePreExistingCharge(Order $order) {
+		$chargeID = $order->status->charge_id;
+		$charge = Charge::retrieve($chargeID);
+		$captured = $charge->capture();
+		return $captured;
+	}
+
+	/**
+	 * deletes a pre existing authorized charge
+	 * @param Order $order
+	 * @return mixed
+	 */
+	public function deletePreExistingCharge(Order $order) {
+		$chargeID = $order->status->charge_id;
+		$charge = Charge::retrieve($chargeID);
+		$captured = $charge->refund();
+		return $captured;
 	}
 }
