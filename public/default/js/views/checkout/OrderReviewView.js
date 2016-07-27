@@ -41,7 +41,10 @@ define([
 				card: App.user.get('card'),
 				products: this.collection,
 				number: this.collection.getNumberOfItemsInCart(),
-				subtotal: this.collection.calculateSubtotal
+				subtotal: this.collection.calculateSubtotal,
+				total: this.collection.calculateTotal,
+				deliveryFee: this.collection.calculateDeliveryFee,
+				tax: this.collection.calculateTax
 			}
 		},
 
