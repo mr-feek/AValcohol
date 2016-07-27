@@ -210,8 +210,20 @@ define([
 		},
 
 		calculateTax: function() {
-			var tax = this.calculateSubtotal() * .06;
+			var tax = this.calculateVendorTotal() * .06;
 			return Number(tax).toFixed(2);
+		},
+
+		/**
+		 * returns the total vendor cost for calculating cost upon
+		 * @returns {string}
+		 */
+		calculateVendorTotal: function() {
+			var total = 0;
+			_.each(this.models, function(model) {
+				total += model.get('pivot').vendor_price * model.get('quantity');
+			});
+			return Number(total).toFixed(2);
 		},
 
 		calculateDeliveryFee: function() {

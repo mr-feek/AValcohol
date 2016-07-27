@@ -214,14 +214,17 @@ class OrderControllerTest extends TestCase
 		}
 
 		$taxChargeAmount = 0.06 * $vendorAmount;
+		$deliveryFee = 5.00; // for now
 
 		$amount += $taxChargeAmount;
+		$amount += $deliveryFee;
 
 		$this->seeInDatabase('orders', [
 			'id' => $response->order->id,
 			'full_charge_amount' => $amount,
 			'vendor_charge_amount' => $vendorAmount,
 			'tax_charge_amount' => $taxChargeAmount,
+			'delivery_fee' => $deliveryFee,
 			'user_id' => $response->order->user_id,
 			'user_address_id' => $response->order->user_address_id,
 			'terms_and_conditions' => true

@@ -33,8 +33,6 @@ class ProductControllerTest extends TestCase
 				]
 			]
 		]);
-
-		$this->doesNotReturnCertainAttributes();
 	}
 
 	/*
@@ -62,9 +60,5 @@ class ProductControllerTest extends TestCase
 		$this->doesNotReturnCertainAttributes();
 	}
 	*/
-
-	private function doesNotReturnCertainAttributes() {
-		$this->assertNotContains('vendor_price', $this->response->getContent());
-	}
 
 }
