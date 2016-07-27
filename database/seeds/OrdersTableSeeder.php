@@ -29,7 +29,7 @@ class OrdersTableSeeder extends Seeder
 			}
 
 			// attach these products to the order
-			$o->addMultipleProducts($products);
+			$o->addMultipleProducts($products)->calculateDeliveryFee();
 			
 			// create charge in stripe
 			\Stripe\Stripe::setApiKey(getenv('STRIPE_KEY'));

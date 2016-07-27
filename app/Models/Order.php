@@ -47,6 +47,8 @@ use Sofa\Eloquence\Eloquence;
  * @property boolean $terms_and_conditions
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereTermsAndConditions($value)
  * @property-read \App\Models\Vendor $vendor
+ * @property float $delivery_fee
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order whereDeliveryFee($value)
  */
 class Order extends Model
 {
@@ -85,11 +87,14 @@ class Order extends Model
 
 	/**
 	 * @param array $products
+	 * @return $this
 	 */
 	public function addMultipleProducts(array $products) {
 		foreach ($products as $p) {
 			$this->add($p);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -97,6 +102,7 @@ class Order extends Model
 	 * handles attaching relation and incrementing various order amounts like tax etc.
 	 * note: does not call save()
 	 * @param Product $product
+	 * @return $this
 	 */
 	public function add(Product $product) {
 		$this->vendor_charge_amount += $product->pivot->vendor_price;
@@ -109,6 +115,8 @@ class Order extends Model
 			'product_sale_price' => $product->pivot->sale_price,
 			'vendor_id' => $product->pivot->vendor_id
 		]);
+
+		return $this;
 	}
 
 	/**
@@ -128,5 +136,15 @@ class Order extends Model
 	 */
 	public function calculateChargeAmountForProcessor() {
 		return $this->full_charge_amount * 100;
+	}
+
+	/**
+	 * calculates the delivery fee and adds it to the full charge amount
+	 */
+	public function calculateDeliveryFee() {
+		$this->delivery_fee = 5.00; // for now just constant
+		$this->full_charge_amount += $this->delivery_fee;
+		
+		return $this;
 	}
 }

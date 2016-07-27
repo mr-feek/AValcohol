@@ -51,8 +51,7 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		// start a transaction so that if something is incorrect, no data is saved
 		DB::transaction(function() use(&$order, $products, $user, $stripe_token) {
 			$order->save(); // save first so that we can attach relations
-			$order->addMultipleProducts($products);
-			$order->save();
+			$order->addMultipleProducts($products)->calculateDeliveryFee()->save();
 			$order->status()->save(new OrderStatus());
 		});
 
