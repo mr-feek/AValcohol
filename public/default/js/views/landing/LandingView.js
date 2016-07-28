@@ -22,7 +22,6 @@ define([
 		className: 'class row expanded collapse',
 
 		events: {
-			'click @ui.orderNow' 		: 'showAddressForm',
 			'click @ui.submitAddress' 	: 'addressSubmitted',
 			'keydown @ui.streetAddress' : 'addressSubmitted'
 		},
@@ -30,8 +29,6 @@ define([
 		ui: {
 			'logo'			: '.logo',
 			'tagline'		: '.info',
-			'addressArea'	: '.address-form',
-			'orderNow' 		: '.order-now',
 			'streetAddress' : '.street-address',
 			'apartmentNumber': '.apartment',
 			'submitAddress' : '.submit-address',
@@ -61,9 +58,6 @@ define([
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
 			this.autocomplete = new google.maps.places.Autocomplete(input, options);
-
-			this.ui.tagline.animateCss('fadeIn', {removeAnimateClass: true});
-			this.ui.logo.animateCss('pulse');
 		},
 
 		/**
@@ -137,15 +131,6 @@ define([
 
 		showCannotDeliverView: function() {
 			app.rootView.getRegion('modalRegion').show(new CannotDeliverView());
-		},
-
-		showAddressForm: function(evt) {
-			evt.preventDefault();
-
-			this.ui.tagline.animateCss('fadeOutDown', {callback: function() {
-				this.ui.tagline.remove();
-				this.ui.addressArea.animateCss('fadeInDown');
-			}.bind(this)});
 		}
 	});
 
