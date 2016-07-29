@@ -76,6 +76,20 @@
 	padding: 0.5rem;
 	border-bottom: 1px dotted $dark-text-color;
 
+	.quantity-container {
+		text-align: center;
+
+		p {
+			margin: 0.5rem;
+			font-size: 0.85rem;
+		}
+
+		i {
+			font-size: 1.5rem;
+			color: $secondary-color;
+		}
+	}
+
 	.details {
 		padding: 0 1rem;
 		position: relative; // for absolute positioning close button
