@@ -1,20 +1,21 @@
 define([
 	'backbone',
+	'util/StorageHelper',
 	'shared/js/models/Product'
 ], function (
 	Backbone,
+	StorageHelper,
 	Product
 ) {
 	var Cart = Backbone.Collection.extend({
 		urlRoot: '/api/',
 		model: Product,
-		localStorageAvailable: true,
 
 		initialize: function() {
 			_.bindAll(this, 'calculateSubtotal', 'calculateTax', 'calculateDeliveryFee', 'calculateTotal');
-			this.localStorageAvailable = this.checkIfStorageIsAvailable();
+			this.storageHelper = new StorageHelper();
 
-			if (this.localStorageAvailable) {
+			if (this.storageHelper.storageAvailable) {
 				this.loadFromStorage();
 			}
 		},
@@ -27,23 +28,6 @@ define([
 		| all methods for the cart interacting / persisting to session storage
 		|
 		*/
-
-		/**
-		 * determine whether or not we have access to storage on this device
-		 * @returns {boolean}
-		 */
-		checkIfStorageIsAvailable: function() {
-			try {
-				var storage = window['sessionStorage'],
-					x = '__storage_test__';
-				storage.setItem(x, x);
-				storage.removeItem(x);
-				return true;
-			}
-			catch(e) {
-				return false;
-			}
-		},
 
 		/**
 		 * attempts to load all product IDs from storage into the cart
@@ -69,8 +53,8 @@ define([
 		 * @return Array
 		 */
 		retrieveProductsFromLocalStorage: function() {
-			var ids = window.sessionStorage.getItem('cart_products_ids');
-			var vendor_ids = window.sessionStorage.getItem('cart_products_vendor_ids');
+			var ids = this.storageHelper.getItem('cart_products_ids');
+			var vendor_ids = this.storageHelper.getItem('cart_products_vendor_ids');
 			if (ids && vendor_ids) {
 				ids = ids.split(','); // turn csv string into array
 				vendor_ids = vendor_ids.split(','); // turn csv string into array
@@ -140,8 +124,8 @@ define([
 				return p.vendor_id
 			});
 
-			window.sessionStorage.setItem('cart_products_ids', ids);
-			window.sessionStorage.setItem('cart_products_vendor_ids', vendor_ids);
+			this.storageHelper.setItem('cart_products_ids', ids);
+			this.storageHelper.setItem('cart_products_vendor_ids', vendor_ids);
 		},
 
 		/*
@@ -173,7 +157,7 @@ define([
 			var quantity = model.get('quantity') + 1;
 			model.set('quantity', quantity);
 
-			if (!options.doNotPersistLocally && this.localStorageAvailable) {
+			if (!options.doNotPersistLocally && this.storageHelper.storageAvailable) {
 				this.addProductToLocalStorage(model);
 			}
 		},
@@ -190,7 +174,7 @@ define([
 		 *
 		 */
 		remove: function(model, options) {
-			if (this.localStorageAvailable) {
+			if (this.storageHelper.storageAvailable) {
 				this.removeProductFromLocalStorage(model);
 			}
 
@@ -200,7 +184,7 @@ define([
 			if (options.removeAll) {
 				model.set('quantity', 0);
 
-				if (this.localStorageAvailable) {
+				if (this.storageHelper.storageAvailable) {
 					// remove the rest of the quantities from storage
 					for (var i = 0; i < quantity; i++) {
 						this.removeProductFromLocalStorage(model);

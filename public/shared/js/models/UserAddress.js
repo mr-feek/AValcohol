@@ -1,8 +1,10 @@
 define([
 	'backbone',
+	'util/StorageHelper',
 	'backboneRelational',
 ], function (
-	Backbone
+	Backbone,
+	StorageHelper
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/address',
@@ -27,9 +29,10 @@ define([
 
 		initialize: function(attributes, options) {
 			_.bindAll(this, 'getDeliveryZone');
-			
+			this.storageHelper = new StorageHelper();
+
 			// flag for if this address should be stored / load from storage. IE this should only be used for the local user, not for loading addresses in orders
-			if (options.useStorage) {
+			if (options.useStorage && this.storageHelper.storageAvailable) {
 				this.loadFromStorage();
 				_.each(this.propertiesToPersist, function(key) {
 					this.on('change:' + key, this.attributeChanged, this);
@@ -96,14 +99,14 @@ define([
 				}
 			}
 
-			return window.sessionStorage.getItem(key);
+			return this.storageHelper.getItem(key);
 		},
 
 		/**
 		 * Persists given key value into storage
 		 */
 		persist: function(key, value) {
-			window.sessionStorage.setItem(key, value);
+			this.storageHelper.setItem(key, value);
 		},
 
 		required: ['city', 'street', 'state', 'zipcode'],
