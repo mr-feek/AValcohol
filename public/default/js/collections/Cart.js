@@ -8,10 +8,15 @@ define([
 	var Cart = Backbone.Collection.extend({
 		urlRoot: '/api/',
 		model: Product,
+		localStorageAvailable: true,
 
 		initialize: function() {
 			_.bindAll(this, 'calculateSubtotal', 'calculateTax', 'calculateDeliveryFee', 'calculateTotal');
-			this.loadFromStorage();
+			this.localStorageAvailable = this.checkIfStorageIsAvailable();
+
+			if (this.localStorageAvailable) {
+				this.loadFromStorage();
+			}
 		},
 
 		/*
@@ -22,6 +27,23 @@ define([
 		| all methods for the cart interacting / persisting to session storage
 		|
 		*/
+
+		/**
+		 * determine whether or not we have access to storage on this device
+		 * @returns {boolean}
+		 */
+		checkIfStorageIsAvailable: function() {
+			try {
+				var storage = window['sessionStorage'],
+					x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			}
+			catch(e) {
+				return false;
+			}
+		},
 
 		/**
 		 * attempts to load all product IDs from storage into the cart
@@ -151,7 +173,7 @@ define([
 			var quantity = model.get('quantity') + 1;
 			model.set('quantity', quantity);
 
-			if (!options.doNotPersistLocally) {
+			if (!options.doNotPersistLocally && this.localStorageAvailable) {
 				this.addProductToLocalStorage(model);
 			}
 		},
@@ -168,7 +190,9 @@ define([
 		 *
 		 */
 		remove: function(model, options) {
-			this.removeProductFromLocalStorage(model);
+			if (this.localStorageAvailable) {
+				this.removeProductFromLocalStorage(model);
+			}
 
 			var quantity = model.get('quantity') - 1;
 			model.set('quantity', quantity);
@@ -176,9 +200,11 @@ define([
 			if (options.removeAll) {
 				model.set('quantity', 0);
 
-				// remove the rest of the quantities from storage
-				for (var i = 0; i < quantity; i++) {
-					this.removeProductFromLocalStorage(model);
+				if (this.localStorageAvailable) {
+					// remove the rest of the quantities from storage
+					for (var i = 0; i < quantity; i++) {
+						this.removeProductFromLocalStorage(model);
+					}
 				}
 			}
 

@@ -80,11 +80,13 @@ define([
 			});
 		},
 
-		decreaseQuantity: function() {
+		decreaseQuantity: function(evt) {
+			evt.preventDefault();
 			App.cart.remove(this.model, {}); // let cart handle this logic
 		},
 
-		increaseQuantity: function() {
+		increaseQuantity: function(evt) {
+			evt.preventDefault();
 			App.cart.add(this.model, {}); // let cart handle this logic
 		}
 	});
