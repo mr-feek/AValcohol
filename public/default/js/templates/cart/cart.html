@@ -14,30 +14,35 @@
 </div>
 
 <div class="footer">
-	<div class="num-products"><%= number %> Items</div>
+	<div class="title-area">
+		<h6 class="title">Order Summary</h6>
+		<h6 class="num-products subheader"><%= number %> Items</h6>
+	</div>
 	<div class="divider"></div>
 	<div class="totals">
 		<div class="clearfix total">
-			<span class="left">Subtotal</span>
-			<span class="right subtotal">$<%= subtotal() %></span>
+			<span class="float-left">Subtotal</span>
+			<span class="float-right subtotal">$<%= subtotal() %></span>
 		</div>
 		<div class="clearfix total">
-			<span class="left">Tax</span>
-			<span class="right tax">$<%= tax() %></span>
+			<span class="float-left">Tax</span>
+			<span class="float-right tax">$<%= tax() %></span>
 		</div>
 		<div class="clearfix total">
-			<span class="left">Delivery Fee</span>
-			<span class="right delivery-fee">$<%= deliveryFee() %></span>
+			<span class="float-left">Delivery Fee</span>
+			<span class="float-right delivery-fee">$<%= deliveryFee() %></span>
 		</div>
 		<div class="clearfix total">
-			<strong>
-				<span class="left">Total</span>
-				<span class="right total-amount">$<%= total() %></span>
-			</strong>
+			<div class="total-amount-charged">
+				<div class="divider float-right clearfix">
+					<span class="float-left title">Total</span>
+					<span class="float-right total-amount title">$<%= total() %></span>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<a href="#" class="button go-to-checkout disabled">
+	<a href="#" class="button go-to-checkout disabled expanded">
 		Checkout
 		<i class="fi-arrow-right">
 	</a>

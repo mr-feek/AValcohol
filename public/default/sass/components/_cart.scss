@@ -4,7 +4,7 @@
 			width: 50%;
 			margin: 0;
 			// keep buttons exactly 50%;
-			padding: 1rem 0 1.0625rem 0;
+			padding: 1.3rem 0 1.0625rem 0;
 			font-size: 0.8rem;
 
 			i {
@@ -29,28 +29,46 @@
 
 	.footer {
 		height: 30%;
-		background-color: $medium-gray;
+		background-color: $light-gray;
 		padding: 0 1rem;
 
-		.num-products {
-			text-align: center;
-			padding: 0.5rem 0;
+		.title-area {
+			border-bottom: 2px solid $medium-gray;
+
+			h6 {
+				display: inline-block;
+				margin: 0;
+			}
+
+			.num-products {
+				text-align: center;
+				padding: 0.5rem;
+			}
 		}
 
 		.totals {
-			text-transform: uppercase;
-			font-size: 14px;
+			color: $dark-gray;
 
 			.total {
 				padding: 0.25rem;
+				font-size: 0.85rem;
+			}
+
+			.total-amount-charged {
+				color: $dark-text-color;
+				text-transform: uppercase;
+
+				.divider {
+					padding-top: 0.5rem;
+					width: 40%;
+					border-top: 2px solid $medium-gray;
+				}
 			}
 		}
 	}
 
 	.go-to-checkout {
-		width: calc(100% - 6rem);
 		margin-top: 1rem;
-		margin-left: 1rem;
 	}
 }
 
