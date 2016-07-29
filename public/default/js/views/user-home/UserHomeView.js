@@ -49,8 +49,7 @@ define([
 				},
 				numProducts: function() {
 					return app.cart.getNumberOfItemsInCart();
-				},
-				blastMessage: app.config.get('blastMessage')
+				}
 			}
 		},
 
@@ -66,7 +65,7 @@ define([
 		onBeforeShow: function() {
 			app.rootView.getRegion('header').show(new HeaderView());
 			this.getRegion('products').show(new ProductsView());
-			this.getRegion('sidebar').show(new SidebarView());
+			//this.getRegion('sidebar').show(new SidebarView());
 
 			if (app.config.get('isClosed')) {
 				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
@@ -118,7 +117,7 @@ define([
 
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
-			var $cart = $(this.ui.cart).find('i');
+			var $cart = $(this.ui.cart).find('.num-products');
 
 			$cart.animateCss('bounceInDown', {removeAnimateClass: true});
 			$cart.html(app.cart.getNumberOfItemsInCart());

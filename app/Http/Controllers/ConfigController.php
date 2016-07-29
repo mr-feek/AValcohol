@@ -19,7 +19,7 @@ class ConfigController extends Controller
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function getConfig(Request $request, SiteStatusService $service) {
-		$blastMessage = ''; // default is in front end right now.
+		$blastMessage = 'Ready to crack some brews? Order now to receive within the hour!';
 		$isClosed = !$service->isOpenNow();
 		if ($isClosed) {
 			$blastMessage = $service->reasonForStoreClosure();
