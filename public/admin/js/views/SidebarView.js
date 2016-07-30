@@ -27,7 +27,7 @@ define([
 
 		ui: {
 			allLinks 		: '.icon',
-			stat			: '.stat',
+			stat			: '.stats',
 			ready 			: '.ready',
 			outForDelivery 	: '.out-for-delivery',
 			allOrders 		: '.all-orders',
