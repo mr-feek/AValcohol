@@ -126,6 +126,7 @@ define([
 		},
 
 		continueShopping: function() {
+			App.router.navigate('home');
 			this.region.show(new UserHomeView());
 		},
 
