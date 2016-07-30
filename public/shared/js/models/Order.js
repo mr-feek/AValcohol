@@ -98,6 +98,12 @@ define([
 			var created = moment(this.get('created_at'));
 			var diff = created.fromNow();
 			return diff;
+		},
+
+		timeSinceOrderWasUpdated: function() {
+			var updated = moment(this.get('updated_at'));
+			var diff = updated.fromNow();
+			return diff;
 		}
 	});
 
