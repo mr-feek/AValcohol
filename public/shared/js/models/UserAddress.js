@@ -1,6 +1,6 @@
 define([
 	'backbone',
-	'util/StorageHelper',
+	'shared/js/util/StorageHelper',
 	'backboneRelational',
 ], function (
 	Backbone,

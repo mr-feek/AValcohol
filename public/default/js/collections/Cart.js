@@ -1,6 +1,6 @@
 define([
 	'backbone',
-	'util/StorageHelper',
+	'shared/js/util/StorageHelper',
 	'shared/js/models/Product'
 ], function (
 	Backbone,
