@@ -5,6 +5,7 @@ define([
 	'shared/js/models/OrderStatus',
 	'shared/js/models/UserAddress',
 	'shared/js/models/OrderDeliveryDetails',
+	'moment',
 	'backboneRelational'
 ], function (
 	Backbone,
@@ -12,7 +13,8 @@ define([
 	Product,
 	OrderStatus,
 	UserAddress,
-	DeliveryDetails
+	DeliveryDetails,
+	moment
 ) {
 	var Order = Backbone.RelationalModel.extend({
 		urlRoot: '/api/order',
@@ -85,11 +87,17 @@ define([
 
 		/**
 		 * returns the total amount the vendor will be paid for this order
-		 * @returns {number}
+		 * @returns {string}
 		 */
 		calculateVendorOrderTotal: function() {
 			var total = Number(this.get('vendor_charge_amount')) + Number(this.get('tax_charge_amount'));
-			return total;
+			return Number(total).toFixed(2);
+		},
+
+		timeSinceOrderWasPlaced: function() {
+			var created = moment(this.get('created_at'));
+			var diff = created.fromNow();
+			return diff;
 		}
 	});
 
