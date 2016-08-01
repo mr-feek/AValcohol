@@ -24,7 +24,7 @@
     "backbone-relational": "~0.10.0",
     "backbone-poller": "^1.1.3",
     "moment": "^2.12.0",
-    "pikaday": "^1.4.0",
+    "pikaday": "feeekkk-pikaday#^1.4.1",
     "jSignature": "^2.0.2",
     "UsefulMarionetteViewBehaviors": "useful-marionette-view-behaviors#latest",
     "nprogress": "^0.2.0",
