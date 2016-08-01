@@ -8,6 +8,7 @@
 		.branding-callout {
 			margin-top: -3rem; // account for footer. this is good enough
 			width: 100%;
+			padding: 0.75rem;
 
 			h1, h2 {
 				color: white;
@@ -25,6 +26,12 @@
 					font-weight: lighter;
 				}
 			}
+
+			@include breakpoint(small only) {
+				h1 {
+					font-size: 2rem;
+				}
+			}
 		}
 
 		.footer {
@@ -33,6 +40,7 @@
 			bottom: 0;
 			left: 0;
 			right: 0;
+			padding: 0 0.75rem;
 
 			form {
 				max-width: 40rem;

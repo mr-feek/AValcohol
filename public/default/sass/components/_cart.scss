@@ -69,12 +69,13 @@
 
 	.go-to-checkout {
 		margin-top: 1rem;
+		margin-bottom: 0;
 	}
 }
 
 .cart-product {
 	padding: 0.5rem;
-	border-bottom: 1px dotted $dark-text-color;
+	border-bottom: 1px solid $light-gray;
 
 	.quantity-container {
 		text-align: center;
