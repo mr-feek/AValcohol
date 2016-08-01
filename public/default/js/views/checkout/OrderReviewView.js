@@ -54,6 +54,11 @@ define([
 			}
 		},
 
+		collectionEvents: {
+			'update' 			: 'productsChanged',
+			'change:quantity' 	: 'productsChanged'
+		},
+
 		events: {
 			'click @ui.edit' : 'goToView',
 			'click @ui.submitOrder' : 'submitOrder'
@@ -63,13 +68,36 @@ define([
 			edit 		: '.edit',
 			submitOrder : '.button.order',
 			note 		: '.note',
-			terms 		: '#terms'
+			terms 		: '#terms',
+			numProducts: '.num-products',
+			subTotal			: '.subtotal',
+			tax					: '.tax',
+			deliveryFee			: '.delivery-fee',
+			totalAmount			: '.total-amount'
 		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = Order.findOrCreate({});
-			this.collection = App.cart;
+			this.collection = options.collection; // if called App.cart here, collectionEvents not listened to
+		},
+
+		productsChanged: function() {
+			this.updateTotals();
+		},
+
+		updateTotals: function() {
+			var subtotal = App.cart.calculateSubtotal();
+			var numberOfItems = App.cart.getNumberOfItemsInCart();
+			var tax = App.cart.calculateTax();
+			var deliveryFee = App.cart.calculateDeliveryFee();
+			var total = App.cart.calculateTotal();
+
+			this.ui.subTotal.html('$' + subtotal);
+			this.ui.numProducts.html(numberOfItems + 'Items');
+			this.ui.tax.html('$' + tax);
+			this.ui.deliveryFee.html('$' + deliveryFee);
+			this.ui.totalAmount.html('$' + total);
 		},
 
 		onShow: function() {
@@ -92,7 +120,7 @@ define([
 		goToView: function(evt) {
 			var index;
 			var target = evt.currentTarget.className.replace('edit ', '');
-			
+
 			switch(target) {
 				case 'user':
 					index = 0;

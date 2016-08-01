@@ -75,7 +75,7 @@ define([
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
 				new BillingInfoEntryView({	parent:	this }),
-				new OrderReviewView({	parent: this })
+				new OrderReviewView({	parent: this, collection: App.cart })
 			];
 
 			this.triggerMethod('setViewFlow', viewsToShow);
