@@ -29,7 +29,7 @@ define([
 	var view = Mn.CompositeView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'order-review-view',
 		parent: null,
 		childView: CartProductView,
 		childViewContainer: '.products',
