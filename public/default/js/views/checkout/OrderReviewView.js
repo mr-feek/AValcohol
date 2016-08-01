@@ -91,8 +91,8 @@ define([
 		 */
 		goToView: function(evt) {
 			var index;
-			var target = evt.target.className.replace('edit ', '');
-
+			var target = evt.currentTarget.className.replace('edit ', '');
+			
 			switch(target) {
 				case 'user':
 					index = 0;
