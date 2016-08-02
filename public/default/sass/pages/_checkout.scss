@@ -7,6 +7,14 @@
 		font-size: 2rem;
 	}
 
+	.callout {
+		margin-top: 1rem;
+		.button {
+			margin-bottom: 0;
+			margin-left: 1rem;
+		}
+	}
+
 	&-wrapper {
 		background-color: white;
 		padding: 0;
@@ -62,6 +70,46 @@
 				width: calc(100% - 2rem);
 				height: calc(100% - 5rem);
 			}
+		}
+	}
+}
+
+.order-review-view {
+	h2 {
+		font-size: 1.25rem;
+	}
+
+	.products {
+		max-height: 400px;
+		overflow-y: auto;
+	}
+
+	.totals {
+		color: $dark-gray;
+
+		.total {
+			padding: 0.25rem;
+			font-size: 0.85rem;
+		}
+
+		.total-amount-charged {
+			color: $dark-text-color;
+			text-transform: uppercase;
+
+			.divider {
+				padding-top: 0.5rem;
+				width: 40%;
+				border-top: 2px solid $medium-gray;
+			}
+		}
+	}
+
+	.edit {
+		color: $light-gray;
+		margin-left: 1rem;
+
+		&:hover {
+			color: $medium-gray;
 		}
 	}
 }

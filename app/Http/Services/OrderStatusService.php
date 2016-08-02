@@ -12,6 +12,7 @@ use App\Http\Repositories\Interfaces\OrderStatusInterface;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
+use Stripe\Stripe;
 
 class OrderStatusService extends BaseService
 {
@@ -40,7 +41,9 @@ class OrderStatusService extends BaseService
 		$order = $this->orderService->getByOrderId($data['order_id']);
 		$user = $this->userService->getUser($order->user_id);
 
-		// todo: delete user's charge authorization
+		// delete the pre existing authorized charge
+		Stripe::setApiKey(getenv('STRIPE_SECRET'));
+		$this->orderService->deletePreExistingCharge($order);
 
 		app('queue.connection'); // Just to initialize binding
 		Mail::queue(['text' => 'emails.order-not-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {
@@ -58,10 +61,12 @@ class OrderStatusService extends BaseService
 	 */
 	public function vendorAcceptOrder(array $data) {
 		$success = $this->repo->update($data);
-		// todo: capture users charge authorization
-
 		$order = $this->orderService->getByOrderId($data['order_id']);
 		$user = $this->userService->getUser($order->user_id);
+		
+		// capture the pre existing authorized charge
+		Stripe::setApiKey(getenv('STRIPE_SECRET'));
+		$this->orderService->capturePreExistingCharge($order);
 
 		app('queue.connection'); // Just to initialize binding
 		Mail::queue(['text' => 'emails.order-accepted'], ['user' => $user, 'order' => $order], function($message) use ($user) {

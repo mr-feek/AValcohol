@@ -118,6 +118,15 @@ if ($app->environment() === 'local') {
 
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
+	require __DIR__.'/../app/Http/routes/auth.php';
+	require __DIR__.'/../app/Http/routes/user.php';
+	require __DIR__.'/../app/Http/routes/pluto.php';
+	require __DIR__.'/../app/Http/routes/admin.php';
+	require __DIR__.'/../app/Http/routes/order.php';
+	require __DIR__.'/../app/Http/routes/orders.php';
+	require __DIR__.'/../app/Http/routes/vendor.php';
+	require __DIR__.'/../app/Http/routes/address.php';
+	require __DIR__.'/../app/Http/routes/product.php';
 });
 
 return $app;

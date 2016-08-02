@@ -23,9 +23,8 @@ define([
 				userName: user.get('profile').getFullName(),
 				dob: user.get('profile').getDateOfBirth(),
 				orderNumber: this.model.get('id'),
-				timePlaced: this.model.get('created_at'),
+				timePlaced: this.model.timeSinceOrderWasPlaced(),
 				vendorOrderTotal: this.model.calculateVendorOrderTotal,
-				status: this.model.get('status').get('vendor_status')
 			}
 		},
 
@@ -37,12 +36,23 @@ define([
 		ui: {
 			reject: '.reject',
 			accept: '.accept',
-			footer: '.footer'
+			footer: '.footer',
+			time: '.time-diff'
 		},
 
 		initialize: function (options) {
 			this.collection = this.model.get('products');
 			_.bindAll(this, 'modelAcceptedSuccess', 'modelRejectedSuccess', 'slideOutView');
+		},
+
+		onRender: function() {
+			this.intervalId = window.setInterval(function() {
+				this.ui.time.html(this.model.timeSinceOrderWasPlaced());
+			}.bind(this), 1000 * 60); // once a minute
+		},
+
+		onBeforeClose: function() {
+			window.clearInterval(this.intervalId);
 		},
 
 		rejectOrder: function(e) {

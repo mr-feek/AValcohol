@@ -3,7 +3,7 @@
 }
 
 .shout {
-	background-color: $red;
+	background-color: $primary-color;
 
 	p {
 		color: white;
@@ -34,6 +34,7 @@
 
 #delivering-to {
 	border-left: 1px solid $light-gray;
+	border-right: 1px solid $light-gray;
 	border-bottom: 1px solid $light-gray;
 
 	h5 {
@@ -61,7 +62,12 @@
 	right: 0;
 	top: 40%;
 
+	.num-products {
+		display: block;
+		font-weight: bold;
+	}
+
 	i {
-		font-size: 36px;
+		font-size: 1.5rem;
 	}
 }

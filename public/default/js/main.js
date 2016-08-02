@@ -1,30 +1,30 @@
 var basePath = '../../vendor/';
 require.config({
 	paths: {
-		'jquery': 				basePath + 'jquery/dist/jquery',
-		'underscore': 			basePath + 'underscore/underscore',
-		'backbone': 			basePath + 'backbone/backbone',
-		'backbone.wreqr': 		basePath + 'backbone.wreqr/lib/backbone.wreqr.min',
-		'backboneRelational':	basePath + 'backbone-relational/backbone-relational',
-		'marionette': 			basePath + 'marionette/lib/backbone.marionette',
-		'foundation' : 			basePath + 'foundation-sites/js/foundation.core',
-		'foundationMediaQuery':	basePath + 'foundation-sites/js/foundation.util.mediaQuery',
-		'foundationEqualizer' : basePath + 'foundation-sites/js/foundation.equalizer',
-		'foundationOffCanvas': 	basePath + 'foundation-sites/js/foundation.offcanvas',
-		'foundationTooltip':	basePath + 'foundation-sites/js/foundation.tooltip',
-		'foundationTriggers':	basePath + 'foundation-sites/js/foundation.util.triggers',
-		'foundationMotion':		basePath + 'foundation-sites/js/foundation.util.motion',
-		'foundationTimerAndImageLoader': basePath + 'foundation-sites/js/foundation.util.timerAndImageLoader',
-		'modernizr' : 			basePath + 'modernizr/modernizr',
-		'text': 				basePath + 'requirejs-text/text',
-		'tpl': 					basePath + 'requirejs-tpl/tpl',
-		'async': 				basePath + 'requirejs-plugins/src/async',
-		//'stripe':				'https://js.stripe.com/v2/?noext',
-		'moment':				basePath + 'moment/moment',
-		'pickaday':				basePath + 'pikaday/pikaday',
-		'behaviors':			basePath + 'UsefulMarionetteViewBehaviors',
-		'shared':				'../../shared',
-		'nprogress':			basePath + 'nprogress/nprogress'
+		'jquery': 							basePath + 'jquery/dist/jquery',
+		'underscore': 						basePath + 'underscore/underscore',
+		'backbone': 						basePath + 'backbone/backbone',
+		'backbone.wreqr': 					basePath + 'backbone.wreqr/lib/backbone.wreqr.min',
+		'backboneRelational':				basePath + 'backbone-relational/backbone-relational',
+		'marionette': 						basePath + 'marionette/lib/backbone.marionette',
+		'foundation' : 						basePath + 'foundation-sites/dist/plugins/foundation.core',
+		'foundationMediaQuery':				basePath + 'foundation-sites/dist/plugins/foundation.util.mediaQuery',
+		'foundationEqualizer' : 			basePath + 'foundation-sites/dist/plugins/foundation.equalizer',
+		'foundationOffCanvas': 				basePath + 'foundation-sites/dist/plugins/foundation.offcanvas',
+		'foundationTooltip':				basePath + 'foundation-sites/dist/plugins/foundation.tooltip',
+		'foundationTriggers':				basePath + 'foundation-sites/dist/plugins/foundation.util.triggers',
+		'foundationMotion':					basePath + 'foundation-sites/dist/plugins/foundation.util.motion',
+		'foundationTimerAndImageLoader': 	basePath + 'foundation-sites/dist/plugins/foundation.util.timerAndImageLoader',
+		'modernizr' : 						basePath + 'modernizr/modernizr',
+		'text': 							basePath + 'requirejs-text/text',
+		'tpl': 								basePath + 'requirejs-tpl/tpl',
+		'async': 							basePath + 'requirejs-plugins/src/async',
+		'stripe':							'https://js.stripe.com/v2/?noext',
+		'moment':							basePath + 'moment/moment',
+		'pickaday':							basePath + 'pikaday/pikaday',
+		'behaviors':						basePath + 'UsefulMarionetteViewBehaviors',
+		'shared':							'../../shared',
+		'nprogress':						basePath + 'nprogress/nprogress'
 	},
 	shim: {
 		underscore: {
@@ -115,7 +115,13 @@ require([
 		app.rootView = new RootView();
 
 		app.cart = new Cart();
-		app.user = User.findOrCreate({});
+
+		var options = {
+			useStorage: true // save / load address from storage
+		}
+		
+		app.user = User.findOrCreate({}, options);
+
 		app.rootView.render();
 
 		var controller = new Controller({

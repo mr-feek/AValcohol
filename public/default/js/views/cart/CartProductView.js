@@ -34,14 +34,15 @@ define([
 		ui: {
 			'remove' : '.remove',
 			'decreaseQuantity' : '.subtract',
-			'increaseQuantity' : '.add'
+			'increaseQuantity' : '.add',
+			'quantity' : '.quantity'
 		},
 
 		initialize: function (options) {
 		},
 
 		quantityChanged: function(model, quantity) {
-			this.render();
+			this.ui.quantity.html(quantity);
 		},
 
 		/**
@@ -75,15 +76,17 @@ define([
 			this.model.set('inCart', false);
 
 			this.$el.fadeOut('fast', function() {
-				App.cart.remove(view.model);
+				App.cart.remove(view.model, { removeAll: true }); // remove all quantities
 			});
 		},
 
-		decreaseQuantity: function() {
+		decreaseQuantity: function(evt) {
+			evt.preventDefault();
 			App.cart.remove(this.model, {}); // let cart handle this logic
 		},
 
-		increaseQuantity: function() {
+		increaseQuantity: function(evt) {
+			evt.preventDefault();
 			App.cart.add(this.model, {}); // let cart handle this logic
 		}
 	});

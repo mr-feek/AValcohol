@@ -1,67 +1,60 @@
 .sections {
-	h1, h2 {
-		color: white;
-	}
+	.first {
+		background-color: $primary-color;
+		background-image: url('/img/bg/hero-bg-1.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
 
-	.begin {
-		background-color: $red;
+		.branding-callout {
+			margin-top: -3rem; // account for footer. this is good enough
+			width: 100%;
+			padding: 0.75rem;
 
-		.logo {
-			height: 100%;
+			h1, h2 {
+				color: white;
+			}
+
+			h1 {
+				font-weight: bolder;
+				text-transform: uppercase;
+				font-size: 4rem;
+			}
+
+			h2 {
+				font-weight: 400;
+				span {
+					font-weight: lighter;
+				}
+			}
 
 			@include breakpoint(small only) {
-				height: 60%;
+				h1 {
+					font-size: 2rem;
+				}
 			}
 		}
 
-		.content {
-			.right {
-				margin-top: 4rem;
+		.footer {
+			background-color: rgba(0, 0, 0, 0.7);
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 0 0.75rem;
 
-				.info {
-					animation-duration: .5s;
-					h1 {
-						font-weight: bolder;
-						text-transform: uppercase;
-						line-height: 5rem;
+			form {
+				max-width: 40rem;
+				margin: auto;
 
-						span {
-							display: block;
-						}
-
-						.top {
-							font-size: 4rem;
-						}
-
-						.bottom {
-							font-size: 6rem;
-							margin-bottom: 5rem;
-						}
-					}
-
-					h2 {
-						color: $yellow;
-						text-transform: uppercase;
-					}
-
-					.button {
-						margin-top: 2rem;
-					}
+				.input-group {
+					margin-top: 2rem; // account for bottom margin and margin of inputs
 				}
 
-				.address-form {
-					animation-duration: .5s;
-					opacity: 0;
-
-					h2 {
-						margin: 2rem 0;
-					}
-
-					.street-address {
-						margin-bottom: 0; // fix button alignment
-					}
+				.button {
+					border-bottom-width: 0px;
 				}
 			}
+
 		}
 	}
 }

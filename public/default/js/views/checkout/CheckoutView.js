@@ -1,24 +1,26 @@
 define([
 	'marionette',
 	'App',
-	//'stripe', offline mode
+	'stripe',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
 	'views/checkout/OrderReviewView',
 	'views/checkout/OrderSubmittedView',
+	'views/user-home/UserHomeView',
 	'shared/js/util/Vent',
 	'behaviors/StateManager',
 	'tpl!templates/checkout/checkout.html'
 ], function (
 	Mn,
 	App,
-	//Stripe,
+	Stripe,
 	AddressEntryView,
 	BillingInfoEntryView,
 	UserInfoEntryView,
 	OrderReviewView,
 	OrderSubmittedView,
+	UserHomeView,
 	Vent,
 	StateManager,
 	tpl
@@ -41,15 +43,16 @@ define([
 		},
 
 		events: {
-			'click @ui.savedView' : '_goToView',
-			'click @ui.active' : '_goToView' // allow to click back to active view
+			'click @ui.statuses' 			: '_goToView', // allow to click back to active view
+			'click @ui.continueShopping'	: 'continueShopping'
 		},
 
 		ui: {
-			'statusArea' : '.status-area',
-			'statuses' : '.status',
-			'savedView' : '.submitted', // all views that have already been saved
-			'active' : '.active'
+			'statusArea' 		: '.status-area',
+			'statuses' 			: '.status',
+			'savedView' 		: '.submitted', // all views that have already been saved
+			'active' 			: '.active',
+			'continueShopping'	: '.continue-shopping'
 		},
 
 		regions: {
@@ -64,18 +67,15 @@ define([
 			this.region = options.region;
 			Vent.on('order:submitted', this.showOrderSubmittedView.bind(this));
 
-			/*
-			offline mode
 			$.get('/api/stripe/key', function(response) {
 				Stripe.setPublishableKey(response.key);
 			}.bind(this));
-			*/
 
 			var viewsToShow = [
 				new UserInfoEntryView({	parent:	this }),
 				new AddressEntryView({	parent:	this }),
 				new BillingInfoEntryView({	parent:	this }),
-				new OrderReviewView({	parent: this })
+				new OrderReviewView({	parent: this, collection: App.cart })
 			];
 
 			this.triggerMethod('setViewFlow', viewsToShow);
@@ -108,8 +108,13 @@ define([
 		 * @private
 		 */
 		_removeActiveClass: function(currentIndex) {
-			var $status = $(this.ui.statuses[currentIndex]);
-			$status.removeClass('active');
+			if (currentIndex) {
+				var $status = $(this.ui.statuses[currentIndex]);
+				$status.removeClass('active');
+				return;
+			}
+
+			this.ui.statuses.removeClass('active');
 		},
 
 		/**
@@ -120,12 +125,21 @@ define([
 			this.region.show(new OrderSubmittedView({ model: order }));
 		},
 
+		continueShopping: function() {
+			App.router.navigate('home');
+			this.region.show(new UserHomeView());
+		},
+
 		/**
 		 * Function to go to the clicked view (from the status thing)
 		 * @param evt
 		 * @private
 		 */
 		_goToView: function(evt) {
+			if ($(evt.currentTarget).hasClass('disabled')) {
+				return;
+			}
+
 			this._removeActiveClass();
 			var indexToShow = null;
 
@@ -137,6 +151,38 @@ define([
 
 			// call behavior
 			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
+		},
+
+		goToViewBasedOnIndex(indexToShow) {
+			this._removeActiveClass();
+			// call behavior
+			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
+		},
+
+		goToViewBasedOnName(name) {
+			var indexToShow;
+			
+			switch(name) {
+				case 'user':
+					indexToShow = 0;
+					break;
+				case  'address':
+					indexToShow = 1;
+					break;
+				case 'billing':
+					indexToShow = 2;
+					break;
+			}
+
+			this._removeActiveClass();
+			// call behavior
+			this.triggerMethod('goToIndex', indexToShow);
+
+			this.beforeShowNext(indexToShow); // hack to update new active class
 		}
 	});
 

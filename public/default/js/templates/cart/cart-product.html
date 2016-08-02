@@ -1,14 +1,18 @@
 <div class="cart-product row collapse">
-	<div class="small-2 medium-4 columns">
+	<div class="columns small-2 quantity-container">
+		<a class="add"><i class="fi-arrow-up"></i></a>
+		<p>QTY <span class="quantity"><%= quantity %></span></p>
+		<a class="subtract"><i class="fi-arrow-down"></i></a>
+	</div>
+	<div class="small-3 medium-4 columns">
 		<img src="<%= img_url %>" />
 	</div>
 
-	<div class="small-10 medium-8 columns">
+	<div class="small-7 medium-6 columns">
 		<div class="details">
 			<a class="remove">&times;</a>
 			<p class="name"><strong><%= name %></strong> <span class="contains">(<%= contains %>-pack)</span></p>
 			<p>$<%= price %></p>
-			<p><a class="subtract">-</a> QTY <%= quantity %> <a class="add">+</a></p>
 		</div>
 	</div>
 </div>

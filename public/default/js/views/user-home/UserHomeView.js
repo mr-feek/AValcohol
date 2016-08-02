@@ -24,6 +24,7 @@ define([
 	var UserHomeView = Mn.LayoutView.extend({
 		template: tpl,
 		className: '',
+		cartHasAlreadyOpened: false, // flag for knowing if we have already automatically opened the cart before. we only want to do this once.
 
 		events: {
 			'click @ui.cart' 			: 'openCart',
@@ -47,9 +48,8 @@ define([
 					return app.user.get('address').getDisplayableAddress();
 				},
 				numProducts: function() {
-					return app.cart.length;
-				},
-				blastMessage: app.config.get('blastMessage')
+					return app.cart.getNumberOfItemsInCart();
+				}
 			}
 		},
 
@@ -59,12 +59,13 @@ define([
 		 */
 		initialize: function (options) {
 			app.cart.on('update', this.updateNumProducts, this);
+			app.cart.on('change:quantity', this.updateNumProducts, this);
 		},
 
 		onBeforeShow: function() {
 			app.rootView.getRegion('header').show(new HeaderView());
 			this.getRegion('products').show(new ProductsView());
-			this.getRegion('sidebar').show(new SidebarView());
+			//this.getRegion('sidebar').show(new SidebarView());
 
 			if (app.config.get('isClosed')) {
 				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
@@ -105,9 +106,21 @@ define([
 			app.rootView.trigger('openOffCanvas', e);
 		},
 
+		checkIfShouldOpenCart: function(evt) {
+			if (this.cartHasAlreadyOpened) {
+				return;
+			}
+
+			this.openCart(evt);
+			this.cartHasAlreadyOpened = true;
+		},
+
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
-			$(this.ui.cart).find('i').html(app.cart.length);
+			var $cart = $(this.ui.cart).find('.num-products');
+
+			$cart.animateCss('bounceInDown', {removeAnimateClass: true});
+			$cart.html(app.cart.getNumberOfItemsInCart());
 		},
 
 		/**

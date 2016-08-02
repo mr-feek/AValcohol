@@ -1,16 +1,19 @@
 define([
 	'backbone',
+	'shared/js/util/StorageHelper',
 	'backboneRelational',
 ], function (
-	Backbone
+	Backbone,
+	StorageHelper
 ) {
 	var UserAddress = Backbone.RelationalModel.extend({
 		urlRoot: '/api/address',
-		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id'], // properties that will be saved in session storage
+		propertiesToPersist: ['city', 'street', 'state', 'zipcode', 'delivery_zone_id', 'location', 'apartment_number'], // properties that will be saved in session storage
 
 		defaults: {
 			city: null,
 			street: null,
+			apartment_number: null,
 			state: null,
 			zipcode: null,
 			location: {
@@ -24,11 +27,12 @@ define([
 			return response.address;
 		},
 
-		initialize: function(options) {
+		initialize: function(attributes, options) {
 			_.bindAll(this, 'getDeliveryZone');
+			this.storageHelper = new StorageHelper();
 
 			// flag for if this address should be stored / load from storage. IE this should only be used for the local user, not for loading addresses in orders
-			if (options.useStorage) {
+			if (options.useStorage && this.storageHelper.storageAvailable) {
 				this.loadFromStorage();
 				_.each(this.propertiesToPersist, function(key) {
 					this.on('change:' + key, this.attributeChanged, this);
@@ -37,7 +41,13 @@ define([
 		},
 
 		getDisplayableAddress: function() {
-			return this.get('street') + ' ' + this.get('city') + ' ' + this.get('zipcode');
+			var apartmentNumberDisplay = this.get('apartment_number');
+
+			if (apartmentNumberDisplay) {
+				apartmentNumberDisplay = ' Apt. ' + apartmentNumberDisplay;
+			}
+
+			return this.get('street') + ' ' + this.get('city') + ' ' + this.get('zipcode') + apartmentNumberDisplay;
 		},
 
 		/**
@@ -45,7 +55,21 @@ define([
 		 */
 		attributeChanged: function(model) {
 			_.each(model.changed, function(value, key) {
-				this.persist(key, value);
+				// only persist if this key is in the array of keys to persist
+				if (_.contains(this.propertiesToPersist, key)) {
+					// if its an object then change the key name so it can be properly persisted ( delimited by '.')
+					if (_.isObject(value)) {
+						// cycle through the keys of the supplied object so that they are all stored properly
+						_.each(_.keys(value), function(keyName) {
+							var nameToPersist = key + '.' + keyName;
+							var valueToPersist = value[keyName];
+							this.persist(nameToPersist, valueToPersist);
+						}, this);
+						return;
+					}
+
+					this.persist(key, value);
+				}
 			}, this);
 		},
 
@@ -64,14 +88,25 @@ define([
 		 * @return value
 		 */
 		retrieve: function(key) {
-			return window.sessionStorage.getItem(key);
+			// location needs to be handled differently since it is an object
+			if (key === 'location') {
+				var longitude = window.sessionStorage.getItem('location.longitude');
+				var latitude = window.sessionStorage.getItem('location.latitude');
+
+				return {
+					longitude: longitude,
+					latitude: latitude
+				}
+			}
+
+			return this.storageHelper.getItem(key);
 		},
 
 		/**
 		 * Persists given key value into storage
 		 */
 		persist: function(key, value) {
-			window.sessionStorage.setItem(key, value);
+			this.storageHelper.setItem(key, value);
 		},
 
 		required: ['city', 'street', 'state', 'zipcode'],
@@ -81,9 +116,15 @@ define([
 
 			_.each(this.required, function(attribute) {
 				if (!attrs[attribute]) {
+					var message = 'This field is required.';
+
+					if (attribute == 'zipcode') {
+						var message = 'A valid US zipcode is required to use our service.';
+					}
+
 					errors.push({
 						attribute: attribute,
-						message: "This field is required."
+						message: message
 					});
 				}
 			});

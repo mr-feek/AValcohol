@@ -31,7 +31,7 @@ define([
 				userName: user.get('profile').getFullName(),
 				dob: user.get('profile').getDateOfBirth(),
 				orderNumber: this.model.get('id'),
-				timePlaced: this.model.get('created_at'),
+				timePlaced: this.model.timeSinceOrderWasUpdated(),
 				vendorOrderTotal: this.model.get('vendor_order_total'),
 				status: this.model.get('status').get('vendor_status'),
 				address: function() {

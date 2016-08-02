@@ -23,7 +23,8 @@ define([
 			FoundationOffCanvas: {
 				behaviorClass: FoundationOffCanvas,
 				canvasOptions: {
-					position: 'right'
+					position: 'right',
+					forceTop: false
 				}
 			}
 		},

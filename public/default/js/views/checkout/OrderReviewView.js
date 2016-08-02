@@ -29,7 +29,7 @@ define([
 	var view = Mn.CompositeView.extend({
 		template: tpl,
 		tagName: 'div',
-		className: '',
+		className: 'order-review-view',
 		parent: null,
 		childView: CartProductView,
 		childViewContainer: '.products',
@@ -39,9 +39,12 @@ define([
 				user: App.user,
 				address: App.user.get('address'),
 				card: App.user.get('card'),
-				products: App.cart,
-				number: this.collection.length,
-				subtotal: this.collection.calculateSubtotal
+				products: this.collection,
+				number: this.collection.getNumberOfItemsInCart(),
+				subtotal: this.collection.calculateSubtotal,
+				total: this.collection.calculateTotal,
+				deliveryFee: this.collection.calculateDeliveryFee,
+				tax: this.collection.calculateTax
 			}
 		},
 
@@ -49,6 +52,11 @@ define([
 			ModelSaveAnimation: {
 				behaviorClass: ModelSaveAnimation
 			}
+		},
+
+		collectionEvents: {
+			'update' 			: 'productsChanged',
+			'change:quantity' 	: 'productsChanged'
 		},
 
 		events: {
@@ -60,13 +68,36 @@ define([
 			edit 		: '.edit',
 			submitOrder : '.button.order',
 			note 		: '.note',
-			terms 		: '#terms'
+			terms 		: '#terms',
+			numProducts: '.num-products',
+			subTotal			: '.subtotal',
+			tax					: '.tax',
+			deliveryFee			: '.delivery-fee',
+			totalAmount			: '.total-amount'
 		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
 			this.model = Order.findOrCreate({});
-			this.collection = App.cart;
+			this.collection = options.collection; // if called App.cart here, collectionEvents not listened to
+		},
+
+		productsChanged: function() {
+			this.updateTotals();
+		},
+
+		updateTotals: function() {
+			var subtotal = App.cart.calculateSubtotal();
+			var numberOfItems = App.cart.getNumberOfItemsInCart();
+			var tax = App.cart.calculateTax();
+			var deliveryFee = App.cart.calculateDeliveryFee();
+			var total = App.cart.calculateTotal();
+
+			this.ui.subTotal.html('$' + subtotal);
+			this.ui.numProducts.html(numberOfItems + 'Items');
+			this.ui.tax.html('$' + tax);
+			this.ui.deliveryFee.html('$' + deliveryFee);
+			this.ui.totalAmount.html('$' + total);
 		},
 
 		onShow: function() {
@@ -88,7 +119,7 @@ define([
 		 */
 		goToView: function(evt) {
 			var index;
-			var target = evt.target.className.replace('edit ', '');
+			var target = evt.currentTarget.className.replace('edit ', '');
 
 			switch(target) {
 				case 'user':
@@ -101,8 +132,8 @@ define([
 					index = 2;
 					break;
 			}
-
-			this.parent.goToIndex(index);
+		
+			this.parent.goToViewBasedOnIndex(index);
 		},
 
 		/**

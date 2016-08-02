@@ -23,24 +23,13 @@ define([
 		},
 
 		modelEvents: {
-			'change:inCart' : 'inCartChange'
-		},
-
-		/**
-		 * update the view to reflect whether or not this model is in the cart
-		 * @param model
-		 * @param inCart
-		 */
-		inCartChange: function(model, inCart) {
-			if (inCart) {
-				this.$el.addClass('in-cart');
-			} else {
-				this.$el.removeClass('in-cart');
-			}
+			'change:inCart' : 'inCartChange',
+			'change:quantity' : 'inCartChange'
 		},
 
 		ui: {
-			addToCart: '.button'
+			addToCart: '.button',
+			quantity: '.quantity'
 		},
 
 		templateHelpers: function() {
@@ -55,6 +44,21 @@ define([
 		},
 
 		initialize: function (options) {
+
+		},
+
+		/**
+		 * update the view to reflect whether or not this model is in the cart
+		 * @param model
+		 * @param inCart
+		 */
+		inCartChange: function(model, quantity) {
+			if (quantity > 0) {
+				this.$el.addClass('in-cart');
+				this.ui.quantity.html(quantity);
+			} else {
+				this.$el.removeClass('in-cart');
+			}
 		},
 
 		addToCart: function(e) {
@@ -73,7 +77,7 @@ define([
 				app.cart.push(this.model);
 			}.bind(this), 300);
 
-			app.rootView.getRegion('main').currentView.openCart(e);
+			app.rootView.getRegion('main').currentView.checkIfShouldOpenCart(e);
 		},
 
 		/**
@@ -84,6 +88,7 @@ define([
 		onRender: function() {
 			if (this.model.get('inCart')) {
 				this.$el.addClass('in-cart');
+				this.ui.quantity.html(this.model.get('quantity'));
 			}
 
 			if (app.config.get('isClosed')) {

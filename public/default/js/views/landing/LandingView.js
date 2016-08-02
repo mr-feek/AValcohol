@@ -6,7 +6,7 @@ define([
 	'behaviors/ModelValidation',
 	'behaviors/LoadingIndicator',
 	'tpl!templates/landing/landing.html',
-	//'async!https://maps.googleapis.com/maps/api/js?libraries=places' offline mode
+	'async!https://maps.googleapis.com/maps/api/js?key=AIzaSyBcB7pNSUkuNH6awEIE57njndRXQpQBsEI&libraries=places'
 ], function (
 	Mn,
 	app,
@@ -22,7 +22,6 @@ define([
 		className: 'class row expanded collapse',
 
 		events: {
-			'click @ui.orderNow' 		: 'showAddressForm',
 			'click @ui.submitAddress' 	: 'addressSubmitted',
 			'keydown @ui.streetAddress' : 'addressSubmitted'
 		},
@@ -30,9 +29,8 @@ define([
 		ui: {
 			'logo'			: '.logo',
 			'tagline'		: '.info',
-			'addressArea'	: '.address-form',
-			'orderNow' 		: '.order-now',
 			'streetAddress' : '.street-address',
+			'apartmentNumber': '.apartment',
 			'submitAddress' : '.submit-address',
 			'alertArea' 	: '.alert-area'
 		},
@@ -59,10 +57,7 @@ define([
 			var options = {
 				types: ['address'], // only precise locations, no businesses or landmarks
 			};
-			//this.autocomplete = new google.maps.places.Autocomplete(input, options); offline mode
-
-			this.ui.tagline.animateCss('fadeIn', {removeAnimateClass: true});
-			this.ui.logo.animateCss('pulse');
+			this.autocomplete = new google.maps.places.Autocomplete(input, options);
 		},
 
 		/**
@@ -81,7 +76,6 @@ define([
 		 * Parses the autocomplete info and stores it in a UserAddressModel
 		 */
 		updateUserAddress: function() {
-			/* offline mode
 			var place = this.autocomplete.getPlace();
 			
 			if (!place) {
@@ -103,6 +97,8 @@ define([
 				});
 			});
 
+			var aptNumber = this.ui.apartmentNumber.val();
+
 			this.address.set({
 				'street' : place.name,
 				'city' : place.vicinity,
@@ -111,9 +107,10 @@ define([
 				'location' : {
 					'longitude' : place.geometry.location.lng(),
 					'latitude' : place.geometry.location.lat()
-				}
+				},
+				'apartment_number' : aptNumber
 			});
-
+			
 			if (this.address.isValid()) {
 				this.address.getDeliveryZone().done(function(resp) {
 					if (resp.success) {
@@ -123,21 +120,6 @@ define([
 					}
 				}.bind(this));
 			}
-			*/
-
-
-			this.address.set({
-				'street' : '810 walnut street',
-				'city' : 'state college',
-				'state' : 'pa',
-				'zipcode' : 16801,
-				'location' : {
-					'longitude' : 0,
-					'latitude' : 0
-				},
-				'delivery_zone_id': 1
-			});
-			this.showUserHome();
 		},
 
 		/**
@@ -149,15 +131,6 @@ define([
 
 		showCannotDeliverView: function() {
 			app.rootView.getRegion('modalRegion').show(new CannotDeliverView());
-		},
-
-		showAddressForm: function(evt) {
-			evt.preventDefault();
-
-			this.ui.tagline.animateCss('fadeOutDown', {callback: function() {
-				this.ui.tagline.remove();
-				this.ui.addressArea.animateCss('fadeInDown');
-			}.bind(this)});
 		}
 	});
 

@@ -24,7 +24,8 @@ class SiteStatusControllerTest extends TestCase
 		$this->assertTrue($response->site_status->admin_force_offline);
 	}
 
-	public function testRemoveForceStoreOffline() {
+	public function testRemoveForceStoreOffline()
+	{
 		$this->post('site/status', ['admin_force_offline' => 0], $this->authHeader);
 		$this->seeInDatabase('site_status', ['admin_force_offline' => 0]);
 		$response = json_decode($this->response->getContent());

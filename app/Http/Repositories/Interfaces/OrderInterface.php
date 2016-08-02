@@ -16,6 +16,8 @@ interface OrderInterface
 {
 	public function getByOrderId($order_id);
 	public function createOrder(User $user, UserAddress $address, $products, $data);
-	public function chargeUserForOrder(User $user, Order $order, $stripe_token);
+	//public function chargeUserForOrder(User $user, Order $order, $stripe_token);
 	public function authorizeChargeOnCard(Order $order, $stripe_token);
+	public function capturePreExistingCharge(Order $order);
+	public function deletePreExistingCharge(Order $order);
 }

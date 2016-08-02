@@ -36,21 +36,20 @@ class VendorRepository extends BaseRepository implements VendorInterface
 	}
 
 	/**
-	 * This function removes the vendor_price from the response so that it does
-	 * not accidentally get exposed to end users
-	 *
-	 * to do: this is super slow, can't figure out the eloquent way to do this on db end
+	 * This function no removes the vendor_price from the response. We need it in order to calculate tax on the front end
 	 * @param Vendor $vendor
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getProducts(Vendor $vendor) {
 		$products =  $vendor->products()->get();
-
+		
+		/*
 		$withoutVendorPrice = $products->each(function($model, $key) {
 			unset($model->pivot->vendor_price);
 		});
+		*/
 
-		return $withoutVendorPrice;
+		return $products;
 	}
 
 	/**

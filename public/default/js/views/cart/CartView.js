@@ -21,7 +21,7 @@ define([
 
 		templateHelpers: function() {
 			return {
-				number: App.cart.models.length,
+				number: App.cart.getNumberOfItemsInCart(),
 				subtotal: App.cart.calculateSubtotal,
 				tax: App.cart.calculateTax,
 				deliveryFee: App.cart.calculateDeliveryFee,
@@ -30,20 +30,23 @@ define([
 		},
 
 		ui: {
-			numProducts : '.num-products',
-			checkout : '.go-to-checkout',
-			continueShopping : '.back-to-shopping',
-			subTotal: '.subtotal'
+			numProducts 		: '.num-products',
+			checkout 			: '.go-to-checkout',
+			continueShopping 	: '.back-to-shopping',
+			subTotal			: '.subtotal',
+			tax					: '.tax',
+			deliveryFee			: '.delivery-fee',
+			totalAmount			: '.total-amount'
 		},
 
 		events: {
-			'click @ui.checkout' : 'showCheckout',
-			'click @ui.continueShopping' : 'hideCart'
+			'click @ui.checkout' 			: 'showCheckout',
+			'click @ui.continueShopping' 	: 'hideCart'
 		},
 
 		collectionEvents: {
-			'update' : 'collectionChanged',
-			'change:quantity' : 'collectionChanged'
+			'update' 			: 'collectionChanged',
+			'change:quantity' 	: 'collectionChanged'
 		},
 
 		/**
@@ -72,7 +75,17 @@ define([
 		},
 
 		updateTotals: function() {
-			this.render();
+			var subtotal = App.cart.calculateSubtotal();
+			var numberOfItems = App.cart.getNumberOfItemsInCart();
+			var tax = App.cart.calculateTax();
+			var deliveryFee = App.cart.calculateDeliveryFee();
+			var total = App.cart.calculateTotal();
+			
+			this.ui.subTotal.html('$' + subtotal);
+			this.ui.numProducts.html(numberOfItems + 'Items');
+			this.ui.tax.html('$' + tax);
+			this.ui.deliveryFee.html('$' + deliveryFee);
+			this.ui.totalAmount.html('$' + total);
 		},
 
 		showCheckout: function(e) {

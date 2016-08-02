@@ -40,6 +40,35 @@ class AddressControllerTest extends TestCase
 		]);
 	}
 
+	public function testCanCreateAddressWithApartmentNumber() {
+		$address = new UserAddress();
+		$address->city = 'State College';
+		$address->state = 'PA';
+		$address->zipcode = '16801';
+		$address->street = '810 Walnut Street';
+		$address->location = [
+			'longitude' => 0,
+			'latitude' => 1
+		];
+		$address->apartment_number = 123;
+
+		$data = $address->toArray();
+		$data['user']['id'] = 1;
+
+		$this->post('/address', $data);
+
+		$this->seeJson([
+			'success' => true,
+			'city' => $address->city,
+			'state' => $address->state,
+			'zipcode' => $address->zipcode,
+			'street' => $address->street,
+			'apartment_number' => $address->apartment_number,
+			'location' => $address->location,
+			'user_id' => 1
+		]);
+	}
+
 	public function testBlacklistOrder() {
 		//
 	}

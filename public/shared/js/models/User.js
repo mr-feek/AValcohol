@@ -59,7 +59,7 @@ define([
 			mvp_user: 1 // this account does NOT need a password etc
 		},
 
-		initialize: function(options) {
+		initialize: function(attributes, options) {
 			this.on('change:phone_number', this.stripPhoneNumber);
 
 			// attach relation

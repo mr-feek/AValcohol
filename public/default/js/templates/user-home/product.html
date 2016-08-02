@@ -1,10 +1,13 @@
+<div class="cover">
+	<p class="center-unknown text-shadow"><span class="quantity"></span> In Cart</p>
+</div>
 <div class="container">
 	<img src="<%= img_url %>" />
 	<div class="details">
-		<p class="name"><%= name %></p>
+		<h6 class="name"><%= name %></h6>
+		<span class="contains"><%= contains %>-pack <%= ounces %>oz <%= container %>s</span>
 		<p class="price">
 			$<%= price %>
-			<span class="contains"> (<%= contains %>-pack <%= ounces %>oz <%= container %>s)</span>
 		</p>
 	</div>
 	<a class="button tiny floor">Add To Cart</a>

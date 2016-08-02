@@ -18,7 +18,7 @@ define([
 	var ProductsView = Mn.CollectionView.extend({
 		childView: ProductView,
 		tagName: 'ul',
-		className: 'row small-up-1 medium-up-3 large-up-4',
+		className: 'row small-up-2 medium-up-3 large-up-4',
 		emptyView: EmptyView,
 		attributes: {
 			'data-equalizer' 		: '',

@@ -1,8 +1,10 @@
 define([
 	'backbone',
+	'shared/js/util/StorageHelper',
 	'shared/js/models/Product'
 ], function (
 	Backbone,
+	StorageHelper,
 	Product
 ) {
 	var Cart = Backbone.Collection.extend({
@@ -11,7 +13,11 @@ define([
 
 		initialize: function() {
 			_.bindAll(this, 'calculateSubtotal', 'calculateTax', 'calculateDeliveryFee', 'calculateTotal');
-			this.loadFromStorage();
+			this.storageHelper = new StorageHelper();
+
+			if (this.storageHelper.storageAvailable) {
+				this.loadFromStorage();
+			}
 		},
 
 		/*
@@ -36,6 +42,7 @@ define([
 					id : p.product_id,
 					vendor_id : p.vendor_id
 				});
+				product.set('inCart', true);
 				product.fetch();
 				this.add(product, { doNotPersistLocally: true }); // don't add more ids to the local storage since they are already there
 			}, this);
@@ -46,8 +53,8 @@ define([
 		 * @return Array
 		 */
 		retrieveProductsFromLocalStorage: function() {
-			var ids = window.sessionStorage.getItem('cart_products_ids');
-			var vendor_ids = window.sessionStorage.getItem('cart_products_vendor_ids');
+			var ids = this.storageHelper.getItem('cart_products_ids');
+			var vendor_ids = this.storageHelper.getItem('cart_products_vendor_ids');
 			if (ids && vendor_ids) {
 				ids = ids.split(','); // turn csv string into array
 				vendor_ids = vendor_ids.split(','); // turn csv string into array
@@ -117,8 +124,8 @@ define([
 				return p.vendor_id
 			});
 
-			window.sessionStorage.setItem('cart_products_ids', ids);
-			window.sessionStorage.setItem('cart_products_vendor_ids', vendor_ids);
+			this.storageHelper.setItem('cart_products_ids', ids);
+			this.storageHelper.setItem('cart_products_vendor_ids', vendor_ids);
 		},
 
 		/*
@@ -145,17 +152,12 @@ define([
 		 * 		- doNotPersistLocally to not persist this model into the local storage
 		 */
 		add: function(models, options) {
-			var origLength = this.length;
 			var model = Backbone.Collection.prototype.add.call(this, models, options);
-			var newLength = this.length;
 
-			if (origLength == newLength) {
-				// it was a dupe
-				var quantity = model.get('quantity') + 1;
-				model.set('quantity', quantity);
-			}
+			var quantity = model.get('quantity') + 1;
+			model.set('quantity', quantity);
 
-			if (!options.doNotPersistLocally) {
+			if (!options.doNotPersistLocally && this.storageHelper.storageAvailable) {
 				this.addProductToLocalStorage(model);
 			}
 		},
@@ -168,15 +170,33 @@ define([
 		 * one model instance
 		 * @param models
 		 * @param options
+		 * 			- removeAll : force removal of all quantities
+		 *
 		 */
 		remove: function(model, options) {
-			this.removeProductFromLocalStorage(model);
+			if (this.storageHelper.storageAvailable) {
+				this.removeProductFromLocalStorage(model);
+			}
 
-			if (model.get('quantity') > 1) {
-				var quantity = model.get('quantity') - 1;
-				model.set('quantity', quantity);
+			var quantity = model.get('quantity') - 1;
+			model.set('quantity', quantity);
+
+			if (options.removeAll) {
+				model.set('quantity', 0);
+
+				if (this.storageHelper.storageAvailable) {
+					// remove the rest of the quantities from storage
+					for (var i = 0; i < quantity; i++) {
+						this.removeProductFromLocalStorage(model);
+					}
+				}
+			}
+
+			if (model.get('quantity') > 0) {
 				return;
 			}
+
+			model.set('inCart', false);
 
 			Backbone.Collection.prototype.remove.call(this, model, options);
 		},
@@ -200,8 +220,20 @@ define([
 		},
 
 		calculateTax: function() {
-			var tax = this.calculateSubtotal() * .06;
+			var tax = this.calculateVendorTotal() * .06;
 			return Number(tax).toFixed(2);
+		},
+
+		/**
+		 * returns the total vendor cost for calculating cost upon
+		 * @returns {string}
+		 */
+		calculateVendorTotal: function() {
+			var total = 0;
+			_.each(this.models, function(model) {
+				total += model.get('pivot').vendor_price * model.get('quantity');
+			});
+			return Number(total).toFixed(2);
 		},
 
 		calculateDeliveryFee: function() {
@@ -211,6 +243,16 @@ define([
 		calculateTotal: function() {
 			var total = Number(this.calculateSubtotal()) + Number(this.calculateTax()) + Number(this.calculateDeliveryFee());
 			return Number(total).toFixed(2);
+		},
+
+		getNumberOfItemsInCart() {
+			var total = 0;
+
+			_.each(this.models, function(product) {
+				total += product.get('quantity');
+			});
+
+			return total;
 		}
 	});
 

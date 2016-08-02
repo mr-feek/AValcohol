@@ -1,17 +1,9 @@
 <div class="order">
 	<div class="row user-info">
-		<div class="columns small-3">
-			<span class="label">Name</span> <span><%= userName %></span>
-		</div>
-		<div class="columns small-3">
-			<span class="label">DOB</span> <span><%= dob %></span>
-		</div>
-		<div class="columns small-3">
-			<span class="label">Past Orders</span> <span class="coming-soon label">Coming Soon!</span>
-		</div>
-		<div class="columns small-3">
-			<span class="label">Order Total<%= vendorOrderTotal %></span> <span class="coming-soon label">Coming Soon!</span>
-		</div>
+		<span class="label"><%= orderNumber %></span>
+		<h6><%= userName %></h6>
+		<h6 class="subheader"><%= dob %></h6>
+		<h6 class="float-right">$<%= vendorOrderTotal %></h6>
 	</div>
 
 	<div class="row address-info">
@@ -31,12 +23,9 @@
 	</div>
 
 	<div class="row footer">
-		<div class="columns small-12 text-right">
-			<a class="deliver button radius tiny">Deliver</a>
-		</div>
-		<div class="columns small-12">
-			<span class="label">Order Number</span> <span><%= orderNumber %></span>
-			<span class="label">Time Placed</span> <span><%= timePlaced %></span>
+		<div class="columns small-12 clearfix">
+			<h6 class="float-left"><%= timePlaced %></h6>
+			<a class="deliver button radius tiny success float-right">Deliver</a>
 		</div>
 	</div>
 </div>

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $city
  * @property string $state
  * @property integer $zipcode
+ * @property string $apartment_number
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property integer $user_id
@@ -39,7 +40,7 @@ class UserAddress extends Model
 {
 	protected $table = 'user_addresses';
 
-	protected $fillable = ['street', 'city', 'state', 'zipcode', 'location', 'delivery_zone_id'];
+	protected $fillable = ['street', 'city', 'state', 'zipcode', 'location', 'delivery_zone_id', 'apartment_number'];
 
 	public static function boot()
 	{

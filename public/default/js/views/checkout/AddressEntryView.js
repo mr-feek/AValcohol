@@ -37,6 +37,12 @@ define([
 					return val ? val : '';
 				},
 
+				apartmentNumber: function() {
+					if (!view.model) {	return;	}
+					var val = view.model.get('apartment_number');
+					return val ? val : '';
+				},
+
 				city: function() {
 					if (!view.model) {	return;	}
 					var val = view.model.get('city');
@@ -57,9 +63,13 @@ define([
 			}
 		},
 
-		events: {},
+		events: {
+			'click @ui.back' : 'goBackOneViewInFlow'
+		},
 
-		ui: {},
+		ui: {
+			'back' : '.back'
+		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
@@ -71,6 +81,10 @@ define([
 
 		modelSaveSuccess: function(response) {
 			this.parent.trigger('show:next');
+		},
+
+		goBackOneViewInFlow: function() {
+			this.parent.goToViewBasedOnName('user');
 		}
 	});
 

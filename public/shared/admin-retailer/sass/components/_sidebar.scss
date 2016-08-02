@@ -30,7 +30,7 @@
 
 		&.active {
 			background-color: $light-text-color;
-			border-left: 5px solid $red;
+			border-left: 5px solid $primary-color;
 			i, p {
 				color: $dark-text-color;
 			}
