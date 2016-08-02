@@ -83,6 +83,10 @@
 		p {
 			margin: 0.5rem;
 			font-size: 0.85rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 
 		i {
