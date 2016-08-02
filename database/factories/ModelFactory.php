@@ -56,28 +56,13 @@ $factory->define(App\Models\UserProfile::class, function(Faker\Generator $faker)
 });
 
 $factory->define(App\Models\Order::class, function(\Faker\Generator $faker) {
-	$users = \App\Models\User::orderByRaw('RAND()')->get();
-	// don't create an order for a user that is a vendor
-	$user = null;
-
-	foreach($users as $u) {
-		if ($u->isVendor() === false) {
-			$user = $u;
-			break;
-		}
-	}
-
-	if (!$user) {
-		dd('all users in db are apparently vendors');
-	}
-
 	return [
 		'full_charge_amount' => 0,
 		'vendor_charge_amount' => 0,
 		'tax_charge_amount' => 0,
 		'note' => $faker->sentence(),
-		'user_id' => $user->id,
-		'user_address_id' => $u->address->id,
+		'user_id' => 1, // pass in to override
+		'user_address_id' => 1, // pass in to override
 		'vendor_id' => 1 // temp
 	];
 });
