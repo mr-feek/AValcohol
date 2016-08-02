@@ -28,9 +28,10 @@
 	}
 
 	.footer {
-		height: 30%;
+		min-height: 30%;
 		background-color: $light-gray;
 		padding: 0 1rem;
+		padding-bottom: 1rem;
 
 		.title-area {
 			border-bottom: 2px solid $medium-gray;
@@ -69,7 +70,7 @@
 
 	.go-to-checkout {
 		margin-top: 1rem;
-		margin-bottom: 0;
+		margin-bottom: 1rem;
 	}
 }
 
