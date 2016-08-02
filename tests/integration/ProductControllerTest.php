@@ -19,6 +19,7 @@ class ProductControllerTest extends TestCase
 	}
 
 	public function testGetAllProductsForAddress() {
+		$this->ensureAVendorIsOpenNow();
 		$this->get('product?delivery_zone_id=' . $this->address->delivery_zone_id);
 
 		$this->seeJsonStructure([
@@ -60,5 +61,23 @@ class ProductControllerTest extends TestCase
 		$this->doesNotReturnCertainAttributes();
 	}
 	*/
+
+	/**
+	 * grabs all vendors for the given address and opens them up for 2 hours today (now)
+	 */
+	private function ensureAVendorIsOpenNow() {
+		$vendorService = app()->make(\App\Http\Services\VendorService::class);
+		$vendors = $vendorService->getVendorsForAddress($this->address);
+
+		foreach($vendors as $vendor) {
+			// add an entry for today with the store open an hour ago and closing in an hour
+			factory(\App\Models\VendorStoreHours::class)->create([
+				'vendor_id' => $vendor->id,
+				'day_of_week' => \Carbon\Carbon::today()->dayOfWeek,
+				'open_time' => \Carbon\Carbon::now()->subHours(1),
+				'close_time' => \Carbon\Carbon::now()->addHours(1)
+			]);
+		}
+	}
 
 }

@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use App\Http\Traits\Filterable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
@@ -88,15 +89,19 @@ class Vendor extends Model
 	/**
 	 * for now this does not factor in any overrides that may be set!
 	 *
+	 * electing to use carbon for date manipulation as it aligns with php, whereas
+	 * mysql day of week functions follow a different standard RE days of week
+	 *
 	 * @param Builder $query
 	 * @return Builder|static
 	 */
 	public function scopeIsOpen(Builder $query) {
 		return $query->whereHas('hours', function($query) {
+			$now = Carbon::now();
 			$query->where([
-				['day_of_week', 'DAYOFWEEK(NOW())'], // filter for today
-				['open_time', '<', 'NOW()'], // opened before now
-				['close_time', '>', 'NOW()'] // closes after now
+				['day_of_week', $now->dayOfWeek], // filter for today
+				['open_time', '<',$now], // opened before now
+				['close_time', '>', $now] // closes after now
 			]);
 		});
 	}

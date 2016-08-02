@@ -18,9 +18,9 @@ namespace App\Http\Services;
 | open vendors etc. May need to use a repository too in the future.
 |
 */
+
 use App\Models\DeliveryZone;
 use App\Models\Vendor;
-use Illuminate\Support\Facades\DB;
 
 class VendorHoursService extends BaseService
 {
@@ -49,7 +49,7 @@ SQL;
 
 		//$res = DB::statement($query);
 
-		$vendors = Vendor::isOpen()->get();//->whereDeliveryZoneId($deliveryZoneId)->get();
+		$vendors = Vendor::isOpen()->whereDeliveryZoneId($deliveryZoneId)->get();
 		
 		return $vendors;
 	}

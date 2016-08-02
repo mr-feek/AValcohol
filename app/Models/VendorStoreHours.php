@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,14 +36,18 @@ class VendorStoreHours extends Model
 {
 	protected $table = 'vendor_hours';
 
+	/**
+	 * NOTE THAT CARBON DOES NOT ALIGN WITH MYSQL FUNCTIONS. for now electing to use carbon in queries instead of dayofweek / weekday
+	 * @var array
+	 */
 	public static $days = [
-		'sunday' => 1,
-		'monday' => 2,
-		'tuesday' => 3,
-		'wednesday' => 4,
-		'thursday' => 5,
-		'friday' => 6,
-		'saturday' => 7,
+		'sunday' => Carbon::SUNDAY, // 0
+		'monday' => Carbon::MONDAY,
+		'tuesday' => Carbon::TUESDAY,
+		'wednesday' => Carbon::WEDNESDAY,
+		'thursday' => Carbon::THURSDAY,
+		'friday' => Carbon::FRIDAY,
+		'saturday' => Carbon::SATURDAY, // 6
 	];
 
 	protected $guarded = [];
