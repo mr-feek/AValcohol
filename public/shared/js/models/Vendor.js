@@ -2,12 +2,29 @@
  * Created by Feek on 3/16/16.
  */
 define([
-	'backbone'
+	'backbone',
+	'shared/js/models/VendorHours',
+	'backboneRelational'
 ], function (
-	Backbone
+	Backbone,
+	VendorHours
 ) {
-	var Vendor = Backbone.Model.extend({
+	var Vendor = Backbone.RelationalModel.extend({
 		urlRoot: '/api/vendor',
+
+		relations: [
+			{
+				type: Backbone.HasMany,
+				key: 'hours',
+				relatedModel: VendorHours,
+				includeInJSON: false,
+				reverseRelation: {
+					key: '',
+					includeInJSON: false,
+					type: Backbone.HasOne
+				}
+			}
+		],
 
 		parse: function(response, xhr) {
 			if (response.vendor) {

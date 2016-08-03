@@ -62,7 +62,7 @@ class VendorController extends Controller
 	}
 	
 	public function getById(Request $request, $id) {
-		$vendor = Vendor::findOrFail($id);
+		$vendor = Vendor::with('hours')->findOrFail($id);
 		return response()->json(['vendor' => $vendor]);
 	}
 
