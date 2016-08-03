@@ -42,10 +42,12 @@ define([
 
 		events: {
 			'click @ui.loginAsVendor' : 'loginAsVendor',
+			'click @ui.manageHours' : 'showVendorHours'
 		},
 
 		ui: {
-			loginAsVendor: '.login-as-vendor'
+			loginAsVendor	: '.login-as-vendor',
+			manageHours 	: '.manage-hours'
 		},
 
 		initialize: function (options) {
@@ -73,6 +75,12 @@ define([
 				app.session.persist('token', token);
 				window.location = '/retailer/dashboard'
 			});
+		},
+
+		showVendorHours: function(evt) {
+			evt.preventDefault();
+			var vendorId = $(evt.target).data('id');
+			app.router.navigate('admin/dashboard/vendor/' + vendorId + '/hours', { trigger: true });
 		},
 
 		initializeGrid: function() {
@@ -127,9 +135,12 @@ define([
 						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
+								var url = '/admin/dashboard/vendor/' + this.model.id + '/hours';
+
 								this.$el.html('' +
-									'<small><a class="manage-hours" data-id="' + this.model.id + '">Manage Hours</a></small>'
+									'<small><a href="' + url + '" class="manage-hours" data-id="' + this.model.id + '">Manage Hours</a></small>'
 								);
+
 								return this;
 							}
 						})

@@ -49,6 +49,8 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:administra
 
 	$app->post('{vendor_id}/hours/override', 'VendorOverrideHoursController@create');
 	$app->delete('{vendor_id}/hours/override/{model_id}', 'VendorOverrideHoursController@delete');
+
+	$app->get('{id}', 'VendorController@getById');
 });
 
 $app->group(['prefix' => 'vendors', 'middleware' => 'jwt-auth|has-role:administrator', 'namespace' => 'App\Http\Controllers'], function($app) {
