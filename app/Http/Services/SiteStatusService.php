@@ -56,11 +56,9 @@ class SiteStatusService extends BaseService
 			return false;
 		}
 
-		// I don't think this will ever actually be included? this method is called
-		// by store open before an address is collected on the front end.
-		
-		if (array_key_exists('location', $data)) {
-			$deliveryZone = DeliveryZone::find(1); //todo
+		// this is included in the config request
+		if (array_key_exists('delivery_zone_id', $data)) {
+			$deliveryZone = DeliveryZone::find($data['delivery_zone_id']);
 
 			return $this->vendorHoursService->areOpenVendorsInDeliveryZone($deliveryZone);
 		}
