@@ -13,6 +13,7 @@ require.config({
 		'foundationOffCanvas': 				basePath + 'foundation-sites/dist/plugins/foundation.offcanvas',
 		'foundationTooltip':				basePath + 'foundation-sites/dist/plugins/foundation.tooltip',
 		'foundationTriggers':				basePath + 'foundation-sites/dist/plugins/foundation.util.triggers',
+		'foundationBox':					basePath + 'foundation-sites/dist/plugins/foundation.util.box',
 		'foundationMotion':					basePath + 'foundation-sites/dist/plugins/foundation.util.motion',
 		'foundationTimerAndImageLoader': 	basePath + 'foundation-sites/dist/plugins/foundation.util.timerAndImageLoader',
 		'modernizr' : 						basePath + 'modernizr/modernizr',
@@ -55,6 +56,9 @@ require.config({
 		foundationTriggers: {
 			deps: ['foundation']
 		},
+		foundationBox: {
+			deps: ['foundation']
+		},
 		foundationTimerAndImageLoader: {
 			deps: ['foundation']
 		},
@@ -65,7 +69,7 @@ require.config({
 			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
 		foundationTooltip: {
-			deps: ['foundationMediaQuery']
+			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationBox']
 		}
 	},
 	deps: ['jquery', 'underscore']

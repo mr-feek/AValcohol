@@ -80,6 +80,12 @@ define([
 			app.rootView.getRegion('main').currentView.checkIfShouldOpenCart(e);
 		},
 
+		onShow: function() {
+			if (app.config.get('isClosed')) {
+				new Foundation.Tooltip(this.ui.addToCart.find('.has-tip'));
+			}
+		},
+
 		/**
 		 * add in-cart class to show whether or not an item is currently in the cart
 		 *
@@ -94,9 +100,8 @@ define([
 			if (app.config.get('isClosed')) {
 				this.ui.addToCart.addClass('disabled');
 				this.ui.addToCart.html(
-					'<span data-tooltip title="Sorry, our store is currently closed.">Add To Cart</span>'
+					'<span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Sorry, our store is currently closed.">Add To Cart</span>'
 				);
-				Foundation.reInit('tooltip');
 			}
 		}
 	});
