@@ -11,6 +11,8 @@ use App\Models\User;
  */
 class UserControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+	
 	public function testCreateUser() {
 		// Resolve the dispatcher even though we aren't using it. https://github.com/laravel/lumen-framework/issues/416#issuecomment-230099777
 		app('Illuminate\Contracts\Bus\Dispatcher');

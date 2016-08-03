@@ -9,6 +9,7 @@ use App\Models\Vendor;
  */
 class OrderStatusControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
 	protected $vendor;
 
 	public function setUp()

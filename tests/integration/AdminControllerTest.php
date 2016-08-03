@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
  */
 class AdminControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -24,8 +26,8 @@ class AdminControllerTest extends TestCase
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
-			$this->assertEquals($order->status->vendor_status, 'accepted');
-			$this->assertEquals($order->status->delivery_status, 'pending');
+			$this->assertEquals('accepted', $order->status->vendor_status);
+			$this->assertEquals('pending', $order->status->delivery_status);
 			$this->assertTrue((boolean) $order->status->charge_authorized);
 			$this->assertTrue((boolean) $order->status->charge_captured);
 		}
@@ -39,8 +41,8 @@ class AdminControllerTest extends TestCase
 
 		$orders = json_decode($this->response->getContent())->orders;
 		foreach($orders as $order) {
-			$this->assertEquals($order->status->vendor_status, 'accepted');
-			$this->assertEquals($order->status->delivery_status, 'out-for-delivery');
+			$this->assertEquals('accepted', $order->status->vendor_status);
+			$this->assertEquals('out-for-delivery', $order->status->delivery_status);
 			$this->assertTrue((boolean) $order->status->charge_authorized);
 			$this->assertTrue((boolean) $order->status->charge_captured);
 		}
