@@ -21,13 +21,19 @@ namespace App\Http\Services;
 
 use App\Models\DeliveryZone;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Collection;
 
 class VendorHoursService extends BaseService
 {
 	public function construct() {
 
 	}
-	
+
+	/**
+	 * returns all open vendors for the supplied delivery zone (does not factor in overrides for now)
+	 * @param DeliveryZone $deliveryZone
+	 * @return Collection
+	 */
 	public function getOpenVendorsForDeliveryZone(DeliveryZone $deliveryZone) {
 		$deliveryZoneId = $deliveryZone->id;
 
@@ -59,8 +65,10 @@ SQL;
 	 * delivery zone.
 	 *
 	 * @param DeliveryZone $deliveryZone
+	 * @return bool
 	 */
 	public function areOpenVendorsInDeliveryZone(DeliveryZone $deliveryZone) {
-		
+		$results = $this->getOpenVendorsForDeliveryZone($deliveryZone);
+		return ($results->count() > 0) ? true : false;
 	}
 }
