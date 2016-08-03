@@ -10,6 +10,7 @@ define([
 	'shared/js/models/Order',
 	'shared/js/models/Card',
 	'views/cart/CartProductView',
+	'views/user-home/StoreClosedView',
 	'behaviors/ModelSaveAnimation',
 	'shared/js/util/Vent',
 	'tpl!templates/checkout/order-review.html'
@@ -22,6 +23,7 @@ define([
 	Order,
 	Card,
 	CartProductView,
+	StoreClosedView,
 	ModelSaveAnimation,
 	Vent,
 	tpl
@@ -163,7 +165,17 @@ define([
 
 			this.model.save()
 				.done(function (result) {
-					Vent.trigger('order:submitted', this.model);
+					if (result.success !== false) {
+						Vent.trigger('order:submitted', this.model);
+					} else {
+						if (result.isClosed === true) {
+							App.config.set('isClosed', true);
+							App.config.set('closedMessage', result.message);
+
+							App.rootView.getRegion('modalRegion').show(new StoreClosedView());
+						}
+					}
+
 				}.bind(this))
 				.fail(function (result) {
 					alert("Sorry, but something went wrong with creating your order, please let us know" +

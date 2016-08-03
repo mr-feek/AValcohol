@@ -11,6 +11,7 @@ define([
 
 		defaults: {
 			isClosed: false,
+			closedMessage: '',
 			blastMessage: 'Ready to crack some brews? Order now to receive within the hour!'
 		}
 	});
