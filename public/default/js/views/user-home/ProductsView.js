@@ -2,7 +2,6 @@ define([
 	'marionette',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
-	'views/user-home/NoProductsView',
 	'collections/Products',
 	'behaviors/LoadingIndicator',
 	'App'
@@ -10,7 +9,6 @@ define([
 	Mn,
 	FoundationEqualizer,
 	ProductView,
-	EmptyView,
 	Products,
 	CollectionLoadingIndicator,
 	App
@@ -19,7 +17,6 @@ define([
 		childView: ProductView,
 		tagName: 'ul',
 		className: 'row small-up-2 medium-up-3 large-up-4',
-		emptyView: EmptyView,
 		attributes: {
 			'data-equalizer' 		: '',
 			'data-equalize-by-row'	: 'true'

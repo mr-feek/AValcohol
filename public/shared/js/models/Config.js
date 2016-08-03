@@ -10,7 +10,7 @@ define([
 		urlRoot: '/api/config',
 
 		defaults: {
-			isClosed: true,
+			isClosed: false,
 			blastMessage: 'Ready to crack some brews? Order now to receive within the hour!'
 		}
 	});

@@ -126,6 +126,8 @@ require([
 		
 		app.user = User.findOrCreate({}, options);
 
+		app.config = new Config();
+
 		app.rootView.render();
 
 		var controller = new Controller({
@@ -137,23 +139,9 @@ require([
 		});
 	});
 
-	// screw it, we're waiting for config to fetch before starting app
-	app.config = new Config();
-	app.config.fetch().done(function() {
-		app.start();
+	app.start();
 
-		Backbone.history.start({
-			pushState: true
-		});
-	}).error(function(response) {
-		if (response.status === 503) {
-			// api is down for maintenance
-			$('body').html(
-				'<div style="text-align:center;">' +
-				'<h1>We Are Currently Down For Maintenance.</h1>' +
-				'<p>Please check back soon - Aqua Vitae</p>' +
-				'</div>'
-			);
-		}
+	Backbone.history.start({
+		pushState: true
 	});
 });
