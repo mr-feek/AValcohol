@@ -83,7 +83,6 @@ define([
 		},
 
 		reflowEqualizer: function() {
-			//Foundation.reInit('equalizer');
 			Foundation.reInit(this.ui.equalizerWrapper);
 		},
 

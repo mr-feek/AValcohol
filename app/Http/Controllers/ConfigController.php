@@ -30,7 +30,7 @@ class ConfigController extends Controller
 
 		return response()->json([
 			'isClosed' => $isClosed,
-			'blastMessage' => $blastMessage
+			'closedMessage' => $blastMessage
 		]);
 	}
 }

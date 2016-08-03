@@ -3,10 +3,12 @@
  */
 define([
 	'marionette',
+	'App',
 	'behaviors/Modal',
 	'tpl!templates/user-home/store-closed.html'
 ], function(
 	Mn,
+	app,
 	Modal,
 	tpl
 ) {
@@ -17,6 +19,12 @@ define([
 			Modal: {
 				behaviorClass: Modal
 			},
+		},
+
+		templateHelpers: function() {
+			return {
+				message: app.config.get('closedMessage')
+			}
 		},
 
 		events: {
