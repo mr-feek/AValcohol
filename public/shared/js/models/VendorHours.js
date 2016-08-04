@@ -7,10 +7,13 @@ define([
 	Vendor
 ) {
 	var VendorHours = Backbone.RelationalModel.extend({
-		urlRoot: '/api/vendor/',
+		urlRoot: function() {
+			var vendorId = this.get('vendor_id') || this.get('vendor').id;
+			return '/api/vendor/' + vendorId + '/hours';
+		},
 
-		url: function() {
-			return this.urlRoot + this.get('vendor_id') + '/hours/' + this.id
+		parse: function(response) {
+			return response.vendor_store_hours;
 		},
 
 		relations: [
@@ -19,12 +22,7 @@ define([
 				key: 'vendor',
 				relatedModel: Vendor,
 				includeInJSON: Backbone.Model.prototype.idAttribute,
-				keyDestination: 'vendor_id', // this might break things in the future, but i want to send vendor_id to backend for now
-				reverseRelation: {
-					key: 'hours',
-					includeInJSON: false,
-					type: Backbone.HasMany
-				}
+				keyDestination: 'vendor_id' // this might break things in the future, but i want to send vendor_id to backend for now
 			}
 		],
 

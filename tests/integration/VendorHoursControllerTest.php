@@ -9,7 +9,7 @@ use App\Models\VendorStoreHours;
  */
 class VendorHoursControllerTest extends TestCase
 {
-	//use \Laravel\Lumen\Testing\DatabaseTransactions; breaking update test for now because of dependency
+	//use \Laravel\Lumen\Testing\DatabaseTransactions; breaking update test for now because of dependency. should be deleted anyway in 3rd test
 
 	public function __construct()
 	{
@@ -62,6 +62,24 @@ class VendorHoursControllerTest extends TestCase
 		$this->seeInDatabase('vendor_hours', $data);
 		$data['deleted_at'] = null; // hack but whatever
 		$this->checkJson($data);
+	}
+
+	/**
+	 * @depends testCreateVendorHours
+	 * @param array $data
+	 * @internal param int $vendor_id
+	 * @internal param int $store_hours_id
+	 * @internal param int $vendor_id
+	 */
+	public function testDeleteVendorHours(array $data) {
+		$dayOfWeek = VendorStoreHours::$days['monday'];
+		$vendor_id = $data['vendor_id'];
+		$storeHoursId = $data['store_hours_id'];
+
+		$this->delete("vendor/{$vendor_id}/hours/{$storeHoursId}", [], $this->authHeader);
+
+		$this->seeInDatabase('vendor_hours', ['id' => $storeHoursId]);
+		$this->notSeeInDatabase('vendor_hours', ['id' => $storeHoursId, 'deleted_at' => null ]); // since we are using soft deletes
 	}
 
 	public function testGetVendorStoreHoursForTheWeek() {

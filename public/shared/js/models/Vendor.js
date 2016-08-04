@@ -17,12 +17,7 @@ define([
 				type: Backbone.HasMany,
 				key: 'hours',
 				relatedModel: VendorHours,
-				includeInJSON: false,
-				reverseRelation: {
-					key: '',
-					includeInJSON: false,
-					type: Backbone.HasOne
-				}
+				includeInJSON: true
 			}
 		],
 

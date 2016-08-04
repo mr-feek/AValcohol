@@ -58,6 +58,13 @@ class VendorHoursController extends Controller
 		return response()->json(['vendor_store_hours' => $model]);
 	}
 
+	public function delete(Request $request, int $vendorId, int $storeHoursId) {
+		$model = VendorStoreHours::find($storeHoursId);
+		$success = $model->delete();
+
+		return response()->json(['success' => $success]);
+	}
+
 	public function getWeeklyHours(Request $request, int $vendorId) {
 		$hours = VendorStoreHours::where(['vendor_id' => $vendorId])->get();
 		return response()->json(['vendor_store_hours' => $hours]);

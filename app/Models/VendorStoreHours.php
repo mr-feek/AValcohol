@@ -10,6 +10,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\VendorStoreHours
@@ -34,6 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class VendorStoreHours extends Model
 {
+	use SoftDeletes;
+	
 	protected $table = 'vendor_hours';
 
 	/**

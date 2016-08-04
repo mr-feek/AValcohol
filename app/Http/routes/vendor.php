@@ -46,6 +46,7 @@ $app->group(['prefix' => 'vendor', 'middleware' => 'jwt-auth|has-role:administra
 	$app->get('{vendor_id}/hours', 'VendorHoursController@getWeeklyHours');
 	$app->post('{vendor_id}/hours', 'VendorHoursController@create');
 	$app->put('{vendor_id}/hours/{day_of_week}/id/{store_hours_id}', 'VendorHoursController@update');
+	$app->delete('{vendor_id}/hours/{store_hours_id}', 'VendorHoursController@delete');
 
 	$app->post('{vendor_id}/hours/override', 'VendorOverrideHoursController@create');
 	$app->delete('{vendor_id}/hours/override/{model_id}', 'VendorOverrideHoursController@delete');

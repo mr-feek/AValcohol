@@ -76,8 +76,7 @@ define([
 			});
 
 			if (vendorHoursModel.isValid()) {
-				vendorHoursModel.save();
-				this.model.get('hours').add(vendorHoursModel);
+				this.model.get('hours').create(vendorHoursModel, {wait: true}); // create and wait for server to finish before adding to collection
 			} else {
 				alert('invalid data entered.');
 			}
@@ -87,7 +86,6 @@ define([
 			evt.preventDefault();
 			var idToDelete = $(evt.target).data('id');
 			var model = this.model.get('hours').get(idToDelete);
-
 			model.destroy();
 		},
 
