@@ -60,6 +60,29 @@ define([
 			}
 
 			return errors.length > 0 ? errors : null;
+		},
+
+		/*
+		|--------------------------------------------------------------------------
+		| utils
+		|--------------------------------------------------------------------------
+		|
+		| woot woot.
+		|
+		*/
+
+		days: {
+			0 : 'Sunday',
+			1 : 'Monday',
+			2 : 'Tuesday',
+			3 : 'Wednesday',
+			4 : 'Thursday',
+			5 : 'Friday',
+			6 : 'Saturday',
+		},
+
+		displayDayOfWeek: function() {
+			return this.days[this.get('day_of_week')];
 		}
 	});
 
