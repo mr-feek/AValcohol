@@ -10,7 +10,7 @@ define([
 		urlRoot: '/api/vendor/',
 
 		url: function() {
-			return this.urlRoot + this.get('vendor').id + '/hours'
+			return this.urlRoot + this.get('vendor_id') + '/hours/' + this.id
 		},
 
 		relations: [

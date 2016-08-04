@@ -35,15 +35,17 @@ define([
 
 
 		events: {
-			'click @ui.save' : 'createNewVendorHoursEntry'
+			'click @ui.save' 			: 'createNewVendorHoursEntry',
+			'click @ui.deleteHourModel' : 'deleteHourModel'
 		},
 
 		ui: {
-			'dayOfWeek' : '.day-of-week',
-			'openTime' 	: '.open-time',
-			'closeTime' : '.close-time',
-			'save' 		: '.save',
-			'grid' 		: '.grid'
+			'dayOfWeek'			: '.day-of-week',
+			'openTime' 			: '.open-time',
+			'closeTime' 		: '.close-time',
+			'save' 				: '.save',
+			'deleteHourModel' 	: '.remove',
+			'grid' 				: '.grid'
 		},
 
 		initialize: function(options) {
@@ -79,6 +81,14 @@ define([
 			} else {
 				alert('invalid data entered.');
 			}
+		},
+
+		deleteHourModel: function(evt) {
+			evt.preventDefault();
+			var idToDelete = $(evt.target).data('id');
+			var model = this.model.get('hours').get(idToDelete);
+
+			model.destroy();
 		},
 
 		initializeGrid: function(collection) {
@@ -126,7 +136,7 @@ define([
 						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
-								this.$el.html('remove');
+								this.$el.html('<a class="remove"\ data-id="' + this.model.id + '">remove</a>');
 								return this;
 							}
 						})
