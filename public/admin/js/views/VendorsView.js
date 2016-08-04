@@ -88,7 +88,7 @@ define([
 				columns: [
 					{
 						name: 'id',
-						label: 'Vendor ID',
+						label: 'ID',
 						editable: false,
 						cell: Backgrid.IntegerCell.extend({
 							orderSeparator: ''
@@ -96,21 +96,21 @@ define([
 					},
 					{
 						name: 'name',
-						label: 'Vendor Name',
+						label: 'Name',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
 					},
 					{
 						name: 'address',
-						label: 'Vendor Address',
+						label: 'Address',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
 					},
 					{
 						name: 'phone_number',
-						label: 'Phone Number',
+						label: 'Phone',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
