@@ -13,6 +13,7 @@ define([
 ) {
 	var Vendor = Backbone.RelationalModel.extend({
 		urlRoot: '/api/vendor',
+		hasBeenFetched: false, // flag for whether or not we have fetched the vendor. useful only for when logging in from admin
 
 		relations: [
 			{
@@ -39,7 +40,8 @@ define([
 		defaults: {
 			name: null,
 			address: null,
-			phone_number: null
+			phone_number: null,
+			store_status: null
 		},
 
 		initialize: function() { },
