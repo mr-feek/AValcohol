@@ -4,10 +4,12 @@
 define([
 	'backbone',
 	'shared/js/models/VendorHours',
+	'shared/js/models/DeliveryZone',
 	'backboneRelational'
 ], function (
 	Backbone,
-	VendorHours
+	VendorHours,
+	DeliveryZone
 ) {
 	var Vendor = Backbone.RelationalModel.extend({
 		urlRoot: '/api/vendor',
@@ -18,6 +20,12 @@ define([
 				key: 'hours',
 				relatedModel: VendorHours,
 				includeInJSON: true
+			},
+			{
+				type: Backbone.HasOne,
+				key: 'delivery_zone',
+				relatedModel: DeliveryZone,
+				includeInJSON: false
 			}
 		],
 

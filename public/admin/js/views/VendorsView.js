@@ -116,11 +116,16 @@ define([
 						cell: Backgrid.StringCell
 					},
 					{
-						name: 'delivery_zone_id',
-						label: 'Delivery Zone ID',
+						label: 'Delivery Zone',
 						editable: false,
 						sortable: false,
-						cell: Backgrid.IntegerCell
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html(this.model.get('delivery_zone').get('name'));
+
+								return this;
+							}
+						})
 					},
 					{
 						name: 'store_status',
