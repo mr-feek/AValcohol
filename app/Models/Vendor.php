@@ -77,6 +77,10 @@ class Vendor extends Model
 		return $this->hasMany('App\Models\OverrideVendorStoreHours');
 	}
 
+	public function deliveryZone() {
+		return $this->belongsTo('App\Models\DeliveryZone');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Scopes

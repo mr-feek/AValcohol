@@ -16,8 +16,8 @@ class VendorsController extends Controller
 {
 	public function get(Request $request) {
 		$filters = new VendorsFilters($request->input());
-		$vendors = Vendor::filter($filters)->get(); // filters is basically noop right now in vendorsfilters class
-		$count = Vendor::count();
+		$vendors = Vendor::filter($filters)->with('deliveryZone')->get(); // filters is basically noop right now in vendorsfilters class
+		$count = Vendor::filter($filters)->count();
 
 		$this->authorize('get', $vendors); // todo: remove once admin middleware is setup
 
