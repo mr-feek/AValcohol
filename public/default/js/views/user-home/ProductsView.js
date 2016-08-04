@@ -42,7 +42,15 @@ define([
 			// pass the collection to the loading indicator
 			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
-			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
+
+			if (App.config.get('isClosed') === true) {
+				this.collection.fetch({ data: $.param({
+					delivery_zone_id: delivery_zone_id,
+					includeClosed: true // since the store is closed, grab the closed ones anway
+				})});
+			} else {
+				this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
+			}
 
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
 			// for some reason onAddChild doesn't seem to be called after re-rendering
