@@ -6,6 +6,7 @@ use App\Exceptions\APIException;
 use App\Models\OrderProduct;
 use App\Http\Services\OrderService;
 use Illuminate\Http\Request;
+use Stripe\Error\Card;
 
 class OrderController extends Controller
 {
@@ -25,7 +26,12 @@ class OrderController extends Controller
 			'terms_and_conditions' => 'accepted'
 		]);
 
-		$order = $service->create($request->input());
+		try {
+			$order = $service->create($request->input());
+		} catch(Card $error) {
+			$data = array_merge($error->getJsonBody(), ['success' => false]);
+			return response()->json($data);
+		}
 
 		return response()->json([
 			'success' => true,

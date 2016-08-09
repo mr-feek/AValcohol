@@ -139,6 +139,27 @@ class OrderControllerTest extends TestCase
 		]);
 	}
 
+	public function testCreateOrderWithDeclinedCardFails() {
+		$this->withoutMiddleware();
+
+		$products = $this->getProductsToBuy();
+		$address = $this->getAddress();
+		$user = User::find(1);
+		$token = $this->testCreateFailingToken();
+
+		$response = $this->createOrder($products, $address, $user, $token);
+
+		$this->verifyOrderNotCreated();
+
+		$this->seeJsonStructure([
+			'success',
+			'error' => [
+				'message',
+				'code'
+			]
+		]);
+	}
+
 	/*
 	public function testCannotCreateOrderIfCannotDeliverToAddress() {
 		$products = $this->getProductsToBuy();
@@ -186,6 +207,23 @@ class OrderControllerTest extends TestCase
 		return \Stripe\Token::create(array(
 			"card" => array(
 				"number" => "4242424242424242",
+				"exp_month" => 12,
+				"exp_year" => 2016,
+				"cvc" => "314"
+			)
+		));
+	}
+
+	public function testCreateFailingToken() {
+		if (env('OFFLINE_MODE') === true) {
+			return 'fake-token-due-to-offline-mode-enabled';
+		}
+
+		\Stripe\Stripe::setApiKey(Dotenv::findEnvironmentVariable('STRIPE_KEY'));
+
+		return \Stripe\Token::create(array(
+			"card" => array(
+				"number" => "4000000000000002",
 				"exp_month" => 12,
 				"exp_year" => 2016,
 				"cvc" => "314"
