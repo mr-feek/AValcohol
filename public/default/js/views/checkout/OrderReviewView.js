@@ -163,7 +163,11 @@ define([
 
 			this.model.save()
 				.done(function (result) {
-					Vent.trigger('order:submitted', this.model);
+					if (result.success === true) {
+						Vent.trigger('order:submitted', this.model);
+					} else {
+						this.parent.showErrorMessage(result.error.message);
+					}
 				}.bind(this))
 				.fail(function (result) {
 					alert("Sorry, but something went wrong with creating your order, please let us know" +

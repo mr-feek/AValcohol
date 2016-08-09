@@ -52,7 +52,8 @@ define([
 			'statuses' 			: '.status',
 			'savedView' 		: '.submitted', // all views that have already been saved
 			'active' 			: '.active',
-			'continueShopping'	: '.continue-shopping'
+			'continueShopping'	: '.continue-shopping',
+			'errorArea'			: '.error-area'
 		},
 
 		regions: {
@@ -183,6 +184,21 @@ define([
 			this.triggerMethod('goToIndex', indexToShow);
 
 			this.beforeShowNext(indexToShow); // hack to update new active class
+		},
+
+		showErrorMessage: function(message) {
+			$("html, body").animate({ scrollTop: 0 }, 'slow'); // scroll to top so error is noticable
+
+			this.ui.errorArea.html('\
+				<div class="callout alert" data-closable> \
+					<h5 class="error-title">Uh Oh!</h5> \
+					<p class="error-message">'+ message + '</p> \
+					\
+					<button class="close-button" aria-label="Dismiss alert" type="button" data-close> \
+						<span aria-hidden="true">&times;</span> \
+					</button> \
+				</div>\
+			');
 		}
 	});
 
