@@ -25,7 +25,7 @@ class BlacklistedAddressService extends BaseService
 	 * @return bool
 	 */
 	public function isBlacklisted($data) {
-		$model = $this->repo->get($data['street'], $data['city'], $data['state'], $data['zipcode']);
+		$model = $this->repo->get($data);
 
 		if ($model) {
 			$this->blacklistedReason = $model->getReason();

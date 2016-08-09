@@ -140,7 +140,8 @@ define([
 			var promise = $.get(
 				'/api/address/delivery_zone', {
 					latitude: this.get('location')['latitude'],
-					longitude: this.get('location')['longitude']
+					longitude: this.get('location')['longitude'],
+					street: this.get('street')
 				}
 			);
 			promise.done(function(resp) {

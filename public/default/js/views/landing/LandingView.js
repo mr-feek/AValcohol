@@ -1,6 +1,7 @@
 define([
 	'marionette',
 	'App',
+	'views/landing/CannotDeliverDueToBlacklistedAddressView',
 	'views/landing/CannotDeliverView',
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
@@ -10,6 +11,7 @@ define([
 ], function (
 	Mn,
 	app,
+	CannotDeliverDueToBlacklistedAddressView,
 	CannotDeliverView,
 	UserAddress,
 	ModelValidation,
@@ -113,11 +115,12 @@ define([
 			
 			if (this.address.isValid()) {
 				this.address.getDeliveryZone().done(function(resp) {
-					if (resp.success) {
+					if (resp.success === true) {
 						this.showUserHome();
-					} else {
-						this.showCannotDeliverView();
+						return;
 					}
+
+					this.showCannotDeliverView(resp);
 				}.bind(this));
 			}
 		},
@@ -129,7 +132,12 @@ define([
 			this.router.navigate('#home', {trigger: true});
 		},
 
-		showCannotDeliverView: function() {
+		showCannotDeliverView: function(response) {
+			if (response.reason == 'blacklisted') {
+				app.rootView.getRegion('modalRegion').show(new CannotDeliverDueToBlacklistedAddressView({ message: response.message }));
+				return;
+			}
+			
 			app.rootView.getRegion('modalRegion').show(new CannotDeliverView());
 		}
 	});

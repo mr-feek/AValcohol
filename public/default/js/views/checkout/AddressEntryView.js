@@ -80,7 +80,12 @@ define([
 		},
 
 		modelSaveSuccess: function(response) {
-			this.parent.trigger('show:next');
+			if (response.success === true) {
+				this.parent.trigger('show:next');
+				return;
+			}
+
+			this.parent.showErrorMessage(response.message);
 		},
 
 		goBackOneViewInFlow: function() {

@@ -8,6 +8,7 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\BlacklistedAddressException;
 use App\Exceptions\InvalidPermissionException;
 use App\Http\Repositories\Interfaces\UserAddressInterface;
 use App\Exceptions\APIException;
@@ -64,7 +65,7 @@ class UserAddressService extends BaseService
 		}
 
 		if ($this->blacklistedService->isBlacklisted($data)) {
-			throw new APIException($this->blacklistedService->getReason());
+			throw new BlacklistedAddressException($this->blacklistedService->getReason());
 		}
 
 		return true;
@@ -91,8 +92,9 @@ class UserAddressService extends BaseService
 	public function getDeliveryZoneID(array $data) {
 		$point = new Point($data['location']['latitude'], $data['location']['longitude']);
 		$zones = DeliveryZone::getZonesContainingPoint($point);
+
 		// this should only ever be one zone.
-		if (app()->environment('local')) {
+		if (app()->environment('testing')) {
 			$filtered = $zones->where('name', 'State College'); // default to state college instead of rando ones for testing purposes
 			if ($filtered->count() >= 1) {
 				return $filtered->first()->id;
@@ -100,6 +102,17 @@ class UserAddressService extends BaseService
 		}
 
 		$zone = $zones->first();
+
+		if ($zone) {
+			$blacklisted = $this->blacklistedService->isBlacklisted([
+				'delivery_zone_id' => $zone->id,
+				'street' => $data['street']
+			]);
+
+			if ($blacklisted) {
+				throw new BlacklistedAddressException($this->blacklistedService->getReason());
+			}
+		}
 
 		return ($zone ? $zone->id : 0);
 	}

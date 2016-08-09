@@ -42,6 +42,18 @@ $factory->define(App\Models\UserAddress::class, function(Faker\Generator $faker)
 	];
 });
 
+$factory->define(\App\Models\BlacklistedAddress::class, function(Faker\Generator $faker) {
+
+	return [
+		'reason' => 1, // frat
+		'street' => $faker->streetName(),
+		'city' => $faker->city(),
+		'state' => $faker->citySuffix(),
+		'zipcode' => $faker->randomNumber(5),
+		'delivery_zone_id' => \App\Models\Vendor::orderByRaw('RAND()')->first()->delivery_zone_id
+	];
+});
+
 $factory->define(App\Models\UserProfile::class, function(Faker\Generator $faker) {
 	$max = 'now';
 	$max = new DateTime('today');
