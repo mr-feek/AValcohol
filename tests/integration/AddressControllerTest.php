@@ -14,18 +14,9 @@ class AddressControllerTest extends TestCase
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 	public function testCanCreateAddress() {
-		$address = new UserAddress();
-		$address->city = 'State College';
-		$address->state = 'PA';
-		$address->zipcode = '16801';
-		$address->street = '810 Walnut Street';
-		$address->location = [
-			'longitude' => 0,
-			'latitude' => 1
-		];
-
+		$address = factory(UserAddress::class)->make(['user_id' => 1]);
 		$data = $address->toArray();
-		$data['user']['id'] = 1;
+		$data['user']['id'] = $data['user_id']; // hack
 
 		$this->post('/address', $data);
 
@@ -41,15 +32,7 @@ class AddressControllerTest extends TestCase
 	}
 
 	public function testCanCreateAddressWithApartmentNumber() {
-		$address = new UserAddress();
-		$address->city = 'State College';
-		$address->state = 'PA';
-		$address->zipcode = '16801';
-		$address->street = '810 Walnut Street';
-		$address->location = [
-			'longitude' => 0,
-			'latitude' => 1
-		];
+		$address = factory(UserAddress::class)->make();
 		$address->apartment_number = 123;
 
 		$data = $address->toArray();
@@ -79,15 +62,13 @@ class AddressControllerTest extends TestCase
 		$blacklisted->delivery_zone_id = 1; // temp
 		$blacklisted->save();
 
-		$address = new UserAddress();
-		$address->street = $blacklisted->street;
-		$address->city = $blacklisted->city;
-		$address->state = $blacklisted->state;
-		$address->zipcode = $blacklisted->zipcode;
-		$address->location = [
-			'latitude' => 0,
-			'longitude' => 0
-		];
+		$address = factory(UserAddress::class)->make([
+			'street' => $blacklisted->street,
+			'city' => $blacklisted->city,
+			'state'=> $blacklisted->state,
+			'zipcode' => $blacklisted->zipcode,
+			'delivery_zone_id' => $blacklisted->delivery_zone_id
+		]);
 		// don't save here.
 
 		$data = $address->toArray();

@@ -8,6 +8,7 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\APIException;
 use App\Http\Repositories\Interfaces\BlacklistedAddressInterface;
 
 class BlacklistedAddressService extends BaseService
@@ -21,10 +22,17 @@ class BlacklistedAddressService extends BaseService
 
 	/**
 	 * Determines whether or not a given address is blacklisted from being delivered to
+	 *
+	 * requires the delivery_zone_id to be passed in! as it checks street + delivery zone id
 	 * @param $data
 	 * @return bool
+	 * @throws APIException
 	 */
 	public function isBlacklisted($data) {
+		if (!$data['delivery_zone_id']) {
+			throw new APIException('delivery zone id not supplied for checking if an address is blacklisted');
+		}
+
 		$model = $this->repo->get($data);
 
 		if ($model) {
