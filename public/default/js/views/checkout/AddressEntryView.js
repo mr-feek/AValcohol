@@ -2,6 +2,7 @@ define([
 	'marionette',
 	'App',
 	'shared/js/models/UserAddress',
+	'views/checkout/ChangeAddressView',
 	'behaviors/ModelFormSave',
 	'behaviors/ModelSaveAnimation',
 	'tpl!templates/checkout/address-entry.html'
@@ -9,6 +10,7 @@ define([
 	Mn,
 	App,
 	UserAddress,
+	ChangeAddressView,
 	ModelFormSave,
 	ModelSaveAnimation,
 	tpl
@@ -63,17 +65,22 @@ define([
 			}
 		},
 
+		modelEvents: {
+			'change' : 'render'
+		},
+
 		events: {
-			'click @ui.back' : 'goBackOneViewInFlow'
+			'click @ui.back' 			: 'goBackOneViewInFlow',
+			'click @ui.changeAddress' 	: 'changeAddressClicked'
 		},
 
 		ui: {
-			'back' : '.back'
+			'back' 			: '.back',
+			'changeAddress' : '.change-address'
 		},
 
 		initialize: function (options) {
 			this.parent = options.parent;
-			this.model = App.user.get('address');
 
 			// attach callback to ModelFormSave behavior
 			this.triggerMethod('setModelSaveCallbacks', this.modelSaveSuccess);
@@ -85,6 +92,12 @@ define([
 
 		goBackOneViewInFlow: function() {
 			this.parent.goToViewBasedOnName('user');
+		},
+
+		changeAddressClicked: function(evt) {
+			evt.preventDefault();
+
+			App.rootView.getRegion('modalRegion').show(new ChangeAddressView({ model : this.model }));
 		}
 	});
 

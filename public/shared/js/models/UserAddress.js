@@ -28,6 +28,8 @@ define([
 		},
 
 		initialize: function(attributes, options) {
+			options = options || {};
+			
 			_.bindAll(this, 'getDeliveryZone');
 			this.storageHelper = new StorageHelper();
 
