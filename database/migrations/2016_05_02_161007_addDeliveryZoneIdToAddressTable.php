@@ -29,6 +29,7 @@ class AddDeliveryZoneIdToAddressTable extends Migration
     public function down()
     {
 		Schema::table('user_addresses', function(Blueprint $table) {
+			$table->dropForeign('user_addresses_delivery_zone_id_foreign');
 			$table->dropColumn('delivery_zone_id');
 		});
     }

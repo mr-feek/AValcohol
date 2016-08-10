@@ -40,7 +40,7 @@ class Roles extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('role_user');
         Schema::dropIfExists('roles');
-        Schema::dropIfExists('user_role');
     }
 }
