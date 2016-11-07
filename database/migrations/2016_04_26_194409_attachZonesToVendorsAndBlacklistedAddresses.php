@@ -37,13 +37,13 @@ class AttachZonesToVendorsAndBlacklistedAddresses extends Migration
     public function down()
     {
 		Schema::table('vendors', function(Blueprint $table) {
+			$table->dropForeign('vendors_delivery_zone_id_foreign');
 			$table->dropColumn('delivery_zone_id');
-			$table->dropForeign('delivery_zone_id');
 		});
 
 		Schema::table('blacklisted_addresses', function(Blueprint $table) {
+			$table->dropForeign('blacklisted_addresses_delivery_zone_id_foreign');
 			$table->dropColumn('delivery_zone_id');
-			$table->dropForeign('delivery_zone_id');
 		});
     }
 }

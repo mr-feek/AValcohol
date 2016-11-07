@@ -175,7 +175,6 @@ define([
 							App.rootView.getRegion('modalRegion').show(new StoreClosedView());
 						}
 					}
-
 				}.bind(this))
 				.fail(function (result) {
 					alert("Sorry, but something went wrong with creating your order, please let us know" +

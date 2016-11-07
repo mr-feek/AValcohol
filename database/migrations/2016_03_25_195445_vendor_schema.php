@@ -130,20 +130,28 @@ class VendorSchema extends Migration
     public function down()
     {
         //ugggggg
-		Schema::drop('order_delivery_details');
-		Schema::drop('order_statuses');
-		Schema::drop('order_denials');
-		Schema::drop('vendor_settings');
-		Schema::drop('vendor_product');
+		Schema::dropIfExists('order_delivery_details');
+		Schema::dropIfExists('order_statuses');
+		Schema::dropIfExists('order_denials');
+		Schema::dropIfExists('vendor_settings');
+		Schema::dropIfExists('vendor_product');
 		Schema::table('order_product', function(Blueprint $table) {
 			$table->dropForeign(['vendor_id']);
 			$table->dropColumn('vendor_id');
-		});/*
+		});
+
+	    Schema::table('orders', function(Blueprint $table) {
+		    $table->string('status');
+		    $table->dropForeign('orders_vendor_id_foreign');
+		    $table->dropColumn('vendor_id');
+	    });
+
 		Schema::table('vendors', function(Blueprint $table) {
-			$table->dropForeign(['user_id']);
-		});*/
-		Schema::drop('vendors');
-		Schema::drop('user_profiles');
+			$table->dropForeign('vendors_user_id_foreign');
+		});
+
+		Schema::dropIfExists('vendors');
+		Schema::dropIfExists('user_profiles');
 
 		Schema::table('users', function(Blueprint $table) {
 			$table->string('first_name');
@@ -154,10 +162,6 @@ class VendorSchema extends Migration
 		Schema::table('products', function(Blueprint $table) {
 			$table->decimal('price', 11, 2); // 2 decimal places
 			$table->decimal('sale_price', 11, 2); // 2 decimal places
-		});
-
-		Schema::table('orders', function(Blueprint $table) {
-			$table->string('status');
 		});
     }
 }

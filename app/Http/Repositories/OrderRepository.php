@@ -15,6 +15,7 @@ use App\Models\UserAddress;
 use App\Http\Repositories\Interfaces\OrderInterface;
 use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
+use Stripe\Error\Card;
 
 class OrderRepository extends BaseRepository implements OrderInterface
 {
@@ -86,6 +87,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		return $user->charge($amount, $options);
 	} */
 
+	/**
+	 * @param Order $order
+	 * @param $stripe_token
+	 * @return Order
+	 * @throws Card error to bubble up
+	 */
 	public function authorizeChargeOnCard(Order $order, $stripe_token)
 	{
 		$amount = $order->calculateChargeAmountForProcessor();
@@ -106,7 +113,6 @@ class OrderRepository extends BaseRepository implements OrderInterface
 			$charge = new \stdClass();
 			$charge->id = 'offline-mode-set';
 		} else {
-			// normal op
 			$charge = $order->user->charge($amount, $options);
 		}
 

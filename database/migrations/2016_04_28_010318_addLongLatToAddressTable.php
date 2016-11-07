@@ -26,9 +26,8 @@ class AddLongLatToAddressTable extends Migration
      */
     public function down()
     {
-        DB::statement('
-			ALTER TABLE user_addresses 
-			DROP location POINT
-		');
+        Schema::table('user_addresses', function(Blueprint $table) {
+            $table->dropColumn('location');
+        });
     }
 }

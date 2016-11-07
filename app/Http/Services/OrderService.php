@@ -11,7 +11,9 @@ namespace App\Http\Services;
 use App\Http\Repositories\Interfaces\OrderInterface;
 use App\Events\OrderWasSubmitted;
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Stripe\Error\Card;
 
 class OrderService extends BaseService
 {
@@ -55,14 +57,13 @@ class OrderService extends BaseService
 			}
 		}
 
-		$order = $this->repo->createOrder($user, $address, $products, $data);
-		$authorized = $this->repo->authorizeChargeOnCard($order, $data['stripe_token']);
+		DB::transaction(function() use ($user, $address, $products, $data) {
+			$order = $this->repo->createOrder($user, $address, $products, $data);
+			$this->repo->authorizeChargeOnCard($order, $data['stripe_token']); // will throw an exception if fails
 
-		if (!$authorized) {
-			// to do
-		}
+			return $order;
+		});
 
-		return $order;
 	}
 
 	public function capturePreExistingCharge(Order $order) {
