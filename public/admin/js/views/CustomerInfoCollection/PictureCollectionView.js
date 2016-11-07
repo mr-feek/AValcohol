@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'tpl!templates/CustomerInfoCollection/picture-collection.html'
+	'templates/CustomerInfoCollection/picture-collection.html'
 ], function(
 	Mn,
 	tpl

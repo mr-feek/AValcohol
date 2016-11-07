@@ -8,7 +8,7 @@ define([
 	'views/user-home/SidebarView',
 	'foundationEqualizer',
 	'App',
-	'tpl!templates/user-home/user-home.html'
+	'templates/user-home/user-home.html'
 ], function (
 	Mn,
 	HeaderView,

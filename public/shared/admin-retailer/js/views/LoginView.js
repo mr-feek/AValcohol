@@ -6,7 +6,7 @@ define([
 	'shared/js/util/Vent',
 	'behaviors/LoadingIndicator',
 	'App',
-	'tpl!../../js/templates/login.html'
+	'../../js/templates/login.html'
 ], function (
 	Mn,
 	Vent,

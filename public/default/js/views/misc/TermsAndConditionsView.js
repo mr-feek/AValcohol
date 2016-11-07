@@ -3,7 +3,7 @@
  */
 define([
 	'marionette',
-	'tpl!templates/misc/terms-and-conditions.html'
+	'templates/misc/terms-and-conditions.html'
 ], function (
 	Mn,
 	tpl

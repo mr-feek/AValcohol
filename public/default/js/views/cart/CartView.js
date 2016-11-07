@@ -3,7 +3,7 @@ define([
 	'views/cart/CartProductView',
 	'views/cart/EmptyCartView',
 	'App',
-	'tpl!templates/cart/cart.html'
+	'templates/cart/cart.html'
 ], function (
 	Mn,
 	CartProductView,

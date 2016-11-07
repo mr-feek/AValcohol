@@ -23,7 +23,7 @@ require.config({
 		'text': 				'../../vendor/requirejs-text/text',
 		'tpl': 					'../../vendor/requirejs-tpl/tpl',
 		'async': 				'../../vendor/requirejs-plugins/src/async',
-		'stripe':				'https://js.stripe.com/v2/?noext',
+		'util/Stripe':				'https://js.stripe.com/v2/?noext',
 		'backbone.poller':		'../../vendor/backbone-poller/backbone.poller',
 		'moment':				'../../vendor/moment/moment',
 		'behaviors':			'../../vendor/UsefulMarionetteViewBehaviors',

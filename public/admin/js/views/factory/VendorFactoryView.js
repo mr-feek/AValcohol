@@ -5,7 +5,7 @@ define([
 	'marionette',
 	'behaviors/ModelFormSave',
 	'models/VendorFactoryModel',
-	'tpl!templates/factory/vendor.html'
+	'templates/factory/vendor.html'
 ], function (
 	Mn,
 	ModelFormSave,

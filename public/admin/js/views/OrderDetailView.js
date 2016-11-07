@@ -6,7 +6,7 @@ define([
 	'views/ProductView',
 	'behaviors/Modal',
 	'shared/js/models/OrderDeliveryDetails',
-	'tpl!templates/order-detail.html'
+	'templates/order-detail.html'
 ], function (
 	Mn,
 	ProductView,

@@ -12,7 +12,7 @@ define([
 	'views/cart/CartProductView',
 	'behaviors/ModelSaveAnimation',
 	'shared/js/util/Vent',
-	'tpl!templates/checkout/order-review.html'
+	'templates/checkout/order-review.html'
 ], function (
 	Mn,
 	App,

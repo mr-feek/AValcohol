@@ -4,7 +4,7 @@ define([
 	'shared/js/views/FooterView',
 	'views/landing/LandingView',
 	'shared/js/util/Vent',
-	'tpl!templates/root.html',
+	'templates/root.html',
 	'behaviors/FoundationOffCanvas'
 ], function (
 	Mn,

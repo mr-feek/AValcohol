@@ -1,7 +1,7 @@
 define([
 	'marionette',
 	'App',
-	'stripe',
+	'util/Stripe',
 	'views/checkout/AddressEntryView',
 	'views/checkout/BillingInfoEntryView',
 	'views/checkout/UserInfoEntryView',
@@ -10,7 +10,7 @@ define([
 	'views/user-home/UserHomeView',
 	'shared/js/util/Vent',
 	'behaviors/StateManager',
-	'tpl!templates/checkout/checkout.html'
+	'templates/checkout/checkout.html'
 ], function (
 	Mn,
 	App,

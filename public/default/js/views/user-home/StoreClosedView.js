@@ -4,7 +4,7 @@
 define([
 	'marionette',
 	'behaviors/Modal',
-	'tpl!templates/user-home/store-closed.html'
+	'templates/user-home/store-closed.html'
 ], function(
 	Mn,
 	Modal,

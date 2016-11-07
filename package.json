@@ -4,25 +4,30 @@
   "description": "deploys",
   "main": "index.js",
   "directories": {
-	"test": "tests"
+    "test": "tests"
   },
   "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/fpm5022/AValcohol.git"
+    "type": "git",
+    "url": "git+https://github.com/fpm5022/AValcohol.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-	"url": "https://github.com/fpm5022/AValcohol/issues"
+    "url": "https://github.com/fpm5022/AValcohol/issues"
   },
   "homepage": "https://github.com/fpm5022/AValcohol#readme",
   "dependencies": {
-	"gulp": "^3.9.0",
-	"gulp-util": "^3.0.7",
-	"minimist": "^1.2.0",
-	"vinyl-ftp": "^0.4.5"
+    "gulp": "^3.9.0",
+    "gulp-util": "^3.0.7",
+    "minimist": "^1.2.0",
+    "vinyl-ftp": "^0.4.5"
+  },
+  "devDependencies": {
+    "bower-webpack-plugin": "^0.1.9",
+    "file-system": "^2.2.1",
+    "underscore-template-loader": "^0.7.3"
   }
 }

@@ -4,7 +4,7 @@
 define([
 	'marionette',
 	'jSignature',
-	'tpl!templates/CustomerInfoCollection/signature-collection.html'
+	'templates/CustomerInfoCollection/signature-collection.html'
 ], function(
 	Mn,
 	jSignature,

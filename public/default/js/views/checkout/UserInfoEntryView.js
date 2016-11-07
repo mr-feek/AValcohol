@@ -4,8 +4,8 @@ define([
 	'behaviors/ModelFormSave',
 	'behaviors/ModelSaveAnimation',
 	'moment',
-	'pickaday',
-	'tpl!templates/checkout/user-info-entry.html'
+	'pikaday',
+	'templates/checkout/user-info-entry.html'
 ], function (
 	Mn,
 	App,

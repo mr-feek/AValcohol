@@ -5,7 +5,7 @@ define([
 	'marionette',
 	'behaviors/Modal',
 	'behaviors/ModelFormSave',
-	'tpl!templates/vendor-settings.html',
+	'templates/vendor-settings.html',
 	'foundationTooltip'
 ], function (
 	Mn,

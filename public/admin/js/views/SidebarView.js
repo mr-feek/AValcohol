@@ -5,7 +5,7 @@
 define([
 	'marionette',
 	'App',
-	'tpl!templates/sidebar.html'
+	'templates/sidebar.html'
 ], function (
 	Mn,
 	App,

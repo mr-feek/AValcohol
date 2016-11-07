@@ -5,8 +5,8 @@ define([
 	'shared/js/models/UserAddress',
 	'behaviors/ModelValidation',
 	'behaviors/LoadingIndicator',
-	'tpl!templates/landing/landing.html',
-	'async!https://maps.googleapis.com/maps/api/js?key=AIzaSyBcB7pNSUkuNH6awEIE57njndRXQpQBsEI&libraries=places'
+	'templates/landing/landing.html',
+	'util/GoogleMaps'
 ], function (
 	Mn,
 	app,

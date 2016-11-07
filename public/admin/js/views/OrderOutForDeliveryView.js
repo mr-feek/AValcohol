@@ -7,7 +7,7 @@ define([
 	'views/ProductView',
 	'views/CustomerInfoCollection/ParentView',
 	'App',
-	'tpl!templates/order-out-for-delivery.html'
+	'templates/order-out-for-delivery.html'
 ], function (
 	Mn,
 	OrderDeliveryDetails,

@@ -2,7 +2,7 @@ define([
 	'marionette',
 	'collections/Cart',
 	'App',
-	'tpl!templates/user-home/product.html',
+	'templates/user-home/product.html',
 	'foundationTooltip'
 ], function (
 	Mn,

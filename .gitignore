@@ -16,3 +16,4 @@ storage/
 composer-setup.php
 nbproject/
 clover.xml
+public/dist

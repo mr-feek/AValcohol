@@ -1,10 +1,10 @@
 define([
 	'marionette',
 	'App',
-	'stripe',
+	'util/Stripe',
 	'shared/js/models/Card',
 	'behaviors/ModelSaveAnimation',
-	'tpl!templates/checkout/billing-info-entry.html'
+	'templates/checkout/billing-info-entry.html'
 ], function (
 	Mn,
 	App,

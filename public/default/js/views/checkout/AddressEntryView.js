@@ -4,7 +4,7 @@ define([
 	'shared/js/models/UserAddress',
 	'behaviors/ModelFormSave',
 	'behaviors/ModelSaveAnimation',
-	'tpl!templates/checkout/address-entry.html'
+	'templates/checkout/address-entry.html'
 ], function (
 	Mn,
 	App,

@@ -12,7 +12,7 @@ define([
 	'behaviors/LoadingIndicator',
 	'views/OrderDetailView',
 	'App',
-	'tpl!templates/all-orders.html'
+	'templates/all-orders.html'
 ], function (
 	Mn,
 	Backgrid,

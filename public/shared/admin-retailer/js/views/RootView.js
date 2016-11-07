@@ -6,7 +6,7 @@ define([
 	'views/SidebarView',
 	'shared/js/views/FooterView',
 	'shared/js/util/Vent',
-	'tpl!../templates/root.html',
+	'../templates/root.html',
 	'behaviors/FoundationOffCanvas'
 ], function (
 	Mn,

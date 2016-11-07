@@ -7,7 +7,7 @@ define([
 	'behaviors/ModelFormSave',
 	'models/EmailCollection',
 	'App',
-	'tpl!templates/landing/cannot-deliver.html'
+	'templates/landing/cannot-deliver.html'
 ], function(
 	Mn,
 	Modal,

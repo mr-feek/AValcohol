@@ -11,7 +11,7 @@ define([
 	'behaviors/LoadingIndicator',
 	'behaviors/Backgrid',
 	'App',
-	'tpl!templates/vendors.html'
+	'templates/vendors.html'
 ], function (
 	Mn,
 	Backgrid,

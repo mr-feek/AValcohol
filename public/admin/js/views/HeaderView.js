@@ -6,7 +6,7 @@ define([
 	'shared/js/util/Vent',
 	'models/SiteStatusModel',
 	'App',
-	'tpl!templates/header.html'
+	'templates/header.html'
 ], function (
 	Mn,
 	Vent,

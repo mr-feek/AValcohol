@@ -6,7 +6,7 @@ define([
 	'behaviors/StateManager',
 	'views/CustomerInfoCollection/SignatureCollectionView',
 	'views/CustomerInfoCollection/PictureCollectionView',
-	'tpl!templates/CustomerInfoCollection/parent.html'
+	'templates/CustomerInfoCollection/parent.html'
 ], function(
 	Mn,
 	app,

@@ -5,7 +5,7 @@ define([
 	'marionette',
 	'shared/js/util/Vent',
 	'App',
-	'tpl!templates/header.html'
+	'templates/header.html'
 ], function (
 	Mn,
 	Vent,

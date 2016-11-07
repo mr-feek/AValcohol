@@ -4,7 +4,7 @@
 define([
 	'marionette',
 	'views/ProductView',
-	'tpl!templates/order.html'
+	'templates/order.html'
 ], function (
 	Mn,
 	ProductView,

@@ -4,7 +4,7 @@
 define([
 	'marionette',
 	'views/factory/VendorFactoryView',
-	'tpl!templates/factory/factory.html'
+	'templates/factory/factory.html'
 ], function (
 	Mn,
 	VendorFactoryView,
