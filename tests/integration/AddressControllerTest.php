@@ -14,18 +14,9 @@ class AddressControllerTest extends TestCase
 	use \Laravel\Lumen\Testing\DatabaseTransactions;
 
 	public function testCanCreateAddress() {
-		$address = new UserAddress();
-		$address->city = 'State College';
-		$address->state = 'PA';
-		$address->zipcode = '16801';
-		$address->street = '810 Walnut Street';
-		$address->location = [
-			'longitude' => 0,
-			'latitude' => 1
-		];
-
+		$address = factory(UserAddress::class)->make(['user_id' => 1]);
 		$data = $address->toArray();
-		$data['user']['id'] = 1;
+		$data['user']['id'] = $data['user_id']; // hack
 
 		$this->post('/address', $data);
 
@@ -41,15 +32,7 @@ class AddressControllerTest extends TestCase
 	}
 
 	public function testCanCreateAddressWithApartmentNumber() {
-		$address = new UserAddress();
-		$address->city = 'State College';
-		$address->state = 'PA';
-		$address->zipcode = '16801';
-		$address->street = '810 Walnut Street';
-		$address->location = [
-			'longitude' => 0,
-			'latitude' => 1
-		];
+		$address = factory(UserAddress::class)->make();
 		$address->apartment_number = 123;
 
 		$data = $address->toArray();
@@ -69,10 +52,6 @@ class AddressControllerTest extends TestCase
 		]);
 	}
 
-	public function testBlacklistOrder() {
-		//
-	}
-
 	public function testDontCreateAddressIfBlacklisted() {
 		$blacklisted = new BlacklistedAddress();
 		$blacklisted->street = 'backstreets back, alright!';
@@ -83,15 +62,13 @@ class AddressControllerTest extends TestCase
 		$blacklisted->delivery_zone_id = 1; // temp
 		$blacklisted->save();
 
-		$address = new UserAddress();
-		$address->street = $blacklisted->street;
-		$address->city = $blacklisted->city;
-		$address->state = $blacklisted->state;
-		$address->zipcode = $blacklisted->zipcode;
-		$address->location = [
-			'latitude' => 0,
-			'longitude' => 0
-		];
+		$address = factory(UserAddress::class)->make([
+			'street' => $blacklisted->street,
+			'city' => $blacklisted->city,
+			'state'=> $blacklisted->state,
+			'zipcode' => $blacklisted->zipcode,
+			'delivery_zone_id' => $blacklisted->delivery_zone_id
+		]);
 		// don't save here.
 
 		$data = $address->toArray();
@@ -113,12 +90,34 @@ class AddressControllerTest extends TestCase
 	public function testGetDeliveryZoneID() {
 		$location = [
 			'latitude' => 0,
-			'longitude' => 0
+			'longitude' => 0,
+			'street' => 'asdf' // doesnt matter unless blacklisted
 		];
 
-		$this->get('address/delivery_zone?latitude=' . $location['latitude'] . '&longitude=' . $location['longitude']);
+		$this->get('address/delivery_zone?latitude=' . $location['latitude'] . '&longitude=' . $location['longitude'] . '&street=' . $location['street']);
 		$response = json_decode($this->response->getContent());
 		$this->assertNotNull($response->delivery_zone_id, 'No delivery zone contains point 0,0. This could be a flaky test, fix if so by creating a delivery zone containing this point beforehand.');
+	}
+	
+	public function testGetDeliveryZoneIDFailsIfStreetIsBlacklisted() {
+		$location = [
+			'latitude' => 0,
+			'longitude' => 0,
+		];
+
+		// get the zone id that will be returned and create a blacklisted address
+		$zoneId = \App\Models\DeliveryZone::getZonesContainingPoint(new \App\Models\DeliveryZone\Point(
+			$location['latitude'],
+			$location['longitude']
+		))->first()->id;
+
+		$blacklisted = factory(BlacklistedAddress::class)->create(['delivery_zone_id' => $zoneId]);
+
+		$this->get('address/delivery_zone?latitude=' . $location['latitude'] . '&longitude=' . $location['longitude'] . '&street=' . $blacklisted->street);
+		$response = json_decode($this->response->getContent());
+
+		$this->assertFalse($response->success);
+		$this->assertEquals($response->message, 'We\'re sorry, but at this time we cannot deliver to fraternities');
 	}
 
 /*

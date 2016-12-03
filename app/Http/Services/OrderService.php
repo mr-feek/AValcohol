@@ -57,13 +57,13 @@ class OrderService extends BaseService
 			}
 		}
 
-		DB::transaction(function() use ($user, $address, $products, $data) {
+		$order = new \stdClass();
+		DB::transaction(function() use ($user, $address, $products, $data, &$order) {
 			$order = $this->repo->createOrder($user, $address, $products, $data);
 			$this->repo->authorizeChargeOnCard($order, $data['stripe_token']); // will throw an exception if fails
-
-			return $order;
 		});
 
+		return $order;
 	}
 
 	public function capturePreExistingCharge(Order $order) {

@@ -63,7 +63,8 @@ class DeliveryZoneTest extends TestCase
 			),
 			'user' => [
 				'id' => 1 // temp
-			]
+			],
+			'delivery_zone_id' => 1 // shouldn't affect what we are testing, just so service creation doesnt fail since it requires this
 		];
 		// create via service since it handles hydrating properties etc.
 		$service = new \App\Http\Services\UserAddressService(

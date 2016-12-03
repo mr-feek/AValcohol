@@ -35,6 +35,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BlacklistedAddress extends Model
 {
+
+	protected $guarded = [];
+	
 	/**
 	 * possible reasons for being blacklisted
 	 * @return string

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\BlacklistedAddressException;
 use App\Http\Services\UserAddressService;
 use Illuminate\Http\Request;
 
@@ -49,17 +50,27 @@ class AddressController extends Controller
 	public function getDeliveryZoneID(Request $request, UserAddressService $service) {
 		$this->validate($request, [
 			'longitude' => 'required',
-			'latitude' => 'required'
+			'latitude' => 'required',
+			'street' => 'required'
 		]);
 
 		$data = [
 			'location' => [
 				'longitude' => $request->input('longitude'),
 				'latitude' => $request->input('latitude')
-			]
+			],
+			'street' => $request->input('street')
 		];
 
-		$deliveryZoneId = $service->getDeliveryZoneID($data);
+		try {
+			$deliveryZoneId = $service->getDeliveryZoneID($data);
+		} catch(BlacklistedAddressException $e) {
+			return response()->json([
+				'success' => false,
+				'reason' => 'blacklisted',
+				'message' => $e->getMessage()
+			]);
+		}
 
 		if ($deliveryZoneId > 0) {
 			return response()->json([

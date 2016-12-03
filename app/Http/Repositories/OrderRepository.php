@@ -46,15 +46,12 @@ class OrderRepository extends BaseRepository implements OrderInterface
 		$this->model->note = $data['note'];
 		$this->model->terms_and_conditions = $data['terms_and_conditions']; // should be true due to controller validation
 		$this->model->vendor_id = $products[0]->pivot->vendor_id; // TEMP!!! to do: remove vendor id from orders table
-		$order = $this->model;
 		$stripe_token = $data['stripe_token'];
 
-		// start a transaction so that if something is incorrect, no data is saved
-		DB::transaction(function() use(&$order, $products, $user, $stripe_token) {
-			$order->save(); // save first so that we can attach relations
-			$order->addMultipleProducts($products)->calculateDeliveryFee()->save();
-			$order->status()->save(new OrderStatus());
-		});
+		// don't need to use a transaction here because calling code (service) is wrapped in a transaction
+		$this->model->save(); // save first so that we can attach relations
+		$this->model->addMultipleProducts($products)->calculateDeliveryFee()->save();
+		$this->model->status()->save(new OrderStatus());
 
 		return $this->model;
 	}
