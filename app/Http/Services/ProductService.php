@@ -45,7 +45,7 @@ class ProductService extends BaseService
 	 *
 	 */
 	public function getAllProductsForAddress($data) {
-		if ($data['includeClosed']) {
+		if (isset($data['includeClosed'])) {
 			$vendors = $this->vendorService->getVendorsForAddress($data);
 		} else {
 			$vendors = $this->vendorService->getOpenVendorsForAddress($data);
