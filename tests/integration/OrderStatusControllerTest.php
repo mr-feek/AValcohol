@@ -1,5 +1,7 @@
 <?php
+use App\Models\Order;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Created by PhpStorm.
@@ -118,10 +120,17 @@ class OrderStatusControllerTest extends TestCase
 	}
 
 	private function fetchDeliveryPendingOrder() {
-		$order = \App\Models\Order::whereHas('status', function(\Illuminate\Database\Eloquent\Builder $query) {
-			$query->where('vendor_status', 'accepted');
-			$query->where('delivery_status', 'pending');
-		})->firstOrFail();
+		try {
+			$order = Order::whereHas('status', function(\Illuminate\Database\Eloquent\Builder $query) {
+				$query->where('vendor_status', 'accepted');
+				$query->where('delivery_status', 'pending');
+			})->firstOrFail();
+		} catch (ModelNotFoundException $e) {
+			$order = $this->createOrderSeed([], [
+				'vendor_status' =>'accepted',
+				'delivery_status' => 'pending'
+			]);
+		}
 		
 		return $order;
 	}
@@ -136,7 +145,7 @@ class OrderStatusControllerTest extends TestCase
 	// fuck it literally just copying the order table seeder and putting it here so i can call it easily
 	private function createOrderSeed($attributes, $orderStatusAttributes) {
 		$model = null;
-		factory(App\Models\Order::class)->create($attributes)->each(function(\App\Models\Order $o) use ($orderStatusAttributes, &$model) {
+		factory(App\Models\Order::class)->create($attributes)->each(function(Order $o) use ($orderStatusAttributes, &$model) {
 			$faker = \Faker\Factory::create();
 			$products = [];
 
