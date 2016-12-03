@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Order;
+use App\Models\Vendor;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class OrdersTableSeeder extends Seeder
@@ -26,19 +29,19 @@ class OrdersTableSeeder extends Seeder
 		    dd('all users in db are apparently vendors');
 	    }
 
-		factory(App\Models\Order::class, 10)->create([
+		factory(Order::class, 10)->create([
 			'user_id' => $user->id,
 			'user_address_id' => $user->address->id,
 			'vendor_id' => 1
-		])->each(function(\App\Models\Order $o) {
-			$faker = \Faker\Factory::create();
+		])->each(function(Order $o) {
+			$faker = Factory::create();
 			$products = [];
 
 			// fetch 3 products to add to this order
 			while (count($products) < 3) {
 				// fetch a random product that a vendor has
 				$random = rand(1, 10);
-				$product = \App\Models\Vendor::find(1)->products()->where('product_id', $random)->first();
+				$product = Vendor::find(1)->products()->where('product_id', $random)->first();
 				
 				if (!$product) {
 					continue;
