@@ -84,6 +84,8 @@ class VendorHoursControllerTest extends TestCase
 
 	public function testGetVendorStoreHoursForTheWeek() {
 		$vendorId = 1;
+		factory(VendorStoreHours::class)->create(['vendor_id' => $vendorId]);
+
 		$this->get("vendor/{$vendorId}/hours", $this->authHeader);
 
 		$this->seeJsonStructure([
