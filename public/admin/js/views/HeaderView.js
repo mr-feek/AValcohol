@@ -58,18 +58,11 @@ define([
 			this.updateSiteStatusDisplay();
 		},
 
-		/**
-		 * an admin can only update if we are within "open hours"
-		 */
 		updateSiteStatusDisplay: function () {
-			if (this.model.isOnline()) {
+			if (this.model.isForcedClosed()) {
 				this.ui.siteStatus.prop('checked', true);
 			} else {
 				this.ui.siteStatus.prop('checked', false);
-			}
-
-			if (!this.model.adminCanUpdate()) {
-				this.ui.siteStatus.prop('disabled', true);
 			}
 		},
 
@@ -78,10 +71,10 @@ define([
 			if (!confirmed) { return; }
 
 			if (this.ui.siteStatus.prop('checked')) {
-				this.model.setOnline();
+				this.model.forceStoreClosed();
 			}
 			else {
-				this.model.setOffline();
+				this.model.removeForceStoreClosed();
 			}
 
 			this.model.save().done(function(response) {

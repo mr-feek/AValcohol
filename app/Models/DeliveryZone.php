@@ -26,6 +26,7 @@ class DeliveryZone extends Model
     const READ_TABLE = 'delivery_zones_astext';
     
     protected $guarded = [];
+	protected $hidden = ['location'];
     
     public static function boot()
     {

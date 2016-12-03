@@ -13,6 +13,7 @@ require.config({
 		'foundationOffCanvas': 				basePath + 'foundation-sites/dist/plugins/foundation.offcanvas',
 		'foundationTooltip':				basePath + 'foundation-sites/dist/plugins/foundation.tooltip',
 		'foundationTriggers':				basePath + 'foundation-sites/dist/plugins/foundation.util.triggers',
+		'foundationBox':					basePath + 'foundation-sites/dist/plugins/foundation.util.box',
 		'foundationMotion':					basePath + 'foundation-sites/dist/plugins/foundation.util.motion',
 		'foundationTimerAndImageLoader': 	basePath + 'foundation-sites/dist/plugins/foundation.util.timerAndImageLoader',
 		'modernizr' : 						basePath + 'modernizr/modernizr',
@@ -55,6 +56,9 @@ require.config({
 		foundationTriggers: {
 			deps: ['foundation']
 		},
+		foundationBox: {
+			deps: ['foundation']
+		},
 		foundationTimerAndImageLoader: {
 			deps: ['foundation']
 		},
@@ -65,7 +69,7 @@ require.config({
 			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
 		foundationTooltip: {
-			deps: ['foundationMediaQuery']
+			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationBox']
 		}
 	},
 	deps: ['jquery', 'underscore']
@@ -122,6 +126,8 @@ require([
 		
 		app.user = User.findOrCreate({}, options);
 
+		app.config = new Config();
+
 		app.rootView.render();
 
 		var controller = new Controller({
@@ -133,23 +139,9 @@ require([
 		});
 	});
 
-	// screw it, we're waiting for config to fetch before starting app
-	app.config = new Config();
-	app.config.fetch().done(function() {
-		app.start();
+	app.start();
 
-		Backbone.history.start({
-			pushState: true
-		});
-	}).error(function(response) {
-		if (response.status === 503) {
-			// api is down for maintenance
-			$('body').html(
-				'<div style="text-align:center;">' +
-				'<h1>We Are Currently Down For Maintenance.</h1>' +
-				'<p>Please check back soon - Aqua Vitae</p>' +
-				'</div>'
-			);
-		}
+	Backbone.history.start({
+		pushState: true
 	});
 });

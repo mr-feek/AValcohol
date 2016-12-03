@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\APIException;
 use App\Http\Services\VendorService;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -58,6 +59,11 @@ class VendorController extends Controller
 	public function get(Request $request) {
 		$user = $request->user();
 		return response()->json(['vendor' => $user->vendor]);
+	}
+	
+	public function getById(Request $request, $id) {
+		$vendor = Vendor::with('hours')->findOrFail($id);
+		return response()->json(['vendor' => $vendor]);
 	}
 
 	public function getProduct(Request $request, VendorService $service, $vendorId, $productId) {

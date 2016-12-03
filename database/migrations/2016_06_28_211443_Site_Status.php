@@ -14,7 +14,7 @@ class SiteStatus extends Migration
     {
         Schema::create('site_status', function(Blueprint $table) {
 	        $table->unsignedInteger('id'); // don't auto increment because we really only want a single entry in this table
-	        $table->boolean('online')->default(1);
+	        $table->boolean('admin_force_offline')->default(0);
             $table->timestamps();
         });
 

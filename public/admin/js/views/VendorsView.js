@@ -42,10 +42,12 @@ define([
 
 		events: {
 			'click @ui.loginAsVendor' : 'loginAsVendor',
+			'click @ui.manageHours' : 'showVendorHours'
 		},
 
 		ui: {
-			loginAsVendor: '.login-as-vendor'
+			loginAsVendor	: '.login-as-vendor',
+			manageHours 	: '.manage-hours'
 		},
 
 		initialize: function (options) {
@@ -75,12 +77,18 @@ define([
 			});
 		},
 
+		showVendorHours: function(evt) {
+			evt.preventDefault();
+			var vendorId = $(evt.target).data('id');
+			app.router.navigate('admin/dashboard/vendor/' + vendorId + '/hours', { trigger: true });
+		},
+
 		initializeGrid: function() {
 			return new Backgrid.Grid({
 				columns: [
 					{
 						name: 'id',
-						label: 'Vendor ID',
+						label: 'ID',
 						editable: false,
 						cell: Backgrid.IntegerCell.extend({
 							orderSeparator: ''
@@ -88,39 +96,69 @@ define([
 					},
 					{
 						name: 'name',
-						label: 'Vendor Name',
+						label: 'Name',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
 					},
 					{
 						name: 'address',
-						label: 'Vendor Address',
+						label: 'Address',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
 					},
 					{
 						name: 'phone_number',
-						label: 'Phone Number',
+						label: 'Phone',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell
 					},
 					{
-						name: 'delivery_zone_id',
-						label: 'Delivery Zone ID',
-						editable: false,
-						sortable: false,
-						cell: Backgrid.IntegerCell
-					},
-					{
-						label: '',
+						label: 'Delivery Zone',
 						editable: false,
 						sortable: false,
 						cell: Backgrid.StringCell.extend({
 							render: function() {
-								this.$el.html('<a class="login-as-vendor button" data-id="' + this.model.id + '">Login</a>');
+								this.$el.html(this.model.get('delivery_zone').get('name'));
+
+								return this;
+							}
+						})
+					},
+					{
+						name: 'store_status',
+						label: 'Status',
+						editable: false,
+						sortable: false,
+						cell: Backgrid.StringCell
+					},
+					{
+						label: 'Hours',
+						editable: false,
+						sortable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								var url = '/admin/dashboard/vendor/' + this.model.id + '/hours';
+
+								this.$el.html('' +
+									'<small><a href="' + url + '" class="manage-hours" data-id="' + this.model.id + '">Manage Hours</a></small>'
+								);
+
+								return this;
+							}
+						})
+					},
+					{
+						label: 'Login',
+						editable: false,
+						sortable: false,
+						cell: Backgrid.StringCell.extend({
+							render: function() {
+								this.$el.html('' +
+									'<a class="login-as-vendor button tiny" data-id="' + this.model.id + '">Login</a>'
+								);
 								return this;
 							}
 						})

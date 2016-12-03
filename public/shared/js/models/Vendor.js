@@ -2,12 +2,33 @@
  * Created by Feek on 3/16/16.
  */
 define([
-	'backbone'
+	'backbone',
+	'shared/js/models/VendorHours',
+	'shared/js/models/DeliveryZone',
+	'backboneRelational'
 ], function (
-	Backbone
+	Backbone,
+	VendorHours,
+	DeliveryZone
 ) {
-	var Vendor = Backbone.Model.extend({
+	var Vendor = Backbone.RelationalModel.extend({
 		urlRoot: '/api/vendor',
+		hasBeenFetched: false, // flag for whether or not we have fetched the vendor. useful only for when logging in from admin
+
+		relations: [
+			{
+				type: Backbone.HasMany,
+				key: 'hours',
+				relatedModel: VendorHours,
+				includeInJSON: true
+			},
+			{
+				type: Backbone.HasOne,
+				key: 'delivery_zone',
+				relatedModel: DeliveryZone,
+				includeInJSON: false
+			}
+		],
 
 		parse: function(response, xhr) {
 			if (response.vendor) {
@@ -19,7 +40,8 @@ define([
 		defaults: {
 			name: null,
 			address: null,
-			phone_number: null
+			phone_number: null,
+			store_status: null
 		},
 
 		initialize: function() { },

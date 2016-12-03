@@ -9,40 +9,45 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\Interfaces\SiteStatusInterface;
+use App\Models\DeliveryZone;
 
 class SiteStatusService extends BaseService
 {
 
-	public function __construct(SiteStatusInterface $repo)
+	/**
+	 * @var VendorHoursService
+	 */
+	private $vendorHoursService;
+
+	public function __construct(SiteStatusInterface $repo, VendorHoursService $vendorHoursService)
 	{
 		$this->repo = $repo;
+		$this->vendorHoursService = $vendorHoursService;
 	}
 
 	/**
-	 * if we are within delivery hours, then the admin can update. otherwise they cannot
-	 * @return bool
+	 * @return mixed
 	 */
-	public function adminCanUpdate() {
-		return $this->repo->checkDeliveryHours();
+	public function get() {
+		return $this->repo->get();
 	}
 
 	/**
 	 * @param array $data
 	 * @return mixed
 	 */
-	public function setStatus(array $data) {
-		if (!$this->adminCanUpdate()) {
-			return;
-		}
-		return $this->repo->setStoreStatus($data['online']);
+	public function setForceOffline(array $data) {
+		return $this->repo->closeStore($data['admin_force_offline']);
 	}
 
 	/**
 	 * determines whether or not the store is open for orders.
-	 * Admin CANNOT force the online store to be open if there are no open vendors (to do)
+	 * Admin CANNOT force the online store to be open.
+	 *
+	 * @param array $data
 	 * @return bool
 	 */
-	public function isOpenNow() {
+	public function isOpenNow(array $data) {
 		if ($this->repo->devForcedOpen()) {
 			return true;
 		}
@@ -51,7 +56,14 @@ class SiteStatusService extends BaseService
 			return false;
 		}
 
-		return $this->repo->checkDeliveryHours();
+		// this is included in the config request
+		if (array_key_exists('delivery_zone_id', $data)) {
+			$deliveryZone = DeliveryZone::find($data['delivery_zone_id']);
+
+			return $this->vendorHoursService->areOpenVendorsInDeliveryZone($deliveryZone);
+		}
+
+		return true;
 	}
 
 	public function reasonForStoreClosure() {

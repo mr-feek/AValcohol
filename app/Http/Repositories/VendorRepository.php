@@ -81,11 +81,6 @@ class VendorRepository extends BaseRepository implements VendorInterface
 				['charge_captured', false]
 			]);
 		})->with(['status', 'user.profile', 'products'])->get();
-/*
-		if ($orders->isEmpty()) {
-			throw new NoCollectionResultsAPIException();
-		}
-*/
 		
 		return $orders;
 	}

@@ -2,7 +2,6 @@ define([
 	'marionette',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
-	'views/user-home/NoProductsView',
 	'collections/Products',
 	'behaviors/LoadingIndicator',
 	'App'
@@ -10,7 +9,6 @@ define([
 	Mn,
 	FoundationEqualizer,
 	ProductView,
-	EmptyView,
 	Products,
 	CollectionLoadingIndicator,
 	App
@@ -19,7 +17,6 @@ define([
 		childView: ProductView,
 		tagName: 'ul',
 		className: 'row small-up-2 medium-up-3 large-up-4',
-		emptyView: EmptyView,
 		attributes: {
 			'data-equalizer' 		: '',
 			'data-equalize-by-row'	: 'true'
@@ -45,7 +42,15 @@ define([
 			// pass the collection to the loading indicator
 			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
-			this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
+
+			if (App.config.get('isClosed') === true) {
+				this.collection.fetch({ data: $.param({
+					delivery_zone_id: delivery_zone_id,
+					includeClosed: true // since the store is closed, grab the closed ones anway
+				})});
+			} else {
+				this.collection.fetch({ data: $.param({	delivery_zone_id: delivery_zone_id })});
+			}
 
 			this.listenTo(this, 'render:collection', this.reflowEqualizer); // for reflowing after the collection renders.
 			// for some reason onAddChild doesn't seem to be called after re-rendering

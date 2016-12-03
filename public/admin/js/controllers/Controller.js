@@ -12,6 +12,7 @@ define([
 	'views/OrdersOutForDeliveryView',
 	'views/AllOrdersView',
 	'views/VendorsView',
+	'views/VendorHoursView',
 	'views/factory/FactoryView',
 	'App'
 ], function (
@@ -25,6 +26,7 @@ define([
 	OrdersOutForDeliveryView,
 	AllOrdersView,
 	VendorsView,
+	VendorHoursView,
 	FactoryView,
 	app
 ) {
@@ -124,6 +126,13 @@ define([
 		updateSidebars: function(action, name) {
 			this.rootView.getRegion('sidebar').currentView.trigger(action, name);
 			this.rootView.getRegion('offCanvas').currentView.trigger(action, name);
+		},
+		
+		showVendorHours: function(id) {
+			this._showDashboard();
+			this._getHomeView().getRegion('main').show(new VendorHoursView({
+				id: id
+			}));
 		}
 	});
 

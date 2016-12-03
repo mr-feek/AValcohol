@@ -8,6 +8,8 @@
  */
 class AuthControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
+
 	protected $vendor;
 	protected $vendorRawPassword;
 	

@@ -27,9 +27,15 @@ define([
 			'click @ui.hamburger' : 'toggleOffCanvas'
 		},
 
+		modelEvents: {
+			'change:site_status' : 'updateStatusDisplay',
+			'sync' : 'updateStatusDisplay'
+		},
+
 		ui: {
-			settings: '.settings',
-			hamburger : '.menu-icon'
+			settings	: '.settings',
+			hamburger 	: '.menu-icon',
+			status		: '.status'
 		},
 
 		onRender: function() {
@@ -45,6 +51,8 @@ define([
 					this.ui.hamburger.show();
 				}
 			}.bind(this)));
+
+			this.updateStatusDisplay();
 		},
 
 		toggleOffCanvas: function(evt) {
@@ -58,6 +66,11 @@ define([
 
 		showSettings: function() {
 			Vent.trigger('settings:show');
+		},
+
+		updateStatusDisplay: function() {
+			var status = this.model.get('store_status');
+			this.ui.status.html(status);
 		}
 	});
 

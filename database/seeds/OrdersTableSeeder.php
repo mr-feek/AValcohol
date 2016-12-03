@@ -11,14 +11,33 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-		factory(App\Models\Order::class, 20)->create()->each(function(\App\Models\Order $o) {
+	    $users = \App\Models\User::orderByRaw('RAND()')->get();
+	    // don't create an order for a user that is a vendor
+	    $user = null;
+
+	    foreach($users as $u) {
+		    if ($u->isVendor() === false) {
+			    $user = $u;
+			    break;
+		    }
+	    }
+
+	    if (!$user) {
+		    dd('all users in db are apparently vendors');
+	    }
+
+		factory(App\Models\Order::class, 10)->create([
+			'user_id' => $user->id,
+			'user_address_id' => $user->address->id,
+			'vendor_id' => 1
+		])->each(function(\App\Models\Order $o) {
 			$faker = \Faker\Factory::create();
 			$products = [];
 
 			// fetch 3 products to add to this order
 			while (count($products) < 3) {
 				// fetch a random product that a vendor has
-				$random = rand(1, 100);
+				$random = rand(1, 10);
 				$product = \App\Models\Vendor::find(1)->products()->where('product_id', $random)->first();
 				
 				if (!$product) {

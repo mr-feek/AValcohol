@@ -26,6 +26,7 @@ define([
 				model: app.vendor,
 				loginSuccessCallback: function(response) {
 					if (response.vendor) {
+						app.vendor.hasBeenFetched = true;
 						app.router.navigate('retailer/dashboard', {trigger: true});
 					} else {
 						alert('It seems as if you are not a vendor. If this is a mistake please contact us.');
@@ -36,6 +37,9 @@ define([
 
 		showDashboard: function() {
 			if (this.authorize()) {
+				if (!app.vendor.hasBeenFetched) {
+					app.vendor.fetch();
+				}
 				this.rootView.getRegion('header').show(new HeaderView({	model: app.vendor}));
 				this.rootView.getRegion('main').show(new VendorHomeRootView());
 				this.rootView.getRegion('offCanvas').show(new SidebarView());

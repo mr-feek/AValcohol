@@ -9,6 +9,7 @@ use App\Models\Vendor;
  */
 class OrderStatusControllerTest extends TestCase
 {
+	use \Laravel\Lumen\Testing\DatabaseTransactions;
 	protected $vendor;
 
 	public function setUp()
@@ -20,7 +21,7 @@ class OrderStatusControllerTest extends TestCase
 	}
 
 	public function testVendorAcceptOrder() {
-		$order = $this->fetchVendorPendingOrder();
+		$order = $this->createVendorPendingOrder();
 		$data = [
 			'vendor_status' => 'accepted'
 		];
@@ -45,7 +46,7 @@ class OrderStatusControllerTest extends TestCase
 	}
 
 	public function testVendorRejectOrder() {
-		$order = $this->fetchVendorPendingOrder();
+		$order = $this->createVendorPendingOrder();
 		$data = [
 			'vendor_status' => 'rejected'
 		];
@@ -97,23 +98,31 @@ class OrderStatusControllerTest extends TestCase
 	 * returns an order with vendor status === pending
 	 * @return mixed
 	 */
-	private function fetchVendorPendingOrder() {
-		$order = \App\Models\Order::where([
-			'vendor_id' => $this->vendor->id,
-		])->whereHas('status', function($query) {
-			$query->where('vendor_status', 'pending');
-			$query->where('delivery_status', 'pending');
-		})->firstOrFail();
+	private function createVendorPendingOrder() {
+		$user = null;
+		factory(\App\Models\User::class)->create()->each(function(\App\Models\User $u) use (&$user) {
+			$u->address()->save(factory(\App\Models\UserAddress::class)->make());
+			$u->profile()->save(factory(\App\Models\UserProfile::class)->make());
 
-		return $order;
+			$user = $u;
+		});
+
+		return $this->createOrderSeed([
+			'user_id' => $user->id,
+			'user_address_id' => $user->address->id
+		], [
+			'vendor_status' => 'pending',
+			'delivery_status' => 'pending',
+			'charge_captured' => false
+		]);
 	}
 
 	private function fetchDeliveryPendingOrder() {
 		$order = \App\Models\Order::whereHas('status', function(\Illuminate\Database\Eloquent\Builder $query) {
 			$query->where('vendor_status', 'accepted');
 			$query->where('delivery_status', 'pending');
-		})->first();
-
+		})->firstOrFail();
+		
 		return $order;
 	}
 
@@ -122,5 +131,74 @@ class OrderStatusControllerTest extends TestCase
 		\Illuminate\Support\Facades\Mail::shouldReceive('queue')->once()->andReturnUsing(function ($view, $viewParams) use($name) {
 			$this->assertEquals("emails.{$name}", $view['text']);
 		});
+	}
+
+	// fuck it literally just copying the order table seeder and putting it here so i can call it easily
+	private function createOrderSeed($attributes, $orderStatusAttributes) {
+		$model = null;
+		factory(App\Models\Order::class)->create($attributes)->each(function(\App\Models\Order $o) use ($orderStatusAttributes, &$model) {
+			$faker = \Faker\Factory::create();
+			$products = [];
+
+			// fetch 3 products to add to this order
+			while (count($products) < 3) {
+				// fetch a random product that a vendor has
+				$random = rand(1, 10);
+				$product = \App\Models\Vendor::find($o->vendor_id)->products()->where('product_id', $random)->first();
+
+				if (!$product) {
+					continue;
+				}
+
+				$products[] = $product;
+			}
+
+			// attach these products to the order
+			$o->addMultipleProducts($products)->calculateDeliveryFee();
+
+			// create charge in stripe
+			\Stripe\Stripe::setApiKey(getenv('STRIPE_KEY'));
+			$token = \Stripe\Token::create(array(
+				"card" => array(
+					"number" => "4242424242424242",
+					"exp_month" => 12,
+					"exp_year" => 2016,
+					"cvc" => "314"
+				)
+			));
+
+			$toCapture = array_key_exists('charge_captured', $orderStatusAttributes) ? $orderStatusAttributes['charge_captured'] : $faker->boolean();
+
+			$options = [
+				'currency' => 'usd',
+				'description' => 'test charge',
+				'source' => $token,
+				'receipt_email' => $o->user->email,
+				'metadata' => array(
+					'user_id' => $o->user->id,
+					'order_id' => $o->id
+				),
+				'capture' => $toCapture
+			];
+
+			$charge = $o->user->charge($o->calculateChargeAmountForProcessor(), $options);
+
+			// need to create default status record entry...
+			$defaultAttributes = [
+				'charge_id' => $charge->id,
+				'charge_captured' => $toCapture,
+				'charge_authorized' => true
+			];
+
+			$attributesToMake = array_merge($defaultAttributes, $orderStatusAttributes);
+
+			$o->status()->save(factory(App\Models\OrderStatus::class)->make($attributesToMake));
+
+			$o->save();
+
+			$model = $o;
+		});
+
+		return $model;
 	}
 }

@@ -15,8 +15,8 @@ define([
 
 		state: {
 			pageSize: 15,
-			sortKey: 'created_at',
-			order: 0
+			sortKey: 'id',
+			order: -1
 		},
 
 		mode: 'server',

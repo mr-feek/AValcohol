@@ -64,12 +64,18 @@ define([
 
 		onBeforeShow: function() {
 			app.rootView.getRegion('header').show(new HeaderView());
-			this.getRegion('products').show(new ProductsView());
-			//this.getRegion('sidebar').show(new SidebarView());
 
-			if (app.config.get('isClosed')) {
-				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
-			}
+			// find out if the store is open or not before fetching the products.
+			app.config.fetch({
+				data: $.param({
+					delivery_zone_id: app.user.get('address').get('delivery_zone_id')
+				})
+			}).done(function() {
+				this.render();
+				this.getRegion('products').show(new ProductsView());
+			}.bind(this));
+
+			//this.getRegion('sidebar').show(new SidebarView());
 		},
 
 		onShow: function() {
@@ -77,13 +83,13 @@ define([
 		},
 
 		reflowEqualizer: function() {
-			//Foundation.reInit('equalizer');
 			Foundation.reInit(this.ui.equalizerWrapper);
 		},
 
 		onRender: function() {
 			if (app.config.get('isClosed') === true) {
 				this.ui.cart.hide();
+				app.rootView.getRegion('modalRegion').show(new StoreClosedView());
 			}
 
 			if (this.equalizerInitialized) {

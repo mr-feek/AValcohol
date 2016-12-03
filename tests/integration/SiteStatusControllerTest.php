@@ -16,29 +16,19 @@ class SiteStatusControllerTest extends TestCase
 		$this->prepareRequestsWithAdminPrivileges();
 	}
 
-	/**
-	 * @failing should be fixed in store hours PR
-	 */
-	public function testTurnStoreOffline() {
-		$this->markTestIncomplete(); //temp
-		$this->post('site/status', ['online' => 0], $this->authHeader);
-		$this->seeInDatabase('site_status', ['online' => 0]);
-		$this->seeJsonStructure([
-			'online',
-			'updatable'
-		]);
+	public function testForceStoreOffline() {
+		$this->post('site/status', ['admin_force_offline' => 1], $this->authHeader);
+		$this->seeInDatabase('site_status', ['admin_force_offline' => 1]);
+
+		$response = json_decode($this->response->getContent());
+		$this->assertTrue($response->site_status->admin_force_offline);
 	}
 
-	/**
-	 * @failing should be fixed in store hours PR
-	 */
-	public function testTurnStoreOnline() {
-		$this->markTestIncomplete(); // temp
-		$this->post('site/status', ['online' => 1], $this->authHeader);
-		$this->seeInDatabase('site_status', ['online' => 1]);
-		$this->seeJsonStructure([
-			'online',
-			'updatable'
-		]);
+	public function testRemoveForceStoreOffline()
+	{
+		$this->post('site/status', ['admin_force_offline' => 0], $this->authHeader);
+		$this->seeInDatabase('site_status', ['admin_force_offline' => 0]);
+		$response = json_decode($this->response->getContent());
+		$this->assertFalse($response->site_status->admin_force_offline);
 	}
 }
