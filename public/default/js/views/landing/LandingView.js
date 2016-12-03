@@ -76,6 +76,8 @@ define([
 
 		/**
 		 * Parses the autocomplete info and stores it in a UserAddressModel
+		 *
+		 * this logic is also in changeaddressview. so if needs to change, change there too
 		 */
 		updateUserAddress: function() {
 			var place = this.autocomplete.getPlace();
