@@ -15,6 +15,7 @@ require.config({
 		'foundationTriggers':				basePath + 'foundation-sites/dist/plugins/foundation.util.triggers',
 		'foundationBox':					basePath + 'foundation-sites/dist/plugins/foundation.util.box',
 		'foundationMotion':					basePath + 'foundation-sites/dist/plugins/foundation.util.motion',
+		'foundationKeyboard':				basePath + 'foundation-sites/dist/plugins/foundation.util.keyboard',
 		'foundationTimerAndImageLoader': 	basePath + 'foundation-sites/dist/plugins/foundation.util.timerAndImageLoader',
 		'modernizr' : 						basePath + 'modernizr/modernizr',
 		'text': 							basePath + 'requirejs-text/text',
@@ -65,8 +66,11 @@ require.config({
 		foundationEqualizer: {
 			deps: ['foundationMediaQuery', 'foundationTimerAndImageLoader']
 		},
+		foundationKeyboard: {
+			deps: ['foundation']
+		},
 		foundationOffCanvas: {
-			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
+			deps: ['foundationKeyboard', 'foundationMediaQuery', 'foundationTriggers', 'foundationMotion']
 		},
 		foundationTooltip: {
 			deps: ['foundationMediaQuery', 'foundationTriggers', 'foundationBox']
@@ -122,7 +126,7 @@ require([
 
 		var options = {
 			useStorage: true // save / load address from storage
-		}
+		};
 		
 		app.user = User.findOrCreate({}, options);
 
