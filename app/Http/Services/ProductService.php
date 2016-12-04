@@ -38,11 +38,8 @@ class ProductService extends BaseService
 	 * returns all products that are in stock at vendors for the given address
 	 *
 	 * TODO: Filter to not have duplicate products from different vendors
-	 * @param $data
+	 * @param $data array $address with id
 	 * @return array $products
-	 *
-	 * @internal param array $address with id
-	 *
 	 */
 	public function getAllProductsForAddress($data) {
 		if (isset($data['includeClosed'])) {
