@@ -55,7 +55,7 @@ SQL;
 
 		//$res = DB::statement($query);
 
-		if (getenv('FORCE_STORE_OPEN') === true) {
+		if (getenv('FORCE_STORE_OPEN') == true) {
 			// just return all products regardless of if the store is open
 			$vendors = Vendor::whereDeliveryZoneId($deliveryZoneId)->get();
 		} else {
