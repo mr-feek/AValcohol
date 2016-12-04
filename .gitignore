@@ -4,7 +4,6 @@ css/
 .sass-cache/
 .idea/
 local/
-composer.lock
 composer.phar
 passwords.secret
 config.codekit
