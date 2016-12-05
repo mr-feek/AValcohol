@@ -73,11 +73,12 @@ define([
 			}.bind(this));
 
 			var viewsToShow = [
+				new UserInfoEntryView({	parent:	this }),
+				
 				new AddressEntryView({
 					model: App.user.get('address'),
 					parent:	this
 				}),
-				new UserInfoEntryView({	parent:	this }),
 
 				new BillingInfoEntryView({	parent:	this }),
 				new OrderReviewView({	parent: this, collection: App.cart })

@@ -11,7 +11,7 @@ define([
             return this.store[key];
         },
 
-        persist: function(key, value) {
+        store: function(key, value) {
             this.store[key] = value;
         }
     };

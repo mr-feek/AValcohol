@@ -70,7 +70,7 @@ define([
 		 * Strip everything but digits
 		 */
 		stripPhoneNumber: function() {
-			var num = this.get('phone_number')
+			var num = this.get('phone_number');
 
 			if (!num) {
 				return

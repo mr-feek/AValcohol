@@ -65,7 +65,7 @@ define([
 		 * @param options
 		 */
 		initialize: function (options) {
-			Brain.persist('products', new ProductsCollection());
+			Brain.store('products', new ProductsCollection());
 
 			app.cart.on('update', this.updateNumProducts, this);
 			app.cart.on('change:quantity', this.updateNumProducts, this);

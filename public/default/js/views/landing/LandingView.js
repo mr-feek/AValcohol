@@ -57,7 +57,7 @@ define([
 		onShow: function () {
 			var input = this.ui.streetAddress[0];
 			var options = {
-				types: ['address'], // only precise locations, no businesses or landmarks
+				types: ['address'] // only precise locations, no businesses or landmarks
 			};
 			this.autocomplete = new google.maps.places.Autocomplete(input, options);
 		},
