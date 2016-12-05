@@ -1,5 +1,7 @@
 define([
 	'marionette',
+	'util/Brain',
+	'collections/Products',
 	'views/HeaderView',
 	'views/user-home/ProductCategoriesView',
 	'views/user-home/ProductsView',
@@ -12,6 +14,8 @@ define([
 	'tpl!templates/user-home/user-home.html'
 ], function (
 	Mn,
+	Brain,
+	ProductsCollection,
 	HeaderView,
 	ProductCategoriesView,
 	ProductsView,
@@ -61,6 +65,8 @@ define([
 		 * @param options
 		 */
 		initialize: function (options) {
+			Brain.persist('products', new ProductsCollection());
+
 			app.cart.on('update', this.updateNumProducts, this);
 			app.cart.on('change:quantity', this.updateNumProducts, this);
 		},
@@ -76,7 +82,9 @@ define([
 			}).done(function() {
 				this.render();
                 this.getRegion('comparator').show(new ProductComparatorView());
-				this.getRegion('products').show(new ProductsView());
+				this.getRegion('products').show(new ProductsView({
+					collection: Brain.retrieve('products')
+				}));
 			}.bind(this));
 
 			//this.getRegion('sidebar').show(new SidebarView());

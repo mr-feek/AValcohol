@@ -3,7 +3,6 @@ define([
 	'util/Brain',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
-	'collections/Products',
 	'behaviors/LoadingIndicator',
 	'App'
 ], function (
@@ -11,7 +10,6 @@ define([
 	Brain,
 	FoundationEqualizer,
 	ProductView,
-	Products,
 	CollectionLoadingIndicator,
 	App
 ) {
@@ -40,9 +38,6 @@ define([
 		 * @param options
 		 */
 		initialize: function (options) {
-			this.collection = new Products();
-			Brain.persist('products', this.collection);
-
 			// pass the collection to the loading indicator
 			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');

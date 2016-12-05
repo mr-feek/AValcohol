@@ -9,6 +9,7 @@ define([
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',
 	'views/misc/TermsAndConditionsView',
+	'util/Brain',
 	'App'
 ], function (
 	Marionette,
@@ -17,6 +18,7 @@ define([
 	UserHomeView,
 	CheckoutView,
 	TermsAndConditionsView,
+	Brain,
 	app
 ) {
 	var Controller = Marionette.Object.extend({
@@ -43,8 +45,38 @@ define([
 			// if we already have a userhomeview rendered, just swap out the products view
 			if (!region.currentView || !(region.currentView instanceof UserHomeView)) {
 				region.show(new UserHomeView({ endpoint: endpoint }));
-			} else {
-				region.currentView.showDifferentProductView(endpoint);
+			}
+
+			var sort = this.getQueryStringParameter('sort');
+
+			if (sort) {
+				var products = Brain.retrieve('products');
+				
+				switch(sort) {
+					case 'price-low': {
+						products.comparator = function(product) {
+							return product.get('pivot').sale_price * 100;
+						};
+						products.sort();
+						break;
+					}
+
+					case 'price-high': {
+						products.comparator = function(product) {
+							return product.get('pivot').sale_price * 100 * -1;
+						};
+						products.sort();
+						break;
+					}
+
+					case 'featured': {
+						products.comparator = function(product) {
+							return product.get('featured');
+						};
+						products.sort();
+						break;
+					}
+				}
 			}
 		},
 
@@ -61,6 +93,18 @@ define([
 		showTermsAndConditions: function() {
 			var region = this.rootView.getRegion('main');
 			region.show(new TermsAndConditionsView());
+		},
+
+		getQueryStringParameter: function (key) {
+			key = key.replace(/[\[\]]/g, "\\$&");
+			var url = window.location.href;
+
+			var regex = new RegExp("[?&]" + key + "(=([^&#]*)|&|#|$)");
+			var results = regex.exec(url);
+
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
 		}
 	});
 
