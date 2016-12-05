@@ -6,6 +6,7 @@ define([
 	'views/cart/CartView',
 	'views/user-home/StoreClosedView',
 	'views/user-home/SidebarView',
+    'views/user-home/ProductComparatorView',
 	'foundationEqualizer',
 	'App',
 	'tpl!templates/user-home/user-home.html'
@@ -17,6 +18,7 @@ define([
 	CartView,
 	StoreClosedView,
 	SidebarView,
+    ProductComparatorView,
 	FoundationEqualizer,
 	app,
 	tpl
@@ -38,8 +40,9 @@ define([
 		},
 
 		regions: {
-			sidebar 		: '#sidebar',
-			products 		: '#products'
+			sidebar 	: '#sidebar',
+			products 	: '#products',
+			comparator  : '#comparator-region'
 		},
 
 		templateHelpers: function() {
@@ -72,6 +75,7 @@ define([
 				})
 			}).done(function() {
 				this.render();
+                this.getRegion('comparator').show(new ProductComparatorView());
 				this.getRegion('products').show(new ProductsView());
 			}.bind(this));
 

@@ -2,7 +2,15 @@
 	<!--<div id="sidebar" class="medium-3 columns hide-for-small-only" data-equalizer-watch="outer-content-equalizer"></div>-->
 	<div id="content" class="small-12 medium-9 medium-centered columns" data-equalizer-watch="outer-content-equalizer">
 		<div id="delivering-to" class="row">
-			<h5>Showing Products Available For Delivery To:<span> <%= address() %> </span> <a class="button secondary tiny change-address">change</a></h5>
+			<div class="row">
+				<div class="small-12 medium-10 columns">
+					<h5>Showing Products Available For Delivery To:<span> <%= address() %> </span> <a class="button secondary tiny change-address">change</a></h5>
+				</div>
+				<div class="small-12 medium-2 columns">
+					<div id="comparator-region">
+					</div>
+				</div>
+			</div>
 		</div>
 		<div id="products"></div>
 	</div>

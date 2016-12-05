@@ -1,5 +1,6 @@
 define([
 	'marionette',
+	'util/Brain',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
 	'collections/Products',
@@ -7,6 +8,7 @@ define([
 	'App'
 ], function (
 	Mn,
+	Brain,
 	FoundationEqualizer,
 	ProductView,
 	Products,
@@ -39,6 +41,8 @@ define([
 		 */
 		initialize: function (options) {
 			this.collection = new Products();
+			Brain.persist('products', this.collection);
+
 			// pass the collection to the loading indicator
 			this.triggerMethod('setListener', this.collection);
 			var delivery_zone_id = App.user.get('address').get('delivery_zone_id');
