@@ -14,6 +14,7 @@ use App\Http\Repositories\Interfaces\UserAddressInterface;
 use App\Exceptions\APIException;
 use App\Models\DeliveryZone\Point;
 use App\Models\DeliveryZone;
+use App\Models\SomedayAddress;
 
 class UserAddressService extends BaseService
 {
@@ -86,8 +87,10 @@ class UserAddressService extends BaseService
 
 	/**
 	 * returns the delivery zone for the supplied [NESTED UNDER LOCATION KEY] longitude and latitude
-	 * @param $data
+	 * @param array $data
+	 *
 	 * @return the id of the available delivery zone or 0 if not in a zone
+	 * @throws BlacklistedAddressException
 	 */
 	public function getDeliveryZoneID(array $data) {
 		$point = new Point($data['location']['latitude'], $data['location']['longitude']);
@@ -112,8 +115,13 @@ class UserAddressService extends BaseService
 			if ($blacklisted) {
 				throw new BlacklistedAddressException($this->blacklistedService->getReason());
 			}
+
+			return $zone->id;
 		}
 
-		return ($zone ? $zone->id : 0);
+		// log this attempted address for analytics of new markets
+		SomedayAddress::create($data);
+
+		return 0;
 	}
 }
