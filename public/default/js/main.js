@@ -64,7 +64,7 @@ require.config({
 			deps: ['foundation']
 		},
 		foundationEqualizer: {
-			deps: ['foundationMediaQuery', 'foundationTimerAndImageLoader']
+			deps: ['foundationBox', 'foundationMediaQuery', 'foundationTimerAndImageLoader']
 		},
 		foundationKeyboard: {
 			deps: ['foundation']
