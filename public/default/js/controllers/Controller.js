@@ -9,6 +9,7 @@ define([
 	'views/user-home/UserHomeView',
 	'views/checkout/CheckoutView',
 	'views/misc/TermsAndConditionsView',
+	'views/NotFoundView',
 	'util/Brain',
 	'App'
 ], function (
@@ -18,6 +19,7 @@ define([
 	UserHomeView,
 	CheckoutView,
 	TermsAndConditionsView,
+	NotFoundView,
 	Brain,
 	app
 ) {
@@ -93,6 +95,11 @@ define([
 		showTermsAndConditions: function() {
 			var region = this.rootView.getRegion('main');
 			region.show(new TermsAndConditionsView());
+		},
+
+		routeNotFound: function() {
+			var region = this.rootView.getRegion('main');
+			region.show(new NotFoundView());
 		},
 
 		getQueryStringParameter: function (key) {

@@ -12,7 +12,8 @@ define([
 			'home' 			: 'showUserHome',
 			'home/:endpoint': 'showUserHome',
 			'checkout' 		: 'showCheckout',
-			'terms' 		: 'showTermsAndConditions'
+			'terms' 		: 'showTermsAndConditions',
+			'*notFound'		: 'routeNotFound'
 		}
 	});
 
