@@ -2,7 +2,7 @@ define([
     ''
 ], function () {
     var Brain = {
-        store: [],
+        memory: [],
 
         retrieve: function(key) {
             if (!this.store[key]) {
@@ -12,7 +12,7 @@ define([
         },
 
         store: function(key, value) {
-            this.store[key] = value;
+            this.memory[key] = value;
         }
     };
 
