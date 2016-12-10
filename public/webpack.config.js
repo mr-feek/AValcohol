@@ -3,7 +3,7 @@
  */
 
 var path = require('path');
-var BowerWebpackPlugin = require('bower-webpack-plugin');
+var webpack = require('webpack');
 
 module.exports = {
 	node: {
@@ -14,21 +14,29 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
+		publicPath: 'dist/',
 		filename: '[name].entry.js'
 	},
 	resolve: {
 		alias: {
-			behaviors: path.resolve('./vendor/UsefulMarionetteViewBehaviors'),
-			foundation: path.resolve('./vendor/foundation-sites/js/foundation.core'),
-			foundationEqualizer: path.resolve('./vendor/foundation-sites/js/foundation.equalizer'),
-			foundationTooltip: path.resolve('./vendor/foundation-sites/js/foundation.tooltip'),
-			foundationOffCanvas: path.resolve('./vendor/foundation-sites/js/foundation.offcanvas'),
-			nprogress: path.resolve('./vendor/nprogress/nprogress.js'),
-			backboneRelational: 'backbone-relational'
+			backbone: 				path.resolve('./vendor/backbone/backbone'),
+			'backbone.babysitter':	path.resolve('./vendor/backbone.babysitter/lib/backbone.babysitter'),
+			'backbone.wreqr': 		path.resolve('./vendor/backbone.wreqr/lib/backbone.wreqr'),
+			backboneRelational: 	'backbone-relational',
+			behaviors:				path.resolve('./vendor/UsefulMarionetteViewBehaviors'),
+			foundation:				path.resolve('./vendor/foundation-sites/js/foundation.core'),
+			foundationEqualizer:	path.resolve('./vendor/foundation-sites/js/foundation.equalizer'),
+			foundationTooltip: 		path.resolve('./vendor/foundation-sites/js/foundation.tooltip'),
+			foundationOffCanvas: 	path.resolve('./vendor/foundation-sites/js/foundation.offcanvas'),
+			jquery: 				path.resolve('./vendor/jquery/src/jquery'),
+			moment:					path.resolve('./vendor/moment/moment'),
+			nprogress:				path.resolve('./vendor/nprogress/nprogress.js'),
+			underscore: 			path.resolve('./vendor/underscore/underscore')
 		},
 		modulesDirectories: [
 			'public',
-			'js'
+			'js',
+			'vendor'
 		],
 		extensions: ['', '.config.js', '.js', '.html']
 	},
@@ -38,12 +46,20 @@ module.exports = {
 			{
 				test: /\.html$/,
 				loader: 'underscore-template-loader'
+			},
+			{
+				test: /(foundation\.core)/,
+				loader: 'exports?foundation=jQuery.fn.foundation'
 			}
 		]
 	},
+
 	plugins: [
-		new BowerWebpackPlugin({
-			modulesDirectories: ['./vendor', '../node_modules']
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery',
+			foundation: 'Foundation'
 		})
 	]
 };

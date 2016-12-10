@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cd ./public && webpack "
   },
   "repository": {
     "type": "git",
@@ -20,13 +20,18 @@
   },
   "homepage": "https://github.com/fpm5022/AValcohol#readme",
   "dependencies": {
+    "expose-loader": "^0.7.1",
     "gulp": "^3.9.0",
     "gulp-util": "^3.0.7",
     "minimist": "^1.2.0",
-    "vinyl-ftp": "^0.4.5"
+    "script-loader": "^0.7.0",
+    "vinyl-ftp": "^0.4.5",
+    "webpack": "^1.13.3"
   },
   "devDependencies": {
     "bower-webpack-plugin": "^0.1.9",
+    "exports-loader": "^0.6.3",
+    "expose-loader": "^0.7.1",
     "file-system": "^2.2.1",
     "underscore-template-loader": "^0.7.3"
   }
