@@ -10,6 +10,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\OrderStatus
@@ -34,6 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderStatus extends Model
 {
+	use SoftDeletes;
+	
 	protected $primaryKey = 'order_id';
 	protected $hidden = ['charge_id'];
 

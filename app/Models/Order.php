@@ -10,6 +10,7 @@ namespace App\Models;
 
 use App\Http\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Eloquence\Eloquence;
 
 /**
@@ -54,6 +55,7 @@ class Order extends Model
 {
 	use Filterable;
 	use Eloquence;
+	use SoftDeletes;
 
 	public $searchableFields = [
 		'id' => 'id',

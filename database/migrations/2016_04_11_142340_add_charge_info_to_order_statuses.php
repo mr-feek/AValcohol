@@ -16,6 +16,7 @@ class AddChargeInfoToOrderStatuses extends Migration
 			$table->string('charge_id')->after('order_id');
 			$table->boolean('charge_authorized')->after('charge_id')->default(0);
 			$table->boolean('charge_captured')->after('charge_authorized')->default(0);
+			$table->softDeletes();
 		});
     }
 

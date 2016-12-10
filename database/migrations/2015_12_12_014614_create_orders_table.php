@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
 			$table->unsignedInteger('user_id');
 			$table->unsignedInteger('user_address_id');
 			$table->timestamps();
+			$table->softDeletes();
 		});
     }
 

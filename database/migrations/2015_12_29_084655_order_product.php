@@ -24,6 +24,8 @@ class OrderProduct extends Migration
 			$table->foreign('product_id')
 					->references('id')
 					->on('products');
+
+			$table->softDeletes();
 		});
 
 		// drop product ID from orders table
