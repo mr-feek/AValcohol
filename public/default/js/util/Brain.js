@@ -2,17 +2,17 @@ define([
     ''
 ], function () {
     var Brain = {
-        memory: [],
+        dataStore: [],
 
         retrieve: function(key) {
-            if (!this.store[key]) {
+            if (!this.dataStore[key]) {
                 console.error('retrieving a non-existant key from the data store: ' + key);
             }
-            return this.store[key];
+            return this.dataStore[key];
         },
 
         store: function(key, value) {
-            this.memory[key] = value;
+            this.dataStore[key] = value;
         }
     };
 
