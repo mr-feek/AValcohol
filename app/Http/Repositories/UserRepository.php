@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Exceptions\InvalidPasswordException;
 use App\Jobs\Mailchimp\AddUserToMailchimp;
 use App\Jobs\Mailchimp\BasicAddToMailchimp;
 use App\Models\User;
@@ -34,12 +35,19 @@ class UserRepository extends BaseRepository implements UserInterface
 
 	/**
 	 * @param $data
+	 *
 	 * @return static
+	 * @throws InvalidPasswordException
 	 */
 	public function create($data) {
 		// mvp users do not need a password because they arent actually making accounts
 		if (array_key_exists('password', $data)) {
 			$rawPassword = $data['password'];
+
+			if (strlen($rawPassword) < 7) {
+				throw new InvalidPasswordException();
+			}
+			
 			$hashed = Hash::make($rawPassword);
 			$data['password'] = $hashed;
 		}
