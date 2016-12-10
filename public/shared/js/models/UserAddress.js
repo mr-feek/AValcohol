@@ -76,6 +76,8 @@ define([
 		 * @returns {*}
 		 */
 		getDeliveryZone: function() {
+			this.trigger('request');
+
 			var promise = $.get(
 				'/api/address/delivery_zone', {
 					latitude: this.get('location')['latitude'],
@@ -83,11 +85,18 @@ define([
 					street: this.get('street')
 				}
 			);
+
 			promise.done(function(resp) {
+				this.trigger('sync');
 				if (resp.delivery_zone_id) {
 					this.set('delivery_zone_id', resp.delivery_zone_id);
 				}
 			}.bind(this));
+
+			promise.fail(function(resp) {
+				this.trigger('error');
+			}.bind(this));
+
 			return promise;
 		},
 
