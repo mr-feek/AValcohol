@@ -90,7 +90,8 @@ require([
 	'shared/js/models/Config',
 	'shared/js/Brain',
 	'foundation',
-	'foundationMediaQuery'
+	'foundationMediaQuery',
+	'shared/js/Brain'
 ], function (
 	app,
 	Backbone,
