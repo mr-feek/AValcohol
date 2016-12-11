@@ -3,15 +3,21 @@
  */
 define([
 	'backbone',
-	'shared/js/util/Vent'
+	'shared/js/util/Vent',
+	'shared/js/util/SessionStorageMixin'
 ], function(
 	Backbone,
-	Vent
+	Vent,
+	SessionStorageMixin
 ) {
-	/**
-	 * Helper model for storing state including over page refresh
-	 */
-	var model = Backbone.Model.extend({
+	var model = Backbone.Model.extend(_.extend(SessionStorageMixin, {
+		/**
+		 * an array of model attributes that should be held in session storage
+		 */
+		sessionAttributes: [
+			'token'
+		],
+
 		defaults: {
 			email: null,
 			password: null,
@@ -20,7 +26,7 @@ define([
 		},
 
 		initialize: function() {
-			this.setDefaultsFromStorage();
+			this.initializeSessionStorage();
 			this.setTokenOnRequests();
 		},
 
@@ -61,13 +67,6 @@ define([
 		},
 
 		/**
-		 * fetches values saved in storage and sets them to this model
-		 */
-		setDefaultsFromStorage: function() {
-			this.set('token', this.retrieve('token'));
-		},
-
-		/**
 		 * attempts to log in
 		 */
 		login: function(data) {
@@ -86,38 +85,19 @@ define([
 			}.bind(this));
 		},
 
+		logout: function() {
+			this.set('token', null);
+			this.set('loggedIn', false);
+		},
+
 		/*
 		* @param token
 		*/
 		onLoginSuccess: function(token) {
 			this.set('token', token);
-			this.persist('token', token);
 			Vent.trigger('user:authenticated');
-		},
-
-		/**
-		 * retrieves the key
-		 * @param key
-		 * @return value
-		 */
-		retrieve: function(key) {
-			return window.sessionStorage.getItem(key);
-		},
-
-		/**
-		 * Persists given key value into storage
-		 */
-		persist: function(key, value) {
-			window.sessionStorage.setItem(key, value);
-		},
-
-		/**
-		 * Removes given key from storage
-		 */
-		remove: function(key) {
-			window.sessionStorage.removeItem(key);
 		}
-	});
+	}));
 
 	return model;
 });
