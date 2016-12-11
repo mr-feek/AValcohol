@@ -61,7 +61,12 @@ class ThrottleRequests
 	 */
 	protected function resolveRequestSignature($request)
 	{
-		return $request->fingerprint();
+		return sha1(
+			$request->method() .
+			'|' . $request->server('SERVER_NAME') .
+			'|' . $request->path() .
+			'|' . $request->ip()
+		);
 	}
 
 	/**

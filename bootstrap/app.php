@@ -75,7 +75,8 @@ $app->singleton(
 $app->routeMiddleware([
 	'store-open' => App\Http\Middleware\StoreOpen::class,
 	'jwt-auth' => \App\Http\Middleware\UserAuthenticated::class,
-	'has-role' => \App\Http\Middleware\HasRole::class
+	'has-role' => \App\Http\Middleware\HasRole::class,
+	'throttle' => App\Http\Middleware\ThrottleRequests::class
 ]);
 
 /*

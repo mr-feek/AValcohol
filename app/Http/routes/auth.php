@@ -6,6 +6,6 @@
  * Time: 12:14 PM
  */
 
-$app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers'], function($app) {
+$app->group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers', 'middleware' => 'throttle:20,1'], function($app) {
 	$app->post('login', 'AuthController@login');
 });
