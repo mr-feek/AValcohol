@@ -78,6 +78,7 @@ require.config({
 require([
 	'App',
 	'backbone',
+	'shared/js/Brain',
 	'shared/admin-retailer/js/views/RootView',
 	'controllers/Controller',
 	'util/Router',
@@ -89,6 +90,7 @@ require([
 ], function (
 	app,
 	Backbone,
+	Brain,
 	RootView,
 	Controller,
 	Router,
@@ -99,14 +101,14 @@ require([
 	$(document).foundation();
 
 	app.on('start', function() {
-		app.rootView = new RootView();
+		Brain.store('session', new Session());
 
+		app.rootView = new RootView();
 		var controller = new Controller({
 			rootView: app.rootView
 		});
 
 		app.vendor = new Vendor();
-		app.session = new Session();
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
 		

@@ -88,6 +88,7 @@ require([
 	'shared/js/models/Session',
 	'util/Router',
 	'shared/js/models/Config',
+	'shared/js/Brain',
 	'foundation',
 	'foundationMediaQuery'
 ], function (
@@ -98,13 +99,14 @@ require([
 	User,
 	Session,
 	Router,
-	Config
+	Config,
+	Brain
 ) {
 	$(document).foundation();
 
 	app.on('start', function() {
 		app.rootView = new RootView();
-		app.session = new Session();
+		Brain.store('session', new Session());
 		app.user = User.findOrCreate({}, { useStorage: true });
 
 		var controller = new Controller({

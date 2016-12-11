@@ -10,7 +10,7 @@ define([
 	'views/checkout/CheckoutView',
 	'views/misc/TermsAndConditionsView',
 	'views/NotFoundView',
-	'util/Brain',
+	'shared/js/Brain',
 	'App'
 ], function (
 	Marionette,

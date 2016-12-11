@@ -3,7 +3,7 @@
  */
 define([
     'marionette',
-    'util/Brain',
+    'shared/js/Brain',
     'App',
     'tpl!templates/user-home/product-comparator.html'
 ], function (
