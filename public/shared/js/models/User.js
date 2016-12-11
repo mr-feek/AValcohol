@@ -5,6 +5,7 @@ define([
 	'shared/js/models/UserProfile',
 	'shared/js/models/Card',
 	'shared/js/models/Role',
+	'shared/js/util/ClientSideDeleteMixin',
 	'moment'
 ], function (
 	Backbone,
@@ -13,9 +14,10 @@ define([
 	UserProfile,
 	Card,
 	Role,
+	ClientSideDeleteMixin,
 	moment
 ) {
-	var User = Backbone.RelationalModel.extend({
+	var User = Backbone.RelationalModel.extend(_.extend(ClientSideDeleteMixin, {
 		urlRoot: '/api/user',
 
 		relations: [
@@ -142,7 +144,7 @@ define([
 			}
 			return false;
 		}
-	});
+	}));
 
 	return User;
 });

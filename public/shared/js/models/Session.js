@@ -3,10 +3,18 @@
  */
 define([
 	'backbone',
+	'underscore',
+	'App',
+	'shared/js/Brain',
+	'shared/js/models/User',
 	'shared/js/util/Vent',
 	'shared/js/util/SessionStorageMixin'
 ], function(
 	Backbone,
+	_,
+	app,
+	Brain,
+	User,
 	Vent,
 	SessionStorageMixin
 ) {
@@ -71,12 +79,10 @@ define([
 		 */
 		login: function(data) {
 			this.trigger('request');
-			$.post('/api/auth/login',
-				{
+			$.post('/api/auth/login', {
 					email: data.email,
 					password: data.password
-				},
-				function(result) {
+				}, function(result) {
 					this.trigger('sync');
 					this.onLoginSuccess(result.token);
 				}.bind(this)
@@ -86,8 +92,27 @@ define([
 		},
 
 		logout: function() {
-			this.set('token', null);
-			this.set('loggedIn', false);
+			this.trigger('request');
+
+			$.ajax({
+				url: '/api/auth/logout',
+				type: 'post',
+				headers: {
+					'Authorization': 'Bearer ' + this.get('token'),
+					'Accept': "application/json"
+				},
+				success: function(result) {
+					this.trigger('sync');
+					this.set('token', null);
+					this.set('loggedIn', false);
+					Brain.retrieve('user').destroyClientSide();
+					Brain.store('user', User.findOrCreate({}), { ignoreWarning: true});
+					app.router.navigate('/admin/login', { trigger: true })
+				}.bind(this),
+				error: function(result) {
+					this.trigger('error');
+				}.bind(this)
+			});
 		},
 
 		/*

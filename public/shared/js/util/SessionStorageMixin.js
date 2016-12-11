@@ -89,6 +89,9 @@ define([
 		 * @returns {*}
 		 */
 		putInStorage: function(key, value) {
+			if (value == null) {
+				return this.storage.removeItem(key);
+			}
 			return this.storage.setItem(key, value);
 		}
 	};

@@ -42,6 +42,12 @@ define([
 			if (this.storageAvailable) {
 				return window.sessionStorage.setItem(key, value);
 			}
+		},
+
+		removeItem: function(key) {
+			if (this.storageAvailable) {
+				return window.sessionStorage.removeItem(key);
+			}
 		}
 	});
 

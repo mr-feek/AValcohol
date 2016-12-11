@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -25,19 +26,20 @@ class AuthController extends Controller
 
 	/**
 	 * @param Request $request
+	 *
 	 * @return mixed
 	 */
 	function login(Request $request)
 	{
 		$this->validate($request, [
-			'email'    => 'required|email|max:255',
+			'email' => 'required|email|max:255',
 			'password' => 'required',
 		]);
 
 		try {
 			$credentials = $request->only('email', 'password');
 
-			if (! $token = $this->jwt->attempt($credentials)) {
+			if (!$token = $this->jwt->attempt($credentials)) {
 				return response()->json(['user_not_found'], 404);
 			}
 		} catch (TokenExpiredException $e) {
@@ -47,7 +49,18 @@ class AuthController extends Controller
 		} catch (JWTException $e) {
 			return response()->json(['token_absent' => $e->getMessage()], 500);
 		}
-		
+
 		return response()->json(compact('token'));
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	function logout(Request $request)
+	{
+		Auth::logout();
+		return response()->json(['success' => true]);
 	}
 }

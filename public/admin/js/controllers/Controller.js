@@ -39,9 +39,9 @@ define([
 
 		showLogin: function() {
 			this.rootView.getRegion('main').show(new LoginView({
-				model: app.user,
+				model: Brain.retrieve('user'),
 				loginSuccessCallback: function(response) {
-					if (app.user.isAdmin()) {
+					if (Brain.retrieve('user').isAdmin()) {
 						app.router.navigate('admin/dashboard', {trigger: true});
 					} else {
 						alert('it seems as if you are not an admin. If this is incorrect, please let someone know.');
@@ -114,14 +114,14 @@ define([
 		},
 
 		_getHomeView: function() {
-			if (!this.home) {
+			if (!this.home || this.home.isDestroyed) {
 				this.home = new HomeRootView();
 			}
 			return this.home;
 		},
 
 		_getHeaderView: function() {
-			if (!this.headerView) {
+			if (!this.headerView || this.headerView.isDestroyed) {
 				this.headerView = new HeaderView();
 			}
 			return this.headerView;

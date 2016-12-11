@@ -6,12 +6,14 @@ define([
 	'shared/js/util/Vent',
 	'models/SiteStatusModel',
 	'App',
+	'shared/js/Brain',
 	'tpl!templates/header.html'
 ], function (
 	Mn,
 	Vent,
 	SiteStatusModel,
 	app,
+	Brain,
 	tpl
 ) {
 	var HeaderView = Mn.ItemView.extend({
@@ -26,12 +28,14 @@ define([
 
 		events: {
 			'click @ui.hamburger' : 'toggleOffCanvas',
-			'click @ui.siteStatus' : 'siteStatusClicked'
+			'click @ui.siteStatus' : 'siteStatusClicked',
+			'click @ui.logout' : 'onLogoutClicked'
 		},
 
 		ui: {
 			hamburger : '.menu-icon',
-			siteStatus : '.site-status'
+			siteStatus : '.site-status',
+			logout: '.js-logout'
 		},
 
 		initialize: function(options) {
@@ -85,6 +89,11 @@ define([
 		toggleOffCanvas: function(evt) {
 			evt.preventDefault();
 			app.rootView.trigger('toggleOffCanvas', evt);
+		},
+
+		onLogoutClicked: function() {
+			var session = Brain.retrieve('session');
+			session.logout();
 		}
 	});
 

@@ -10,8 +10,15 @@ define([], function () {
             return this._dataStore[key];
         },
 
-        store: function(key, value) {
-            if (this._dataStore[key]) {
+		/**
+         *
+         * @param key
+         * @param value
+         * @param options
+         *  - ignoreWarning
+         */
+        store: function(key, value, options) {
+            if (this._dataStore[key] && !options.ignoreWarning) {
                 console.warn('overwriting key in the datastore: ' + key);
             }
 

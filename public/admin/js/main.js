@@ -109,7 +109,7 @@ require([
 		app.rootView = new RootView();
 		Brain.store('session', new Session());
 		app.user = User.findOrCreate({}, { useStorage: true });
-
+		Brain.store('user', app.user);
 		var controller = new Controller({
 			rootView: app.rootView
 		});
