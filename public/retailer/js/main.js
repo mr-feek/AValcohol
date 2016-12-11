@@ -109,6 +109,7 @@ require([
 		});
 
 		app.vendor = new Vendor();
+		Brain.store('user', app.vendor);
 		app.rootView.render();
 		app.router = new Router({ controller: controller });
 		

@@ -5,13 +5,15 @@ define([
 	'backbone',
 	'shared/js/models/VendorHours',
 	'shared/js/models/DeliveryZone',
+	'shared/js/util/ClientSideDeleteMixin',
 	'backboneRelational'
 ], function (
 	Backbone,
 	VendorHours,
-	DeliveryZone
+	DeliveryZone,
+	ClientSideDeleteMixin
 ) {
-	var Vendor = Backbone.RelationalModel.extend({
+	var Vendor = Backbone.RelationalModel.extend(_.extend(ClientSideDeleteMixin, {
 		urlRoot: '/api/vendor',
 		hasBeenFetched: false, // flag for whether or not we have fetched the vendor. useful only for when logging in from admin
 
@@ -66,7 +68,7 @@ define([
 
 			return errors.length > 0 ? errors : null;
 		}
-	});
+	}));
 
 	return Vendor;
 });

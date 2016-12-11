@@ -76,7 +76,6 @@ define([
 				var session = Brain.retrieve('session');
 				
 				session.set('token', token);
-				session.persist('token', token);
 
 				window.location = '/retailer/dashboard'
 			});

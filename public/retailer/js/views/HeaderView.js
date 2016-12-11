@@ -5,11 +5,13 @@ define([
 	'marionette',
 	'shared/js/util/Vent',
 	'App',
+	'shared/js/Brain',
 	'tpl!templates/header.html'
 ], function (
 	Mn,
 	Vent,
 	app,
+	Brain,
 	tpl
 ) {
 	var HeaderView = Mn.ItemView.extend({
@@ -24,7 +26,8 @@ define([
 
 		events: {
 			'click @ui.settings' : 'showSettings',
-			'click @ui.hamburger' : 'toggleOffCanvas'
+			'click @ui.hamburger' : 'toggleOffCanvas',
+			'click @ui.logout' : 'onLogoutClicked'
 		},
 
 		modelEvents: {
@@ -35,7 +38,8 @@ define([
 		ui: {
 			settings	: '.settings',
 			hamburger 	: '.menu-icon',
-			status		: '.status'
+			status		: '.status',
+			logout	 	: '.js-logout'
 		},
 
 		onRender: function() {
@@ -71,6 +75,11 @@ define([
 		updateStatusDisplay: function() {
 			var status = this.model.get('store_status');
 			this.ui.status.html(status);
+		},
+
+		onLogoutClicked: function() {
+			var session = Brain.retrieve('session');
+			session.logout();
 		}
 	});
 

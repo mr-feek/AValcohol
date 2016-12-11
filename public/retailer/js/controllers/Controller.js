@@ -25,7 +25,7 @@ define([
 
 		showLogin: function() {
 			this.rootView.getRegion('main').show(new LoginView({
-				model: app.vendor,
+				model: Brain.retrieve('user'),
 				loginSuccessCallback: function(response) {
 					if (response.vendor) {
 						app.vendor.hasBeenFetched = true;

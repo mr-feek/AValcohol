@@ -5,7 +5,6 @@ define([
 	'backbone',
 	'underscore',
 	'App',
-	'shared/js/Brain',
 	'shared/js/models/User',
 	'shared/js/util/Vent',
 	'shared/js/util/SessionStorageMixin'
@@ -13,7 +12,6 @@ define([
 	Backbone,
 	_,
 	app,
-	Brain,
 	User,
 	Vent,
 	SessionStorageMixin
@@ -105,9 +103,7 @@ define([
 					this.trigger('sync');
 					this.set('token', null);
 					this.set('loggedIn', false);
-					Brain.retrieve('user').destroyClientSide();
-					Brain.store('user', User.findOrCreate({}), { ignoreWarning: true});
-					app.router.navigate('/admin/login', { trigger: true })
+					Vent.trigger('auth:logout');
 				}.bind(this),
 				error: function(result) {
 					this.trigger('error');
