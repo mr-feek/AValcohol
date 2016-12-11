@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'util/Brain',
+	'shared/js/Brain',
 	'collections/Products',
 	'views/HeaderView',
 	'views/user-home/ProductCategoriesView',

@@ -14,7 +14,8 @@ define([
 	'views/VendorsView',
 	'views/VendorHoursView',
 	'views/factory/FactoryView',
-	'App'
+	'App',
+	'shared/js/Brain'
 ], function (
 	Marionette,
 	LoginView,
@@ -28,7 +29,8 @@ define([
 	VendorsView,
 	VendorHoursView,
 	FactoryView,
-	app
+	app,
+	Brain
 ) {
 	var Controller = Marionette.Object.extend({
 		initialize: function(options) {
@@ -102,7 +104,9 @@ define([
 		 * @return boolean whether or not authorized
 		 */
 		authorize: function() {
-			if (!app.session.get('token')) {
+			var session = Brain.retrieve('session');
+			
+			if (!session.get('token')) {
 				app.router.navigate('admin/login', {trigger: true});
 				return false;
 			}

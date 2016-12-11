@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'util/Brain',
+	'shared/js/Brain',
 	'foundationEqualizer',
 	'views/user-home/ProductView',
 	'behaviors/LoadingIndicator',

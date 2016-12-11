@@ -7,14 +7,16 @@ define([
 	'views/HeaderView',
 	'views/SidebarView',
 	'views/VendorHomeRootView',
-	'App'
+	'App',
+	'shared/js/Brain'
 ], function (
 	Marionette,
 	LoginView,
 	HeaderView,
 	SidebarView,
 	VendorHomeRootView,
-	app
+	app,
+	Brain
 ) {
 	var Controller = Marionette.Object.extend({
 		initialize: function(options) {
@@ -52,7 +54,8 @@ define([
 		 * @return boolean whether or not authorized
 		 */
 		authorize: function() {
-			if (!app.session.get('token')) {
+			var session = Brain.retrieve('session');
+			if (!session.get('token')) {
 				app.router.navigate('retailer/login', {trigger: true});
 				return false;
 			}

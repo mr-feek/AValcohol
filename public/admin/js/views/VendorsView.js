@@ -11,6 +11,7 @@ define([
 	'behaviors/LoadingIndicator',
 	'behaviors/Backgrid',
 	'App',
+	'shared/js/Brain',
 	'tpl!templates/vendors.html'
 ], function (
 	Mn,
@@ -22,6 +23,7 @@ define([
 	CollectionLoading,
 	BackgridBehavior,
 	app,
+	Brain,
 	tpl
 ) {
 	var AllOrdersView = Mn.ItemView.extend({
@@ -71,8 +73,11 @@ define([
 
 			new VendorLogin({id : vendorId}).fetch().done(function(response) {
 				var token = response.token;
-				app.session.set('token', token);
-				app.session.persist('token', token);
+				var session = Brain.retrieve('session');
+				
+				session.set('token', token);
+				session.persist('token', token);
+
 				window.location = '/retailer/dashboard'
 			});
 		},

@@ -6,12 +6,14 @@ define([
 	'shared/js/util/Vent',
 	'behaviors/LoadingIndicator',
 	'App',
+	'shared/js/Brain',
 	'tpl!../../js/templates/login.html'
 ], function (
 	Mn,
 	Vent,
 	CollectionLoading,
 	app,
+	Brain,
 	tpl
 ) {
 	var view = Mn.ItemView.extend({
@@ -46,10 +48,11 @@ define([
 			}
 			this.model = options.model;
 
-			this.listenTo(app.session, 'invalid', this.validationError);
-			this.listenTo(app.session, 'error', this.onLoginUnsuccessful);
+			var session = Brain.retrieve('session');
+			this.listenTo(session, 'invalid', this.validationError);
+			this.listenTo(session, 'error', this.onLoginUnsuccessful);
 
-			this.triggerMethod('setListener', app.session);
+			this.triggerMethod('setListener', session);
 			this.triggerMethod('setListener', this.model);
 
 			_.bindAll(this, 'passwordCharacterTyped');
@@ -68,11 +71,14 @@ define([
 		 */
 		login: function() {
 			// only setting these to piggyback the validation
-			app.session.set('email', this.ui.email.val());
-			app.session.set('password', this.ui.password.val());
-			if (app.session.isValid()) {
+			var session = Brain.retrieve('session');
+
+			session.set('email', this.ui.email.val());
+			session.set('password', this.ui.password.val());
+
+			if (session.isValid()) {
 				this.clearErrors();
-				app.session.login({
+				session.login({
 					email: this.ui.email.val(),
 					password: this.ui.password.val()
 				});
@@ -84,7 +90,7 @@ define([
 			this.clearErrors();
 			_.each(errors, function(error) {
 				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]');
-				
+
 				$input.addClass('is-invalid-input');
 
 				var html = '<span class="form-error is-visible"\>' + error.message + '</span>';
