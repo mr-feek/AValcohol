@@ -82,9 +82,7 @@ define([
 					this.onLoginSuccess(result.token);
 				}.bind(this)
 			).fail(function(result) {
-				// TODO
-				this.trigger('sync');
-				alert('incorrect login credentials');
+				this.trigger('error');
 			}.bind(this));
 		},
 

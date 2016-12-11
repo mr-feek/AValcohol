@@ -26,6 +26,7 @@ define([
 		},
 
 		ui: {
+			container: '.login-container',
 			email: '.email',
 			password: '.password',
 			login: '.go',
@@ -44,7 +45,9 @@ define([
 				return;
 			}
 			this.model = options.model;
-			this.listenTo(this.model, 'invalid', this.validationError);
+
+			this.listenTo(app.session, 'invalid', this.validationError);
+			this.listenTo(app.session, 'error', this.onLoginUnsuccessful);
 
 			this.triggerMethod('setListener', app.session);
 			this.triggerMethod('setListener', this.model);
@@ -68,7 +71,7 @@ define([
 			app.session.set('email', this.ui.email.val());
 			app.session.set('password', this.ui.password.val());
 			if (app.session.isValid()) {
-				this.clearValidationErrors();
+				this.clearErrors();
 				app.session.login({
 					email: this.ui.email.val(),
 					password: this.ui.password.val()
@@ -78,14 +81,13 @@ define([
 
 		// cherry picked from behavior
 		validationError: function(model, errors) {
-			this.clearValidationErrors();
+			this.clearErrors();
 			_.each(errors, function(error) {
-				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]'); // could change this find to search directly from ui inputs.. too tired to figure that out now
+				var $input = this.$el.find('[model_attribute="' + error.attribute + '"]');
+				
+				$input.addClass('is-invalid-input');
 
-				// add error class to label
-				$input.parent('label').addClass('error');
-
-				var html = '<small class="error"\>' + error.message + '</small>';
+				var html = '<span class="form-error is-visible"\>' + error.message + '</span>';
 				$input.after(html);
 			}.bind(this));
 		},
@@ -93,9 +95,11 @@ define([
 		/**
 		 * Removes all errors from the form
 		 */
-		clearValidationErrors: function() {
-			this.$el.find('small.error').remove();
-			this.$el.find('label.error').removeClass('error');
+		clearErrors: function() {
+			this.ui.email.removeClass('is-invalid-input');
+			this.ui.password.removeClass('is-invalid-input');
+			this.ui.container.find('.js-error-alert').remove();
+			this.ui.container.find('.form-error').remove();
 		},
 
 		/**
@@ -110,6 +114,16 @@ define([
 			this.model.fetch().done(function(response) {
 				callback(response);
 			});
+		},
+
+		onLoginUnsuccessful: function() {
+			this.ui.container.prepend(
+				'<div class="alert callout js-error-alert">' +
+					'<p><i class="fi-alert"></i> No login was found with the supplied email and password</p>' +
+				'</div>'
+			);
+			this.ui.email.addClass('is-invalid-input');
+			this.ui.password.addClass('is-invalid-input');
 		}
 	});
 
