@@ -18,6 +18,7 @@ define([], function () {
          *  - ignoreWarning
          */
         store: function(key, value, options) {
+            options = options || {};
             if (this._dataStore[key] && !options.ignoreWarning) {
                 console.warn('overwriting key in the datastore: ' + key);
             }
