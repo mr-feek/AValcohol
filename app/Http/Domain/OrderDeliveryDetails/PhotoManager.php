@@ -45,8 +45,6 @@ class PhotoManager implements PhotoManagerInterface
 	 * @param the|string $data the base64 encoded picture data IE data:image/png;base64,iVBORw0KGgoA...
 	 * @return string the fully quantified path to the saved photo
 	 * @throws APIException if picture could not be saved
-	 *
-	 * TODO: if an error happens while saving, cleanup this file
 	 */
 	public function put(string $data)
 	{
@@ -124,6 +122,17 @@ class PhotoManager implements PhotoManagerInterface
 		$imageData = $this->disk->get($model->photo_path);
 		$type = pathinfo($model->photo_path, PATHINFO_EXTENSION);
 		return $this->encodeImageData($imageData, $type);
+	}
+
+	/**
+	 * deletes the given photo from storage
+	 *
+	 * @param OrderDeliveryDetail $model
+	 *
+	 * @return bool
+	 */
+	public function destroy(OrderDeliveryDetail $model) {
+		return $this->disk->destroy($model->photo_path);
 	}
 
 	/*
