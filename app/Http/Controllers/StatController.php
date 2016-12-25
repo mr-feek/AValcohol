@@ -22,7 +22,7 @@ class StatController extends Controller
 	public function getStats(Request $request) {
 		// todo: optimize obviously but quick and dirty right now
 		$totalSales = Order::count();
-		$averageSaleAmount = Order::avg('full_charge_amount');
+		$averageSaleAmount = round(Order::avg('full_charge_amount'), 2);
 		$totalAggregated = Order::sum('full_charge_amount');
 		$salesToday = Order::whereBetween('created_at', [Carbon::today(), Carbon::now()])->count();
 
