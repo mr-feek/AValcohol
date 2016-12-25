@@ -1,6 +1,11 @@
+/**
+ * this is a simple datastore for all backbone models used throughout the application
+ * lifecycle
+ */
+
 define([], function () {
     var Brain = {
-        _dataStore: [],
+        _dataStore: {},
 
         retrieve: function(key) {
             if (!this._dataStore[key]) {
