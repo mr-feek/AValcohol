@@ -16,11 +16,12 @@ class AdminService extends BaseService
 		$this->repo = $adminRepo;
 	}
 
+	/**
+	 * @param array $data
+	 *
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
 	public function getOrders(array $data) {
 		return $this->repo->searchOrders($data);
-	}
-
-	public function getTotalNumberOfOrdersPlacedToDate() {
-		return $this->repo->getTotalNumberOfOrdersPlacedToDate();
 	}
 }

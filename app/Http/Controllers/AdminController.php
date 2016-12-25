@@ -24,7 +24,7 @@ class AdminController extends Controller
 {
 	public function getOrders(Request $request, AdminService $service) {
 		$orders = $service->getOrders($request->input());
-		$count = $service->getTotalNumberOfOrdersPlacedToDate();
+		$count = $orders->count();
 
 		$this->authorize('get', $orders);
 

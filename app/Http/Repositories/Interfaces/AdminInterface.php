@@ -11,5 +11,4 @@ namespace App\Http\Repositories\Interfaces;
 interface AdminInterface
 {
 	public function searchOrders(array $filters);
-	public function getTotalNumberOfOrdersPlacedToDate();
 }

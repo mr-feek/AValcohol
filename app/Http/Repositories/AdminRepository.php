@@ -17,17 +17,12 @@ class AdminRepository extends BaseRepository implements AdminInterface
 	/**
 	 * Applies the given array as filters to the order query
 	 * @param array $data
-	 * @return \Illuminate\Database\Eloquent\Collection|static[]
-	 * @internal param array $filters
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchOrders(array $data)
 	{
 		$filters = new AdminOrderFilters($data);
 		$orders = Order::filter($filters)->with(['status', 'user.profile', 'products', 'address'])->get();
 		return $orders;
-	}
-
-	public function getTotalNumberOfOrdersPlacedToDate() {
-		return Order::count();
 	}
 }
