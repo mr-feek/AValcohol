@@ -14,4 +14,5 @@ interface PhotoManagerInterface
 {
 	public function put(string $data);
 	public function get(OrderDeliveryDetail $model);
+	public function destroy(OrderDeliveryDetail $model);
 }

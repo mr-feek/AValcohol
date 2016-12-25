@@ -126,6 +126,17 @@ class PhotoManager implements PhotoManagerInterface
 		return $this->encodeImageData($imageData, $type);
 	}
 
+	/**
+	 * deletes the given photo from storage
+	 *
+	 * @param OrderDeliveryDetail $model
+	 *
+	 * @return bool
+	 */
+	public function destroy(OrderDeliveryDetail $model) {
+		return $this->disk->destroy($model->photo_path);
+	}
+
 	/*
 	 * uhhhh
 	 * @param string $data
