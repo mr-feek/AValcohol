@@ -213,6 +213,10 @@ define([
 			// loop through products and multiply price * quantity for combined total
 			var total = 0;
 			_.each(this.models, function(model) {
+				if (!model.get('inCart')) {
+					return;
+				}
+
 				total += model.get('pivot').sale_price * model.get('quantity');
 			});
 
@@ -231,6 +235,10 @@ define([
 		calculateVendorTotal: function() {
 			var total = 0;
 			_.each(this.models, function(model) {
+				if (!model.get('inCart')) {
+					return;
+				}
+
 				total += model.get('pivot').vendor_price * model.get('quantity');
 			});
 			return Number(total).toFixed(2);
@@ -248,8 +256,12 @@ define([
 		getNumberOfItemsInCart() {
 			var total = 0;
 
-			_.each(this.models, function(product) {
-				total += product.get('quantity');
+			_.each(this.models, function(model) {
+				if (!model.get('inCart')) {
+					return;
+				}
+
+				total += model.get('quantity');
 			});
 
 			return total;

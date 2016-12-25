@@ -17,67 +17,49 @@ define([
 
 			return {
 				img_url: '/img/products/' + view.model.get('image_url'),
-				price: view.model.get('pivot').sale_price
+				price: view.model.get('pivot').sale_price,
+				inCart: view.model.get('inCart')
 			}
 		},
 
 		events: {
 			'click @ui.remove' : 'removeFromCart',
 			'click @ui.decreaseQuantity' : 'decreaseQuantity',
-			'click @ui.increaseQuantity' : 'increaseQuantity'
+			'click @ui.increaseQuantity' : 'increaseQuantity',
+			'click @ui.reAddToCart' : 'reAddToCart'
 		},
 
 		modelEvents: {
-			'change:quantity' : 'quantityChanged'
+			'change:quantity' : 'quantityChanged',
+			'change:inCart' : 'inCartChanged'
 		},
 
 		ui: {
 			'remove' : '.remove',
 			'decreaseQuantity' : '.subtract',
 			'increaseQuantity' : '.add',
-			'quantity' : '.quantity'
+			'quantity' : '.quantity',
+			'reAddToCart': '.js-re-add-to-cart'
 		},
 
 		initialize: function (options) {
+			this.listenTo(App.rootView, 'offcanvas:closed', this.onCartClose);
 		},
 
 		quantityChanged: function(model, quantity) {
 			this.ui.quantity.html(quantity);
 		},
 
-		/**
-		 * If there is more than one quantity, it will subtract one quantity instead of fully removing
-		 * from cart
-		 * @param e
-		 */
-		/*
-		removeFromCart: function(e) {
-			e.preventDefault();
-			var view = this;
-
-			var quantity = this.model.get('quantity');
-			if (quantity > 1) {
-				this.model.set('quantity', quantity - 1);
-			} else {
-				this.$el.fadeOut('fast', function() {
-					App.cart.remove(view.model);
-				});
-			}
-		}
-		*/
+		inCartChanged: function(model, inCart) {
+			this.render();
+		},
 
 		removeFromCart: function(e) {
-			// may have been called internally
 			if (e) {
 				e.preventDefault();
 			}
 
-			var view = this;
 			this.model.set('inCart', false);
-
-			this.$el.fadeOut('fast', function() {
-				App.cart.remove(view.model, { removeAll: true }); // remove all quantities
-			});
 		},
 
 		decreaseQuantity: function(evt) {
@@ -88,6 +70,17 @@ define([
 		increaseQuantity: function(evt) {
 			evt.preventDefault();
 			App.cart.add(this.model, {}); // let cart handle this logic
+		},
+
+		onCartClose: function() {
+			// if this model was removed from cart by the user, time to remove the re-add to cart view and not show it again
+			if (this.model.get('inCart') === false) {
+				App.cart.remove(this.model, { removeAll: true }); // remove all quantities
+			}
+		},
+
+		reAddToCart: function() {
+			this.model.set('inCart', true);
 		}
 	});
 

@@ -46,7 +46,8 @@ define([
 
 		collectionEvents: {
 			'update' 			: 'collectionChanged',
-			'change:quantity' 	: 'collectionChanged'
+			'change:quantity' 	: 'collectionChanged',
+			'change:inCart'		: 'collectionChanged'
 		},
 
 		/**

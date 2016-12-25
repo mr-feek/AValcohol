@@ -67,8 +67,11 @@ define([
 		initialize: function (options) {
 			Brain.store('products', new ProductsCollection());
 
-			app.cart.on('update', this.updateNumProducts, this);
-			app.cart.on('change:quantity', this.updateNumProducts, this);
+			this.listenTo(app.cart, 'update', this.updateNumProducts);
+			this.listenTo(app.cart, 'change:quantity', this.updateNumProducts);
+			// update sidebar icon when product is technically no longer in the cart, even if the view is still showing
+			// the option to re-add to cart
+			this.listenTo(app.cart, 'change:inCart', this.updateNumProducts);
 		},
 
 		onBeforeShow: function() {
@@ -136,7 +139,6 @@ define([
 		updateNumProducts: function() {
 			// for some reason need to rewrap the cart in jquery selector, otherwise issues when route changes in user home
 			var $cart = $(this.ui.cart).find('.num-products');
-
 			$cart.animateCss('bounceInDown', {removeAnimateClass: true});
 			$cart.html(app.cart.getNumberOfItemsInCart());
 		},

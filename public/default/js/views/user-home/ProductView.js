@@ -24,7 +24,7 @@ define([
 
 		modelEvents: {
 			'change:inCart' : 'inCartChange',
-			'change:quantity' : 'inCartChange'
+			'change:quantity' : 'quantityChange'
 		},
 
 		ui: {
@@ -52,7 +52,16 @@ define([
 		 * @param model
 		 * @param inCart
 		 */
-		inCartChange: function(model, quantity) {
+		inCartChange: function(model, inCart) {
+			if (inCart) {
+				this.$el.addClass('in-cart');
+				return;
+			}
+			
+			this.$el.removeClass('in-cart');
+		},
+
+		quantityChange: function(model, quantity) {
 			if (quantity > 0) {
 				this.$el.addClass('in-cart');
 				this.ui.quantity.html(quantity);

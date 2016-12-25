@@ -1,20 +1,24 @@
 <div class="cart-product row collapse">
-	<div class="columns small-2 quantity-container">
-		<a class="add"><i class="fi-arrow-up"></i></a>
-		<p>QTY <span class="quantity"><%= quantity %></span></p>
-		<a class="subtract"><i class="fi-arrow-down"></i></a>
-	</div>
-	<div class="small-3 medium-4 columns">
-		<img src="<%= img_url %>" />
-	</div>
-
-	<div class="small-7 medium-6 columns">
-		<div class="details">
-			<a class="remove">&times;</a>
-			<p class="name"><strong><%= name %></strong> <span class="contains">(<%= contains %>-pack)</span></p>
-			<p>$<%= price %></p>
+	<% if (inCart) { %>
+		<div class="columns small-2 quantity-container">
+			<a class="add"><i class="fi-arrow-up"></i></a>
+			<p>QTY <span class="quantity"><%= quantity %></span></p>
+			<a class="subtract"><i class="fi-arrow-down"></i></a>
 		</div>
-	</div>
+		<div class="small-3 medium-4 columns">
+			<img src="<%= img_url %>" />
+		</div>
+
+		<div class="small-7 medium-6 columns">
+			<div class="details">
+				<a class="remove">&times;</a>
+				<p class="name"><strong><%= name %></strong> <span class="contains">(<%= contains %>-pack)</span></p>
+				<p>$<%= price %></p>
+			</div>
+		</div>
+	<% } else { %>
+		<a class="js-re-add-to-cart">Re-Add <strong> <%= quantity %>x <%= name %></strong> To Cart</a>
+	<% }%>
 </div>
 
 <div class="divider"></div>
