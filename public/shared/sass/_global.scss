@@ -5,7 +5,7 @@
 @import '../../vendor/foundation-sites/scss/foundation';
 @include foundation-everything; // temp. probably ok if we use uncss
 
-@import '../../vendor/foundation-icon-fonts/foundation-icons';
+@import '../../vendor/foundation-icon-fonts/_foundation-icons';
 @import 'components/nprogress';
 @import 'components/modal';
 @import 'components/doorbell.scss';
@@ -15,4 +15,12 @@
 
 .off-canvas {
 	height: 100%;
+}
+
+.row .row {
+	max-width: $global-width;
+}
+
+.row.expanded {
+	max-width: none !important;
 }
