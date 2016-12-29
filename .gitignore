@@ -7,6 +7,7 @@ local/
 composer.phar
 passwords.secret
 config.codekit
+config.codekit3
 .env
 _ide_helper.php
 _ide_helper_models.php
