@@ -1,15 +1,16 @@
 <div id="equalizer-wrapper" class="row collapse" data-equalizer="outer-content-equalizer">
 	<!--<div id="sidebar" class="medium-3 columns hide-for-small-only" data-equalizer-watch="outer-content-equalizer"></div>-->
 	<div id="content" class="small-12 medium-9 medium-centered columns" data-equalizer-watch="outer-content-equalizer">
-		<div id="delivering-to" class="row">
-			<div class="row">
-				<div class="small-12 medium-9 columns">
-					<h5>Delivery To:<span> <%= address() %> </span> <a class="button secondary tiny change-address">change</a></h5>
-				</div>
-				<div class="small-12 medium-3 columns">
-					<div id="comparator-region">
-					</div>
-				</div>
+		<div id="delivering-to" class="callout">
+			<div class="label">Delivery Address</div>
+			<span> <%= address() %> </span> <a class="button secondary tiny change-address">change</a>
+		</div>
+		<div class="row">
+			<div class="columns small-12 medium-9">
+				<h3>Products</h3>
+			</div>
+			<div class="columns small-6 medium-3">
+				<div id="comparator-region"></div>
 			</div>
 		</div>
 		<div id="products"></div>
