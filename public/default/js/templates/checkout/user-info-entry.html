@@ -1,0 +1,43 @@
+<fieldset>
+	<legend>Customer Information</legend>
+
+	<div class="row">
+		<div class="columns medium-6">
+			<label>First Name
+				<input name="fname" model_attribute="first_name" type="text" placeholder="First Name" value="<%= first() %>"/>
+			</label>
+		</div>
+		<div class="columns medium-6">
+			<label>Last Name
+				<input name="lname" model_attribute="last_name" type="text" placeholder="Last Name" value="<%= last() %>"/>
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns medium-6">
+			<label>Phone Number
+				<input name="phone" class="phone" model_attribute="phone_number" type="text" placeholder="Phone Number" value="<%= phone() %>"/>
+			</label>
+		</div>
+		<div class="columns medium-6">
+			<label>Email Address
+				<input name="email" model_attribute="email" type="text" placeholder="Email Address" value="<%= email() %>"/>
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns medium-6">
+			<label>Date of Birth
+				<input placeholder="Date of Birth" name="dob" class="dob" model_attribute="date_of_birth" value="<%= dob() %>" type="datetime"/>
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12 actions clearfix">
+			<a href="#" class="button save float-right">Continue to Address Information</a>
+		</div>
+	</div>
+</fieldset>

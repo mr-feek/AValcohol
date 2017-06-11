@@ -1,0 +1,16 @@
+.pagination {
+	@include pagination-container;
+
+	// backgrid paginator uses .active instead of current, so pull in the mixin here
+	.active {
+		@include pagination-item-current;
+	}
+}
+
+.ascending:after {
+	content: '\25B2';
+}
+
+.descending:after {
+	content: '\25BC';
+}

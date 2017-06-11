@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-	sass --update sass:css;
+	sass --update public/sass:public/css;
+	sass --update public/retailers/sass:public/retailers/css;
+	sass --update public/admin/sass:public/admin/css;
 	rm -rf .git/
 	rm -rf .env
 	rm -rf ./.env.example
@@ -18,7 +20,9 @@ if ([ "$TRAVIS_BRANCH" == "master" ]) &&
 else
 	if ([ "$TRAVIS_BRANCH" == "dev" ]) &&
 	[ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-		sass --update sass:css;
+		sass --update public/sass:public/css;
+	    sass --update public/retailers/sass:public/retailers/css;
+	    sass --update public/admin/sass:public/admin/css;
 		gulp deploy --user $FTPUSER --password $FTP_PASSWORD;
 	else
 		echo "not deploying because branch is not dev."

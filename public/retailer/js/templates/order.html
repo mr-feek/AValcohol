@@ -1,0 +1,27 @@
+<div class="order">
+	<div class="row user-info">
+			<span class="label"><%= orderNumber %></span>
+			<h6><%= userName %></h6>
+			<h6 class="subheader"><%= dob %></h6>
+			<h6 class="float-right">$<%= vendorOrderTotal() %></h6>
+	</div>
+
+	<div class="products">
+		<!-- populated in child view-->
+	</div>
+
+	<div class="row note">
+		<span class="label">Order Note</span>
+		<div><%= note %></div>
+	</div>
+
+	<div class="row footer">
+		<div class="columns small-12 clearfix">
+			<h6 class="time-diff float-left"><%= timePlaced %></h6>
+			<div class="button-group float-right">
+				<a class="reject button secondary radius tiny alert">Reject Transaction</a>
+				<a class="accept button radius tiny success">Accept and Facilitate Transaction</a>
+			</div>
+		</div>
+	</div>
+</div>

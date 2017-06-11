@@ -1,0 +1,60 @@
+.sections {
+	.first {
+		background-color: $primary-color;
+		background-image: url('/img/bg/hero-bg-1.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		.branding-callout {
+			margin-top: -3rem; // account for footer. this is good enough
+			width: 100%;
+			padding: 0.75rem;
+
+			h1, h2 {
+				color: white;
+			}
+
+			h1 {
+				font-weight: bolder;
+				text-transform: uppercase;
+				font-size: 4rem;
+			}
+
+			h2 {
+				font-weight: 400;
+				span {
+					font-weight: lighter;
+				}
+			}
+
+			@include breakpoint(small only) {
+				h1 {
+					font-size: 2rem;
+				}
+			}
+		}
+
+		.footer {
+			background-color: rgba(0, 0, 0, 0.7);
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 0 0.75rem;
+
+			form {
+				max-width: 40rem;
+				margin: auto;
+
+				.input-group {
+					margin-top: 2rem; // account for bottom margin and margin of inputs
+				}
+
+				.button {
+					border-bottom-width: 0px;
+				}
+			}
+
+		}
+	}
+}

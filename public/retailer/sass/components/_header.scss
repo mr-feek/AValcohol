@@ -1,0 +1,13 @@
+// this page overrides the default header styling for the vendor header
+
+.top-bar {
+	.top-bar-right {
+		span {
+			margin-left: 0;
+
+			&.status {
+				font-weight: bold;
+			}
+		}
+	}
+}

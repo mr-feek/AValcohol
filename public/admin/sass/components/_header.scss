@@ -1,0 +1,19 @@
+header {
+	.menu-icon {
+		margin-right: 1rem;
+	}
+
+	.top-bar-right {
+		span {
+			vertical-align: top;
+		}
+
+		.closure-label {
+			line-height: 1.5rem; // cant get vertical align to work with switch
+		}
+
+		.switch {
+			margin-left: 1rem;
+		}
+	}
+}

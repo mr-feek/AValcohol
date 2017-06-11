@@ -1,0 +1,35 @@
+<h2><%= vendor.get('name') %> <small>Store Hours</small></h2>
+<h5>Store Is Currently <%= vendor.get('store_status') %></h5>
+
+<div class="callout">
+	<h6>Add New Hours</h6>
+	<form>
+		<div class="row">
+			<div class="columns medium-3 small-12">
+				<label>Day of Week</label>
+				<select class="day-of-week">
+					<option value="0">Sunday</option>
+					<option value="1">Monday</option>
+					<option value="2">Tuesday</option>
+					<option value="3">Wednesday</option>
+					<option value="4">Thursday</option>
+					<option value="5">Friday</option>
+					<option value="6">Saturday</option>
+				</select>
+			</div>
+			<div class="columns medium-3 small-12">
+				<label>Open</label>
+				<input type="time" class="open-time" value="11:00">
+			</div>
+			<div class="columns medium-3 small-12">
+				<label>Close</label>
+				<input type="time" class="close-time" value="18:00">
+			</div>
+			<div class="columns medium-3 small-12">
+				<input type="submit" class="button save" value="Add Hours" style="margin-top:1.5rem;" />
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="grid"></div>

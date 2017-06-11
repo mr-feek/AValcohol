@@ -1,0 +1,45 @@
+<fieldset>
+	<legend>Card Information</legend>
+	<small><p>Aqua Vitae <strong>does not</strong> store any of your credit card information. Your billing information never touches
+		 our servers and is sent directly to <a href="http://stripe.com/about" target="_blank">Stripe</a> for processing. Your personal
+		 security is our utmost concern.</p></small>
+	<div class="payment-errors"></div>
+
+	<div class="row">
+		<div class="columns medium-6">
+			<label>
+				<span>Card Number</span>
+				<input type="text" size="20" data-stripe="number" value="4242424242424242"/>
+			</label>
+		</div>
+		<div class="columns medium-6">
+			<label>
+				<span>CVC</span>
+				<input type="text" size="4" data-stripe="cvc" value="123"/>
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-3">
+			<label>
+				<span>Expiration (MM/YYYY)</span>
+				<input type="text" size="2" data-stripe="exp-month" value="12"/>
+			</label>
+		</div>
+		<div class="columns small-3">
+			<label>
+				<span>Expiration (MM/YYYY)</span>
+				<input type="text" size="4" data-stripe="exp-year" value="2017"/>
+			</label>
+		</div>
+		<div class="columns small-6"></div>
+	</div>
+
+	<div class="row">
+		<div class="columns small-12 actions clearfix">
+			<a href="#" class="button save float-right">Save Card Information</a>
+			<a class="button back secondary float-right">Back</a>
+		</div>
+	</div>
+</fieldset>

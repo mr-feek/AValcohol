@@ -18,11 +18,8 @@ gulp.task('deploy', function() {
 		'api/**',
 		'app/**',
 		'bootstrap/**',
-		'css/**',
 		'database/**',
-		'fonts/**',
-		'img/**',
-		'js/**',
+		'public/**',
 		'resources/**',
 		'storage/**',
 	];
@@ -44,6 +41,7 @@ gulp.task('deploy', function() {
 
 				// upload EVERYTHING newer except stupid stuff
 				globs = [
+					'*',
 					'*/**',
 					'!node_modules/**',
 					'!.env',

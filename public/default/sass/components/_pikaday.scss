@@ -1,0 +1,19 @@
+.pika-label:after {
+	font-size: .75rem;
+	padding: 0.25rem;
+	content: '▼';
+	opacity: 0.4;
+}
+
+.pika-label:hover:after {
+	opacity: 1;
+	color: $primary-color;
+}
+
+.is-selected .pika-button {
+	background: lighten($primary-color, 20);
+}
+
+.pika-button:hover {
+	background: $primary-color;
+}

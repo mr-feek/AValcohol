@@ -1,0 +1,122 @@
+.cart-sidebar {
+	.actions {
+		.button {
+			width: 50%;
+			margin: 0;
+			// keep buttons exactly 50%;
+			padding: 1.3rem 0 1.0625rem 0;
+			font-size: 0.8rem;
+
+			i {
+				padding: 0.5rem;
+			}
+		}
+	}
+
+	.top {
+		height: 70%;
+
+		.products {
+			height: calc(100% - 3.2375rem); // account for height of buttons
+			overflow: auto;
+		}
+	}
+
+  	.empty {
+	  	text-align: center;
+		margin-top: 3rem;
+	}
+
+	.footer {
+		min-height: 30%;
+		background-color: $light-gray;
+		padding: 0 1rem;
+		padding-bottom: 1rem;
+
+		.title-area {
+			border-bottom: 2px solid $medium-gray;
+
+			h6 {
+				display: inline-block;
+				margin: 0;
+			}
+
+			.num-products {
+				text-align: center;
+				padding: 0.5rem;
+			}
+		}
+
+		.totals {
+			color: $dark-gray;
+
+			.total {
+				padding: 0.25rem;
+				font-size: 0.85rem;
+			}
+
+			.total-amount-charged {
+				color: $dark-text-color;
+				text-transform: uppercase;
+
+				.divider {
+					padding-top: 0.5rem;
+					width: 40%;
+					border-top: 2px solid $medium-gray;
+				}
+			}
+		}
+	}
+
+	.go-to-checkout {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+}
+
+.cart-product {
+	padding: 0.5rem;
+	border-bottom: 1px solid $light-gray;
+
+	.quantity-container {
+		text-align: center;
+
+		p {
+			margin: 0.5rem;
+			font-size: 0.85rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		i {
+			font-size: 1.5rem;
+			color: $secondary-color;
+		}
+	}
+
+	.details {
+		padding: 0 1rem;
+		position: relative; // for absolute positioning close button
+
+		.name, .contains {
+			text-transform: uppercase;
+		}
+
+		.contains {
+			font-size: rem-calc(12px);
+		}
+
+		p {
+			margin-bottom: .1rem;
+			font-size: 0.8rem;
+		}
+	}
+
+	.remove {
+		position: absolute;
+		top: 0;
+		right: 0.5rem;
+	}
+}

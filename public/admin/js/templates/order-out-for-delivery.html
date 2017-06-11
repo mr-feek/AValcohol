@@ -1,0 +1,31 @@
+<div class="order">
+	<div class="row user-info">
+		<span class="label"><%= orderNumber %></span>
+		<h6><%= userName %></h6>
+		<h6 class="subheader"><%= dob %></h6>
+		<h6 class="float-right">$<%= vendorOrderTotal %></h6>
+	</div>
+
+	<div class="row address-info">
+		<div class="columns small-12">
+			<span class="title">Deliver To:</span>
+			<span><%= address() %></span>
+		</div>
+	</div>
+
+	<div class="products">
+		<!-- populated in child view-->
+	</div>
+
+	<div class="row note">
+		<span class="label">Order Note</span>
+		<div><%= note %></div>
+	</div>
+
+	<div class="row footer">
+		<div class="columns small-12 clearfix">
+			<h6 class="float-left"><%= timePlaced %></h6>
+			<a class="deliver button radius tiny success float-right">Deliver</a>
+		</div>
+	</div>
+</div>

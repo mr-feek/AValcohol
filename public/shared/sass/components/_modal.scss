@@ -1,0 +1,74 @@
+$contentPadding: 1rem;
+
+.modal-region {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	display: none;
+	z-index: 997;
+}
+
+.modal {
+	margin-left: auto;
+	margin-right: auto;
+	overflow: auto;
+	height: 100%;
+
+	.background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: black;
+		z-index: 998;
+		opacity: 0.8;
+		cursor: pointer;
+	}
+
+	.close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		color: $dark-text-color;
+		z-index: 998;
+	}
+
+	.content {
+		z-index: 999;
+		padding: $contentPadding;
+		background-color: white;
+		overflow-y: auto;
+		margin-top: 4rem; // moved to test
+		position: relative;
+
+		.header {
+			.title {
+				font-size: 1.25rem;
+				border-bottom: 2px solid $dark-text-color;
+				padding-bottom: 1rem;
+			}
+		}
+
+		.main-content {
+			padding: 2rem 0;
+
+			form {
+				margin: 1rem 0;
+			}
+		}
+
+		.actions {
+			border-top: 2px solid $dark-text-color;
+			padding-top: $contentPadding;
+
+			.button {
+				float: right;
+				margin-bottom: 0;
+				margin-left: 1rem;
+			}
+		}
+	}
+}
