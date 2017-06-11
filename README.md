@@ -1,4 +1,5 @@
-##Initializing this project locally:
+This is a laravel API and backbone/marionette single page app. It was built for a prototype on demand alcohol delivery
+service.
 
 # AValcohol [![Build Status](https://magnum.travis-ci.com/fpm5022/AValcohol.svg?token=crFjMNDDdzj4qoYgDDWv&branch=master)](https://magnum.travis-ci.com/fpm5022/AValcohol)
 [![codecov](https://codecov.io/gh/feeekkk/AValcohol/branch/master/graph/badge.svg?token=QglFmQXnQH)](https://codecov.io/gh/feeekkk/AValcohol)
